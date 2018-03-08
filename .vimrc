@@ -1,3 +1,62 @@
+" ██╗   ██╗██╗███╗   ███╗██████╗  ██████╗
+" ██║   ██║██║████╗ ████║██╔══██╗██╔════╝
+" ██║   ██║██║██╔████╔██║██████╔╝██║
+" ╚██╗ ██╔╝██║██║╚██╔╝██║██╔══██╗██║
+"  ╚████╔╝ ██║██║ ╚═╝ ██║██║  ██║╚██████╗
+"   ╚═══╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝
+
+" Enable Vundle
+" Examples on how to use it
+"
+" Usually from github
+" Plugin 'tpope/vim-fugitive'
+"
+" If it's not on github
+" Plugin 'git://git.wincent.com/command-t.git'
+"
+" git repos on your local machine (i.e. when working on your own plugin)
+" Plugin 'file:///home/gmarik/path/to/plugin'
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" Let Vundle manage Vundle
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'scrooloose/nerdtree'
+Plugin 'maxbrunsfeld/vim-yankstack'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-colorscheme-switcher'
+Plugin 'bronson/vim-trailing-whitespace'
+Plugin 'tpope/vim-surround'
+Plugin 'vimwiki/vimwiki'
+Plugin 'ying17zi/vim-live-latex-preview'
+Plugin 'file:///home/anthony/Instantly_Better_Vim_2013/plugin/dragvisuals'
+Plugin 'junegunn/goyo.vim'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'tomtom/tlib_vim'
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'pangloss/vim-javascript'
+Plugin 'garbas/vim-snipmate'
+Plugin 'honza/vim-snippets'
+Plugin 'ervandew/supertab'
+" Plugin 'vim-syntastic/syntastic'
+Plugin 'rust-lang/rust.vim'
+Plugin 'jacquesbh/vim-showmarks'
+Plugin 'majutsushi/tagbar'
+Plugin 'gregsexton/MatchTag'
+Plugin 'udalov/kotlin-vim'
+Plugin 'dracula/vim'
+Plugin 'calviken/vim-gdscript3'
+Plugin 'protesilaos/tempus-themes-vim'
+Plugin 'octol/vim-cpp-enhanced-highlight'
+
+" All of your Plugins must be added before the following line
+call vundle#end()
+
+"==============================
+
 set nocompatible
 syntax on
 " colo bluez
@@ -5,15 +64,28 @@ syntax on
 " colo jellybeans
 " colo candycode
 " colo janah
-colo wal
+" colo wal
+" colo vividchalk
+" colo gruvbox
+" colo xoria256
+" colo wombat256
+" colo inkpot
+" colo dracula
+" TEMPUS COLOR SCHEMES
+colo tempus_warp
+" colo tempus_autumn
+
+" activates syntax highlighting among other things
 filetype plugin on
+" activates filetype detection
 filetype indent on
 set autoindent
-set shiftwidth=4
 set expandtab
+set tabstop=4
+set shiftwidth=4
 set autoread
 set number
-"set relativenumber
+set relativenumber
 set wildmenu
 set hlsearch
 set incsearch
@@ -25,13 +97,14 @@ set encoding=utf8
 set bg=dark
 set linebreak
 set clipboard=unnamedplus
+" Disabled status line.
 set laststatus=0
 " set t_Co=256
 set t_ut=" "
 set ut=250
 " set termguicolors
 set background=dark
-set cmdheight=1
+set cmdheight=2
 set shortmess=a
 set scrolloff=0
 set visualbell
@@ -65,53 +138,6 @@ set path+=**
 
 " execute pathogen#infect()
 
-" Enable Vundle
-" Examples on how to use it
-"
-" Usually from github
-" Plugin 'tpope/vim-fugitive'
-"
-" If it's not on github
-" Plugin 'git://git.wincent.com/command-t.git'
-"
-" git repos on your local machine (i.e. when working on your own plugin)
-" Plugin 'file:///home/gmarik/path/to/plugin'
-
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-" Let Vundle manage Vundle
-Plugin 'VundleVim/Vundle.vim'
-
-Plugin 'scrooloose/nerdtree'
-Plugin 'maxbrunsfeld/vim-yankstack'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'udalov/kotlin-vim'
-Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-colorscheme-switcher'
-Plugin 'bronson/vim-trailing-whitespace'
-Plugin 'tpope/vim-surround'
-Plugin 'vimwiki/vimwiki'
-Plugin 'ying17zi/vim-live-latex-preview'
-Plugin 'file:///home/anthony/Instantly_Better_Vim_2013/plugin/dragvisuals'
-Plugin 'junegunn/goyo.vim'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'tomtom/tlib_vim'
-Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'pangloss/vim-javascript'
-Plugin 'garbas/vim-snipmate'
-Plugin 'honza/vim-snippets'
-Plugin 'ervandew/supertab'
-Plugin 'vim-syntastic/syntastic'
-Plugin 'rust-lang/rust.vim'
-Plugin 'jacquesbh/vim-showmarks'
-Plugin 'majutsushi/tagbar'
-Plugin 'gregsexton/MatchTag'
-
-
-" All of your Plugins must be added before the following line
-call vundle#end()
 
 "==============================
 
@@ -264,6 +290,8 @@ let g:tagbar_type_go = {
 "==============================
 
 " Key mapping
+map j gj
+map k gk
 
 let mapleader = ","
 let g:mapleader = ","
@@ -280,13 +308,14 @@ nnoremap <leader>cpp :-1read $HOME/Templates/C++/C++_Template.cpp<CR>6j
 nnoremap <leader>html :-1read $HOME/Templates/HTML/HTML_Template.html<CR>17j
 nnoremap <leader>c :-1read $HOME/Templates/C/C_Template.c<CR>4j
 nnoremap <leader>tex :-1read $HOME/Templates/LaTex/LaTex_Template.tex<CR>4j
+nnoremap <leader>mla :-1read $HOME/Templates/LaTex/LaTex_Template_MLA.tex<CR>4j
 " Rempas the ctrl-w key to <leader> w
 nnoremap <leader>w <C-w>
 nnoremap <leader>s :w<CR>
 nnoremap <leader>x :x<CR>
 nnoremap <leader>q :q<CR>
 " Navigate to \"<++>"
-inoremap <Tab><Tab> <Esc>/<++><CR>"_c4l
+" inoremap <Tab><Tab> <Esc>/<++><CR>"_c4l
 nnoremap nt :tabnew<CR>
 inoremap jk <Esc>
 
@@ -355,6 +384,7 @@ autocmd FileType tex inoremap <leader>bt {\blindtext}
 autocmd FileType tex inoremap <leader>nu $\varnothing$
 autocmd FileType tex inoremap <leader>col \begin{columns}[T]<Enter>\begin{column}{.5\textwidth}<Enter><Enter>\end{column}<Enter>\begin{column}{.5\textwidth}<Enter><++><Enter>\end{column}<Enter>\end{columns}<Esc>5kA
 autocmd FileType tex inoremap <leader>rn (\ref{})<++><Esc>F}i
+autocmd FileType tex inoremap <leader>me \(\)<Esc>hi
 "END
 
 ".bib
@@ -369,8 +399,12 @@ autocmd Filetype c inoremap <leader>f for (int i = 0; i<++>; i<++>)<CR>{<CR>}<Es
 autocmd Filetype c inoremap <leader>w while (<++>)<CR>{<CR>}<Esc>O<Esc>o<Esc>i    <++><Esc>o<Esc>4kFwi
 
 autocmd Filetype c inoremap <leader>if if (<++>)<CR>{<CR>}<Esc>O<Esc>o<Esc>i    <++><Esc>o<Esc>4kFii
+" Compiling and/or running
+autocmd Filetype rmd command! Compile :silent exec"!echo<space>\"require('rmarkdown');<space>render('%','pdf_document')\"<space>|<space>R<space>--vanilla > /tmp/rmarkdown.output && ~/scripts/Launch_MuPDF.sh %:r.pdf &"
+autocmd Filetype c command! Compile !gcc "%" -o %:r
+autocmd Filetype cpp command! Compile !g++ "%" -o %:r
 
-"END
+" END
 
 "  C/C++ Enhaced
 let g:cpp_class_scope_highlight = 1

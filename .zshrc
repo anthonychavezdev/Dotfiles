@@ -1,3 +1,10 @@
+#███████╗███████╗██╗  ██╗██████╗  ██████╗
+#╚══███╔╝██╔════╝██║  ██║██╔══██╗██╔════╝
+#  ███╔╝ ███████╗███████║██████╔╝██║
+# ███╔╝  ╚════██║██╔══██║██╔══██╗██║
+#███████╗███████║██║  ██║██║  ██║╚██████╗
+#╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 #
@@ -113,7 +120,7 @@ autoload -U colors && colors
 plugins=(git zshrc zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+# source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # User configuration
@@ -127,7 +134,7 @@ source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
  if [[ -n $SSH_CONNECTION ]]; then
    export EDITOR='vim'
  else
-   export EDITOR='mvim'
+   export EDITOR='nvim'
  fi
 
 # Compilation flags
@@ -169,12 +176,12 @@ ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=yellow
 ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=cyan
 ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=cyan
 ZSH_HIGHLIGHT_STYLES[assign]=none
-export PATH=$PATH:~/bin:~/scripts:~/GB/gbdk/bin:~/.vim/bundle/vim-live-latex-preview/bin:~/.cargo/bin
+export PATH=$PATH:~/bin:~/scripts:~/GB/gbdk/bin:~/.vim/bundle/vim-live-latex-preview/bin:~/.cargo/bin:~/.local/bin
 # export TERM=xterm
 # export TERM=rxvt-unicode
 # export TERM=st-256color
 # export TERM=st-256color
-export EDITOR=vim
+export EDITOR=nvim
 #./git/wal/wal -r
 
 export XDG_CONFIG_HOME=$HOME/.config/
@@ -183,4 +190,4 @@ export XDG_CONFIG_HOME=$HOME/.config/
 alias open="xdg-open"
 alias wcache="wget -m -k -K -E"
 
-# (wal -r &)
+# (cat ~/.cache/wal/sequences &)

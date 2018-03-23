@@ -14,7 +14,8 @@ if [ $BATTERYPERCENTAGE -eq 10  ]
             if [ $CHARGING -eq 0 ]
             then
 
-            echo "%{c}   Low Battery!" | lemonbar -f "fontawesome:size=20" -f "Hack:size=20" -p -g 420x200+400+100 -B#252525 -d& sleep 2 && pkill lemonbar && sleep 3000&
+            #echo "%{c}   Low Battery!" | lemonbar -f "fontawesome:size=20" -f "Hack:size=20" -p -g 420x200+400+100 -B#252525 -d& sleep 2 && pkill lemonbar && sleep 3000&
+            notify-send --urgency=critical "" "Low Battery" && sleep 300
             fi
 
 	fi

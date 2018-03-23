@@ -1,44 +1,136 @@
-#include </home/anthony/.cache/wal/colors.Xresources>
-#include </home/anthony/.Xresources-st>
-! ------------------------------------------------------------------------------
-! ROFI Color theme
-! ------------------------------------------------------------------------------
-! rofi.color-enabled: true
-! rofi.color-window: #2e3440, #50fa7b, #50fa7b
-! rofi.color-normal: #2e3440, #ffffff, #2e3440, #4f5662, #ffffff
-! rofi.color-active: #6f7884, #ffffff, #6f7884, #4f5662, #ffffff
-! rofi.color-urgent: #ff443e, #ffffff, #ff443e, #ff443e, #ffffff
+! #include </home/anthony/.cache/wal/colors.Xresources>
+! #include </home/anthony/.cache/wal/colors-rofi.Xresources>
+! #include </home/anthony/.Xresources-st>
+! #include </home/anthony/git/tempus-themes-urxvt/tempus_warp.Xresources>
 
 ! Cursor size
 Xcursor.size: 64
 ! END
 
 ! URxvt config
-URxvt*font:  xft:Hack:size=20:antialias=true,xft:inconsolata:size=20:antialias=true,xft:DejaVu Sans:size=18:antialias=true,xft:Sauce Code Powerline:antialias=true:hinting=true:size=20
-! URxvt.letterSpace: -1
+URxvt.imLocale: "en_US.UTF-8"
+URxvt.termName: rxvt-unicode-256color
+URxvt.loginShell: true
+URxvt.mousewheel: true
+URxvt.iso14755: false
 
+URxvt*font:  xft:Hack:size=16:antialias=true,xft:inconsolata:size=15:antialias=true,xft:DejaVu Sans:size=15:antialias=true,xft:Sauce Code Powerline:antialias=true:hinting=true:size=14
+! URxvt.letterSpace: -1
 URxvt*scrollBar: false
 
-! URxvt*foreground: white
+! color for urxvt
+*background: #1d2021
+! *background: #282828
+! soft contrast: *background: #32302f
+*foreground: #ebdbb2
+! Black + DarkGrey
+*color0:  #282828
+*color8:  #928374
+! DarkRed + Red
+*color1:  #cc241d
+*color9:  #fb4934
+! DarkGreen + Green
+*color2:  #98971a
+*color10: #b8bb26
+! DarkYellow + Yellow
+*color3:  #d79921
+*color11: #fabd2f
+! DarkBlue + Blue
+*color4:  #458588
+*color12: #83a598
+! DarkMagenta + Magenta
+*color5:  #b16286
+*color13: #d3869b
+! DarkCyan + Cyan
+*color6:  #689d6a
+*color14: #8ec07c
+! LightGrey + White
+*color7:  #a89984
+*color15: #ebdbb2
+
+! URxvt*foreground:   #d6dbe5
+! URxvt*background:   #131313
+! URxvt*cursorColor:  #D6DBE5
 
 ! URxvt*depth: 32
 ! URxvt*background: rgba:0000/0000/0200/c800
 ! Perl Extensions
-URxvt.perl-ext-common: default,matcher
+URxvt.perl-ext-common: default,matcher,resize-font,url-select,keyboard-select
 URxvt.url-launcher: /usr/bin/xdg-open
 URxvt.matcher.button: 1
+! url-select
+URxvt.keysym.M-u:           perl:url-select:select_next
 URxvt.url-select.launcher:  firefox
 URxvt.url-select.underline: true
-URxvt.keysym.M-u:           perl:url-select:select_next
+! resize-font
+URxvt.resize-font.smaller:	C-k
+URxvt.resize-font.bigger:	C-j
+! Keyboard-select
 URxvt.keysym.M-Escape:      perl:keyboard-select:activate
 URxvt.keysym.M-s:           perl:keyboard-select:search
 
 ! END
+
+! rofi settings
+rofi.bw:	0
+rofi.color-enabled:	true
+rofi.color-normal:	#1d2021, #ebdbb2, #282828, #504945, #fbf1c7
+rofi.color-active:	#d79921, #1d2021, #d79921, #fabd2f, #1d2021
+rofi.color-urgent:	#cc241d, #1d2021, #cc241d, #fb4934, #1d2021
+rofi.color-window:	#1d2021, #a89984
+rofi.opacity: 100
+rofi.width: 60
+rofi.eh:	1
+rofi.fixed-num-lines: true
+rofi.fake-transparency:	true
+rofi.sidebar-mode: true
+rofi.hide-scrollbar:	true
+rofi.line-margin:	0
+rofi.separator-style:	dash
+rofi.padding: 0
+rofi.yoffset: 11
+rofi.disable-history: true
 
 ! Dzen2
 
 ! dzen2.font:       -*-font-medium-*-*-*-*-*-*-*-*-*-*-*-*
 ! dzen2.foreground: #A1B0B8
 ! dzen2.background: #252525
+
+! END
+
+! Colors 0-15.
+! *.color0: #010104
+! *color0:  #010104
+! *.color1: #095861
+! *color1:  #095861
+! *.color2: #1D7A89
+! *color2:  #1D7A89
+! *.color3: #0797A8
+! *color3:  #0797A8
+! *.color4: #648992
+! *color4:  #648992
+! *.color5: #01B9CF
+! *color5:  #01B9CF
+! *.color6: #26B4C5
+! *color6:  #26B4C5
+! *.color7: #13CCE2
+! *color7:  #13CCE2
+! *.color8: #666668
+! *color8:  #666668
+! *.color9: #095861
+! *color9:  #095861
+! *.color10: #1D7A89
+! *color10:  #1D7A89
+! *.color11: #0797A8
+! *color11:  #0797A8
+! *.color12: #648992
+! *color12:  #648992
+! *.color13: #01B9CF
+! *color13:  #01B9CF
+! *.color14: #26B4C5
+! *color14:  #26B4C5
+! *.color15: #13CCE2
+! *color15:  #13CCE2
 
 ! END

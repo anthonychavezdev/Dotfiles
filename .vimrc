@@ -51,6 +51,7 @@ Plugin 'dracula/vim'
 Plugin 'calviken/vim-gdscript3'
 Plugin 'protesilaos/tempus-themes-vim'
 Plugin 'octol/vim-cpp-enhanced-highlight'
+Plugin 'tpope/vim-commentary'
 
 " All of your Plugins must be added before the following line
 call vundle#end()
@@ -58,6 +59,7 @@ call vundle#end()
 "==============================
 
 set nocompatible
+" Syntax highlighting
 syntax on
 " colo bluez
 " colo bocau
@@ -66,50 +68,78 @@ syntax on
 " colo janah
 " colo wal
 " colo vividchalk
-" colo gruvbox
+colo gruvbox
 " colo xoria256
 " colo wombat256
 " colo inkpot
 " colo dracula
 " TEMPUS COLOR SCHEMES
-colo tempus_warp
+" colo tempus_warp
 " colo tempus_autumn
 
 " activates syntax highlighting among other things
 filetype plugin on
-" activates filetype detection
+" activates filetype detection and proper indentation
 filetype indent on
+" Automatically indents lines according to previous indent
 set autoindent
+" Tab is spaces instead of a single tab character
 set expandtab
+" Tabs are viewed as 4 spaced
 set tabstop=4
+" Tabs are inserted as 4 spaces
+set softtabstop=4
+" Auto tabbing uses 4 spaces
 set shiftwidth=4
+" Context sensitive indentation (e.g. Indent again after {)
+set smartindent
+" When a file has been detected to have been changed outside of Vim and it has not been changed inside of Vim, automatically read it again.
 set autoread
+" Show line numbers
 set number
+" Show distance instead of absolute numbers
 set relativenumber
+" When 'wildmenu' is on, command-line completion operates in an enhanced mode.
 set wildmenu
+" highlight search matches
 set hlsearch
+" highlight search matches and move to them as they're being typed
 set incsearch
 set lazyredraw
+" Show matching brackets.
 set showmatch
 set matchtime=3
 set mat=2
+" Enable supprt for unicode characters
 set encoding=utf8
-set bg=dark
+" Set colors to match a dark background
+set background=dark
 set linebreak
 set clipboard=unnamedplus
 " Disabled status line.
-set laststatus=0
-" set t_Co=256
-set t_ut=" "
-set ut=250
-" set termguicolors
-set background=dark
-set cmdheight=2
+" Always show status bar
+set laststatus=2
+ " Use 256 colors in terminal
+set t_Co=256
+ " Update mode quicker
+set timeoutlen=500
+" The next three just remove a bunch of repeated info from the command line
+set noshowmode
+set noruler
+set noshowcmd
+set cmdheight=1
 set shortmess=a
 set scrolloff=0
 set visualbell
 set history=1000
 set undolevels=10000
+set mouse=n
+
+" Enables true color if available
+" if has("termguicolors")
+"     set termguicolors
+" endif
+
 " Set vim to save the file on focus out.
 au FocusLost * :wa
 " Redraw screen every time when focus gained
@@ -119,7 +149,7 @@ au FocusGained * :redraw!
 au VimResized * :wincmd =
 
 " Highlight line the cursor is on
-hi CursorLine   cterm=NONE ctermbg=234 ctermfg=black guibg=darkred guifg=white
+ hi CursorLine   cterm=NONE ctermbg=230 ctermfg=white guibg=darkred guifg=white
 "hi CursorColumn cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
 
 "set  rtp+=~/.local/lib/python2.7/site-packages/powerline/bindings/vim/
@@ -193,7 +223,8 @@ let g:yankstack_map_keys = 0
 " Airline
 
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'vice'
+" let g:airline_theme = 'simple'
+let g:airline_theme = 'bubblegum'
 let g:airline_exclude_preview = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 0
@@ -290,11 +321,11 @@ let g:tagbar_type_go = {
 "==============================
 
 " Key mapping
-map j gj
-map k gk
-
 let mapleader = ","
 let g:mapleader = ","
+map j gj
+map k gk
+map <leader>d :Goyo<cr>
 nnoremap <leader>tn :tnext<cr>
 nnoremap <leader>tN :tprev<cr>
 nnoremap <leader>tj :tjump<cr>

@@ -5,62 +5,80 @@
 "  ╚████╔╝ ██║██║ ╚═╝ ██║██║  ██║╚██████╗
 "   ╚═══╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝
 
-" Enable Vundle
-" Examples on how to use it
-"
-" Usually from github
-" Plugin 'tpope/vim-fugitive'
-"
-" If it's not on github
-" Plugin 'git://git.wincent.com/command-t.git'
-"
-" git repos on your local machine (i.e. when working on your own plugin)
-" Plugin 'file:///home/gmarik/path/to/plugin'
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" Let Vundle manage Vundle
-Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'scrooloose/nerdtree'
-Plugin 'maxbrunsfeld/vim-yankstack'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-colorscheme-switcher'
-Plugin 'bronson/vim-trailing-whitespace'
-Plugin 'tpope/vim-surround'
-Plugin 'vimwiki/vimwiki'
-Plugin 'ying17zi/vim-live-latex-preview'
-Plugin 'file:///home/anthony/Instantly_Better_Vim_2013/plugin/dragvisuals'
-Plugin 'junegunn/goyo.vim'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'tomtom/tlib_vim'
-Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'pangloss/vim-javascript'
-Plugin 'garbas/vim-snipmate'
-Plugin 'honza/vim-snippets'
-Plugin 'ervandew/supertab'
-" Plugin 'vim-syntastic/syntastic'
-Plugin 'rust-lang/rust.vim'
-Plugin 'jacquesbh/vim-showmarks'
-Plugin 'majutsushi/tagbar'
-Plugin 'gregsexton/MatchTag'
-Plugin 'udalov/kotlin-vim'
-Plugin 'dracula/vim'
-Plugin 'calviken/vim-gdscript3'
-Plugin 'protesilaos/tempus-themes-vim'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'tpope/vim-commentary'
+if &compatible
+ set nocompatible
+endif
+" Add the dein installation directory into runtimepath
+set runtimepath+=~/.vim/bundle/dein/repos/github.com/Shougo/dein.vim
 
-" All of your Plugins must be added before the following line
-call vundle#end()
+if dein#load_state('~/.vim/bundle/dein')
+    call dein#begin('~/.vim/bundle/dein')
 
+    call dein#add('~/.vim/bundle/dein')
+    call dein#add('Shougo/deoplete.nvim')
+    call dein#add('maxbrunsfeld/vim-yankstack')
+    call dein#add('vim-airline/vim-airline')
+    call dein#add('vim-airline/vim-airline-themes')
+    call dein#add('xolox/vim-misc')
+    call dein#add('xolox/vim-colorscheme-switcher')
+    call dein#add('bronson/vim-trailing-whitespace')
+    call dein#add('tpope/vim-surround')
+    call dein#add('vimwiki/vimwiki')
+    call dein#add('ying17zi/vim-live-latex-preview')
+    call dein#add('/home/anthony/Instantly_Better_Vim_2013/plugin/dragvisuals')
+    call dein#add('junegunn/goyo.vim')
+    call dein#add('jiangmiao/auto-pairs')
+    call dein#add('tomtom/tlib_vim')
+    call dein#add('MarcWeber/vim-addon-mw-utils')
+    call dein#add('pangloss/vim-javascript')
+    call dein#add('garbas/vim-snipmate')
+    call dein#add('honza/vim-snippets')
+    call dein#add('ervandew/supertab')
+    call dein#add('vim-syntastic/syntastic')
+    " call dein#add('rust-lang/rust.vim')
+    call dein#add('jacquesbh/vim-showmarks')
+    call dein#add('majutsushi/tagbar')
+    call dein#add('gregsexton/MatchTag')
+    call dein#add('udalov/kotlin-vim')
+    call dein#add('dracula/vim')
+    call dein#add('calviken/vim-gdscript3')
+    call dein#add('protesilaos/tempus-themes-vim')
+    call dein#add('octol/vim-cpp-enhanced-highlight')
+    call dein#add('tpope/vim-commentary')
+    call dein#add('morhetz/gruvbox')
+    call dein#add ('LaTeX-Box-Team/LaTeX-Box')
+    call dein#add ('tpope/vim-rails')
+    call dein#add('autozimu/LanguageClient-neovim', {
+        \ 'rev': 'next',
+        \ 'build': 'bash install.sh',
+        \ })
+ if !has('nvim')
+    call dein#add('roxma/vim-hug-neovim-rpc')
+    call dein#add ('roxma/nvim-yarp')
+ endif
+
+ call dein#end()
+ call dein#save_state()
+endif
+
+filetype plugin indent on
+
+" Syntax highlighting
+syntax enable
+
+    let g:deoplete#enable_at_startup = 1
+" Plugin 'w0rp/ale'
+
+" GUI
+" Gonvim
+" Plugin 'dzhou121/gonvim-fuzzy'
+" Plugin 'equalsraf/neovim-gui-shim'
 "==============================
 
-set nocompatible
-" Syntax highlighting
-syntax on
+
+"==============================
 " colo bluez
 " colo bocau
 " colo jellybeans
@@ -68,7 +86,7 @@ syntax on
 " colo janah
 " colo wal
 " colo vividchalk
-colo gruvbox
+" colo gruvbox
 " colo xoria256
 " colo wombat256
 " colo inkpot
@@ -77,10 +95,8 @@ colo gruvbox
 " colo tempus_warp
 " colo tempus_autumn
 
-" activates syntax highlighting among other things
-filetype plugin on
-" activates filetype detection and proper indentation
-filetype indent on
+" Have Vim load indentation rules, filetype detection, and plugins
+filetype plugin indent on
 " Automatically indents lines according to previous indent
 set autoindent
 " Tab is spaces instead of a single tab character
@@ -91,7 +107,7 @@ set tabstop=4
 set softtabstop=4
 " Auto tabbing uses 4 spaces
 set shiftwidth=4
-" Context sensitive indentation (e.g. Indent again after {)
+" Context sensitive indentation (e.g. Indent again after { or )
 set smartindent
 " When a file has been detected to have been changed outside of Vim and it has not been changed inside of Vim, automatically read it again.
 set autoread
@@ -105,6 +121,10 @@ set wildmenu
 set hlsearch
 " highlight search matches and move to them as they're being typed
 set incsearch
+" When this option is set, the screen will not be redrawn while
+" executing macros, registers and other commands that have not been
+" typed.  Also, updating the window title is postponed.  To force an
+" update use |:redraw|.
 set lazyredraw
 " Show matching brackets.
 set showmatch
@@ -114,6 +134,10 @@ set mat=2
 set encoding=utf8
 " Set colors to match a dark background
 set background=dark
+" If on, Vim will wrap long lines at a character in 'breakat' rather
+" than at the last character that fits on the screen.  Unlike
+" 'wrapmargin' and 'textwidth', this does not insert <EOL>s in the file,
+" it only affects the way the file is displayed, not its contents.
 set linebreak
 set clipboard=unnamedplus
 " Disabled status line.
@@ -124,7 +148,15 @@ set t_Co=256
  " Update mode quicker
 set timeoutlen=500
 " The next three just remove a bunch of repeated info from the command line
+" If in Insert, Replace or Visual mode put a message on the last line.
 set noshowmode
+" Show the line and column number of the cursor position, separated by a
+" comma.  When there is room, the relative position of the displayed
+" text in the file is shown on the far right:
+" 	Top	first line is visible
+" 	Bot	last line is visible
+" 	All	first and last line are visible
+" 	45%	relative position in the file
 set noruler
 set noshowcmd
 set cmdheight=1
@@ -139,6 +171,14 @@ set mouse=n
 " if has("termguicolors")
 "     set termguicolors
 " endif
+" Set the colorscheme to gruvbox (all gruvbox options must come before
+" colorscheme gruvbox)
+let g:gruvbox_contrast_dark='hard'
+let g:gruvbox_italic=0
+colorscheme gruvbox
+hi clear CursorLine
+hi CursorLineNr cterm=bold
+set cursorline
 
 " Set vim to save the file on focus out.
 au FocusLost * :wa
@@ -149,7 +189,7 @@ au FocusGained * :redraw!
 au VimResized * :wincmd =
 
 " Highlight line the cursor is on
- hi CursorLine   cterm=NONE ctermbg=230 ctermfg=white guibg=darkred guifg=white
+" hi CursorLine   cterm=NONE ctermbg=230 ctermfg=black guibg=darkred guifg=white
 "hi CursorColumn cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
 
 "set  rtp+=~/.local/lib/python2.7/site-packages/powerline/bindings/vim/
@@ -186,15 +226,15 @@ set path+=**
 "==============================
 
 " Vimwiki
-let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
-"
 
+let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
 "==============================
 
 "NERDTree
 
 let g:NERDTreeChDirMode = 2
 let NERDTreeIgnore=['\.vim$', '\~$', '\.pyc$']
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 "==============================
 
 " Syntastic
@@ -212,11 +252,11 @@ let NERDTreeIgnore=['\.vim$', '\~$', '\.pyc$']
 
 " Vim-Yankstack
 
-call yankstack#setup()
+" call yankstack#setup()
 let g:yankstack_yank_keys = ['y', 'd']
 let g:yankstack_map_keys = 0
-" nmap <Leader>p <Plug>yankstack_substitute_older_paste
-" nmap <Leader>P <Plug>yankstack_substitute_newer_paste
+ nmap <Leader>p <Plug>yankstack_substitute_older_paste
+ nmap <Leader>P <Plug>yankstack_substitute_newer_paste
 
 "==============================
 "
@@ -224,7 +264,8 @@ let g:yankstack_map_keys = 0
 
 let g:airline_powerline_fonts = 1
 " let g:airline_theme = 'simple'
-let g:airline_theme = 'bubblegum'
+" let g:airline_theme = 'bubblegum'
+let g:airline_theme = 'gruvbox'
 let g:airline_exclude_preview = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 0
@@ -253,7 +294,7 @@ let g:airline#extensions#whitespace#enabled = 0
 
 " Make CTRL-K list diagraphs before each digraph entry
 
-    inoremap <expr> <C-K> ShowDigraphs()
+    inoremap <expr> <C-k> ShowDigraphs()
 
     function! ShowDigraphs ()
         digraphs
@@ -262,7 +303,7 @@ let g:airline#extensions#whitespace#enabled = 0
     endfunction
 
 "==============================
-runtime bundle/dragvisuals/dragvisuals.vim
+runtime bundle/dein/local/dragvisuals/dragvisuals.vim
 
 vmap  <expr>  <LEFT>   DVB_Drag('left')
 vmap  <expr>  <RIGHT>  DVB_Drag('right')
@@ -327,7 +368,7 @@ map j gj
 map k gk
 map <leader>d :Goyo<cr>
 nnoremap <leader>tn :tnext<cr>
-nnoremap <leader>tN :tprev<cr>
+nnoremap <leader>tp :tprev<cr>
 nnoremap <leader>tj :tjump<cr>
 nmap <leader>tb :TagbarToggle<CR>
 noremap <leader>n :NERDTreeToggle .<CR>
@@ -339,7 +380,7 @@ nnoremap <leader>cpp :-1read $HOME/Templates/C++/C++_Template.cpp<CR>6j
 nnoremap <leader>html :-1read $HOME/Templates/HTML/HTML_Template.html<CR>17j
 nnoremap <leader>c :-1read $HOME/Templates/C/C_Template.c<CR>4j
 nnoremap <leader>tex :-1read $HOME/Templates/LaTex/LaTex_Template.tex<CR>4j
-nnoremap <leader>mla :-1read $HOME/Templates/LaTex/LaTex_Template_MLA.tex<CR>4j
+nnoremap <leader>mla :-1read $HOME/Templates/LaTex/LaTex_Template_MLA.tex<CR>75j
 " Rempas the ctrl-w key to <leader> w
 nnoremap <leader>w <C-w>
 nnoremap <leader>s :w<CR>
@@ -359,8 +400,8 @@ inoremap jk <Esc>
 
 " Reload vimrc
 autocmd bufwritepost .vimrc source $MYVIMRC
-"nnoremap <Leader>hl :set cursorline! cursorcolumn!<CR>
-nnoremap <Leader>hl :set cursorline!<CR>
+" nnoremap <Leader>hl :set cursorline! cursorcolumn!<CR>
+" nnoremap <Leader>hl :set cursorline!<CR>
 " ==============================
 "
 " .html
@@ -434,6 +475,7 @@ autocmd Filetype c inoremap <leader>if if (<++>)<CR>{<CR>}<Esc>O<Esc>o<Esc>i    
 autocmd Filetype rmd command! Compile :silent exec"!echo<space>\"require('rmarkdown');<space>render('%','pdf_document')\"<space>|<space>R<space>--vanilla > /tmp/rmarkdown.output && ~/scripts/Launch_MuPDF.sh %:r.pdf &"
 autocmd Filetype c command! Compile !gcc "%" -o %:r
 autocmd Filetype cpp command! Compile !g++ "%" -o %:r
+autocmd Filetype tex command! Pdf !zathura "%" %:r.pdf
 
 " END
 

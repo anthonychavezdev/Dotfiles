@@ -10,58 +10,61 @@
 if &compatible
  set nocompatible
 endif
-" Add the dein installation directory into runtimepath
-set runtimepath+=~/.vim/bundle/dein/repos/github.com/Shougo/dein.vim
 
-if dein#load_state('~/.vim/bundle/dein')
-    call dein#begin('~/.vim/bundle/dein')
-
-    call dein#add('~/.vim/bundle/dein')
-    call dein#add('Shougo/deoplete.nvim')
-    call dein#add('maxbrunsfeld/vim-yankstack')
-    call dein#add('vim-airline/vim-airline')
-    call dein#add('vim-airline/vim-airline-themes')
-    call dein#add('xolox/vim-misc')
-    call dein#add('xolox/vim-colorscheme-switcher')
-    call dein#add('bronson/vim-trailing-whitespace')
-    call dein#add('tpope/vim-surround')
-    call dein#add('vimwiki/vimwiki')
-    call dein#add('ying17zi/vim-live-latex-preview')
-    call dein#add('/home/anthony/Instantly_Better_Vim_2013/plugin/dragvisuals')
-    call dein#add('junegunn/goyo.vim')
-    call dein#add('jiangmiao/auto-pairs')
-    call dein#add('tomtom/tlib_vim')
-    call dein#add('MarcWeber/vim-addon-mw-utils')
-    call dein#add('pangloss/vim-javascript')
-    call dein#add('garbas/vim-snipmate')
-    call dein#add('honza/vim-snippets')
-    call dein#add('ervandew/supertab')
-    call dein#add('vim-syntastic/syntastic')
+call plug#begin('~/.vim/bundle/plugged/')
+    if has('nvim')
+      Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    else
+      Plug 'Shougo/deoplete.nvim'
+      Plug 'roxma/nvim-yarp'
+      Plug 'roxma/vim-hug-neovim-rpc'
+    endif
+    Plug  'maxbrunsfeld/vim-yankstack'
+    Plug  'vim-airline/vim-airline'
+    Plug  'vim-airline/vim-airline-themes'
+    Plug  'xolox/vim-misc'
+    Plug  'xolox/vim-colorscheme-switcher'
+    Plug  'bronson/vim-trailing-whitespace'
+    Plug  'tpope/vim-surround'
+    Plug  'vimwiki/vimwiki'
+    Plug  'ying17zi/vim-live-latex-preview'
+    Plug  '/home/anthony/Instantly_Better_Vim_2013/plugin/dragvisuals'
+    Plug  'junegunn/goyo.vim'
+    Plug  'jiangmiao/auto-pairs'
+    Plug  'tomtom/tlib_vim'
+    Plug  'MarcWeber/vim-addon-mw-utils'
+    Plug  'pangloss/vim-javascript'
+    Plug  'garbas/vim-snipmate'
+    Plug  'honza/vim-snippets'
+    Plug  'ervandew/supertab'
+    Plug  'vim-syntastic/syntastic'
     " call dein#add('rust-lang/rust.vim')
-    call dein#add('jacquesbh/vim-showmarks')
-    call dein#add('majutsushi/tagbar')
-    call dein#add('gregsexton/MatchTag')
-    call dein#add('udalov/kotlin-vim')
-    call dein#add('dracula/vim')
-    call dein#add('calviken/vim-gdscript3')
-    call dein#add('protesilaos/tempus-themes-vim')
-    call dein#add('octol/vim-cpp-enhanced-highlight')
-    call dein#add('tpope/vim-commentary')
-    call dein#add('morhetz/gruvbox')
-    call dein#add ('LaTeX-Box-Team/LaTeX-Box')
-    call dein#add ('tpope/vim-rails')
-    call dein#add('autozimu/LanguageClient-neovim', {
+    Plug 'file:///home/anthony/Instantly_Better_Vim_2013/plugin/dragvisuals'
+    Plug  'jacquesbh/vim-showmarks'
+    Plug  'majutsushi/tagbar'
+    Plug  'gregsexton/MatchTag'
+    Plug  'udalov/kotlin-vim'
+    " Plug  'dracula/vim'
+    Plug  'calviken/vim-gdscript3'
+    Plug  'protesilaos/tempus-themes-vim'
+    Plug  'octol/vim-cpp-enhanced-highlight'
+    Plug  'tpope/vim-commentary'
+    Plug  'morhetz/gruvbox'
+    Plug  'LaTeX-Box-Team/LaTeX-Box'
+    Plug  'tpope/vim-rails'
+    Plug 'scrooloose/nerdtree'
+    Plug 'autozimu/LanguageClient-neovim', {
         \ 'rev': 'next',
         \ 'build': 'bash install.sh',
-        \ })
+        \ }
  if !has('nvim')
-    call dein#add('roxma/vim-hug-neovim-rpc')
-    call dein#add ('roxma/nvim-yarp')
+    Plug 'roxma/vim-hug-neovim-rpc'
+    Plug 'roxma/nvim-yarp'
  endif
+    Plug 'w0rp/ale'
+    Plug 'godlygeek/tabular'
+ call plug#end()
 
- call dein#end()
- call dein#save_state()
-endif
 
 filetype plugin indent on
 
@@ -69,7 +72,6 @@ filetype plugin indent on
 syntax enable
 
     let g:deoplete#enable_at_startup = 1
-" Plugin 'w0rp/ale'
 
 " GUI
 " Gonvim
@@ -252,7 +254,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
 " Vim-Yankstack
 
-" call yankstack#setup()
+call yankstack#setup()
 let g:yankstack_yank_keys = ['y', 'd']
 let g:yankstack_map_keys = 0
  nmap <Leader>p <Plug>yankstack_substitute_older_paste
@@ -303,7 +305,7 @@ let g:airline#extensions#whitespace#enabled = 0
     endfunction
 
 "==============================
-runtime bundle/dein/local/dragvisuals/dragvisuals.vim
+runtime bundle/plugged/dragvisuals/dragvisuals.vim
 
 vmap  <expr>  <LEFT>   DVB_Drag('left')
 vmap  <expr>  <RIGHT>  DVB_Drag('right')
@@ -361,6 +363,22 @@ let g:tagbar_type_go = {
 "
 "==============================
 
+" LanguageClient
+set runtimepath+=/home/anthony/.vim/bundle/plugged/LanguageClient-neovim/
+
+" Required for operations modifying multiple buffers like rename.
+set hidden
+
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ 'javascript': ['javascript-typescript-stdio'],
+    \ }
+
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+" nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+
+"==============================
 " Key mapping
 let mapleader = ","
 let g:mapleader = ","

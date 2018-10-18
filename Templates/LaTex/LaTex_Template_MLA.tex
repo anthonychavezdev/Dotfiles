@@ -1,11 +1,9 @@
-
 \documentclass[12pt]{article}
 
 %
 %Margin - 1 inch on all sides
 %
 \usepackage[letterpaper]{geometry}
-\usepackage{times}
 \geometry{top=1.0in, bottom=1.0in, left=1.0in, right=1.0in}
 
 %
@@ -15,10 +13,31 @@
 \doublespacing
 
 %
+%Babel package for multiple language typesetting
+%
+%\usepackage[english,german]{babel}
+%\usepackage[T1]{fontenc}
+%\usepackage[latin1]{inputenc}
+
+%
+%Setting the font
+%
+\usepackage{times}
+
+%
 %Rotating tables (e.g. sideways when too long)
 %
 \usepackage{rotating}
 
+%
+%For multiple rows in tables
+%
+\usepackage{multirow}
+
+%
+%Line numbering in verse environment
+%
+\usepackage{lineno}
 
 %
 %Fancy-header package to modify header/page numbering (insert last name)
@@ -27,7 +46,7 @@
 \pagestyle{fancy}
 \lhead{}
 \chead{}
-\rhead{Last \thepage}
+\rhead{Chavez \thepage}
 \lfoot{}
 \cfoot{}
 \rfoot{}
@@ -53,53 +72,28 @@
 \begin{flushleft}
 
 %%%%First page name, class, etc
-Name\\
+Anthony Chavez\\
 Professor\\
 Class\\
-February 11 2014\\
-
+Date\\
 
 %%%%Title
 \begin{center}
-Paper Title
+Title
 \end{center}
 
 
 %%%%Changes paragraph indentation to 0.5in
 \setlength{\parindent}{0.5in}
+
 %%%%Begin body of paper here
 
-\newpage
-
-
-%%%%Title
-\begin{center}
-Notes
-\end{center}
-
-
-\setlength{\parindent}{0.5in}
-
-1. Danhof includes “Delaware, Maryland, all states north of the Potomac and Ohio rivers, Missouri, and states to its north” when referring to the northern states (11).
-
-
-2. For the purposes of this paper,“science” is defined as it was in nineteenthcentury agriculture: conducting experiments and engaging in research.
-
-
-3. Please note that any direct quotes from the nineteenth century texts are writtenin their original form, which may contain grammar mistakes according to twenty-first century grammar rules.
 
 %%%%Works cited
 \begin{workscited}
 
 \bibent
-Allen, R.L. \textit{The American Farm Book; or Compend of Ameri can Agriculture; Being a Practical Treatise on Soils, Manures, Draining, Irrigation, Grasses, Grain, Roots, Fruits, Cotton, Tobacco, Sugar Cane, Rice, and Every Staple Product of the United States with the Best Methods of Planting, Cultivating, and Prep aration for Market.} New York: Saxton, 1849. Print.
-
-\bibent
-Baker, Gladys L., Wayne D. Rasmussen, Vivian Wiser, and Jane M. Porter. \textit{Century of Service: The First 100 Years of the United States Department of Agriculture.}[Federal Government], 1996. Print.
-
-\bibent
-Danhof, Clarence H. \textit{Change in Agriculture: The Northern United States, 1820-1870.} Cambridge: Harvard UP, 1969. Print.
-
+author's last name, first name.  or ``Paper Title."  \textit{Book Title}.  City: Publisher, Year of publication. Print OR Web date
 
 \end{workscited}
 

@@ -11,6 +11,7 @@ if &compatible
  set nocompatible
 endif
 
+" Plugins
 call plug#begin('~/.vim/bundle/plugged/')
     if has('nvim')
       Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -28,7 +29,7 @@ call plug#begin('~/.vim/bundle/plugged/')
     Plug  'tpope/vim-surround'
     Plug  'vimwiki/vimwiki'
     Plug  'ying17zi/vim-live-latex-preview'
-    Plug  '/home/anthony/Instantly_Better_Vim_2013/plugin/dragvisuals'
+    Plug  'file:///home/anthony/Instantly_Better_Vim_2013/plugin/dragvisuals'
     Plug  'junegunn/goyo.vim'
     Plug  'jiangmiao/auto-pairs'
     Plug  'tomtom/tlib_vim'
@@ -38,25 +39,25 @@ call plug#begin('~/.vim/bundle/plugged/')
     Plug  'honza/vim-snippets'
     Plug  'ervandew/supertab'
     Plug  'vim-syntastic/syntastic'
-    " call dein#add('rust-lang/rust.vim')
-    Plug 'file:///home/anthony/Instantly_Better_Vim_2013/plugin/dragvisuals'
+    Plug 'rust-lang/rust.vim'
     Plug  'jacquesbh/vim-showmarks'
     Plug  'majutsushi/tagbar'
     Plug  'gregsexton/MatchTag'
     Plug  'udalov/kotlin-vim'
     " Plug  'dracula/vim'
-    Plug  'calviken/vim-gdscript3'
+    Plug 'calviken/vim-gdscript3'
     Plug  'protesilaos/tempus-themes-vim'
     Plug  'octol/vim-cpp-enhanced-highlight'
     Plug  'tpope/vim-commentary'
-    Plug  'morhetz/gruvbox'
+    " Plug  'morhetz/gruvbox'
     Plug  'LaTeX-Box-Team/LaTeX-Box'
     Plug  'tpope/vim-rails'
     Plug 'scrooloose/nerdtree'
     Plug 'autozimu/LanguageClient-neovim', {
-        \ 'rev': 'next',
-        \ 'build': 'bash install.sh',
+        \ 'branch': 'next',
+        \ 'do': 'bash install.sh',
         \ }
+
  if !has('nvim')
     Plug 'roxma/vim-hug-neovim-rpc'
     Plug 'roxma/nvim-yarp'
@@ -66,6 +67,7 @@ call plug#begin('~/.vim/bundle/plugged/')
  call plug#end()
 
 
+"Misc settigns
 filetype plugin indent on
 
 " Syntax highlighting
@@ -91,11 +93,16 @@ syntax enable
 " colo gruvbox
 " colo xoria256
 " colo wombat256
-" colo inkpot
+colo inkpot
 " colo dracula
 " TEMPUS COLOR SCHEMES
 " colo tempus_warp
 " colo tempus_autumn
+"==============================
+" colo desert
+" colo ir_black
+" colo molokai
+" colo murphy
 
 " Have Vim load indentation rules, filetype detection, and plugins
 filetype plugin indent on
@@ -175,9 +182,9 @@ set mouse=n
 " endif
 " Set the colorscheme to gruvbox (all gruvbox options must come before
 " colorscheme gruvbox)
-let g:gruvbox_contrast_dark='hard'
-let g:gruvbox_italic=0
-colorscheme gruvbox
+" let g:gruvbox_contrast_dark='hard'
+" let g:gruvbox_italic=0
+" colorscheme gruvbox
 hi clear CursorLine
 hi CursorLineNr cterm=bold
 set cursorline
@@ -204,11 +211,6 @@ set path+=**
 "	ctrl-x dicreases number by 1
 "
 "========== EndNotes ==========
-
-
-"Enable Pathogen
-
-" execute pathogen#infect()
 
 
 "==============================
@@ -241,14 +243,14 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
 " Syntastic
 
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
-" let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_always_populate_loc_list = 1
 " let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 "==============================
 
@@ -265,9 +267,9 @@ let g:yankstack_map_keys = 0
 " Airline
 
 let g:airline_powerline_fonts = 1
-" let g:airline_theme = 'simple'
+let g:airline_theme = 'simple'
 " let g:airline_theme = 'bubblegum'
-let g:airline_theme = 'gruvbox'
+" let g:airline_theme = 'gruvbox'
 let g:airline_exclude_preview = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 0
@@ -364,30 +366,32 @@ let g:tagbar_type_go = {
 "==============================
 
 " LanguageClient
-set runtimepath+=/home/anthony/.vim/bundle/plugged/LanguageClient-neovim/
 
 " Required for operations modifying multiple buffers like rename.
 set hidden
 
 let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-    \ 'javascript': ['javascript-typescript-stdio'],
+    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+    \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+    \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+    \ 'python': ['/usr/local/bin/pyls'],
     \ }
-
-nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-" nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 
 "==============================
+
 " Key mapping
 let mapleader = ","
 let g:mapleader = ","
 map j gj
 map k gk
 map <leader>d :Goyo<cr>
-nnoremap <leader>tn :tnext<cr>
-nnoremap <leader>tp :tprev<cr>
-nnoremap <leader>tj :tjump<cr>
+" for creating and moving between tabs.
+nnoremap <leader>tn :tnext<CR>
+nnoremap <leader>tp :tprev<CR>
+nnoremap <leader>tj :tjump<CR>
+nmap <leader>en :lnext<CR>
+nmap <leader>ep :lprevious<CR>
 nmap <leader>tb :TagbarToggle<CR>
 noremap <leader>n :NERDTreeToggle .<CR>
 noremap <leader>t :NERDTreeFocus<CR>
@@ -395,7 +399,7 @@ noremap <silent> <leader>f :FixWhitespace<CR>
 nmap <silent> <F2> :set spell!<CR>
 noremap <silent> <leader>m :ShowMarksOnce<CR>
 nnoremap <leader>cpp :-1read $HOME/Templates/C++/C++_Template.cpp<CR>6j
-nnoremap <leader>html :-1read $HOME/Templates/HTML/HTML_Template.html<CR>17j
+nnoremap <leader>html :-1read $HOME/Templates/HTML/HTML_Template.html<CR>Gdd2k
 nnoremap <leader>c :-1read $HOME/Templates/C/C_Template.c<CR>4j
 nnoremap <leader>tex :-1read $HOME/Templates/LaTex/LaTex_Template.tex<CR>4j
 nnoremap <leader>mla :-1read $HOME/Templates/LaTex/LaTex_Template_MLA.tex<CR>75j
@@ -433,9 +437,9 @@ autocmd FileType html inoremap <leader>nav <nav><CR><CR><Space><Space><Space><Sp
 autocmd FileType html inoremap <leader>ul <ul><CR><CR><Space><Space><Space><Space><li><++></li><Esc>Y3p2jo<CR><Bs></ul><Esc>5k0/<++><CR>"_c4l
 autocmd FileType html inoremap <leader>a <a href="<++>"><++></a><Esc>o<++><Esc>ki
 autocmd FileType html inoremap <leader>p <p></p><Esc>o<++><Esc>kF>a
-" END
+" ==============================
 
-""".tex
+".tex
 autocmd FileType tex inoremap <leader>par \paragraph{}<Esc>o<Enter><++><Esc>2kf{a
 autocmd FileType tex inoremap <leader>fr \begin{frame}<Enter>\frametitle{}<Enter><Enter><++><Enter><Enter>\end{frame}<Enter><Enter><++><Esc>6kf}i
 autocmd FileType tex inoremap <leader>fi \begin{fitch}<Enter><Enter>\end{fitch}<Enter><Enter><++><Esc>3kA
@@ -475,27 +479,30 @@ autocmd FileType tex inoremap <leader>nu $\varnothing$
 autocmd FileType tex inoremap <leader>col \begin{columns}[T]<Enter>\begin{column}{.5\textwidth}<Enter><Enter>\end{column}<Enter>\begin{column}{.5\textwidth}<Enter><++><Enter>\end{column}<Enter>\end{columns}<Esc>5kA
 autocmd FileType tex inoremap <leader>rn (\ref{})<++><Esc>F}i
 autocmd FileType tex inoremap <leader>me \(\)<Esc>hi
-"END
+autocmd FileType tex inoremap <leader>cme \[\]<Esc>hi
+" ==============================
 
 ".bib
 autocmd FileType bib inoremap <leader>a @article{<Enter><Tab>author<Space>=<Space>"<++>",<Enter><Tab>year<Space>=<Space>"<++>",<Enter><Tab>title<Space>=<Space>"<++>",<Enter><Tab>journal<Space>=<Space>"<++>",<Enter><Tab>volume<Space>=<Space>"<++>",<Enter><Tab>pages<Space>=<Space>"<++>",<Enter><Tab>}<Enter><++><Esc>8kA,<Esc>i
 autocmd FileType bib inoremap <leader>b @book{<Enter><Tab>author<Space>=<Space>"<++>",<Enter><Tab>year<Space>=<Space>"<++>",<Enter><Tab>title<Space>=<Space>"<++>",<Enter><Tab>publisher<Space>=<Space>"<++>",<Enter><Tab>}<Enter><++><Esc>6kA,<Esc>i
 autocmd FileType bib inoremap <leader>c @incollection{<Enter><Tab>author<Space>=<Space>"<++>",<Enter><Tab>title<Space>=<Space>"<++>",<Enter><Tab>booktitle<Space>=<Space>"<++>",<Enter><Tab>editor<Space>=<Space>"<++>",<Enter><Tab>year<Space>=<Space>"<++>",<Enter><Tab>publisher<Space>=<Space>"<++>",<Enter><Tab>}<Enter><++><Esc>8kA,<Esc>i
-"END
+" ==============================
+"
 ".c
-
 autocmd Filetype c inoremap <leader>f for (int i = 0; i<++>; i<++>)<CR>{<CR>}<Esc>O<Esc>o<Esc>i    <++><Esc>o<Esc>4kFfi
 
 autocmd Filetype c inoremap <leader>w while (<++>)<CR>{<CR>}<Esc>O<Esc>o<Esc>i    <++><Esc>o<Esc>4kFwi
 
 autocmd Filetype c inoremap <leader>if if (<++>)<CR>{<CR>}<Esc>O<Esc>o<Esc>i    <++><Esc>o<Esc>4kFii
+" ==============================
+
 " Compiling and/or running
 autocmd Filetype rmd command! Compile :silent exec"!echo<space>\"require('rmarkdown');<space>render('%','pdf_document')\"<space>|<space>R<space>--vanilla > /tmp/rmarkdown.output && ~/scripts/Launch_MuPDF.sh %:r.pdf &"
 autocmd Filetype c command! Compile !gcc "%" -o %:r
 autocmd Filetype cpp command! Compile !g++ "%" -o %:r
 autocmd Filetype tex command! Pdf !zathura "%" %:r.pdf
-
-" END
+autocmd Filetype kotlin comman! Compile !kotlinc -include-runtime "%" -d %:r.jar
+" ==============================
 
 "  C/C++ Enhaced
 let g:cpp_class_scope_highlight = 1
@@ -511,7 +518,7 @@ augroup line_return
                 \ endif
 augroup END
 
-" Commandsk
+" Commands
 
 " ==============================
 
@@ -520,3 +527,7 @@ augroup END
 " command! Sudowrite w !sudo tee % > /dev/null
 
 " ==============================
+
+" Saves folding in the current open file when exiting or switching windows.
+autocmd BufWinLeave *.* mkview
+autocmd BufWinEnter *.* silent loadview

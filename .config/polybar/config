@@ -1,3 +1,9 @@
+;██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
 ;=====================================================
 ;
 ;   To learn more about how to configure Polybar
@@ -12,71 +18,183 @@
 ; --- NOTE: Start this with Polybar Bar + Polybar Fix!
 
 [global/wm]
-margin-top = 0
-margin-bottom = 0
-margin-left = 0
+margin-top = 5
+margin-bottom = 5
 
 [colors]
-#foreground = ${xrdb:color7}
-#background = ${xrdb:color0}
+# foreground = ${xrdb:color7}
+# background = ${xrdb:color0}
+; background = #1d2021
+background = #101010
+; background-alt = #444
+background-alt = #222
+; foreground = #dfdfdf
+foreground = #ffffff
+foreground-alt = #55
+primary = #ffb52a
+secondary = #e60053
+alert = #FF2222
+; date-foreground = #fe8019
+date-foreground = #25ff22
+; date-underline = #98971a
+date-underline = #25ff22
+; battery-underline = #98971a
+battery-underline = #22FF22
+; cpu-underline = #cc241d
+cpu-underline = #FF2222
+; memory-underline = #458588
+memory-underline = #22FF22
+; temperature-underline = #b16286
+temperature-underline = #FF8622
 #main-bar-transparent-background = #00000000
 #main-bar-background             = #262626
 #gray = #474747
 #black = #101010
-#red = #FF443E
+#alert = #FF443E
 #blue = #42A5F5
 #yellow = #FFC135
 #green = #CD382C
 #foreground = #FFFFFF
 
-main-bar-transparent-background = #00000000
-main-bar-background             = #121212
-gray = #474747
-black = #101010
-red = #FF443E
-blue = #42A5F5
-yellow = #FFC135
-green = #00a100
-foreground = #FFFFFF
-unfocused = #121212
-focused = #222222
+#main-bar-transparent-background = #00000000
+#main-bar-background             = #121212
+#gray = #474747
+#black = #101010
+#blue = #42A5F5
+#yellow = #FFC135
+#green = #00a100
+#foreground = #FFFFFF
+#unfocused = #121212
+#focused = #222222
+[seraphybr-colors]
+## Colors: Red, Orange, Yellow... [Hot colors]:
 
-[i3_settings]
-focused_background   = ${colors.focused}
-unfocused_background = ${colors.unfocused}
-unfocused_alert      = ${colors.red}
+Orange1 = #fba922
+Crimson = #DC143C
+Yellow = #FFFF00
+OrangeRed = #FF4500
+Gold = #FFD700
+Red = #FF0000
 
-padding = 1.5
+## Colors: Blue, Green and Brown:
 
-[bar/Bar]
-width  = 100%
-height = 32
-radius = 1.0
+blue = #0000FF
+DeepSkyBlue = #00BFFF
+DeepSkyBlueDark = #005774
+SteelBlue = #4682B4
+
+violet = #9400D3
+
+green2 = #253d2d
+chartreuse = #7FFF00
+SpringGreen = #00FF7F
+DarkOliveGreen = #556B2F
+
+SaddleBrown = #8B4513
+
+## White, Black and Gray:
+
+TrueBlack = #000000
+Black = #222
+DarkSlateGray = #2F2828
+GitHubBlack = #24292e
+DimGray = #696969
+DavysGrey = #555
+white = #FFFFFF
+
+#### General Colors:
+
+background = ${self.GitHubBlack}
+background-alt = #73444444
+border = ${self.background}
+foreground = ${self.white}
+foreground-alt = #ffffff
+primary = #00FF00
+secondary = #006400
+alert = ${self.Red}
+
+################################################################################
+[bar/seraphybr]
+; Use the following command to list available outputs:
+; If unspecified, the application will pick the first one it finds.
+; $ xrandr -q | grep " connected" | cut -d ' ' -f1
+monitor = ${env:MONITOR:eDP-1}
+width = 100%
+height = 35
+#offset-x = 1%
+#offset-y = 1%
+
 fixed-center = false
+wm-restack = i3
 enable-ipc = true
-bottom = false
 
-padding-left = 1%
-padding-right = 1%
+background = ${seraphybr-colors.background}
+foreground = ${seraphybr-colors.foreground}
 
-module-margin-right = 1%
-module-margin-left = 1%
+underline-size = 3
+overline-size = 3
 
-modules-right = pavolume filesystem wlan cpu memory Battery
-modules-center = temperature date
-modules-left = bspwm i3
+border-size = 4
+border-color = ${seraphybr-colors.background}
 
-;background = #70000000
-#background = ${colors.background}
-background = ${colors.main-bar-background}
-foreground = ${colors.foreground}
-
-underline-size = 4
-underline-color = ${colors.foreground}
+padding-left = 1
+padding-right = 1
+module-margin-left = 1
+module-margin-right = 1
 
 tray-detached = false
 tray-position = right
-tray-background  = ${colors.main-bar-background}
+; font-0 = "DejaVu Sans:size=12;2"
+; font-1 = "font\-logos:size=12"
+; font-2 = "FontAwesome:size=14;2"
+; font-3 = "MaterialIcons:size=14;2"
+
+font-0 = "Hack:size=14;2"
+font-1 = "FontAwesome:size=15;2"
+font-2 = "Hack:size=14;4"
+font-3 = "FontAwesome:size=14;2"
+
+; modules-left = my-text-label i3
+; modules-right = seraphybr-volume xbacklight bbswitch_show seraphybr-memory seraphybr-cpu seraphybr-temperature bluetooth wireless-network calendar clock seraphybr-battery
+; modules-left = my-text-label i3
+modules-right =  seraphybr-memory seraphybr-cpu seraphybr-volume bluetooth seraphybr-battery
+modules-center = calendar clock
+modules-left = i3
+
+################################################################################
+[bar/Bar]
+width  = 100%
+height = 35
+fixed-center = false
+enable-ipc = true
+bottom = false
+monitor = ${env:MONITOR:eDP-1}
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+modules-right = pavolume filesystem cpu memory Battery
+modules-center = temperature date
+modules-left = bspwm i3
+
+overline-size = 2
+overline-color = #f00
+underline-size = 2
+underline-color = #00f
+
+border-size = 5
+border-top-size = 5
+border-bottom-size = 0
+border-color = #00000000
+
+padding-left = 0
+padding-right = 1
+module-margin-left = 1
+module-margin-right = 1
+
+tray-detached = false
+tray-position = right
+# tray-background  = ${colors.main-bar-background}
 ;tray-offset-x =
 ;tray-maxsize =
 ;tray-padding =
@@ -87,6 +205,7 @@ font-2 = Hack:size=14;0
 font-3 = FontAwesome:size=12;0
 ;[module/nothing]
 ; nothing
+################################################################################
 
 [module/pavolume]
 type = custom/script
@@ -97,6 +216,7 @@ click-right = exec pavucontrol
 click-left = ~/.config/polybar/pavolume.sh --togmute
 scroll-up = ~/.config/polybar/pavolume.sh --up
 scroll-down = ~/.config/polybar/pavolume.sh --down
+################################################################################
 
 [module/pkg]
 type = custom/script
@@ -106,13 +226,13 @@ format-underline = #dc322f
 label = "%output:0:30%"
 exec = ~/.config/polybar/pkg.sh
 exec-if = "ping -q -w 2 -c 1 176.34.135.167 > /dev/null"
-
+################################################################################
 
 [module/xwindow]
 type = internal/xwindow
 label = %title%
 label-maxlen = 30
-
+################################################################################
 
 [module/filesystem]
 type = internal/fs
@@ -123,19 +243,21 @@ mount-0 = /
 ;mount-2 = /invalid/mountpoint
 
 label-mounted =  %free%
-label-mounted-underline = ${colors.foreground}
+label-mounted-underline = #d65d0e
 label-mounted-padding = 1
 
 label-unmounted =
-label-unmounted-foreground = ${colors.black}
-
+# label-unmounted-foreground = ${colors.black}
+label-unmounted-foreground = ${colors.foreground}
+################################################################################
 
 [module/bspwm]
 type = internal/bspwm
 ws-icon-default = x
 
 label-active = %index%
-label-active-background = ${colors.gray}
+#label-active-background = ${colors.gray}
+label-active-background = ${colors.background}
 label-active-underline= #cc333333
 label-active-padding = 1
 
@@ -149,57 +271,47 @@ label-urgent-padding = 1
 label-empty = %index%
 label-empty-foreground = #55
 label-empty-padding = 1
-
+################################################################################
 
 [module/i3]
 type = internal/i3
 format = <label-state> <label-mode>
 index-sort = true
 wrapping-scroll = false
-label-mode = " %mode% "
-label-mode-background = ${i3_settings.unfocused_background}
-label-focused-padding    = ${i3_settings.padding}
-label-focused-background = ${i3_settings.focused_background}
-label-unfocused-padding    = ${i3_settings.padding}
-label-unfocused-background = ${i3_settings.unfocused_background}
-label-visible-padding    = ${self.label-focused-padding}
+pin-workspaces = true
+enable-click = false
+enable-scroll = false
+
+label-mode-padding = 2
+label-mode-foreground = #000
+label-mode-background = ${seraphybr-colors.primary}
+
+label-focused = %name%
+label-focused-background = ${seraphybr-colors.background-alt}
+;label-focused-underline = ${colors.primary}
+label-focused-padding = 2
+
+label-unfocused = %name%
+label-unfocused-padding = 2
+
+label-urgent = %name%!
+label-urgent-background = ${seraphybr-colors.alert}
+label-urgent-padding = 2
+
+label-visible = %name%
 label-visible-background = ${self.label-focused-background}
-label-urgent-background = ${i3_settings.unfocused_alert}
-label-urgent-padding    = ${i3_settings.padding}
-
-label-focused-font = 4
-label-unfocused-font = 4
-label-urgent-font = 4
-label-visible-font = 4
-
-label-focused = 
-;label-focused = %index%
-;label-focused-background = ${colors.gray}
-
-label-unfocused = 
-;label-unfocused = %index%
-;label-unfocused-background = ${colors.black}
-label-unfocused-underlinde = ${colors.foreground}
-
-label-urgent = 
-;label-urgent = %index%!
-;label-urgent-background = ${colors.red}
-label-urgent-foreground = ${colors.red}
-
-label-visible = 
-;label-visible = %index%
-label-visible-foreground = ${colors.foreground}
-
-
+;label-visible-underline = ${self.label-focused-underline}
+label-visible-padding = 2
+################################################################################
 
 [module/mpd]
 type = internal/mpd
-icon-prev-background = ${colors.main-bar-background}
-icon-stop-background = ${colors.main-bar-background}
-icon-play-background = ${colors.main-bar-background}
-icon-pause-background = ${colors.main-bar-background}
-icon-next-background = ${colors.main-bar-background}
-label-song-background = ${colors.main-bar-background}
+#icon-prev-background = ${colors.main-bar-background}
+#icon-stop-background = ${colors.main-bar-background}
+#icon-play-background = ${colors.main-bar-background}
+#icon-pause-background = ${colors.main-bar-background}
+#icon-next-background = ${colors.main-bar-background}
+#label-song-background = ${colors.main-bar-background}
 
 host = 127.0.0.1
 port = 4200
@@ -210,7 +322,7 @@ format-online = <label-song> <icon-prev> <icon-play> <icon-pause> <icon-next>
 format-offline = <label-offline>
 
 label-offline =  no music
-label-offline-foreground = ${colors.gray}
+# label-offline-foreground = ${colors.gray}
 
 label-song = %artist% - %title%
 label-song-maxlen = 95
@@ -229,7 +341,7 @@ icon-repeat = R
 
 toggle-on-foreground = #e60053
 toggle-off-foreground = #66
-
+################################################################################
 
 [module/backlight]
 type = internal/xbacklight
@@ -247,7 +359,7 @@ bar-fill-foreground = #9f78e1
 bar-empty = ─
 bar-empty-font = 2
 bar-empty-foreground = #55
-
+################################################################################
 
 [module/cpu]
 format-label = internal/cpu
@@ -263,21 +375,41 @@ ramp-coreload-5 = ▆
 ramp-coreload-6 = ▇
 ramp-coreload-7 = █
 ramp-coreload-underline = ${colors.foreground}
+format-underline = ${colors.cpu-underline}
 
 type = internal/cpu
 interval = 2
 label =  %percentage%%
-label-underline = ${colors.foreground}
 padding= 2
+################################################################################
 
+[module/seraphybr-cpu]
+type = internal/cpu
+interval = 2
+format-suffix = "   "
+format-suffix-foreground = ${self.format-underline}
+format-underline =  #D6AA3F
+label = %percentage%%
+################################################################################
 
 [module/memory]
 type = internal/memory
 interval = 2
 
-label =  %percentage_used%%
-label-underline = ${colors.foreground}
+label =  %gb_used%
+format-prefix-foreground = ${colors.foreground-alt}
+format-underline = ${colors.memory-underline}
 label-foreground = ${colors.foreground}
+################################################################################
+
+[module/seraphybr-memory]
+type = internal/memory
+interval = 2
+format-suffix = "   "
+format-suffix-foreground = ${self.format-underline}
+format-underline =  #D6AA3F
+label = %percentage_used%%
+################################################################################
 
 [module/wlan]
 type = internal/network
@@ -288,15 +420,51 @@ format-connected-padding = 1
 format-disconnected-padding = 1
 
 format-connected = <label-connected>
-format-connected-underline = ${colors.foreground}
-format-disconnected-underline = ${colors.gray}
+format-connected-underline = #458588
+# format-disconnected-underline = ${colors.gray}
 
 # label-connected = %essid%
 label-connected =
 label-disconnected = 
-label-disconnected-foreground = ${colors.gray}
+label-disconnected-foreground = ${colors.foreground-alt}
+################################################################################
 
+[module/wireless-network]
+type = internal/network
+interface = wlp1s0
+interval = 3.0
 
+format-connected = <label-connected>
+format-connected-suffix-foreground = ${self.format-connected-underline}
+format-connected-underline = ${seraphybr-colors.DeepSkyBlue}
+
+label-connected = "   "
+label-connected-maxlen = 12
+label-disconnected = "   "
+label-connected-foreground = ${seraphybr-colors.DeepSkyBlue}
+label-disconnected-foreground = ${seraphybr-colors.DeepSkyBlueDark}
+
+format-disconnected-suffix = "  "
+format-disconnected = <label-disconnected>
+format-disconnected-underline = ${self.format-connected-underline}
+format-disconnected-suffix-foreground = ${self.format-disconnected-underline}
+################################################################################
+[module/wired-network]
+type = internal/network
+interface = eth0
+interval = 3.0
+
+format-connected = <label-connected>
+format-connected-underline = #27a2ff
+format-connected-suffix = "%{T3}  %{T-}"
+format-connected-suffix-foreground = ${self.format-connected-underline}
+
+label-connected = %local_ip%
+label-disconnected =
+
+format-disconnected = <label-disconnected>
+
+#####################################################################
 [module/eth]
 type = internal/network
 interface = wlp4s0
@@ -306,27 +474,58 @@ format-connected-padding = 1
 format-disconnected-padding = 1
 
 format-connected-underline = ${colors.foreground}
-format-disconnected-underline = ${colors.gray}
+# format-disconnected-underline = ${colors.gray}
 
 label-connected = 
 label-disconnected = 
-label-disconnected-foreground = ${colors.gray}
-
+# label-disconnected-foreground = ${colors.gray}
+################################################################################
 
 [module/date]
 type = internal/date
-format-prefix-background = ${colors.main-bar-background}
-label-background = ${colors.main-bar-background}
+# format-prefix-background = ${colors.main-bar-background}
+#label-background = ${colors.main-bar-background}
+label-background = ${colors.background}
 date-alt =   %A %H:%M
 date =  %D
 time =  %I:%M %p
 interval = 1
-format-underline = ${colors.foreground}
 ;format-background = ${colors.black}
-format-foreground = ${colors.foreground}
-format-padding = 1.5%
+format-foreground = ${colors.date-foreground}
+format-prefix-foreground = ${colors.foreground-alt}
+format-underline = ${colors.date-underline}
 label = %date% %time%
+################################################################################
+[module/clock]
+type = internal/date
+interval = 1
+#date = " %d-%m-%Y "
+#date-alt = " %d-%m-%Y "
+time = %H:%M:%S
+time-alt = %H:%M
 
+format = " <label>"
+format-suffix = "   "
+format-suffix-foreground = ${self.format-underline}
+format-foreground = ${seraphybr-colors.foreground}
+format-underline = ${seraphybr-colors.SpringGreen}
+
+label = %time%
+label-font = 10
+################################################################################
+[module/calendar]
+type = custom/script
+exec = "date +%d-%m-%Y"
+interval = 600
+
+format = " <label>"
+format-suffix = "  "
+format-suffix-foreground = ${self.format-underline}
+format-foreground = ${seraphybr-colors.foreground}
+format-underline = ${seraphybr-colors.SpringGreen}
+
+click-left = gsimplecal &
+################################################################################
 
 [module/volume]
 type = internal/volume
@@ -337,15 +536,16 @@ label-volume = VOL
 label-volume-foreground = ${root.foreground}
 
 label-muted =  sound muted
-label-muted-foreground = ${colors.gray}
+format-muted-foreground = ${colors.foreground-alt}
+#label-muted-foreground = ${colors.gray}
 
 bar-volume-width = 10
-bar-volume-foreground-0 = ${colors.green}
-bar-volume-foreground-1 = ${colors.green}
-bar-volume-foreground-2 = ${colors.green}
-bar-volume-foreground-3 = ${colors.green}
-bar-volume-foreground-4 = ${colors.yellow}
-bar-volume-foreground-5 = ${colors.red}
+#bar-volume-foreground-0 = ${colors.green}
+#bar-volume-foreground-1 = ${colors.green}
+#bar-volume-foreground-2 = ${colors.green}
+#bar-volume-foreground-3 = ${colors.green}
+#bar-volume-foreground-4 = ${colors.yellow}
+#bar-volume-foreground-5 = ${colors.alert}
 bar-volume-gradient = false
 bar-volume-indicator = 
 bar-volume-indicator-font = 4
@@ -355,38 +555,71 @@ bar-volume-fill-font = 4
 bar-volume-empty = 
 bar-volume-empty-font = 4
 bar-volume-empty-foreground = ${colors.gray}
+################################################################################
 
-[module/battery]
+[module/seraphybr-volume]
+type = custom/script
+interval = 2
+label = "%{F#8FF6FF} %output% %{F-}"
+exec = ~/.config/polybar/pavolume.sh
+click-right = exec pavucontrol
+click-left = ~/.config/polybar/pavolume.sh --togmute
+scroll-up = ~/.config/polybar/pavolume.sh --up
+scroll-down = ~/.config/polybar/pavolume.sh --down
+label-volume = " %{F#7df059}   %{F-}"
+label-volume-foreground = #8FF6FF
+
+format-muted-suffix = "  "
+format-muted-foreground = #8FF6FF
+label-muted = " Muted "
+format-muted-underline = #8FF6FF
+
+bar-volume-width = 10
+bar-volume-foreground-0 = #8FF6FF
+
+bar-volume-gradient = false
+bar-volume-indicator =
+bar-volume-indicator-font = 0
+bar-volume-fill = ""
+bar-volume-fill-font = 1
+bar-volume-empty = ""
+bar-volume-empty-font = 1
+bar-volume-empty-foreground = ${seraphybr-colors.DavysGrey}
+################################################################################
+
+[module/seraphybr-battery]
 type = internal/battery
-battery = BAT1
+battery = BAT0
 adapter = AC
 full-at = 98
 
-format-charging = <animation-charging>
-format-charging-underline = ${colors.green}
-format-charging-padding = 0
+format-charging =  <label-charging> <animation-charging>
+format-charging-underline = ${seraphybr-colors.Yellow}
 
-format-discharging = <ramp-capacity>
-format-discharging-underline = ${colors.yellow}
-format-discharging-padding = 0
+format-discharging = <label-discharging> <ramp-capacity>
+format-discharging-underline = ${self.format-charging-underline}
 
-format-full =   <label-full>
+format-full-suffix = "   "
+format-full-suffix-foreground = ${self.format-charging-underline}
 format-full-underline = ${self.format-charging-underline}
-format-full-overline = ${self.format-charging-underline}
-format-full-padding = 0
 
 ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
-ramp-capacity-foreground = ${colors.foreground}
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+
+ramp-capacity-foreground = ${self.format-charging-underline}
 
 animation-charging-0 = 
 animation-charging-1 = 
 animation-charging-2 = 
 animation-charging-3 = 
 animation-charging-4 = 
-animation-charging-foreground = ${colors.foreground}
-animation-charging-framerate = 500
+
+animation-charging-foreground = ${self.format-charging-underline}
+animation-charging-framerate = 750
+################################################################################
 
 [module/Battery]
 type = custom/script
@@ -394,6 +627,18 @@ exec = ~/scripts/Battery.sh 2> ~/polybar.log
 format = <label>
 format-padding = 1.5
 label = %output:0:0%
+format-underline = ${colors.battery-underline}
+################################################################################
+
+[module/weather]
+type = custom/script
+exec = ~/.config/polybar/weather.sh | awk -F'[ ,]' '{print $1}'
+format =  <label>
+format-foreground = ${colors.foreground}
+label-foreground = ${colors.foreground}
+format-underline = #d79921
+interval = 60
+################################################################################
 
 [module/temperature]
 type = internal/temperature
@@ -401,9 +646,11 @@ thermal-zone = 0
 warn-temperature = 65
 
 format = <label>
-format-underline = ${colors.foreground}
+format-foreground = ${colors.foreground-alt}
+label-foreground = ${colors.foreground}
+format-underline = ${colors.temperature-underline}
 format-warn = <label-warn>
-format-warn-underline = ${colors.red}
+format-warn-underline = ${colors.alert}
 
 format-padding = 1
 format-warn-padidng = 1
@@ -415,7 +662,104 @@ ramp-0 = 
 ramp-1 = 
 ramp-2 = 
 ramp-foreground = #55
+################################################################################
 
+[module/seraphybr-temperature]
+type = internal/temperature
+thermal-zone = 0
+warn-temperature = 65
+
+format =  <label> <ramp>
+format-underline = ${seraphybr-colors.Crimson}
+format-warn = <label-warn> <ramp>
+format-warn-underline = ${self.format-underline}
+
+label = %temperature-c%
+label-warn = %temperature-c%
+label-warn-foreground = ${seraphybr-colors.alert}
+
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-3 = 
+ramp-4 = 
+ramp-foreground = ${seraphybr-colors.Crimson}
+################################################################################
+
+[module/secondary-temperature]
+type = internal/temperature
+thermal-zone = 0
+warn-temperature = 65
+
+format =  <label> <ramp>
+format-underline = ${seraphybr-colors.Crimson}
+format-warn = <label-warn> <ramp>
+format-warn-underline = ${self.format-underline}
+
+label = %temperature-c%
+label-warn = %temperature-c%
+label-warn-foreground = ${seraphybr-colors.alert}
+
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-3 = 
+ramp-4 = 
+ramp-foreground = ${seraphybr-colors.Crimson}
+################################################################################
+
+[module/seraphybr-powermenu]
+type = custom/menu
+
+format-spacing = 1
+format-underline =  #ffa707
+
+label-open = "%{T3}%{F#ffa707}  %{F-}%{T-} "
+label-close = "  "
+label-close-foreground = ${seraphybr-colors.OrangeRed}
+label-separator = |
+label-separator-foreground = ${seraphybr-colors.foreground-alt}
+
+menu-0-0 = "  "
+menu-0-0-exec = menu-open-1
+
+menu-0-1 = "  "
+menu-0-1-exec = menu-open-2
+
+menu-0-2 = "  "
+menu-0-2-exec = menu-open-3
+
+menu-0-3 =  "  "
+menu-0-3-exec = betterlockscreen -l
+
+menu-0-4 = "  |"
+menu-0-4-exec = bspc quit
+
+menu-1-0 = Reiniciar
+menu-1-0-exec = doas shutdown -r now
+
+menu-1-1 =  |
+menu-1-1-exec = menu-open-0
+
+menu-2-0 = Desligar
+menu-2-0-exec = doas shutdown -h now
+
+menu-2-1 =  |
+menu-2-1-exec = menu-open-0
+
+menu-3-0 = Suspender
+menu-3-0-exec = betterlockscreen -s
+
+menu-3-1 =  |
+menu-3-1-exec = menu-open-0
+################################################################################
+
+[module/my-text-label]
+type = custom/text
+content = " %{F#7df059}  %{F-} Anthony"
+content-foreground = ${seraphybr-colors.white}
+content-underline = #7df059
+################################################################################
 
 [module/menu0]
 type = custom/menu
@@ -433,12 +777,13 @@ menu-0-2 =   cancel
 
 label-open =  
 label-close =
+################################################################################
 
 [module/updates]
 type = custom/script
 
 exec = echo
-
+################################################################################
 
 [module/powermenu]
 type = custom/menu
@@ -464,5 +809,15 @@ menu-2-0 = power off
 menu-2-0-exec = sudo poweroff
 menu-2-1 = cancel
 menu-2-1-exec = menu-open-0
+################################################################################
+
+[module/bluetooth]
+type = custom/script
+interval = 5
+format-underline = ${seraphybr-colors.DeepSkyBlue}
+format-foreground = ${seraphybr-colors.DeepSkyBlue}
+exec = "~/.config/polybar/bluetooth.sh"
+click-left = blueberry &
+################################################################################
 
 ; vim:ft=dosini

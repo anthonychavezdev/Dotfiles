@@ -24,9 +24,10 @@ zle -N down-line-or-beginning-search
 #ZSH_THEME="jonathan"
 #ZSH_THEME="bira"
 #ZSH_THEME=nicoulaj
-ZSH_THEME=green_theme
+# ZSH_THEME=green_theme
 #ZSH_THEME=bira
-#ZSH_THEME="spaceship"
+# ZSH_THEME="spaceship"
+ZSH_THEME="minimal"
 
 # Colors
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
@@ -131,11 +132,11 @@ source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
  export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
- if [[ -n $SSH_CONNECTION ]]; then
-   export EDITOR='vim'
- else
-   export EDITOR='nvim'
- fi
+ # if [[ -n $SSH_CONNECTION ]]; then
+ #   export EDITOR='vim'
+ # else
+ #   export EDITOR='nvim'
+ # fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -176,7 +177,7 @@ ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=yellow
 ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=cyan
 ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=cyan
 ZSH_HIGHLIGHT_STYLES[assign]=none
-export PATH=$PATH:~/bin:~/scripts:~/GB/gbdk/bin:~/.vim/bundle/vim-live-latex-preview/bin:~/.cargo/bin:~/.local/bin
+export PATH=$PATH:~/bin:~/scripts:~/GB/gbdk/bin:~/.vim/bundle/plugged/vim-live-latex-preview/bin:~/.cargo/bin:~/.local/bin:/home/anthony/.gem/ruby/2.5.0/bin:/opt/android-studio/bin:/opt/idea/bin:/opt/devkitpro/bin/
 # export TERM=xterm
 # export TERM=rxvt-unicode
 # export TERM=st-256color
@@ -186,8 +187,21 @@ export EDITOR=nvim
 
 export XDG_CONFIG_HOME=$HOME/.config/
 
+# For the 3DS homebrew development environment.
+export DEVKITPRO=/opt/devkitpro
+export DEVKITARM=/opt/devkitpro/devkitARM
+export DEVKITPPC=/opt/devkitpro/devkitPPC
+
+export PRINTER=EPSON_XP-410_Series
+
 # Aliases
 alias open="xdg-open"
 alias wcache="wget -m -k -K -E"
+alias gvim="gvim -u ~/.gvimrc"
 
 # (cat ~/.cache/wal/sequences &)
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/anthony/.sdkman"
+[[ -s "/home/anthony/.sdkman/bin/sdkman-init.sh" ]] && source "/home/anthony/.sdkman/bin/sdkman-init.sh"
+alias mupdf="zathura"

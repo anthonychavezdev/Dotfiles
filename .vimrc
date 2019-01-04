@@ -28,7 +28,7 @@ call plug#begin('~/.vim/bundle/plugged/')
     Plug  'bronson/vim-trailing-whitespace'
     Plug  'tpope/vim-surround'
     Plug  'vimwiki/vimwiki'
-    Plug  'ying17zi/vim-live-latex-preview'
+    " Plug  'ying17zi/vim-live-latex-preview'
     Plug  'file:///home/anthony/Instantly_Better_Vim_2013/plugin/dragvisuals'
     Plug  'junegunn/goyo.vim'
     Plug  'jiangmiao/auto-pairs'
@@ -47,16 +47,22 @@ call plug#begin('~/.vim/bundle/plugged/')
     " Plug  'dracula/vim'
     Plug 'calviken/vim-gdscript3'
     Plug  'protesilaos/tempus-themes-vim'
-    Plug  'octol/vim-cpp-enhanced-highlight'
+    " Plug  'octol/vim-cpp-enhanced-highlight'
     Plug  'tpope/vim-commentary'
     " Plug  'morhetz/gruvbox'
-    Plug  'LaTeX-Box-Team/LaTeX-Box'
     Plug  'tpope/vim-rails'
     Plug 'scrooloose/nerdtree'
     Plug 'autozimu/LanguageClient-neovim', {
         \ 'branch': 'next',
         \ 'do': 'bash install.sh',
         \ }
+    Plug 'justinmk/vim-syntax-extra'
+    Plug 'mhinz/vim-startify'
+    Plug 'Yggdroot/indentline'
+    Plug 'chrisbra/colorizer'
+    Plug 'iamcco/markdown-preview.vim'
+    Plug 'lervag/vimtex'
+    Plug 'aclements/latexrun'
 
  if !has('nvim')
     Plug 'roxma/vim-hug-neovim-rpc'
@@ -64,6 +70,7 @@ call plug#begin('~/.vim/bundle/plugged/')
  endif
     Plug 'w0rp/ale'
     Plug 'godlygeek/tabular'
+    Plug 'ryanoasis/vim-devicons'
  call plug#end()
 
 
@@ -93,9 +100,10 @@ syntax enable
 " colo gruvbox
 " colo xoria256
 " colo wombat256
-colo inkpot
+" colo inkpot
 " colo dracula
 " TEMPUS COLOR SCHEMES
+"==============================
 " colo tempus_warp
 " colo tempus_autumn
 "==============================
@@ -103,6 +111,10 @@ colo inkpot
 " colo ir_black
 " colo molokai
 " colo murphy
+" colo slate
+" colo blackboard
+colo blazer
+" colo cobalt2
 
 " Have Vim load indentation rules, filetype detection, and plugins
 filetype plugin indent on
@@ -267,7 +279,8 @@ let g:yankstack_map_keys = 0
 " Airline
 
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'simple'
+let g:airline_theme = 'serene'
+" let g:airline_theme = 'simple'
 " let g:airline_theme = 'bubblegum'
 " let g:airline_theme = 'gruvbox'
 let g:airline_exclude_preview = 1
@@ -419,6 +432,8 @@ inoremap jk <Esc>
 
     vnoremap    v   <C-V>
     vnoremap <C-V>     v
+nmap <F8> :NextColorScheme<CR>
+nmap <F7> :PrevColorScheme<CR>
 
 " Reload vimrc
 autocmd bufwritepost .vimrc source $MYVIMRC
@@ -505,9 +520,49 @@ autocmd Filetype kotlin comman! Compile !kotlinc -include-runtime "%" -d %:r.jar
 " ==============================
 
 "  C/C++ Enhaced
-let g:cpp_class_scope_highlight = 1
-let g:cpp_member_variable_highlight = 1
-let g:cpp_concepts_highlight = 1
+" let g:cpp_class_scope_highlight = 1
+" let g:cpp_member_variable_highlight = 1
+" let g:cpp_concepts_highlight = 1
+
+" ==============================
+" IndentLine
+let g:indentLine_char= '┊'
+" ==============================
+
+" ==============================
+" Vimtex
+let g:vimtex_view_general_viewer = 'zathura'
+let g:vimtex_view_automatic = 1
+" ==============================
+
+" ==============================
+" Startify Section:
+let g:startify_files_number = 8
+let g:startify_update_oldfiles = 1
+let g:startify_session_autoload = 1
+let g:startify_change_to_dir = 1
+let g:startify_fortune_use_unicode = 1
+let g:ascii = [
+            \' _______                ___ ___  __ ',
+            \'|    |  |.-----..-----.|   |   ||__|.--------. ',
+            \'|       ||  -__||  _  ||   |   ||  ||        |   ',
+            \'|__|____||_____||_____| \_____/ |__||__|__|__|   ',
+            \]
+let g:startify_custom_header = 'map(g:ascii + startify#fortune#boxed(), "\"   \".v:val")'
+let g:startify_bookmarks = [ {'v': '~/.vimrc'}, '~/.zshrc' ]
+let g:startify_commands = [ {'t': ['Open a new Terminal', ':terminal']} ]
+let g:startify_lists = [
+            \ { 'type': 'files',     'header': ['   My most recently used files:'] },
+            \ { 'type': 'dir',       'header': ['   My most recently used files in the current directory: '. getcwd()] },
+            \ { 'type': 'sessions',  'header': ['   Sessions:']       },
+            \ { 'type': 'bookmarks', 'header': ['   Bookmarks:']      },
+            \ { 'type': 'commands',  'header': ['   Commands:']       },
+            \ ]
+
+function! StartifyEntryFormat()
+    return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
+endfunction
+" ==============================
 
 " Make Sure that Vim returns to the same line when we reopen a file"
 augroup line_return
@@ -517,6 +572,12 @@ augroup line_return
                 \ execute 'normal! g`"zvzz' |
                 \ endif
 augroup END
+
+" Spell checking
+autocmd FileType tex,gitcommit,text,markdown setlocal spell
+
+"" Disable conceal in Latex files ("Hiding tag"):
+let g:tex_conceal = ''
 
 " Commands
 

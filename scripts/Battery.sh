@@ -9,7 +9,7 @@ if [ $BATTERYPERCENTAGE -gt 100 ]
 	BATTERYPERCENTAGE=100
 	fi
 
-if [ $BATTERYPERCENTAGE -eq 10  ]
+if [ $BATTERYPERCENTAGE -lt 10  ]
 	then
             if [ $CHARGING -eq 0 ]
             then

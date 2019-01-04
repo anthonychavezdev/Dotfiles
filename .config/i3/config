@@ -16,15 +16,18 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 #variables
-set $bg-color 	         #121212
-set $inactive-bg-color   #000000
-set $text-color          #ffffff
-set $inactive-text-color #222222
-set $urgent-bg-color #2f0000
+set $bg-color 	              #a3a3a3
+set $inactive-bg-color        #505050
+set $urgent-bg-color          #2f0000
+set $border-color 	          #aaaaaa
+set $inactive-border-color    #101010
+set $urgent-border-color      #2f0000
+set $text-color               #000000
+set $inactive-text-color      #ffffff
 
 # set $profile Brogrammer
 # set $term terminator --profile=$profile
-set $term urxvt
+set $term terminator
 set $browser firefox
 
 # Navigations keys
@@ -71,7 +74,7 @@ bindsym $mod+shift+s sticky toggle
 
 #start rofi
 # bindsym $mod+d exec rofi -show run -config ~/.config/rofi/config
-bindsym $mod+d exec rofi -show run
+bindsym $mod+d exec rofi -show drun
 
 # change focus
 bindsym $mod+$left focus left
@@ -185,9 +188,10 @@ bindsym $mod+r mode "resize"
 #}
 
 
+default_border pixel 3
 # no borders
-hide_edge_borders both
-new_window pixel 0
+hide_edge_borders smart
+# new_window pixel 5
 
 
 # Go to previous workspace
@@ -195,40 +199,37 @@ bindsym $mod+Tab workspace back_and_forth
 
 # window colors
 #                       border              background         text                 indicator
-client.focused          $bg-color           $bg-color          $text-color          #00ff00
-client.unfocused        $inactive-bg-color $inactive-bg-color $inactive-text-color #00ff00
-client.focused_inactive $inactive-bg-color $inactive-bg-color $inactive-text-color #00ff00
-client.urgent $urgent-bg-color $urgent-bg-color $text-color #00ff00
+client.focused          $border-color       $bg-color          $text-color          #00ff00
+client.unfocused        $inactive-border-color $inactive-bg-color $inactive-text-color #00ff00
+client.focused_inactive $inactive-border-color $inactive-bg-color $inactive-text-color #00ff00
+client.urgent $urgent-border-color $urgent-bg-color $text-color #00ff00
 
 
-#set wallpaper
+# set wallpaper
 exec_always feh --bg-scale ~/.config/wall.png &
 
-# transparency
+# compositor
 exec_always compton --config ~/.config/compton/compton.conf -f
 
 # Conky
 #exec conky -d
 # exec conky -c "/home/anthony/.conky/Gotham/Gotham" &
 
-# Pulseaudio
-exec pulseaudio --start
-
 # Polybar
 exec_always ~/scripts/Launch_Polybar.sh
 
 #htop
-bindsym $mod+shift+i exec $term -e htop
+bindsym $mod+shift+i exec $term -x htop
 #lock
-bindsym $mod+shift+x exec i3lock
+bindsym $mod+shift+x exec i3lock -c 000000
 #Launch ranger
-bindsym $mod+Shift+f exec $term -e ranger
+bindsym $mod+Shift+f exec $term -x ranger
 
 #Launch mutt
-bindsym $mod+Shift+m exec $term -e neomutt
+bindsym $mod+Shift+m exec $term -x neomutt
 
 #Launch Calcurse
-bindsym $mod+Shift+o exec $term -e calcurse
+bindsym $mod+Shift+o exec $term -x calcurse
 
 #Launch web browser
 bindsym $mod+Shift+w exec $browser
@@ -236,7 +237,7 @@ bindsym $mod+Shift+w exec $browser
 #Flash a window
 bindsym $mod+shift+u exec ~/scripts/flash_win.sh
 #Launch mgba to quickly tedt gameboy dev
-bindsym $mod+Shift+c exec $term -e qalc
+bindsym $mod+shift+c exec $term -x qalc
 
 #Check Mail
 # exec ~/scripts/CheckMail.sh &
@@ -249,12 +250,29 @@ exec_always ~/scripts/Launch_Dunst.sh &
 # exec_always --no-startup-id gnome-power-manager
 
 #Start redshift
-exec redshift &
+exec redshift -c /home/anthony/.config/redshift.conf &
 
 #Kdeconnect
 # exec --no-startup-id /usr/lib/kdeconnectd
 # exec --no-startup-id kdeconnect-indicator
+exec kdeconnect-indicator &
 
+#Nextcloud
+exec nextcloud &
+
+# vim-anywhere
+bindsym $mod+shift+v exec ~/.vim-anywhere/bin/run
+
+# Mirror laptop display to monitor
+exec --no-startup-id ~/.screenlayout/Mirror.sh
+
+# Starts Gnome-keyring-daemon for network password encryption
+# exec --no-startup-id gnome-keyring-daemon -r -d &
+
+# Starts Network Manager applet
+exec nm-applet &
+# Start Blueman-applet
+# exec blueberry-tray &
 #i3-gaps
 gaps outer 5
 gaps inner 5
@@ -272,11 +290,16 @@ bindsym $mod+Shift+n gaps outer all set 0
 
 # Floating windows
 # Use xprop to find class name
+for_window [class="Gimp"] move center
+for_window [window_role="gimp-dock"] move left; resize shrink width 10 px or 10ppt
+for_window [window_role="gimp-toolbox"] move right; resize grow width 10 px or 10ppt
+for_window [window_role="gimp-image-new"] move center
+for_window [window_role="gimp-image-scale"] move center
+
 for_window [class="Godot"] floating enable; move center; resize set 2050 2050
-for_window [window_role="gimp-dock"] floating disable; move left; resize shrink width 10 px or 10ppt
-for_window [window_role="gimp-toolbox"] floating disable; move right; resize grow width 10 px or 10ppt
-for_window [class="Gimp"] floating disables; move center
 for_window [class="GeoGebra"] floating enable
+for_window [class="Gvim"] floating enable
+for_window [class="Gvim"] resize set 500 300
 
 # Scratchpad
 # math terminal for any math related thigs running R

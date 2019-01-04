@@ -1,37 +1,3 @@
-delete Arch-Linux-Wallpaper-Download-PC\ \(copy\).png
-delete image.png
-delete sent
-delete text
-delete email
-delete polybar.log
-cd /home/anthony/Pictures/Wallpapers/Titans
-shell ls
-shell cd /
-shell pwd
-shell echo %f
-set colorscheme snow
-set colorscheme solarized
-cd Documents/PDFs
-search pictur
-search pictu
-cd /home/anthony/Pictures/Wallpapers
-search Pic
-delete config-test/
-search pi
-search Pi
-search pict
-search pic
-rename
-rename Math-085
-find
-find w
-search progr
-deletedDd
-help
-touch qt-tut
-python3 qt-tut.py
-e nvim
-e %f nvim
 nvim %f
 e nvim %f
 rename qt-tut.py
@@ -46,5 +12,39 @@ rename blurme
 cd .local/share/
 search blurme
 open_with 
+shell gh
+shell jjjjjkj
+touch Unix/Linux basics.txt
+touch Unix/Linux basics
+mkdir Homework
+open_with gs
+find Nex
+find wa
+mkdir 9.3
+touch 9-3.tex
+open_with tgsb
+shell 
+mkdir Kevin
+touch help.py
+touch lastchar.py
 
+mkdir exam-1-essay
+touch paper.tex
+rename 09_04_2018_Class Notesq.pdf
+find v
+Mk
+mkdir Kish-scholarship
+touch essay.tex
+mkdir test01
+mkdir test02
+1
+mv Chapter 5 Romans
+open_with libre
+open_with libreoffice
+mkdir test03
+touch notecard.tex
+shell a
 delete
+rename fafsa-2019-2020.pdf
+mkdir practice
+touch test01.java

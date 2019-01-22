@@ -125,7 +125,7 @@ height = 35
 #offset-y = 1%
 
 fixed-center = false
-wm-restack = i3
+; wm-restack = i3
 enable-ipc = true
 
 background = ${seraphybr-colors.background}
@@ -159,7 +159,7 @@ font-3 = "FontAwesome:size=14;2"
 ; modules-left = my-text-label i3
 modules-right =  seraphybr-memory seraphybr-cpu seraphybr-volume bluetooth seraphybr-battery
 modules-center = calendar clock
-modules-left = i3
+modules-left = bspwm
 
 ################################################################################
 [bar/Bar]
@@ -515,7 +515,7 @@ label-font = 10
 ################################################################################
 [module/calendar]
 type = custom/script
-exec = "date +%d-%m-%Y"
+exec = "date +%A\ %Y-%m-%d"
 interval = 600
 
 format = " <label>"

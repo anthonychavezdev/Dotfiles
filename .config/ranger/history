@@ -1,8 +1,3 @@
-nvim %f
-e nvim %f
-rename qt-tut.py
-rename qt-tut1.py
-e qt-tut2.py
 edit qt-tut4.py
 edit qt-tut5.py
 find kjqqqj
@@ -44,7 +39,12 @@ open_with libreoffice
 mkdir test03
 touch notecard.tex
 shell a
-delete
 rename fafsa-2019-2020.pdf
 mkdir practice
 touch test01.java
+search video
+search videos
+mkdir Bio
+mkdir CIS-250
+delete
+pwd

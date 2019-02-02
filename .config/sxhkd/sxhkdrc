@@ -19,6 +19,10 @@ alt + d
     rofi -show drun
 alt + shift + f
     terminator -x ranger
+alt + shift + o
+    terminator -x calcurse
+alt + shift + c
+    terminator -x qalc
 # make sxhkd reload its configuration files:
 alt + r
 	pkill -USR1 -x sxhkd && notify-send "sxhkd" "Reloaded config"
@@ -27,7 +31,7 @@ alt + r
 
 # quit bspwm normally
 alt + shift + e
-	bspc quit
+    killall polybar && bspc quit
 
 # close and kill
 alt + ctrl + {_,shift + }q
@@ -56,7 +60,7 @@ alt + {t,shift + t,shift + space,f}
 	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
 
 # set the node flags
-alt + ctrl + {l,s,p}
+alt + ctrl + {x,s,p}
 	bspc node -g {locked,sticky,private}
 
 

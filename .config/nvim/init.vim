@@ -9,6 +9,7 @@
 
 set runtimepath+=~/.config/nvim,~/.config/nvim/after
 set packpath+=~/.config/nvim
+
 :tnoremap <Esc> <C-\><C-n>
 :tnoremap jk <C-\><C-n>
 if &compatible
@@ -82,7 +83,7 @@ call plug#begin('~/.config/nvim/plugins/')
 filetype plugin indent on
 
 " Syntax highlighting
-syntax enable
+syntax on
 
 " GUI
 " Gonvim
@@ -155,7 +156,7 @@ set showmatch
 set matchtime=3
 set mat=2
 " Enable supprt for unicode characters
-set encoding=utf-8
+set encoding=utf8
 " Set colors to match a dark background
 set background=dark
 " If on, Vim will wrap long lines at a character in 'breakat' rather
@@ -416,7 +417,7 @@ noremap <silent> <leader>m :ShowMarksOnce<CR>
 nnoremap <leader>cpp :-1read $HOME/Templates/C++/C++_Template.cpp<CR>6j
 nnoremap <leader>html :-1read $HOME/Templates/HTML/HTML_Template.html<CR>Gdd2k
 nnoremap <leader>c :-1read $HOME/Templates/C/C_Template.c<CR>4j
-nnoremap <leader>tex :-1read $HOME/Templates/LaTex/LaTex_Template.tex<CR>4j
+nnoremap <leader>tex :-1read $HOME/Templates/LaTex/LaTex_Template.tex<CR>Gdd3kdd
 nnoremap <leader>mla :-1read $HOME/Templates/LaTex/LaTex_Template_MLA.tex<CR>75j
 " Rempas the ctrl-w key to <leader> w
 nnoremap <leader>w <C-w>
@@ -457,6 +458,7 @@ autocmd FileType html inoremap <leader>p <p></p><Esc>o<++><Esc>kF>a
 " ==============================
 
 ".tex
+let g:tex_flavor='latex'
 autocmd FileType tex inoremap <leader>par \paragraph{}<Esc>o<Enter><++><Esc>2kf{a
 autocmd FileType tex inoremap <leader>fr \begin{frame}<Enter>\frametitle{}<Enter><Enter><++><Enter><Enter>\end{frame}<Enter><Enter><++><Esc>6kf}i
 autocmd FileType tex inoremap <leader>fi \begin{fitch}<Enter><Enter>\end{fitch}<Enter><Enter><++><Esc>3kA
@@ -584,5 +586,5 @@ let g:tex_conceal = ''
 " ==============================
 
 " Saves folding in the current open file when exiting or switching windows.
-autocmd BufWinLeave *.* mkview
-autocmd BufWinEnter *.* silent loadview
+" autocmd BufWinLeave *.* mkview
+" autocmd BufWinEnter *.* silent loadview

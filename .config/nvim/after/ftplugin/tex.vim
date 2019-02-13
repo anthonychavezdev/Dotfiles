@@ -1,3 +1,3 @@
 filetype indent off
-"set formatoptions=at
+" set formatoptions=at
 " set formatprg=par

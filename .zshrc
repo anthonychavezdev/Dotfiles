@@ -205,6 +205,9 @@ alias gis="git status"
 alias gia="git add"
 alias gib="git branch"
 alias gic="git checkout"
+alias gicm="git commit -m"
+alias gip="git push"
+alias gil="git log"
 alias vz="nvim ~/.zshrc"
 # (cat ~/.cache/wal/sequences &)
 

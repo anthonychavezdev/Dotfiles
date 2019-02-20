@@ -198,7 +198,14 @@ export PRINTER=EPSON_XP-410_Series
 alias open="xdg-open"
 alias wcache="wget -m -k -K -E"
 alias gvim="gvim -u ~/.gvimrc"
-
+alias V="sudo nvim"
+alias v="nvim"
+alias vc="nvim ~/.config/nvim/init.vim"
+alias gis="git status"
+alias gia="git add"
+alias gib="git branch"
+alias gic="git checkout"
+alias vz="nvim ~/.zshrc"
 # (cat ~/.cache/wal/sequences &)
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!

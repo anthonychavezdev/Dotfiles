@@ -26,6 +26,7 @@ bspc rule -a Firefox desktop='^2'
 bspc rule -a mplayer2 state=floating
 bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
+bspc rule -a blueberry state=floating
 
 # Setting the wallpaper
 feh --bg-scale ~/.config/wall.png &
@@ -35,9 +36,6 @@ compton --config ~/.config/compton/compton.conf -f &
 
 # Polybar
 ~/scripts/Launch_Polybar.sh &
-
-# Starting Pulseaudio becaue it doesn't start automatically for some reason
-pulseaudio --start &
 
 # Start Dunst
 ~/scripts/Launch_Dunst.sh &
@@ -51,11 +49,3 @@ nextcloud &
 nm-applet &
 
 sxhkd -c ~/.config/sxhkd/sxhkdrc &
-
-# xsetroot -cursor_name left_ptr &
-
-xrdb -merge ~/.Xresources
-
-dbus-update-activation-environment --systemd DISPLAY
-eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
-export SSH_AUTH_SOCK

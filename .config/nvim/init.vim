@@ -25,7 +25,7 @@ call plug#begin('~/.config/nvim/plugins/')
       Plug 'roxma/nvim-yarp'
       Plug 'roxma/vim-hug-neovim-rpc'
     endif
-    Plug  'maxbrunsfeld/vim-yankstack'
+    " Plug  'maxbrunsfeld/vim-yankstack'
     Plug  'vim-airline/vim-airline'
     Plug  'vim-airline/vim-airline-themes'
     Plug  'xolox/vim-misc'
@@ -34,14 +34,14 @@ call plug#begin('~/.config/nvim/plugins/')
     Plug  'tpope/vim-surround'
     Plug  'vimwiki/vimwiki'
     " Plug  'ying17zi/vim-live-latex-preview'
-    Plug  'file:///home/anthony/Instantly_Better_Vim_2013/plugin/dragvisuals'
+    " Plug  'file:///home/anthony/Instantly_Better_Vim_2013/plugin/dragvisuals'
     Plug  'junegunn/goyo.vim'
     Plug  'jiangmiao/auto-pairs'
     Plug  'tomtom/tlib_vim'
     Plug  'MarcWeber/vim-addon-mw-utils'
     Plug  'pangloss/vim-javascript'
-    Plug  'garbas/vim-snipmate'
-    Plug  'honza/vim-snippets'
+    " Plug  'garbas/vim-snipmate'
+    " Plug  'honza/vim-snippets'
     Plug  'ervandew/supertab'
     Plug  'vim-syntastic/syntastic'
     Plug 'rust-lang/rust.vim'
@@ -57,10 +57,10 @@ call plug#begin('~/.config/nvim/plugins/')
     " Plug  'morhetz/gruvbox'
     Plug  'tpope/vim-rails'
     Plug 'scrooloose/nerdtree'
-    Plug 'autozimu/LanguageClient-neovim', {
-        \ 'branch': 'next',
-        \ 'do': 'bash install.sh',
-        \ }
+    " Plug 'autozimu/LanguageClient-neovim', {
+        " \ 'branch': 'next',
+        " \ 'do': 'bash install.sh',
+        " \ }
     Plug 'justinmk/vim-syntax-extra'
     Plug 'mhinz/vim-startify'
     " Plug 'Yggdroot/indentline'
@@ -272,15 +272,6 @@ highlight PmenuSel ctermfg=202 guifg=#dddd00 guibg=#1f82cd
 highlight PmenuSbar ctermbg=237 guibg=#d6d6d6
 "==============================
 
-" Vim-Yankstack
-
-call yankstack#setup()
-let g:yankstack_yank_keys = ['y', 'd']
-let g:yankstack_map_keys = 0
- nmap <Leader>p <Plug>yankstack_substitute_older_paste
- nmap <Leader>P <Plug>yankstack_substitute_newer_paste
-"==============================
-
 " Airline
 
 let g:airline_powerline_fonts = 1
@@ -387,13 +378,13 @@ let g:tagbar_type_go = {
 " Required for operations modifying multiple buffers like rename.
 set hidden
 
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
-    \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
-    \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-    \ 'python': ['/usr/local/bin/pyls'],
-    \ }
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+" let g:LanguageClient_serverCommands = {
+"     \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+"     \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+"     \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+"     \ 'python': ['/usr/local/bin/pyls'],
+"     \ }
+" nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 "==============================
 
 " Key mapping
@@ -572,7 +563,7 @@ augroup END
 " Spell checking
 autocmd FileType tex,gitcommit,text,markdown setlocal spell
 
-"" Disable conceal in Latex files ("Hiding tag"):
+" Disable conceal in Latex files ("Hiding tag"):
 let g:tex_conceal = ''
 
 " Commands

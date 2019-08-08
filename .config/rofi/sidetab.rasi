@@ -34,8 +34,8 @@
 window {
 	location:    west;
 	anchor:      west;
-	height:      100%;
-	width:       22%;
+	height:      97%;
+	width:       25%;
 	orientation: horizontal;
 	children:    [mainbox];
 }

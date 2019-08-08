@@ -1,28 +1,16 @@
-edit qt-tut4.py
-edit qt-tut5.py
-find kjqqqj
-rename Solarized.png
-cd .local/
-rename blurme
-cd .local/share/
-search blurme
-open_with 
 shell gh
 shell jjjjjkj
 touch Unix/Linux basics.txt
 touch Unix/Linux basics
 mkdir Homework
 open_with gs
-find Nex
 find wa
 mkdir 9.3
 touch 9-3.tex
 open_with tgsb
-shell 
 mkdir Kevin
 touch help.py
 touch lastchar.py
-
 mkdir exam-1-essay
 touch paper.tex
 rename 09_04_2018_Class Notesq.pdf
@@ -46,5 +34,17 @@ search video
 search videos
 mkdir Bio
 mkdir CIS-250
-delete
 pwd
+find Nex
+rename Intro to US Gov
+mkdir assignments
+mkdir 2019-02-16
+touch assignment-3.cpp
+mv Bank
+rename presentation
+rename Presentation.tex
+shell 
+delete
+open_with j
+shell -p 
+

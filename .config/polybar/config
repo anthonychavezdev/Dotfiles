@@ -118,7 +118,7 @@ alert = ${self.Red}
 ; Use the following command to list available outputs:
 ; If unspecified, the application will pick the first one it finds.
 ; $ xrandr -q | grep " connected" | cut -d ' ' -f1
-monitor = ${env:MONITOR:eDP-1}
+monitor = ${env:MONITOR:HDMI-A-0}
 width = 100%
 height = 35
 #offset-x = 1%
@@ -158,7 +158,7 @@ font-3 = "FontAwesome:size=14;2"
 ; modules-right = seraphybr-volume xbacklight bbswitch_show seraphybr-memory seraphybr-cpu seraphybr-temperature bluetooth wireless-network calendar clock seraphybr-battery
 ; modules-left = my-text-label i3
 modules-right =  seraphybr-memory seraphybr-cpu seraphybr-volume bluetooth seraphybr-battery
-modules-center = calendar clock
+modules-center = seraphybr-temperature calendar clock
 modules-left = bspwm
 
 ################################################################################
@@ -271,6 +271,8 @@ label-urgent-padding = 1
 label-empty = %index%
 label-empty-foreground = #55
 label-empty-padding = 1
+enable-click = false
+enable-scroll = false
 ################################################################################
 
 [module/i3]

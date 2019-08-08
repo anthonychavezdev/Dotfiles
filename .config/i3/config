@@ -206,17 +206,17 @@ client.urgent $urgent-border-color $urgent-bg-color $text-color #00ff00
 
 
 # set wallpaper
-exec_always feh --bg-scale ~/.config/wall.png &
+exec_always --no-startup-id feh --bg-scale ~/.config/wall.png &
 
 # compositor
-exec_always compton --config ~/.config/compton/compton.conf -f
+exec_always --no-startup-id compton --config ~/.config/compton/compton.conf -f
 
 # Conky
 #exec conky -d
 # exec conky -c "/home/anthony/.conky/Gotham/Gotham" &
 
 # Polybar
-exec_always ~/scripts/Launch_Polybar.sh
+exec_always --no-startup-id ~/scripts/Launch_Polybar.sh
 
 #htop
 bindsym $mod+shift+i exec $term -x htop
@@ -243,34 +243,31 @@ bindsym $mod+shift+c exec $term -x qalc
 # exec ~/scripts/CheckMail.sh &
 
 #Start Dunst
-exec_always ~/scripts/Launch_Dunst.sh &
+exec_always --no-startup-id ~/scripts/Launch_Dunst.sh &
 
 # i3-gnome
 # exec --no-startup-id /usr/lib/gnome-settings-daemon/gsd-xsettings
 # exec_always --no-startup-id gnome-power-manager
 
 #Start redshift
-exec redshift -c /home/anthony/.config/redshift.conf &
+exec --no-startup-id redshift -c /home/anthony/.config/redshift.conf &
 
 #Kdeconnect
 # exec --no-startup-id /usr/lib/kdeconnectd
 # exec --no-startup-id kdeconnect-indicator
-exec kdeconnect-indicator &
+exec --no-startup-id kdeconnect-indicator &
 
 #Nextcloud
-exec nextcloud &
+exec --no-startup-id nextcloud &
 
 # vim-anywhere
-bindsym $mod+shift+v exec ~/.vim-anywhere/bin/run
-
-# Mirror laptop display to monitor
-exec --no-startup-id ~/.screenlayout/Mirror.sh
+# bindsym $mod+shift+v exec ~/.vim-anywhere/bin/run
 
 # Starts Gnome-keyring-daemon for network password encryption
 # exec --no-startup-id gnome-keyring-daemon -r -d &
 
 # Starts Network Manager applet
-exec nm-applet &
+exec --no-startup-id nm-applet &
 # Start Blueman-applet
 # exec blueberry-tray &
 #i3-gaps

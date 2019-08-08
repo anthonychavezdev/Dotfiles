@@ -24,7 +24,7 @@ alt + shift + o
 alt + shift + c
     terminator -x qalc
 # make sxhkd reload its configuration files:
-alt + r
+alt + shift + r
 	pkill -USR1 -x sxhkd && notify-send "sxhkd" "Reloaded config"
 
 # bspwm hotkeys

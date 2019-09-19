@@ -1,4 +1,3 @@
-shell gh
 shell jjjjjkj
 touch Unix/Linux basics.txt
 touch Unix/Linux basics
@@ -40,11 +39,12 @@ rename Intro to US Gov
 mkdir assignments
 mkdir 2019-02-16
 touch assignment-3.cpp
+
 mv Bank
 rename presentation
 rename Presentation.tex
 shell 
-delete
 open_with j
-shell -p 
-
+delete
+mkdir Activity 1
+touch assignment.tex

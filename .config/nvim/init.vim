@@ -37,13 +37,13 @@ call plug#begin('~/.config/nvim/plugins/')
     " Plug  'file:///home/anthony/Instantly_Better_Vim_2013/plugin/dragvisuals'
     Plug  'junegunn/goyo.vim'
     Plug  'jiangmiao/auto-pairs'
-    " Plug  'tomtom/tlib_vim'
-    " Plug  'MarcWeber/vim-addon-mw-utils'
+    Plug  'tomtom/tlib_vim'
+    Plug  'MarcWeber/vim-addon-mw-utils'
     Plug  'pangloss/vim-javascript'
     " Plug  'garbas/vim-snipmate'
     " Plug  'honza/vim-snippets'
     Plug  'ervandew/supertab'
-    " Plug  'vim-syntastic/syntastic'
+    Plug  'vim-syntastic/syntastic'
     Plug 'rust-lang/rust.vim'
     Plug  'jacquesbh/vim-showmarks'
     Plug  'majutsushi/tagbar'
@@ -51,7 +51,7 @@ call plug#begin('~/.config/nvim/plugins/')
     Plug  'udalov/kotlin-vim'
     " Plug  'dracula/vim'
     Plug 'calviken/vim-gdscript3'
-    " Plug  'protesilaos/tempus-themes-vim'
+    Plug  'protesilaos/tempus-themes-vim'
     " Plug  'octol/vim-cpp-enhanced-highlight'
     Plug  'tpope/vim-commentary'
     " Plug  'morhetz/gruvbox'
@@ -405,9 +405,9 @@ noremap <leader>t :NERDTreeFocus<CR>
 noremap <silent> <leader>f :FixWhitespace<CR>
 nmap <silent> <F2> :set spell!<CR>
 noremap <silent> <leader>m :ShowMarksOnce<CR>
-nnoremap <leader>cpp :-1read $HOME/Templates/C++/C++_Template.cpp<CR>6j
+nnoremap <leader>cpp :-1read $HOME/Templates/C++/C++_Template.cpp<CR>Gdd3k
 nnoremap <leader>html :-1read $HOME/Templates/HTML/HTML_Template.html<CR>Gdd2k
-nnoremap <leader>c :-1read $HOME/Templates/C/C_Template.c<CR>4j
+nnoremap <leader>c :-1read $HOME/Templates/C/C_Template.c<CR>Gdd3k
 nnoremap <leader>tex :-1read $HOME/Templates/LaTex/LaTex_Template.tex<CR>Gdd3kdd
 nnoremap <leader>mla :-1read $HOME/Templates/LaTex/LaTex_Template_MLA.tex<CR>75j
 " Rempas the ctrl-w key to <leader> w
@@ -512,6 +512,8 @@ autocmd Filetype c command! Compile !gcc "%" -o %:r
 autocmd Filetype cpp command! Compile !g++ "%" -o %:r
 autocmd Filetype tex command! Pdf !zathura "%" %:r.pdf
 autocmd Filetype kotlin comman! Compile !kotlinc -include-runtime "%" -d %:r.jar
+
+nnoremap <leader>C :Compile<CR>
 " ==============================
 
 " IndentLine

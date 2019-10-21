@@ -18,40 +18,37 @@ endif
 
 " Plugins
 call plug#begin('~/.config/nvim/plugins/')
-    if has('nvim')
-      Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    else
-      Plug 'Shougo/deoplete.nvim'
-      Plug 'roxma/nvim-yarp'
-      Plug 'roxma/vim-hug-neovim-rpc'
-    endif
     " Plug  'maxbrunsfeld/vim-yankstack'
+    Plug 'lifepillar/vim-mucomplete'
     Plug  'vim-airline/vim-airline'
     Plug  'vim-airline/vim-airline-themes'
-    Plug  'xolox/vim-misc'
+
     Plug  'xolox/vim-colorscheme-switcher'
+    Plug  'xolox/vim-misc'
+
     Plug  'bronson/vim-trailing-whitespace'
     Plug  'tpope/vim-surround'
     Plug  'vimwiki/vimwiki'
-    " Plug  'ying17zi/vim-live-latex-preview'
-    " Plug  'file:///home/anthony/Instantly_Better_Vim_2013/plugin/dragvisuals'
+    Plug  'file:///home/anthony/Instantly_Better_Vim_2013/plugin/dragvisuals'
     Plug  'junegunn/goyo.vim'
     Plug  'jiangmiao/auto-pairs'
-    Plug  'tomtom/tlib_vim'
-    Plug  'MarcWeber/vim-addon-mw-utils'
+    " Plug  'tomtom/tlib_vim'
+    " Plug  'MarcWeber/vim-addon-mw-utils'
     Plug  'pangloss/vim-javascript'
     " Plug  'garbas/vim-snipmate'
     " Plug  'honza/vim-snippets'
-    Plug  'ervandew/supertab'
-    Plug  'vim-syntastic/syntastic'
+    " Plug  'ervandew/supertab'
+    " Plug  'vim-syntastic/syntastic'
     Plug 'rust-lang/rust.vim'
     Plug  'jacquesbh/vim-showmarks'
     Plug  'majutsushi/tagbar'
+    " Matches HTML tags
     Plug  'gregsexton/MatchTag'
+
     Plug  'udalov/kotlin-vim'
     " Plug  'dracula/vim'
     Plug 'calviken/vim-gdscript3'
-    Plug  'protesilaos/tempus-themes-vim'
+    " Plug  'protesilaos/tempus-themes-vim'
     " Plug  'octol/vim-cpp-enhanced-highlight'
     Plug  'tpope/vim-commentary'
     " Plug  'morhetz/gruvbox'
@@ -64,16 +61,10 @@ call plug#begin('~/.config/nvim/plugins/')
     Plug 'justinmk/vim-syntax-extra'
     Plug 'mhinz/vim-startify'
     " Plug 'Yggdroot/indentline'
-    Plug 'chrisbra/colorizer'
     Plug 'iamcco/markdown-preview.vim'
     Plug 'lervag/vimtex'
     Plug 'aclements/latexrun'
 
- if !has('nvim')
-    Plug 'roxma/vim-hug-neovim-rpc'
-    Plug 'roxma/nvim-yarp'
- endif
-    Plug 'w0rp/ale'
     Plug 'godlygeek/tabular'
     Plug 'ryanoasis/vim-devicons'
  call plug#end()
@@ -188,7 +179,7 @@ set noshowmode
 set noruler
 set noshowcmd
 set cmdheight=1
-set shortmess=a
+set shortmess=aI
 set scrolloff=0
 set visualbell
 set history=1000
@@ -205,18 +196,9 @@ set directory=~/.config/nvim/tmp,.
 set splitright
 set splitbelow
 
-" Enables true color if available
-" if has("termguicolors")
-"     set termguicolors
-" endif
-" Set the colorscheme to gruvbox (all gruvbox options must come before
-" colorscheme gruvbox)
-" let g:gruvbox_contrast_dark='hard'
-" let g:gruvbox_italic=0
-" colorscheme gruvbox
-hi clear CursorLine
-hi CursorLineNr cterm=bold
-set cursorline
+" Settings for autocompletion menu
+" See :help completeopt
+set completeopt+=menuone,noinsert
 
 " Set vim to save the file on focus out.
 au FocusLost * :wa
@@ -315,7 +297,7 @@ let g:airline#extensions#whitespace#enabled = 0
     endfunction
 
 "==============================
-runtime bundle/plugged/dragvisuals/dragvisuals.vim
+runtime plugins/dragvisuals/dragvisuals.vim
 
 vmap  <expr>  <LEFT>   DVB_Drag('left')
 vmap  <expr>  <RIGHT>  DVB_Drag('right')

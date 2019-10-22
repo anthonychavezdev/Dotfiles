@@ -13,7 +13,7 @@
 	 * theme (for an unified experience) */
 	fc-color: #39393A;
 	bg-color: #262626;
-	fc-color-trans: #39393AC5; 
+	fc-color-trans: #39393AC5;
 	bg-color-trans: #262626F0;
 
 	font: "Ubuntu 12";
@@ -41,8 +41,8 @@
 }
 
 /* Dummy container */
-#dummy { 
-	expand: true; 
+#dummy {
+	expand: true;
 }
 /* ================================================= */
 

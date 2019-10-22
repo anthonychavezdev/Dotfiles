@@ -411,8 +411,15 @@ let g:LanguageClient_serverCommands = {
     \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
     \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
     \ 'python': ['/usr/bin/pyls'],
+    \ 'c': ['/usr/bin/cquery',
+    \ '--log-file=/tmp/cquery.log',
+    \'--init={"cacheDirectory":"/tmp/cquery/"}'],
     \ }
 nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+" Or map each action separately
+nnoremap <silent> <leader>h :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 " ==============================
 
 " Reload init.vim

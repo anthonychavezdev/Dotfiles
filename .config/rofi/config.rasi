@@ -1,9 +1,10 @@
-configuration {
-	modi: "window,run,ssh";
+configuration
+{
+	modi: "window,ssh";
 	width: 60;
 	lines: 15;
 	columns: 1;
-	font: "mono 12";
+	font: "mono 22";
 	bw: 0;
 	location: 0;
 	padding: 0;
@@ -11,15 +12,15 @@ configuration {
 	xoffset: 0;
 	fixed-num-lines: true;
 	show-icons: true;
-	terminal: "rofi-sensible-terminal";
+	terminal: "terminator";
 	ssh-client: "ssh";
-	ssh-command: "{terminal} -e {ssh-client} {host}";
+	ssh-command: "{terminal} -x {ssh-client} {host}";
 /*	run-command: "{cmd}";*/
 /*	run-list-command: "";*/
-/*	run-shell-command: "{terminal} -e {cmd}";*/
+/*	run-shell-command: "{terminal} -x {cmd}";*/
 /*	window-command: "xkill -id {window}";*/
 /*	window-match-fields: "all";*/
-	drun-icon-theme: "default";
+	icon-theme: "Breeze-Dark";
 	drun-match-fields: "name,generic,exec,categories";
 	disable-history: true;
 /*	sort: false;*/
@@ -137,3 +138,5 @@ configuration {
 /*	me-accept-entry: "MouseDPrimary";*/
 /*	me-accept-custom: "Control+MouseDPrimary";*/
 }
+
+/* vim:ft=css

@@ -17,41 +17,43 @@ endif
 
 " Plugins
 call plug#begin('~/.config/nvim/plugins/')
-    " Plug  'maxbrunsfeld/vim-yankstack'
-    Plug 'lifepillar/vim-mucomplete'
-    Plug  'vim-airline/vim-airline'
-    Plug  'vim-airline/vim-airline-themes'
+    " Plug 'maxbrunsfeld/vim-yankstack'
 
-    Plug  'xolox/vim-colorscheme-switcher'
-    Plug  'xolox/vim-misc'
+    " Use release branch
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-    Plug  'bronson/vim-trailing-whitespace'
-    Plug  'tpope/vim-surround'
-    Plug  'vimwiki/vimwiki'
-    Plug  'file:///home/anthony/Instantly_Better_Vim_2013/plugin/dragvisuals'
-    Plug  'junegunn/goyo.vim'
-    Plug  'jiangmiao/auto-pairs'
-    " Plug  'tomtom/tlib_vim'
-    " Plug  'MarcWeber/vim-addon-mw-utils'
-    Plug  'pangloss/vim-javascript'
-    " Plug  'garbas/vim-snipmate'
-    " Plug  'honza/vim-snippets'
-    " Plug  'ervandew/supertab'
-    " Plug  'vim-syntastic/syntastic'
+    " Plug 'lifepillar/vim-mucomplete'
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+
+    Plug 'xolox/vim-colorscheme-switcher'
+    Plug 'xolox/vim-misc'
+
+    Plug 'bronson/vim-trailing-whitespace'
+    Plug 'tpope/vim-surround'
+    Plug 'vimwiki/vimwiki'
+    Plug 'file:///home/anthony/Instantly_Better_Vim_2013/plugin/dragvisuals'
+    Plug 'junegunn/goyo.vim'
+    Plug 'jiangmiao/auto-pairs'
+    " Plug 'tomtom/tlib_vim'
+    " Plug 'MarcWeber/vim-addon-mw-utils'
+    Plug 'pangloss/vim-javascript'
+    " Plug 'ervandew/supertab'
+    " Plug 'vim-syntastic/syntastic'
     Plug 'rust-lang/rust.vim'
-    Plug  'jacquesbh/vim-showmarks'
-    Plug  'majutsushi/tagbar'
+    Plug 'jacquesbh/vim-showmarks'
+    Plug 'majutsushi/tagbar'
     " Matches HTML tags
-    Plug  'gregsexton/MatchTag'
+    Plug 'gregsexton/MatchTag'
 
-    Plug  'udalov/kotlin-vim'
-    " Plug  'dracula/vim'
+    Plug 'udalov/kotlin-vim'
+    " Plug 'dracula/vim'
     Plug 'calviken/vim-gdscript3'
-    " Plug  'protesilaos/tempus-themes-vim'
-    " Plug  'octol/vim-cpp-enhanced-highlight'
-    Plug  'tpope/vim-commentary'
-    " Plug  'morhetz/gruvbox'
-    Plug  'tpope/vim-rails'
+    " Plug 'protesilaos/tempus-themes-vim'
+    " Plug 'octol/vim-cpp-enhanced-highlight'
+    Plug 'tpope/vim-commentary'
+    " Plug 'morhetz/gruvbox'
+    Plug 'tpope/vim-rails'
     Plug 'scrooloose/nerdtree'
 
     Plug 'autozimu/LanguageClient-neovim', {
@@ -69,6 +71,8 @@ call plug#begin('~/.config/nvim/plugins/')
 
     Plug 'godlygeek/tabular'
     Plug 'ryanoasis/vim-devicons'
+    Plug 'mhinz/neovim-remote'
+    Plug 'sirver/ultisnips'
  call plug#end()
 
 
@@ -182,9 +186,11 @@ set noshowmode
 " 	All	first and last line are visible
 " 	45%	relative position in the file
 set noruler
-set noshowcmd
-set cmdheight=1
-set shortmess=aI
+" set noshowcmd
+set cmdheight=2
+" See :help shortmess for the meaning
+" of the letters below.
+set shortmess=aIc
 set scrolloff=0
 set visualbell
 set history=1000
@@ -200,7 +206,9 @@ set directory=~/.config/nvim/tmp,.
 " Open new split panes to right and bottom, which feels more natural
 set splitright
 set splitbelow
-
+" If in this many milliseconds, nothing is typed,
+" the swap file will be written to disk
+set updatetime=300
 " Settings for autocompletion menu
 " See :help completeopt
 set completeopt=menuone,preview,noinsert
@@ -254,7 +262,7 @@ nmap <leader>en :lnext<CR>
 nmap <leader>ep :lprevious<CR>
 nmap <leader>tb :TagbarToggle<CR>
 noremap <silent> <leader>f :FixWhitespace<CR>
-nmap <silent> <F2> :set spell!<CR>
+nmap <silent> <F3> :set spell!<CR>
 noremap <silent> <leader>m :ShowMarksOnce<CR>
 nnoremap <leader>cpp :-1read $HOME/Templates/C++/C++_Template.cpp<CR>Gdd3k
 nnoremap <leader>html :-1read $HOME/Templates/HTML/HTML_Template.html<CR>Gdd2k
@@ -276,6 +284,8 @@ inoremap jk <Esc>
     vnoremap    v   <C-V>
     vnoremap <C-V>     v
 
+" ==============================
+
 " PLUGINS
 " ==============================
 " colorscheme-switcher
@@ -285,7 +295,7 @@ nmap <F7> :PrevColorScheme<CR>
 
 " Vimwiki
 
-let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
+let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown', '.mkd': "markdown"}
 "==============================
 
 "NERDTree
@@ -421,34 +431,12 @@ nnoremap <silent> <leader>h :call LanguageClient#textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 " ==============================
-
-" Reload init.vim
-autocmd bufwritepost ~/.config/nvim/init.vim source $MYVIMRC
-" nnoremap <Leader>hl :set cursorline! cursorcolumn!<CR>
-" nnoremap <Leader>hl :set cursorline!<CR>
-" ==============================
-
-".tex
-let g:tex_flavor='latex'
-" ==============================
-
-" Compiling and/or running
-autocmd Filetype rmd command! Compile :silent exec"!echo<space>\"require('rmarkdown');<space>render('%','pdf_document')\"<space>|<space>R<space>--vanilla > /tmp/rmarkdown.output && ~/scripts/Launch_MuPDF.sh %:r.pdf &"
-autocmd Filetype c command! Compile !gcc "%" -o %:r
-autocmd Filetype cpp command! Compile !g++ "%" -o %:r
-autocmd Filetype tex command! Pdf !zathura "%" %:r.pdf
-autocmd Filetype kotlin comman! Compile !kotlinc -include-runtime "%" -d %:r.jar
-
-nnoremap <leader>C :Compile<CR>
-" ==============================
-
-" IndentLine
-" let g:indentLine_char= '┊'
-" ==============================
-
 " Vimtex
-let g:vimtex_view_general_viewer = 'zathura'
-let g:vimtex_view_automatic = 1
+let g:tex_flavor='latex'
+let g:vimtex_view_method='zathura'
+let g:vimtex_quickfix_mode=0
+set conceallevel=1
+let g:tex_conceal='abdmg'
 " ==============================
 
 " Startify Section
@@ -479,9 +467,138 @@ function! StartifyEntryFormat()
 endfunction
 " ==============================
 
-" mucomplete
-" let g:mucomplete#enable_auto_at_startup = 1
-" let g:mucomplete#completion_delay = 1
+" Coc
+" ==============================
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Or use `complete_info` if your vim support it, like:
+" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+" Remap keys for gotos
+nmap <silent> gtd <Plug>(coc-definition)
+nmap <silent> gty <Plug>(coc-type-definition)
+nmap <silent> gti <Plug>(coc-implementation)
+nmap <silent> gtr <Plug>(coc-references)
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for format selected region
+xmap <leader>fmt  <Plug>(coc-format-selected)
+nmap <leader>fmt  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap for do codeAction of current line
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Create mappings for function text object, requires document symbols feature of languageserver.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+nmap <silent> <C-d> <Plug>(coc-range-select)
+xmap <silent> <C-d> <Plug>(coc-range-select)
+
+" Use `:Format` to format current buffer
+command! -nargs=0 Format :call CocAction('format')
+
+" Use `:Fold` to fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" use `:OR` for organize import of current buffer
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add status line support, for integration with other plugin, checkout `:h coc-status`
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Using CocList
+" Show all diagnostics
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+" ==============================
+
+" ultisnips
+let g:UltiSnipsExpandTrigger = '<tab>'
+let g:UltiSnipsJumpForwardTrigger = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+" ==============================
+" Reload init.vim
+autocmd bufwritepost ~/.config/nvim/init.vim source $MYVIMRC
+" nnoremap <Leader>hl :set cursorline! cursorcolumn!<CR>
+" nnoremap <Leader>hl :set cursorline!<CR>
+" ==============================
+
+" Compiling and/or running
+autocmd Filetype rmd command! Compile :silent exec"!echo<space>\"require('rmarkdown');<space>render('%','pdf_document')\"<space>|<space>R<space>--vanilla > /tmp/rmarkdown.output && ~/scripts/Launch_MuPDF.sh %:r.pdf &"
+autocmd Filetype c command! Compile !gcc "%" -o %:r
+autocmd Filetype cpp command! Compile !g++ "%" -o %:r
+autocmd Filetype tex command! Pdf !zathura "%" %:r.pdf
+autocmd Filetype kotlin comman! Compile !kotlinc -include-runtime "%" -d %:r.jar
+
+nnoremap <leader>C :Compile<CR>
+" ==============================
+
+" IndentLine
+" let g:indentLine_char= '┊'
 " ==============================
 
 " Make Sure that Vim returns to the same line when we reopen a file"
@@ -496,11 +613,7 @@ augroup END
 " Spell checking
 autocmd FileType tex,gitcommit,text,markdown setlocal spell
 
-" Disable conceal in Latex files ("Hiding tag"):
-let g:tex_conceal = ''
-
 " Commands
-
 " ==============================
 
 " Force Saving Files that Require Root Permission

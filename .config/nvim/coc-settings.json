@@ -1,0 +1,21 @@
+{
+  "diagnostic.warningSign": " ",
+  "diagnostic.errorSign": " ",
+  "list.indicator": " ",
+  "list.selectedSignText": " ",
+  "languageserver":
+  {
+      "python": {
+          "command": "pyls",
+          "filetypes": ["py"]
+      },
+      "c": {
+          "command": "/usr/bin/cquery",
+          "args": ["--log-file=/tmp/cquery.log"],
+          "initializationOptions": {
+                  "cacheDirectory": "/tmp/cquery"
+                  },
+          "filetypes": ["c", "cpp"]
+      }
+  }
+}

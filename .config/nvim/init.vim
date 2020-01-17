@@ -73,6 +73,7 @@ call plug#begin('~/.config/nvim/plugins/')
     Plug 'ryanoasis/vim-devicons'
     Plug 'mhinz/neovim-remote'
     Plug 'sirver/ultisnips'
+    Plug 'KeitaNakamura/tex-conceal.vim'
  call plug#end()
 
 
@@ -344,7 +345,7 @@ let g:airline#extensions#whitespace#enabled = 0
 
 " Make CTRL-K list diagraphs before each digraph entry
 
-    inoremap <expr> <C-k> ShowDigraphs()
+    inoremap <expr> <d-k> ShowDigraphs()
 
     function! ShowDigraphs ()
         digraphs
@@ -435,8 +436,6 @@ nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 let g:tex_flavor='latex'
 let g:vimtex_view_method='zathura'
 let g:vimtex_quickfix_mode=0
-set conceallevel=1
-let g:tex_conceal='abdmg'
 " ==============================
 
 " Startify Section
@@ -577,9 +576,14 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 " ==============================
 
 " ultisnips
-let g:UltiSnipsExpandTrigger = '<tab>'
-let g:UltiSnipsJumpForwardTrigger = '<tab>'
-let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+let g:UltiSnipsExpandTrigger = '<d-space>'
+let g:UltiSnipsJumpForwardTrigger = '<c-j>'
+let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
+" ==============================
+
+" tex-conceal
+set conceallevel=1
+let g:tex_conceal='abdmg'
 " ==============================
 " Reload init.vim
 autocmd bufwritepost ~/.config/nvim/init.vim source $MYVIMRC

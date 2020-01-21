@@ -20,12 +20,12 @@ zle -N down-line-or-beginning-search
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-#ZSH_THEME="gnzh"
-#ZSH_THEME="jonathan"
-#ZSH_THEME="bira"
-#ZSH_THEME=nicoulaj
+# ZSH_THEME="gnzh"
+# ZSH_THEME="jonathan"
+# ZSH_THEME="bira"
+# ZSH_THEME=nicoulaj
 # ZSH_THEME=green_theme
-#ZSH_THEME=bira
+# ZSH_THEME=bira
 # ZSH_THEME="spaceship"
 ZSH_THEME="minimal"
 
@@ -152,7 +152,7 @@ source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-#
+
 
 LS_COLORS=$LS_COLORS:'tw=35;04':'ow=34;04'; export LS_COLORS
 
@@ -177,7 +177,7 @@ ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=yellow
 ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=cyan
 ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=cyan
 ZSH_HIGHLIGHT_STYLES[assign]=none
-export PATH=$PATH:~/bin:~/scripts:~/GB/gbdk/bin:~/.vim/bundle/plugged/vim-live-latex-preview/bin:~/.cargo/bin:~/.local/bin:/home/anthony/.gem/ruby/2.5.0/bin:/opt/android-studio/bin:/opt/idea/bin:/opt/devkitpro/bin/
+export PATH=$PATH:~/bin:~/scripts:~/GB/gbdk/bin:~/.local/bin:/home/anthony/.gem/ruby/2.5.0/bin:/opt/android-studio/bin
 # export TERM=xterm
 # export TERM=rxvt-unicode
 # export TERM=st-256color
@@ -188,19 +188,23 @@ export EDITOR=nvim
 export XDG_CONFIG_HOME=$HOME/.config/
 
 # For the 3DS homebrew development environment.
-export DEVKITPRO=/opt/devkitpro
-export DEVKITARM=/opt/devkitpro/devkitARM
-export DEVKITPPC=/opt/devkitpro/devkitPPC
+# export DEVKITPRO=/opt/devkitpro
+# export DEVKITARM=/opt/devkitpro/devkitARM
+# export DEVKITPPC=/opt/devkitpro/devkitPPC
 
 export PRINTER=EPSON_XP-410_Series
 
 # Aliases
 alias open="xdg-open"
 alias wcache="wget -m -k -K -E"
-alias gvim="gvim -u ~/.gvimrc"
 alias V="sudo nvim"
 alias v="nvim"
 alias vc="nvim ~/.config/nvim/init.vim"
+alias vz="nvim ~/.zshrc"
+
+alias sc="nvim ~/.config/sxhkd/sxhkdrc"
+alias bc="nvim ~/.config/bspwm/bspwmrc"
+
 alias gis="git status"
 alias gia="git add"
 alias gib="git branch"
@@ -208,7 +212,30 @@ alias gic="git checkout"
 alias gicm="git commit -m"
 alias gip="git push"
 alias gil="git log"
-alias vz="nvim ~/.zshrc"
+alias gid="git diff"
+alias getschool="cp -r ~/Nextcloud/Documents/School/NIU ~/Documents/School/"
+alias sendschool="cp -r ~/Documents/School/NIU ~/Nextcloud/Documents/School/"
+
+# Vim mode
+# bindkey -v
+
+# bindkey '^P' up-history
+# bindkey '^N' down-history
+# bindkey '^?' backward-delete-char
+# bindkey '^h' backward-delete-char
+# bindkey '^w' backward-kill-word
+# bindkey '^r' history-incremental-search-backward
+
+# function zle-line-init zle-keymap-select {
+#     VIM_PROMPT="%{$fg_bold[yellow]%} [% NORMAL]%  %{$reset_color%}"
+#     RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $EPS1"
+#     zle reset-prompt
+# }
+
+# zle -N zle-line-init
+# zle -N zle-keymap-select
+# export KEYTIMEOUT=1
+
 # (cat ~/.cache/wal/sequences &)
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!

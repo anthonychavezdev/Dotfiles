@@ -217,13 +217,18 @@ hi Pmenu ctermbg=black
 hi Pmenu ctermfg=white
 hi PmenuSel ctermbg=black
 hi PmenuSel ctermfg=red
+" Same colors for gui or when termguicolors is enabled
+hi Pmenu guibg=black
+hi Pmenu guifg=white
+hi PmenuSel guibg=black
+hi PmenuSel guifg=red
 
 " Correct RGB escape codes for vim inside tmux
-" set termguicolors
-" if !has('nvim') && $TERM ==# 'screen-256color'
-"     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-"     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-" endif
+set termguicolors
+if !has('nvim') && $TERM ==# 'screen-256color'
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
 
 " Set vim to save the file on focus out.
 au FocusLost * :wa

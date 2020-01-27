@@ -89,12 +89,22 @@ syntax on
 " Plugin 'equalsraf/neovim-gui-shim'
 "==============================
 
+" Correct RGB escape codes for (neo)vim inside tmux
+if $TERM == "xterm-256color"
+    " Use 256 colors in terminal
+    set t_Co=256
+    set t_AB=^[[48;5;%dm
+    set t_AF=^[[38;5;%dm
+    set termguicolors
+else
+    set notermguicolors
+endif
+if !has('nvim') && $TERM ==# 'screen-256color'
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
 
 "==============================
- " Use 256 colors in terminal
-set t_Co=256
-set t_AB=^[[48;5;%dm
-set t_AF=^[[38;5;%dm
 " colo bluez
 " colo bocau
 " colo jellybeans
@@ -118,9 +128,10 @@ set t_AF=^[[38;5;%dm
 " colo murphy
 " colo slate
 " colo blackboard
-colo blazer
+" colo blazer
 " colo cobalt2
 " colo gardener
+colo dante
 
 " Have Vim load indentation rules, filetype detection, and plugins
 filetype plugin indent on
@@ -222,13 +233,6 @@ hi Pmenu guibg=black
 hi Pmenu guifg=white
 hi PmenuSel guibg=black
 hi PmenuSel guifg=red
-
-" Correct RGB escape codes for vim inside tmux
-set termguicolors
-if !has('nvim') && $TERM ==# 'screen-256color'
-    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-endif
 
 " Set vim to save the file on focus out.
 au FocusLost * :wa

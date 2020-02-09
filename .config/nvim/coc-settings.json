@@ -5,17 +5,26 @@
   "list.selectedSignText": " ",
   "languageserver":
   {
-      "python": {
+      "pyls": {
           "command": "pyls",
           "filetypes": ["py"]
       },
-      "c": {
+      "cquery": {
           "command": "/usr/bin/cquery",
           "args": ["--log-file=/tmp/cquery.log"],
           "initializationOptions": {
                   "cacheDirectory": "/tmp/cquery"
                   },
           "filetypes": ["c", "cpp"]
+      },
+      "rustup": {
+          "command": "/usr/bin/rustup",
+          "args": ["run", "stable", "rls"],
+          "filetypes": ["rust"]
+      },
+      "javascript-typescript-stdio": {
+          "command": "/usr/local/bin/javascript-typescript-stdio",
+          "filetypes": ["js"]
       }
   }
 }

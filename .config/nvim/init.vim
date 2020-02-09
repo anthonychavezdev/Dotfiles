@@ -50,16 +50,17 @@ call plug#begin('~/.config/nvim/plugins/')
     " Plug 'dracula/vim'
     Plug 'calviken/vim-gdscript3'
     " Plug 'protesilaos/tempus-themes-vim'
-    " Plug 'octol/vim-cpp-enhanced-highlight'
     Plug 'tpope/vim-commentary'
     " Plug 'morhetz/gruvbox'
     Plug 'tpope/vim-rails'
     Plug 'scrooloose/nerdtree'
 
-    Plug 'autozimu/LanguageClient-neovim', {
-        \ 'branch': 'next',
-        \ 'do': 'bash install.sh',
-        \ }
+    " Handled by Coc.nvim
+    " This isn't needed anymore.
+    " Plug 'autozimu/LanguageClient-neovim', {
+    "     \ 'branch': 'next',
+    "     \ 'do': 'bash install.sh',
+    "     \ }
     Plug 'junegunn/fzf'
 
     Plug 'justinmk/vim-syntax-extra'
@@ -73,7 +74,7 @@ call plug#begin('~/.config/nvim/plugins/')
     Plug 'ryanoasis/vim-devicons'
     Plug 'mhinz/neovim-remote'
     Plug 'sirver/ultisnips'
-    Plug 'KeitaNakamura/tex-conceal.vim'
+    Plug 'KeitaNakamura/tex-conceal.vim', {'for': 'tex'}
  call plug#end()
 
 
@@ -427,7 +428,7 @@ let g:tagbar_type_go = {
 set hidden
 
 let g:LanguageClient_serverCommands = {
-    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+    \ 'rust': ['/usr/bin/rustup', 'run', 'stable', 'rls'],
     \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
     \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
     \ 'python': ['/usr/bin/pyls'],
@@ -494,7 +495,7 @@ endfunction
 inoremap <silent><expr> <c-space> coc#refresh()
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Or use `complete_info` if your vim support it, like:
 " inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 " Use `[g` and `]g` to navigate diagnostics
@@ -591,8 +592,8 @@ let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
 " ==============================
 
 " tex-conceal
-set conceallevel=1
-let g:tex_conceal='abdmg'
+" Config in ~/.config/nvim/after/ftplugin/tex.vim
+"
 " ==============================
 " Reload init.vim
 autocmd bufwritepost ~/.config/nvim/init.vim source $MYVIMRC

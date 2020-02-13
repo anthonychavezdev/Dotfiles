@@ -1,5 +1,3 @@
-mkdir test02
-1
 mv Chapter 5 Romans
 open_with libre
 open_with libreoffice
@@ -47,4 +45,6 @@ touch chapter-6b.tex
 find NIU
 rename 2019-2020-Waiver.pdf
 find NIl
+rename NIU_SF_BILLS_2020_12_06.pdf
+rename NIU_SF_BILLS_2019_12_06.pdf
 delete

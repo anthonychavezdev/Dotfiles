@@ -157,7 +157,7 @@ font-3 = "FontAwesome:size=14;2"
 ; modules-left = my-text-label i3
 ; modules-right = seraphybr-volume xbacklight bbswitch_show seraphybr-memory seraphybr-cpu seraphybr-temperature bluetooth wireless-network calendar clock seraphybr-battery
 ; modules-left = my-text-label i3
-modules-right =  seraphybr-memory seraphybr-cpu seraphybr-volume bluetooth seraphybr-battery
+modules-right =  seraphybr-memory seraphybr-cpu seraphybr-volume bluetooth
 modules-center = seraphybr-temperature calendar clock
 modules-left = bspwm
 
@@ -255,11 +255,11 @@ label-unmounted-foreground = ${colors.foreground}
 type = internal/bspwm
 ws-icon-default = x
 
-label-active = %index%
+label-focused = %index%
 #label-active-background = ${colors.gray}
-label-active-background = ${colors.background}
-label-active-underline= #cc333333
-label-active-padding = 1
+label-focused-background = ${colors.background}
+label-focused-underline= #cc333333
+label-focused-padding = 1
 
 label-occupied = %index%
 label-occupied-padding = 1
@@ -415,7 +415,7 @@ label = %percentage_used%%
 
 [module/wlan]
 type = internal/network
-interface = wlp1s0
+interface = wlan0
 interval = 3.0
 
 format-connected-padding = 1

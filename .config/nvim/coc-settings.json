@@ -15,7 +15,7 @@
           "initializationOptions": {
                   "cacheDirectory": "/tmp/cquery"
                   },
-          "filetypes": ["c", "cpp"]
+          "filetypes": ["c", "cpp", "cc"]
       },
       "rustup": {
           "command": "/usr/bin/rustup",
@@ -24,7 +24,7 @@
       },
       "javascript-typescript-stdio": {
           "command": "/usr/local/bin/javascript-typescript-stdio",
-          "filetypes": ["js"]
+          "filetypes": ["js", "ts"]
       }
   }
 }

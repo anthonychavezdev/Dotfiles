@@ -47,7 +47,7 @@ call plug#begin('~/.config/nvim/plugins/')
     Plug 'gregsexton/MatchTag'
 
     Plug 'udalov/kotlin-vim'
-    " Plug 'dracula/vim'
+    Plug 'dracula/vim', {'as': 'dracula'}
     Plug 'calviken/vim-gdscript3'
     " Plug 'protesilaos/tempus-themes-vim'
     Plug 'tpope/vim-commentary'
@@ -76,7 +76,6 @@ call plug#begin('~/.config/nvim/plugins/')
     Plug 'sirver/ultisnips'
     Plug 'KeitaNakamura/tex-conceal.vim', {'for': 'tex'}
  call plug#end()
-
 
 "Misc settigns
 filetype plugin indent on
@@ -586,6 +585,8 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 " ==============================
 
 " ultisnips
+" d-space is the super key and space
+" if I'm remembering correctly.
 let g:UltiSnipsExpandTrigger = '<d-space>'
 let g:UltiSnipsJumpForwardTrigger = '<c-j>'
 let g:UltiSnipsJumpBackwardTrigger = '<c-k>'

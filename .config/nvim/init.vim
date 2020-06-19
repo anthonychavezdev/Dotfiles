@@ -17,8 +17,7 @@ endif
 
 " Plugins
 call plug#begin('~/.config/nvim/plugins/')
-    " Plug 'maxbrunsfeld/vim-yankstack'
-
+    " Coc is an intellisense engine for Vim/Neovim.
     " Use release branch
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -26,43 +25,69 @@ call plug#begin('~/.config/nvim/plugins/')
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
 
+    " Used to quickly switch colorschemes
     Plug 'xolox/vim-colorscheme-switcher'
+    " Used by colorscheme-switcher
     Plug 'xolox/vim-misc'
 
+    " This plugin causes trailing whitespace to be highlighted in red.
+    " To fix the whitespace errors, call :FixWhitespace
     Plug 'bronson/vim-trailing-whitespace'
+    " Surround.vim is all about "surroundings": parentheses, brackets,
+    " quotes, XML tags, and more. The plugin provides mappings to easily
+    " delete, change and add such surroundings in pairs.
     Plug 'tpope/vim-surround'
+
+    " VimWiki is a personal wiki for Vim -- a number of linked text files
+    " that have their own syntax highlighting
+    "
+    " With VimWiki you can:
+
+    " Organize notes and ideas
+    " Manage to-do lists
+    " Write documentation
+    " Maintain a diary
+    " Export everything to HTML
     Plug 'vimwiki/vimwiki'
+
     Plug 'file:///home/anthony/Instantly_Better_Vim_2013/plugin/dragvisuals'
+
+    " Distraction-free writing in Vim.
     Plug 'junegunn/goyo.vim'
+
+    " Insert or delete brackets, parens, quotes in pair.
     Plug 'jiangmiao/auto-pairs'
+
     " Plug 'tomtom/tlib_vim'
     " Plug 'MarcWeber/vim-addon-mw-utils'
+
     Plug 'pangloss/vim-javascript'
+
     " Plug 'ervandew/supertab'
-    " Plug 'vim-syntastic/syntastic'
     Plug 'rust-lang/rust.vim'
+
+    " ShowMarks provides a visual representation of the location marks
     Plug 'jacquesbh/vim-showmarks'
+
+    " Tagbar is a Vim plugin that provides an easy way to browse the tags of the current file and get an overview of its structure
     Plug 'majutsushi/tagbar'
+
     " Matches HTML tags
     Plug 'gregsexton/MatchTag'
-
     Plug 'udalov/kotlin-vim'
     Plug 'dracula/vim', {'as': 'dracula'}
     Plug 'calviken/vim-gdscript3'
+
     " Plug 'protesilaos/tempus-themes-vim'
+
+    " Easily comment stuff out, or uncomment
+    " them out.
     Plug 'tpope/vim-commentary'
+
     " Plug 'morhetz/gruvbox'
     Plug 'tpope/vim-rails'
     Plug 'scrooloose/nerdtree'
-
-    " Handled by Coc.nvim
-    " This isn't needed anymore.
-    " Plug 'autozimu/LanguageClient-neovim', {
-    "     \ 'branch': 'next',
-    "     \ 'do': 'bash install.sh',
-    "     \ }
-    Plug 'junegunn/fzf'
-
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'justinmk/vim-syntax-extra'
     Plug 'mhinz/vim-startify'
     " Plug 'Yggdroot/indentline'
@@ -70,8 +95,12 @@ call plug#begin('~/.config/nvim/plugins/')
     Plug 'lervag/vimtex'
     Plug 'aclements/latexrun'
 
+    " Helps with ligning up text
     Plug 'godlygeek/tabular'
+
+    " Adds icons to files
     Plug 'ryanoasis/vim-devicons'
+
     Plug 'mhinz/neovim-remote'
     Plug 'sirver/ultisnips'
     Plug 'KeitaNakamura/tex-conceal.vim', {'for': 'tex'}
@@ -271,6 +300,8 @@ nnoremap <leader>tj :tjump<CR>
 nmap <leader>en :lnext<CR>
 nmap <leader>ep :lprevious<CR>
 nmap <leader>tb :TagbarToggle<CR>
+
+" Misc
 noremap <silent> <leader>f :FixWhitespace<CR>
 nmap <silent> <F3> :set spell!<CR>
 noremap <silent> <leader>m :ShowMarksOnce<CR>
@@ -279,6 +310,7 @@ nnoremap <leader>html :-1read $HOME/Templates/HTML/HTML_Template.html<CR>Gdd2k
 nnoremap <leader>c :-1read $HOME/Templates/C/C_Template.c<CR>Gdd3k
 nnoremap <leader>tex :-1read $HOME/Templates/LaTex/LaTex_Template.tex<CR>Gdd3kdd
 nnoremap <leader>mla :-1read $HOME/Templates/LaTex/LaTex_Template_MLA.tex<CR>75j
+
 " Rempas the ctrl-w key to <leader> w
 nnoremap <leader>w <C-w>
 nnoremap <leader>s :w<CR>
@@ -421,26 +453,6 @@ let g:tagbar_type_go = {
 \ }
 " ==============================
 
-" LanguageClient
-
-" Required for operations modifying multiple buffers like rename.
-set hidden
-
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['/usr/bin/rustup', 'run', 'stable', 'rls'],
-    \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
-    \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-    \ 'python': ['/usr/bin/pyls'],
-    \ 'c': ['/usr/bin/cquery',
-    \ '--log-file=/tmp/cquery.log',
-    \'--init={"cacheDirectory":"/tmp/cquery/"}'],
-    \ }
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-" Or map each action separately
-nnoremap <silent> <leader>h :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-" ==============================
 " Vimtex
 let g:tex_flavor='latex'
 let g:vimtex_view_method='zathura'
@@ -591,6 +603,54 @@ let g:UltiSnipsExpandTrigger = '<d-space>'
 let g:UltiSnipsJumpForwardTrigger = '<c-j>'
 let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
 " ==============================
+" fzf
+" An action can be a reference to a function that processes selected lines
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
+
+" Except for ctrl-q, this is the default extra key bindings
+let g:fzf_action = {
+  \ 'ctrl-q': function('s:build_quickfix_list'),
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+" Default fzf layout
+" - down / up / left / right
+let g:fzf_layout = { 'down': '~40%' }
+
+" You can set up fzf window using a Vim command (Neovim or latest Vim 8 required)
+let g:fzf_layout = { 'window': 'enew' }
+let g:fzf_layout = { 'window': '-tabnew' }
+let g:fzf_layout = { 'window': '10new' }
+
+" Customize fzf colors to match your color scheme
+" - fzf#wrap translates this to a set of `--color` options
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+" Enable per-command history
+" - History files will be stored in the specified directory
+" - When set, CTRL-N and CTRL-P will be bound to 'next-history' and
+"   'previous-history' instead of 'down' and 'up'.
+let g:fzf_history_dir = '~/.local/share/fzf-history'
+
+" ==============================
 
 " tex-conceal
 " Config in ~/.config/nvim/after/ftplugin/tex.vim
@@ -601,6 +661,11 @@ autocmd bufwritepost ~/.config/nvim/init.vim source $MYVIMRC
 " nnoremap <Leader>hl :set cursorline! cursorcolumn!<CR>
 " nnoremap <Leader>hl :set cursorline!<CR>
 " ==============================
+
+" ==============================
+
+" ==============================
+" Misc
 
 " Compiling and/or running
 autocmd Filetype rmd command! Compile :silent exec"!echo<space>\"require('rmarkdown');<space>render('%','pdf_document')\"<space>|<space>R<space>--vanilla > /tmp/rmarkdown.output && ~/scripts/Launch_MuPDF.sh %:r.pdf &"
@@ -640,3 +705,4 @@ autocmd FileType tex,gitcommit,text,markdown setlocal spell
 " Saves folding in the current open file when exiting or switching windows.
 " autocmd BufWinLeave *.* mkview
 " autocmd BufWinEnter *.* silent loadview
+" ===============================

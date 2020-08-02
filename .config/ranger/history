@@ -1,42 +1,3 @@
-mv Chapter 5 Romans
-open_with libre
-open_with libreoffice
-mkdir test03
-touch notecard.tex
-shell a
-rename fafsa-2019-2020.pdf
-mkdir practice
-touch test01.java
-search video
-search videos
-mkdir Bio
-mkdir CIS-250
-pwd
-find Nex
-rename Intro to US Gov
-mkdir assignments
-mkdir 2019-02-16
-touch assignment-3.cpp
-
-mv Bank
-rename presentation
-rename Presentation.tex
-open_with j
-mkdir Activity 1
-touch assignment.tex
-mkdir assignment-8
-chapter-4a.tex
-touch chapter-4a.tex
-rename chapter-5a.tex
-open_with okular
-shell jjjjj
-mkdir assignment-9
-touch chapter-5b.tex
-find Gl
-shell gs
-mkdir 2.1
-touch 2.1.tex
-shell 
 touch summary.tex
 rename MBTI & Strong summary.docx
 touch chapter-6a.tex
@@ -47,4 +8,43 @@ rename 2019-2020-Waiver.pdf
 find NIl
 rename NIU_SF_BILLS_2020_12_06.pdf
 rename NIU_SF_BILLS_2019_12_06.pdf
+find Dow
+rename Three Twenty one 2 Sp 20.docx
+open_with libreoffice
+mkdir essay2
+touch essay2.tex
+mkdir 6 - Binary Search Tree Class
+rename Assignment6.pdf
+touch quiz.tex
+rename quiz.tex.math
+rename quiz.tex
+shell hgsh
+mkdir assignment6
+rename Assignment6
+shell 
+mkdir Group-Project
+rename Gemini.Man.2019.1080p.WEB-DL.DD5.1.H264-CMRqG[EtHD]
+rename  ER Diagram
+open_with nvim
+mkdir essay4
+touch essay.tex
+find Nel
+find Nex
+rename Chilling Adventures of Sabrina S01
+rename Chilling Adventures of Sabrina
+rename Aqua Teen Hunger Force (2000) Season 1-11 
+rename Aqua Teen Hunger Force
+mkdir Season 01
+mkdir Season 02
+mkdir Season 03
+rename The Fresh Prince of Bel-Air
+rename Robert The Bruce
+rename Samurai Jack
+rename Shock Treatment (1981) - [1080p BluRay x265 h3llg0d].mkv
+rename The Perfection
+
+rename The Perfection (2018) - [1080p NF.WEB-DL.DD5.1.H264-CMRG].mkv
+rename The Perfection (2018) - [1080p NF.WEB-DL.DD5.1.H264-CMRG].nfo
 delete
+rename To Wong Foo Thanks For Everything, Julie Newmar (1995) - [1080p BluRay.x264.AAC-YTS.MX].mp4
+rename To Wong Foo Thanks For Everything, Julie Newmar (1995) - [1080p BluRay.x264.AAC-YTS.MX].srt

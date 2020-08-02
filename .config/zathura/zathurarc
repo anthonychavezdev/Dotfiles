@@ -34,7 +34,7 @@ set recolor-darkcolor           "#ffffff"
 set default-bg                  "#1d2021"
 set default-fg                  "#3c3836"
 
-set adjust-open "width"
+set adjust-open "best-fit"
 set recolor-reverse-video true
 set zoom-max 25
 set zoom-min 5

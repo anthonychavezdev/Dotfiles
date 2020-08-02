@@ -104,6 +104,10 @@ call plug#begin('~/.config/nvim/plugins/')
     Plug 'mhinz/neovim-remote'
     Plug 'sirver/ultisnips'
     Plug 'KeitaNakamura/tex-conceal.vim', {'for': 'tex'}
+
+    " Floating terminal window
+    Plug 'voldikss/vim-floaterm'
+
  call plug#end()
 
 "Misc settigns

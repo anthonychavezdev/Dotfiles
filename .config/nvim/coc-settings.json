@@ -9,14 +9,6 @@
           "command": "pyls",
           "filetypes": ["py"]
       },
-      "cquery": {
-          "command": "/usr/bin/cquery",
-          "args": ["--log-file=/tmp/cquery.log"],
-          "initializationOptions": {
-                  "cacheDirectory": "/tmp/cquery"
-                  },
-          "filetypes": ["c", "cpp", "cc"]
-      },
       "rustup": {
           "command": "/usr/bin/rustup",
           "args": ["run", "stable", "rls"],

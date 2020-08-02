@@ -118,7 +118,7 @@ autoload -U colors && colors
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zshrc zsh-syntax-highlighting)
+plugins=(git zshrc zsh-syntax-highlighting fzf)
 
 source $ZSH/oh-my-zsh.sh
 # source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -177,12 +177,11 @@ ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=yellow
 ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=cyan
 ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=cyan
 ZSH_HIGHLIGHT_STYLES[assign]=none
-export PATH=$PATH:~/bin:~/scripts:~/GB/gbdk/bin:~/.local/bin:/home/anthony/.gem/ruby/2.5.0/bin:/opt/android-studio/bin
+export PATH=$PATH:~/bin:~/scripts:~/GB/gbdk/bin:~/.local/bin:/home/anthony/.gem/ruby/2.7.0/bin:/opt/android-studio/bin:~/pico-8/
 # export TERM=xterm
 # export TERM=rxvt-unicode
 # export TERM=st-256color
 # export TERM=st-256color
-export EDITOR=nvim
 #./git/wal/wal -r
 
 export XDG_CONFIG_HOME=$HOME/.config/
@@ -215,6 +214,7 @@ alias gil="git log"
 alias gid="git diff"
 alias getschool="cp -r ~/Nextcloud/Documents/School/NIU ~/Documents/School/"
 alias sendschool="cp -r ~/Documents/School/NIU ~/Nextcloud/Documents/School/"
+alias tmux="tmux -f $HOME/.config/tmux/tmux.conf"
 
 # Vim mode
 # bindkey -v

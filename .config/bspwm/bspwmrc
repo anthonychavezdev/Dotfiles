@@ -26,13 +26,16 @@ bspc rule -a Firefox desktop='^2'
 bspc rule -a mplayer2 state=floating
 bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
-bspc rule -a blueberry state=floating
+bspc rule -a blueberry.py state=floating
+bspc rule -a Emacs state=tiled
+bspc rule -a radeon-profile state=floating
+bspc rule -a Terminator state=floating
 
 # Setting the wallpaper
 feh --bg-scale ~/.config/wall.png &
 
 # Lovely transitions and transparency with compton
-compton --config ~/.config/compton/compton.conf -f &
+picom --config ~/.config/picom/picom.conf -f &
 
 # Polybar
 ~/scripts/Launch_Polybar.sh &
@@ -40,7 +43,7 @@ compton --config ~/.config/compton/compton.conf -f &
 # Start Dunst
 ~/scripts/Launch_Dunst.sh &
 
-redshift -c /home/anthony/.config/redshift.conf &
+# redshift -c /home/anthony/.config/redshift.conf &
 
 kdeconnect-indicator &
 
@@ -48,4 +51,6 @@ nextcloud &
 
 nm-applet &
 
-sxhkd -c ~/.config/sxhkd/sxhkdrc &
+radeon-profile &
+
+sxhkd -c ~/.config/sxhkd/sxhkdrc 2>> /home/anthony/s.log &

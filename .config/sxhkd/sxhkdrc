@@ -37,7 +37,7 @@ alt + shift + e
 # alt + ctrl + {_,shift + }q
 # 	bspc node -{c,k}
 
-# close and kill
+# close and kill bspwm
 alt + shift q
 	bspc node -{c}
 

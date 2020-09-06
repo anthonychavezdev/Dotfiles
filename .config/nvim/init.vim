@@ -7,10 +7,22 @@
 
 
 
+" See :help runtimepath and :help packpath
+" for more information on these variables
 set runtimepath+=~/.config/nvim,~/.config/nvim/after
 set packpath+=~/.config/nvim
+
+" Mappings for :terminal
+
+" I don't remember why I mapped
+" <Esc> like that
 :tnoremap <Esc> <C-\><C-n>
 :tnoremap jk <C-\><C-n>
+
+" If the compatible setting is set,
+" change it to nocampatible.
+" This is used for legacy systems,
+" and aren't needed for modern machines.
 if &compatible
  set nocompatible
 endif
@@ -22,18 +34,20 @@ call plug#begin('~/.config/nvim/plugins/')
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
     " Plug 'lifepillar/vim-mucomplete'
+
+    " This is that bar at the bottom
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
 
     " Used to quickly switch colorschemes
     Plug 'xolox/vim-colorscheme-switcher'
-    " Used by colorscheme-switcher
+    " Used by vim-colorscheme-switcher
     Plug 'xolox/vim-misc'
 
     " This plugin causes trailing whitespace to be highlighted in red.
-    " To fix the whitespace errors, call :FixWhitespace
+    " To delete the trailing whitespace, call :FixWhitespace
     Plug 'bronson/vim-trailing-whitespace'
-    " Surround.vim is all about "surroundings": parentheses, brackets,
+    " Surround.vim is all about \"surroundings\": parentheses, brackets,
     " quotes, XML tags, and more. The plugin provides mappings to easily
     " delete, change and add such surroundings in pairs.
     Plug 'tpope/vim-surround'
@@ -50,6 +64,9 @@ call plug#begin('~/.config/nvim/plugins/')
     " Export everything to HTML
     Plug 'vimwiki/vimwiki'
 
+    " This plugin makes it possible to select
+    " things in visual mode (Shifft+v, Ctrl+v, etc)
+    " and move the selected item(s) around
     Plug 'file:///home/anthony/Instantly_Better_Vim_2013/plugin/dragvisuals'
 
     " Distraction-free writing in Vim.
@@ -67,15 +84,24 @@ call plug#begin('~/.config/nvim/plugins/')
     Plug 'rust-lang/rust.vim'
 
     " ShowMarks provides a visual representation of the location marks
+    " See :help marks
+    " or, https://vim.fandom.com/wiki/Using_marks
     Plug 'jacquesbh/vim-showmarks'
 
-    " Tagbar is a Vim plugin that provides an easy way to browse the tags of the current file and get an overview of its structure
+    " Tagbar is a Vim plugin that provides an easy way to browse the tags
+    " of the current file and get an overview of its structure
+    " bringing up tagbar shows you variables, and function names
+    " on a side panel, and allows you to quickly jump to them
     Plug 'majutsushi/tagbar'
 
     " Matches HTML tags
     Plug 'gregsexton/MatchTag'
+
     Plug 'udalov/kotlin-vim'
     Plug 'dracula/vim', {'as': 'dracula'}
+    " Adds syntax highlighting for gdscript3,
+    " a programing language used by the
+    " Godot game engine
     Plug 'calviken/vim-gdscript3'
 
     " Plug 'protesilaos/tempus-themes-vim'
@@ -85,24 +111,41 @@ call plug#begin('~/.config/nvim/plugins/')
     Plug 'tpope/vim-commentary'
 
     " Plug 'morhetz/gruvbox'
+
     Plug 'tpope/vim-rails'
+    " Provides a file viewer on the left
+    " side of the screen, like you'd get with
+    " modern text editors
     Plug 'scrooloose/nerdtree'
+    " Fuzzy finder, for quickly searching for files
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'junegunn/fzf.vim'
+
+    " Extra syntax highlighting.
+    " I don't remember what languages this was for.
     Plug 'justinmk/vim-syntax-extra'
+
+    " The little starting page you get when you just run
+    " (Neo)vim without any arguments
     Plug 'mhinz/vim-startify'
     " Plug 'Yggdroot/indentline'
+
     Plug 'iamcco/markdown-preview.vim'
+
+    " LaTeX plugin
     Plug 'lervag/vimtex'
     Plug 'aclements/latexrun'
 
     " Helps with ligning up text
     Plug 'godlygeek/tabular'
 
-    " Adds icons to files
+    " Adds icons to files/filetypes
     Plug 'ryanoasis/vim-devicons'
 
     Plug 'mhinz/neovim-remote'
+
     Plug 'sirver/ultisnips'
+
     Plug 'KeitaNakamura/tex-conceal.vim', {'for': 'tex'}
 
     " Floating terminal window
@@ -122,7 +165,7 @@ syntax on
 " Plugin 'equalsraf/neovim-gui-shim'
 "==============================
 
-" Correct RGB escape codes for (neo)vim inside tmux
+" Correct RGB escape codes for (Neo)vim inside tmux
 if $TERM == "xterm-256color"
     " Use 256 colors in terminal
     set t_Co=256
@@ -138,6 +181,8 @@ if !has('nvim') && $TERM ==# 'screen-256color'
 endif
 
 "==============================
+" Colorschemes
+
 " colo bluez
 " colo bocau
 " colo jellybeans
@@ -165,6 +210,7 @@ endif
 " colo cobalt2
 " colo gardener
 colo dante
+"==============================
 
 " Have Vim load indentation rules, filetype detection, and plugins
 filetype plugin indent on
@@ -583,21 +629,21 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Using CocList
 " Show all diagnostics
-nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+nnoremap <silent> <leader>A  :<C-u>CocList diagnostics<cr>
 " Manage extensions
-nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+nnoremap <silent> <leader>E  :<C-u>CocList extensions<cr>
 " Show commands
-nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+nnoremap <silent> <leader>C  :<C-u>CocList commands<cr>
 " Find symbol of current document
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+nnoremap <silent> <leader>O  :<C-u>CocList outline<cr>
 " Search workspace symbols
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+nnoremap <silent> <leader>S  :<C-u>CocList -I symbols<cr>
 " Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+nnoremap <silent> <leader>J  :<C-u>CocNext<CR>
 " Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+nnoremap <silent> <leader>K  :<C-u>CocPrev<CR>
 " Resume latest coc list
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+nnoremap <silent> <leader>P  :<C-u>CocListResume<CR>
 " ==============================
 
 " ultisnips

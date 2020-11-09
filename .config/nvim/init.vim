@@ -743,6 +743,10 @@ augroup END
 " Spell checking
 autocmd FileType tex,gitcommit,text,markdown setlocal spell
 
+augroup hlasmdetect
+    au! BufRead,BufNewFile *.jcl set filetype=hlasm
+augroup END
+
 " Commands
 " ==============================
 

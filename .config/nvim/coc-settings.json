@@ -14,9 +14,11 @@
           "args": ["run", "stable", "rls"],
           "filetypes": ["rust"]
       },
-      "javascript-typescript-stdio": {
-          "command": "/usr/local/bin/javascript-typescript-stdio",
-          "filetypes": ["js", "ts"]
+      "bash": {
+          "command": "bash-language-server",
+          "args": ["start"],
+          "filetypes": ["sh"],
+          "ignoredRootPaths": ["~"]
       }
   }
 }

@@ -10,12 +10,12 @@ export QT_QPA_PLATFORMTHEME=gtk2
 export _JAVA_AWT_WM_NONREPARENTING=1
 
 # Sets cursor size
-xsetroot -xcf /usr/share/icons/Adwaita/cursors/left_ptr 64 &
+xsetroot -xcf /usr/share/icons/Adwaita/cursors/left_ptr 48 &
 start-pulseaudio-x11
 
-if [ "$TERM" == "xterm" ]; then
+if [ "$TERM"=="xterm" ]; then
     # No it isn't, it's gnome-terminal
-    export TERM=xterm-256color
+    export TERM=screen-256color
 fi
 
 export TERMEMU="terminator"
@@ -47,3 +47,39 @@ export SDL_GAMECONTROLLERCONFIG="050000007e0500000920000001800000,Nintendo Switc
 # Pulseaudio sound for SDL instead of ALSA
 
 export SDL_AUDIODRIVER="pulse"
+
+# Use ** as the trigger sequence
+export FZF_COMPLETION_TRIGGER='**'
+
+# Options to fzf command
+export FZF_COMPLETION_OPTS="+c -x"
+
+# Use fd (https://github.com/sharkdp/fd) instead of the default find
+# command for listing path candidates.
+# - The first argument to the function ($1) is the base path to start traversal
+# - See the source code (completion.{bash,zsh}) for the details.
+_fzf_compgen_path() {
+  fd --hidden --follow --exclude ".git" . "$1"
+}
+
+# Use fd to generate the list for directory completion
+_fzf_compgen_dir() {
+  fd --type d --hidden --follow --exclude ".git" . "$1"
+}
+
+# (EXPERIMENTAL) Advanced customization of fzf options via _fzf_comprun function
+# - The first argument to the function is the name of the command.
+# - You should make sure to pass the rest of the arguments to fzf.
+_fzf_comprun() {
+  local command=$1
+  shift
+
+  case "$command" in
+    cd)           fzf "$@" --preview 'tree -C {} | head -200' ;;
+    export|unset) fzf "$@" --preview "eval 'echo \$'{}" ;;
+    ssh)          fzf "$@" --preview 'dig {}' ;;
+    nvim)         fzf "$@" --preview 'bat --style=numbers --color=always --line-range :500 {}' ;;
+    v)            fzf "$@" --preview 'bat --style=numbers --color=always --line-range :500 {}' ;;
+    *)            fzf "$@" ;;
+  esac
+}

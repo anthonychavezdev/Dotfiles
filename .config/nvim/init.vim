@@ -150,6 +150,8 @@ call plug#begin('~/.config/nvim/plugins/')
 
     " Floating terminal window
     Plug 'voldikss/vim-floaterm'
+    " Git blame plugin
+    Plug 'APZelos/blamer.nvim'
 
  call plug#end()
 
@@ -166,7 +168,7 @@ syntax on
 "==============================
 
 " Correct RGB escape codes for (Neo)vim inside tmux
-if $TERM == "xterm-256color"
+if $TERM == "xterm-256color" || $TERM == "screen-256color"
     " Use 256 colors in terminal
     set t_Co=256
     set t_AB=^[[48;5;%dm
@@ -210,6 +212,8 @@ endif
 " colo cobalt2
 " colo gardener
 colo dante
+" colo distinguished
+" colo colorful256
 "==============================
 
 " Have Vim load indentation rules, filetype detection, and plugins
@@ -670,12 +674,12 @@ let g:fzf_action = {
 
 " Default fzf layout
 " - down / up / left / right
-let g:fzf_layout = { 'down': '~40%' }
 
 " You can set up fzf window using a Vim command (Neovim or latest Vim 8 required)
 let g:fzf_layout = { 'window': 'enew' }
 let g:fzf_layout = { 'window': '-tabnew' }
 let g:fzf_layout = { 'window': '10new' }
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8, 'highlight': 'Comment' } }
 
 " Customize fzf colors to match your color scheme
 " - fzf#wrap translates this to a set of `--color` options
@@ -746,6 +750,7 @@ autocmd FileType tex,gitcommit,text,markdown setlocal spell
 augroup hlasmdetect
     au! BufRead,BufNewFile *.jcl set filetype=hlasm
 augroup END
+
 
 " Commands
 " ==============================

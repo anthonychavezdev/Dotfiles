@@ -28,10 +28,29 @@
 
 
 ;; Load theme
-(use-package alect-themes
+;; (use-package alect-themes
+;   :ensure t
+;;   :config
+;;   (load-theme 'alect-black t))
+(use-package doom-themes
   :ensure t
   :config
-  (load-theme 'alect-black t))
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-snazzy t)
+
+  ;; Enable flashing mode-line on errors
+  ;; (doom-themes-visual-bell-config)
+  
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  ;; (doom-themes-neotree-config)
+  ;; or for treemacs users
+  (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
+  (doom-themes-treemacs-config)
+  
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
 
 ;; Load config.org for init.el configuration
 (org-babel-load-file (expand-file-name "~/.config/emacs/config.org"))
@@ -42,7 +61,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(bug-hunter use-package treemacs-icons-dired treemacs-evil swiper smooth-scrolling projectile powerline-evil php-mode org-bullets magit lua-mode key-chord htmlize evil-surround evil-quickscope evil-org evil-leader evil-indent-textobject evil-collection elscreen diminish dashboard centaur-tabs async ample-theme all-the-icons alect-themes airline-themes)))
+   '(format-all bug-hunter use-package treemacs-icons-dired treemacs-evil swiper smooth-scrolling projectile powerline-evil php-mode org-bullets magit lua-mode key-chord htmlize evil-surround evil-quickscope evil-org evil-leader evil-indent-textobject evil-collection elscreen diminish dashboard centaur-tabs async ample-theme all-the-icons alect-themes airline-themes)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

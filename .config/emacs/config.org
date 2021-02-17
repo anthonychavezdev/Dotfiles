@@ -216,6 +216,23 @@ flexible, simple tools for minibuffer completion in Emacs
   (setq ivy-use-virtual-buffers t)
  (setq enable-recursive-minibuffers t))
 #+END_SRC
+** Initialize =ivy-postframe=
+*** Description
+ivy-posframe is a ivy extension, which let ivy use posframe to show its candidate menu.
+*** Code
+#+BEGIN_SRC emacs-lisp
+(use-package ivy-posframe
+  :ensure t
+  :config
+  ;; Different command can use different display function.
+  (setq ivy-posframe-display-functions-alist
+      '((swiper          . ivy-posframe-display-at-point)
+        (complete-symbol . ivy-posframe-display-at-point)
+        (counsel-M-x     . ivy-posframe-display-at-window-bottom-left)
+        (t               . ivy-posframe-display)))
+(ivy-posframe-mode 1)
+)
+#+END_SRC
 ** Initialize =evil=
 *** Description
 Vim keybindings in Emacs. Please note that Witchmacs has NO other evil-mode compatibility packages because I like to KISS. This might change in the future
@@ -231,17 +248,16 @@ Vim keybindings in Emacs. Please note that Witchmacs has NO other evil-mode comp
     :config
     (evil-mode 1))
 #+END_SRC
-*** Evil keybinds
+*** Evil keybinds and other settings
 #+BEGIN_SRC emacs-lisp
-;; EVIL keybinds
-;; Exit insert mode by pressing j and then k quickly
-(setq key-chord-two-keys-delay 0.5)
-(key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-(setq key-chord-two-keys-delay 0.5)
-;; :q should kill the current buffer, not quit Emacs
-(evil-ex-define-cmd "q" 'kill-this-buffer)
-;; Type quit to exit Emacs
-(evil-ex-define-cmd "quit" 'evil-quit)
+  ;; EVIL keybinds
+  ;; Exit insert mode by pressing j and then k quickly
+  (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+  
+  ;; :q should kill the current buffer, not quit Emacs
+  (evil-ex-define-cmd "q" 'kill-this-buffer)
+  ;; Type quit to exit Emacs
+  (evil-ex-define-cmd "quit" 'evil-quit)
 #+END_SRC
 ** Initialize =evil-collection=
 *** code

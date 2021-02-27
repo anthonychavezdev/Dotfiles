@@ -47,6 +47,7 @@ Emacs breaks certain modes when it has line-numbers-mode enabled, (like docview 
   (setq-default standard-indent 4)
   (setq c-basic-offset tab-width)
   (setq-default electric-indent-inhibit t)
+  ;; Use spaces instead of tabs
   (setq-default indent-tabs-mode nil)
   (setq backward-delete-char-untabify-method 'nil)
 #+END_SRC
@@ -142,6 +143,20 @@ left off in a file
 (setq save-place-file "~/config/emacs/saveplace")
 (save-place-mode 1)
 #+END_SRC
+** Changing the font
+#+Begin_SRC emacs-lisp
+  (if (member "Inconsolata"
+  (font-family-list))(add-to-list 'default-frame-alist
+  '(font . "Inconsolata-12")))
+#+END_SRC
+** Rebind C-u
+Since I'm an =EVIL= user,
+I want to be able to use C-u to scroll a buffer.
+This conflicts with Emac's C-u binding though.
+*** Code
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-M-u") 'universal-argument)
+#+END_SRC
 * Org-mode
 ** Description
 One of the main selling points of Emacs! Org Mode!
@@ -164,7 +179,7 @@ One of the main selling points of Emacs! Org Mode!
 
 (use-package org-bullets
   :ensure t
-  :hook ('org-mode-hook . (lambda () org-bullets-mode))  
+  :hook ('org-mode-hook . (lambda () org-bullets-mode))
   :config
   (require 'org-bullets))
 #+END_SRC
@@ -233,6 +248,25 @@ ivy-posframe is a ivy extension, which let ivy use posframe to show its candidat
 (ivy-posframe-mode 1)
 )
 #+END_SRC
+** Initialize =undo-tree=
+*** Description
+Emacs’s undo system allows you to recover any past state of a buffer. To do this, Emacs
+treats “undo” itself as just another editing action that can be undone. This can be
+confusing and difficult to use. If you make an edit while undoing multiple changes, you
+“break the undo chain”. To get back to where you were, you have to undo all the undos
+you just did, then undo all the changes you’d already undone before. Only then can you
+continue undoing from where you left off. If this sounds confusing, it’s because it is!
+Hence, a number of packages exist that replace it with the undo/redo system
+
+Instead of treating undo/redo as a linear sequence of changes, undo-tree-mode treats
+undo history as a branching tree of changes, similar to the way Vim handles it.
+*** Code
+#+BEGIN_SRC emacs-lisp
+(use-package undo-tree
+  :ensure t
+  :init
+  (global-undo-tree-mode 1))
+#+END_SRC
 ** Initialize =evil=
 *** Description
 Vim keybindings in Emacs. Please note that Witchmacs has NO other evil-mode compatibility packages because I like to KISS. This might change in the future
@@ -245,6 +279,7 @@ Vim keybindings in Emacs. Please note that Witchmacs has NO other evil-mode comp
     (setq evil-want-integration t) ;; This is true by default
     (setq evil-want-keybinding nil)
     (setq evil-want-C-u-scroll t)
+    (setq evil-undo-system 'undo-tree)
     :config
     (evil-mode 1))
 #+END_SRC
@@ -253,11 +288,16 @@ Vim keybindings in Emacs. Please note that Witchmacs has NO other evil-mode comp
   ;; EVIL keybinds
   ;; Exit insert mode by pressing j and then k quickly
   (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-  
+
   ;; :q should kill the current buffer, not quit Emacs
   (evil-ex-define-cmd "q" 'kill-this-buffer)
   ;; Type quit to exit Emacs
   (evil-ex-define-cmd "quit" 'evil-quit)
+
+  ;; Moves up and down without skipping wrapped lines.
+  ;; It's equivalent to gj and gk in (Neo)vim
+  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+  (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
 #+END_SRC
 ** Initialize =evil-collection=
 *** code
@@ -286,10 +326,13 @@ it means an easier start.
     (global-evil-leader-mode t)
     (evil-leader/set-leader "<SPC>")
     (evil-leader/set-key
-      "s s" 'swiper
-      "d w" 'delete-trailing-whitespace
+      "f s" 'swiper
       "f e" 'find-file
-      "b" 'ivy-switch-buffer))
+      "d w" 'delete-trailing-whitespace
+      "b s" 'ivy-switch-buffer
+      "b k" 'kill-this-buffer
+      "b n" 'evil-buffer-new
+      "w"   'evil-window-map))
 #+END_SRC
 ** Initialize =evil-surround=
 *** Code
@@ -413,7 +456,7 @@ Neat side-bar file and project explorer
             treemacs-tag-follow-delay              1.5
             treemacs-width                         30)
       (treemacs-resize-icons 11)
-    
+
       (treemacs-follow-mode t)
       (treemacs-filewatch-mode t)
       (treemacs-fringe-indicator-mode t)
@@ -627,6 +670,23 @@ A fancy and fast mode-line inspired by minimalism design.
 (setq doom-modeline-before-update-env-hook nil)
 (setq doom-modeline-after-update-env-hook nil)
 )
+#+END_SRC
+** Initialize =rainbow-mode=
+*** Code
+#+BEGIN_SRC emacs-lisp
+(use-package rainbow-mode
+  :ensure t)
+#+END_SRC
+** Initialize =which-key=
+*** Description
+which-key is a minor mode for Emacs that displays the key bindings following your
+currently entered incomplete command
+*** Code
+#+BEGIN_SRC emacs-lisp
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
 #+END_SRC
 ** Built-in entry: =eldoc=
 *** Code

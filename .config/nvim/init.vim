@@ -211,7 +211,10 @@ endif
 " colo blazer
 " colo cobalt2
 " colo gardener
-colo dante
+" colo dante
+" From https://github.com/tomasr/molokai
+colo molokai
+let g:rehash256 = 1
 " colo distinguished
 " colo colorful256
 "==============================
@@ -250,8 +253,8 @@ set incsearch
 set lazyredraw
 " Show matching brackets.
 set showmatch
+" Tenths of a second to show the matching paren
 set matchtime=3
-set mat=2
 " Enable supprt for unicode characters
 set encoding=utf8
 " Set colors to match a dark background
@@ -307,15 +310,15 @@ set updatetime=300
 " Settings for autocompletion menu
 " See :help completeopt
 set completeopt=menuone,preview,noinsert
-hi Pmenu ctermbg=black
-hi Pmenu ctermfg=white
-hi PmenuSel ctermbg=black
-hi PmenuSel ctermfg=red
+hi Pmenu ctermbg=Black
+hi Pmenu ctermfg=White
+hi PmenuSel ctermbg=Black
+hi PmenuSel ctermfg=Red
 " Same colors for gui or when termguicolors is enabled
-hi Pmenu guibg=black
-hi Pmenu guifg=white
-hi PmenuSel guibg=black
-hi PmenuSel guifg=red
+hi Pmenu guibg=Black
+hi Pmenu guifg=White
+hi PmenuSel guibg=Black
+hi PmenuSel guifg=Red
 
 " Set vim to save the file on focus out.
 au FocusLost * :wa
@@ -341,8 +344,8 @@ set path+=**
 "==============================
 
 " Key mapping
-let mapleader = ","
-let g:mapleader = ","
+let mapleader = " "
+let g:mapleader = " "
 map j gj
 map k gk
 map <leader>d :Goyo<cr>
@@ -355,6 +358,9 @@ nmap <leader>en :lnext<CR>
 nmap <leader>ep :lprevious<CR>
 nmap <leader>tb :TagbarToggle<CR>
 
+" For moving between buffers
+noremap <silent> [b :bprev<CR>
+noremap <silent> ]b :bnext<CR>
 " Misc
 noremap <silent> <leader>f :FixWhitespace<CR>
 nmap <silent> <F3> :set spell!<CR>
@@ -423,6 +429,7 @@ let g:airline#extensions#tabline#show_tab_type = 0
 let g:airline#extensions#tabline#show_close_button = 0
 
 let g:airline#extensions#whitespace#enabled = 0
+
 "==============================
 
     " This rewires n and N to do the highlighing...

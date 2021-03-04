@@ -274,30 +274,22 @@ Vim keybindings in Emacs. Please note that Witchmacs has NO other evil-mode comp
 #+BEGIN_SRC emacs-lisp
   (use-package evil
     :ensure t
-    :after (key-chord)
     :init
     (setq evil-want-integration t) ;; This is true by default
     (setq evil-want-keybinding nil)
     (setq evil-want-C-u-scroll t)
     (setq evil-undo-system 'undo-tree)
     :config
-    (evil-mode 1))
-#+END_SRC
-*** Evil keybinds and other settings
-#+BEGIN_SRC emacs-lisp
+    (evil-mode 1)
   ;; EVIL keybinds
   ;; Exit insert mode by pressing j and then k quickly
-  (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+    (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
 
-  ;; :q should kill the current buffer, not quit Emacs
-  (evil-ex-define-cmd "q" 'kill-this-buffer)
-  ;; Type quit to exit Emacs
-  (evil-ex-define-cmd "quit" 'evil-quit)
-  
-  ;; Moves up and down without skipping wrapped lines.
-  ;; It's equivalent to gj and gk in (Neo)vim
-  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-  (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+    ;; Moves up and down without skipping wrapped lines.
+    ;; It's equivalent to gj and gk in (Neo)vim
+    (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+    (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+    )
 #+END_SRC
 ** Initialize =evil-collection=
 *** code

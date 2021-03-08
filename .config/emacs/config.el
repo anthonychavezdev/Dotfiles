@@ -22,6 +22,7 @@
 (setq-default standard-indent 4)
 (setq c-basic-offset tab-width)
 (setq-default electric-indent-inhibit t)
+;; Use spaces instead of tabs
 (setq-default indent-tabs-mode nil)
 (setq backward-delete-char-untabify-method 'nil)
 
@@ -58,14 +59,109 @@
 
 (global-hl-line-mode t)
 
+(defun tab-line-close-tab (&optional e)
+  "Close the selected tab.
+If tab is presented in another window, close the tab by using
+`bury-buffer` function.
+If tab is uniq to all existing windows, kill the buffer with
+`kill-buffer` function.
+Lastly, if no tabs left in the window, it is deleted with
+`delete-window` function."
+  (interactive "e")
+  (let* ((posnp (event-start e))
+         (window (posn-window posnp))
+         (buffer (get-pos-property 1 'tab (car (posn-string posnp)))))
+    (with-selected-window window
+      (let ((tab-list (tab-line-tabs-window-buffers))
+            (buffer-list (flatten-list
+                          (seq-reduce (lambda (list window)
+                                        (select-window window t)
+                                        (cons (tab-line-tabs-window-buffers) list))
+                                      (window-list) nil))))
+        (select-window window)
+        (if (> (seq-count (lambda (b) (eq b buffer)) buffer-list) 1)
+            (progn
+              (if (eq buffer (current-buffer))
+                  (bury-buffer)
+                (set-window-prev-buffers window (assq-delete-all buffer (window-prev-buffers)))
+                (set-window-next-buffers window (delq buffer (window-next-buffers))))
+              (unless (cdr tab-list)
+                (ignore-errors (delete-window window))))
+          (and (kill-buffer buffer)
+               (unless (cdr tab-list)
+                 (ignore-errors (delete-window window)))))))
+    (force-mode-line-update)))
+
+(setq save-place-file "~/config/emacs/saveplace")
+(save-place-mode 1)
+
+(if (member "Inconsolata"
+(font-family-list))(add-to-list 'default-frame-alist
+'(font . "Inconsolata-12")))
+
+(global-set-key (kbd "C-M-u") 'universal-argument)
+
 (use-package org
-    :config
+    :config 
     (add-hook 'org-mode-hook 'org-indent-mode)
     (add-hook 'org-mode-hook
               '(lambda ()
-                 (visual-line-mode 1)))
+                (visual-line-mode 1)))
     (add-hook 'org-mode-hook 'org-bullets-mode)
-    (add-hook 'org-mode-hook 'evil-org-mode))
+    (add-hook 'org-mode-hook 'evil-org-mode)
+    ;; I'm commenting out the
+    ;; pretty org-mode features
+    ;; because it makes opening
+    ;; org files take too long to
+    ;; open.
+    ;; (add-hook 'org-mode-hook 'variable-pitch-mode)
+
+    (setq org-hide-emphasis-markers t)
+
+    ;; Default directory for org files (not all are stored here).
+    (setq org-directory "~/Nextcloud/Documents/Notes/Org")
+
+    (setq org-log-done t)
+
+  ;; (let* ((variable-tuple
+  ;;         (cond ((x-list-fonts "ETBembo")         '(:font "ETBembo"))
+  ;;               ((x-list-fonts "Source Sans Pro") '(:font "Source Sans Pro"))
+  ;;               ((x-list-fonts "Lucida Grande")   '(:font "Lucida Grande"))
+  ;;               ((x-list-fonts "Verdana")         '(:font "Verdana"))
+  ;;               ((x-family-fonts "Sans Serif")    '(:family "Sans Serif"))
+  ;;               (nil (warn "Cannot find a Sans Serif Font.  Install Source Sans Pro."))))
+  ;;        (base-font-color     (face-foreground 'default nil 'default))
+  ;;        (headline           `(:inherit default :weight bold :foreground ,base-font-color)))
+
+  ;;   (custom-theme-set-faces
+  ;;    'user
+  ;;    `(org-level-8 ((t (,@headline ,@variable-tuple))))
+  ;;    `(org-level-7 ((t (,@headline ,@variable-tuple))))
+  ;;    `(org-level-6 ((t (,@headline ,@variable-tuple))))
+  ;;    `(org-level-5 ((t (,@headline ,@variable-tuple))))
+  ;;    `(org-level-4 ((t (,@headline ,@variable-tuple :height 1.1))))
+  ;;    `(org-level-3 ((t (,@headline ,@variable-tuple :height 1.25))))
+  ;;    `(org-level-2 ((t (,@headline ,@variable-tuple :height 1.5))))
+  ;;    `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.75))))
+  ;;    `(org-document-title ((t (,@headline ,@variable-tuple :height 2.0 :underline nil))))
+
+  ;;     '(org-block ((t (:inherit fixed-pitch))))
+  ;;     '(org-code ((t (:inherit (shadow fixed-pitch)))))
+  ;;     '(org-document-info ((t (:foreground "dark orange"))))
+  ;;     '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
+  ;;     '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
+  ;;     '(org-link ((t (:foreground "royal blue" :underline t))))
+  ;;     '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+  ;;     '(org-property-value ((t (:inherit fixed-pitch))) t)
+  ;;     '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+  ;;     '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
+  ;;     '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
+  ;;     '(org-verbatim ((t (:inherit (shadow fixed-pitch)))))
+
+  ;;  '(variable-pitch ((t (:family "Source Code Pro" :height 180 :weight thin))))
+  ;;  '(fixed-pitch ((t ( :family "Source Code Pro" :height 160))))))
+)
+
 
   (use-package org-indent
     :diminish org-indent-mode)
@@ -75,7 +171,8 @@
 
 (use-package org-bullets
   :ensure t
-  :hook ('org-mode-hook . (lambda () org-bullets-mode))  
+  :hook ('org-mode-hook . (lambda () org-bullets-mode))
+  :hook ('org-mode-hook 'variable-pitch-mode)
   :config
   (require 'org-bullets))
 
@@ -84,22 +181,17 @@
   :init
   (dired-async-mode 1))
 
+(use-package powerline
+  :ensure t
+  :config
+   (powerline-default-theme))
+
 (use-package all-the-icons
   :ensure t
   :config
     ;; (all-the-icons-install-fonts)
 
 )
-
-(use-package powerline
-  :ensure t
-  :config
-    (powerline-default-theme))
-
-(use-package airline-themes
-  :ensure t
-  :config
-    (load-theme 'airline-jet t))
 
 (use-package key-chord
   :ensure t
@@ -113,27 +205,38 @@
   (setq ivy-use-virtual-buffers t)
  (setq enable-recursive-minibuffers t))
 
+(use-package ivy-posframe
+  :ensure t
+  :config
+  ;; Different command can use different display function.
+  (setq ivy-posframe-display-functions-alist
+      '((swiper          . ivy-posframe-display-at-point)
+        (complete-symbol . ivy-posframe-display-at-point)
+        (counsel-M-x     . ivy-posframe-display-at-window-bottom-left)
+        (t               . ivy-posframe-display)))
+(ivy-posframe-mode 1)
+)
+
+(use-package undo-tree
+  :ensure t
+  :init
+  (global-undo-tree-mode 1))
+
 (use-package evil
-    :ensure t
-    :after (key-chord)
-    :init
-    (setq evil-want-integration t) ;; This is true by default
-    (setq evil-want-keybinding nil)
-    (setq evil-want-C-u-scroll t)
-    :config
-    (evil-mode 1))
-;; EVIL keybinds
-;; Exit insert mode by pressing j and then k quickly
-(setq key-chord-two-keys-delay 0.5)
-(key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
-(setq key-chord-two-keys-delay 0.5)
+  :ensure t
+  :init
+  (setq evil-want-integration t) ;; This is true by default
+  (setq evil-want-keybinding nil)
+  (setq evil-want-C-u-scroll t)
+  (setq evil-undo-system 'undo-tree)
+  :config
+  (evil-mode 1))
 
-
-  (use-package evil-collection
-    :after evil
-    :ensure t
-    :config
-    (evil-collection-init))
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :config
+  (evil-collection-init))
 
 (use-package evil-leader
   :after (evil)
@@ -142,10 +245,13 @@
   (global-evil-leader-mode t)
   (evil-leader/set-leader "<SPC>")
   (evil-leader/set-key
-    "s s" 'swiper
-    "d w" 'delete-trailing-whitespace
+    "f s" 'swiper
     "f e" 'find-file
-    "b" 'ivy-switch-buffer))
+    "d w" 'delete-trailing-whitespace
+    "b s" 'ivy-switch-buffer
+    "b k" 'kill-this-buffer
+    "b n" 'evil-buffer-new
+    "w"   'evil-window-map))
 
 (use-package evil-surround
   :after (evil)
@@ -174,9 +280,6 @@
   :config
     (require 'evil-org-agenda)
     (evil-org-agenda-set-keys))
-
-(use-package diminish
-  :ensure t)
 
 (use-package page-break-lines
   :ensure t
@@ -287,11 +390,6 @@
 (use-package magit
   :ensure t)
 
-(use-package smooth-scrolling
- :ensure t
- :config
-   (smooth-scrolling-mode 1))
-
 (use-package format-all
   :ensure t)
 
@@ -327,7 +425,7 @@
 ;; Whether to use unicode as a fallback (instead of ASCII) when not using icons.
 (setq doom-modeline-unicode-fallback t)
 ;; Whether display the minor modes in the mode-line.
-(setq doom-modeline-minor-modes t)
+(setq doom-modeline-minor-modes nil)
 ;; If non-nil, a word count will be added to the selection-info modeline segment.
 (setq doom-modeline-enable-word-count t)
 ;; Major modes in which to display word count continuously.
@@ -420,6 +518,17 @@
 (setq doom-modeline-after-update-env-hook nil)
 )
 
+(use-package rainbow-mode
+  :ensure t)
+
+(use-package rainbow-delimiters
+  :ensure t)
+
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
+
 (use-package eldoc
   :diminish eldoc-mode)
 
@@ -431,6 +540,7 @@
 
 (use-package yasnippet
   :ensure t
+  :diminish yas
   :config
   (yas-global-mode 1)
 )
@@ -451,7 +561,11 @@
 (use-package company
  :ensure t
  :config
- (global-company-mode))
+ (global-company-mode)
+ ;; Evil Collection sets this variable to use TAB
+ ;; to insert completion.
+ ;; It doesn't seem to be working though.
+ (setq evil-collection-company-use-tng nil))
 
 (use-package lsp-mode
   :ensure t
@@ -477,3 +591,12 @@
 ;; (use-package dap-mode
 ;;  :ensure t)
 ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
+
+;; EVIL keybinds
+;; Exit insert mode by pressing j and then k quickly
+  (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+
+  ;; Moves up and down without skipping wrapped lines.
+  ;; It's equivalent to gj and gk in (Neo)vim
+  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+  (evil-global-set-key 'motion "k" 'evil-previous-visual-line)

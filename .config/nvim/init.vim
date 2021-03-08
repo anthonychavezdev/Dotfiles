@@ -574,10 +574,10 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 " Remap keys for gotos
-nmap <silent> gtd <Plug>(coc-definition)
-nmap <silent> gty <Plug>(coc-type-definition)
-nmap <silent> gti <Plug>(coc-implementation)
-nmap <silent> gtr <Plug>(coc-references)
+nmap <silent> <leader>gtd <Plug>(coc-definition)
+nmap <silent> <leader>gty <Plug>(coc-type-definition)
+nmap <silent> <leader>gti <Plug>(coc-implementation)
+nmap <silent> <leader>gtr <Plug>(coc-references)
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 

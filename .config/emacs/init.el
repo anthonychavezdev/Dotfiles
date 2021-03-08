@@ -1,6 +1,4 @@
 ;; Make emacs startup faster
-(setq gc-cons-threshold 402653184
-      gc-cons-percentage 0.6)
 
 (defvar startup/file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
@@ -17,8 +15,10 @@
 
 (require 'package)
 (setq package-enable-at-startup nil)
-(add-to-list 'package-archives
-        '("melpa" . "https://melpa.org/packages/"))
+'(package-archives
+        '(("melpa" . "https://melpa.org/packages/")
+        '("gnu" . "https://elpa.gnu.org/packages/")
+        '("org" . "https://orgmode.org/elpa/")))
 (package-initialize)
 
 ;; Initialize use-package

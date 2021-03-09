@@ -102,7 +102,8 @@ Lastly, if no tabs left in the window, it is deleted with
 (global-set-key (kbd "C-M-u") 'universal-argument)
 
 (use-package org
-    :config 
+    :straight t
+    :config
     (add-hook 'org-mode-hook 'org-indent-mode)
     (add-hook 'org-mode-hook
               '(lambda ()
@@ -112,8 +113,7 @@ Lastly, if no tabs left in the window, it is deleted with
     ;; I'm commenting out the
     ;; pretty org-mode features
     ;; because it makes opening
-    ;; org files take too long to
-    ;; open.
+    ;; org files take too long
     ;; (add-hook 'org-mode-hook 'variable-pitch-mode)
 
     (setq org-hide-emphasis-markers t)
@@ -164,49 +164,50 @@ Lastly, if no tabs left in the window, it is deleted with
 
 
   (use-package org-indent
+    :straight nil
     :diminish org-indent-mode)
 
   (use-package htmlize
-    :ensure t)
+    :straight t)
 
 (use-package org-bullets
-  :ensure t
+  :straight t
   :hook ('org-mode-hook . (lambda () org-bullets-mode))
   :hook ('org-mode-hook 'variable-pitch-mode)
   :config
   (require 'org-bullets))
 
 (use-package async
-  :ensure t
+  :straight t
   :init
   (dired-async-mode 1))
 
 (use-package powerline
-  :ensure t
+  :straight t
   :config
    (powerline-default-theme))
 
 (use-package all-the-icons
-  :ensure t
+  :straight t
   :config
     ;; (all-the-icons-install-fonts)
 
 )
 
 (use-package key-chord
-  :ensure t
+  :straight t
   :config
     (key-chord-mode 1))
 
 (use-package ivy
-  :ensure t
+  :straight t
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
  (setq enable-recursive-minibuffers t))
 
 (use-package ivy-posframe
-  :ensure t
+  :straight t
   :config
   ;; Different command can use different display function.
   (setq ivy-posframe-display-functions-alist
@@ -218,12 +219,12 @@ Lastly, if no tabs left in the window, it is deleted with
 )
 
 (use-package undo-tree
-  :ensure t
+  :straight t
   :init
   (global-undo-tree-mode 1))
 
 (use-package evil
-  :ensure t
+  :straight t
   :init
   (setq evil-want-integration t) ;; This is true by default
   (setq evil-want-keybinding nil)
@@ -234,13 +235,13 @@ Lastly, if no tabs left in the window, it is deleted with
 
 (use-package evil-collection
   :after evil
-  :ensure t
+  :straight t
   :config
   (evil-collection-init))
 
 (use-package evil-leader
   :after (evil)
-  :ensure t
+  :straight t
   :config
   (global-evil-leader-mode t)
   (evil-leader/set-leader "<SPC>")
@@ -255,26 +256,26 @@ Lastly, if no tabs left in the window, it is deleted with
 
 (use-package evil-surround
   :after (evil)
-  :ensure t
+  :straight t
   :config
 (global-evil-surround-mode 1))
 
 (use-package evil-indent-textobject
-    :ensure t)
+    :straight t)
 
 (use-package evil-quickscope
-  :ensure t
+  :straight t
   :config
 ;;  (global-evil-quickscope-always-mode 1)
 )
 
 (use-package evil-commentary
-  :ensure t
+  :straight t
   :config
   (evil-commentary-mode))
 
 (use-package evil-org
-  :ensure t
+  :straight t
   :after org
   :hook ('org-mode-hook . (lambda () evil-org-mode))
   :config
@@ -282,11 +283,11 @@ Lastly, if no tabs left in the window, it is deleted with
     (evil-org-agenda-set-keys))
 
 (use-package page-break-lines
-  :ensure t
+  :straight t
   :diminish (page-break-lines-mode visual-line-mode))
 
 (use-package projectile
- :ensure t
+ :straight t
  :after evil
  :config
    (projectile-mode +1)
@@ -295,7 +296,7 @@ Lastly, if no tabs left in the window, it is deleted with
               ("<SPC> p" . projectile-command-map)))
 
 (use-package treemacs
-  :ensure t
+  :straight t
   :init
   (with-eval-after-load 'winum
     (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
@@ -355,15 +356,15 @@ Lastly, if no tabs left in the window, it is deleted with
 
 (use-package treemacs-evil
   :after treemacs evil
-    :ensure t)
+    :straight t)
 
   (use-package treemacs-icons-dired
     :after treemacs dired
-    :ensure t
+    :straight t
     :config (treemacs-icons-dired-mode))
 
 (use-package dashboard
-  :ensure t
+  :straight t
   :config
   (dashboard-setup-startup-hook)
       (setq dashboard-set-heading-icons t)
@@ -378,23 +379,23 @@ Lastly, if no tabs left in the window, it is deleted with
   (setq dashboard-center-content t)
   (setq dashboard-show-shortcuts nil)
   (setq dashboard-set-init-info t)
-  (setq dashboard-init-info (format "%d packages loaded in %s"
-                                    (length package-activated-list) (emacs-init-time)))
+  ;; (setq dashboard-init-info (format "%d packages loaded in %s"
+  ;;                                   (length package-activated-list) (emacs-init-time)))
   (setq dashboard-set-footer t)
   (setq dashboard-set-navigator t))
 
 (use-package swiper
-  :ensure t
+  :straight t
   :bind ("C-s" . 'swiper))
 
 (use-package magit
-  :ensure t)
+  :straight t)
 
 (use-package format-all
-  :ensure t)
+  :straight t)
 
 (use-package doom-modeline
-  :ensure t
+  :straight t
   :hook (after-init . doom-modeline-mode)
   :config
 ;; How tall the mode-line should be. It's only respected in GUI.
@@ -519,47 +520,61 @@ Lastly, if no tabs left in the window, it is deleted with
 )
 
 (use-package rainbow-mode
-  :ensure t)
+  :straight t)
 
 (use-package rainbow-delimiters
-  :ensure t)
+  :straight t)
 
 (use-package which-key
-  :ensure t
+  :straight t
   :config
   (which-key-mode))
 
 (use-package eldoc
+  :straight nil
   :diminish eldoc-mode)
 
 (use-package abbrev
+  :straight nil
   :diminish abbrev-mode)
 
 (use-package bug-hunter
-  :ensure t)
+  :straight t)
 
 (use-package yasnippet
-  :ensure t
+  :straight t
   :diminish yas
   :config
   (yas-global-mode 1)
 )
 ;; Bundled snippets
 (use-package yasnippet-snippets
-  :ensure t
+  :straight t
   :config
   (yas-global-mode 1)
 )
 
 (use-package lua-mode
-:ensure t)
+:straight t)
 
 (use-package flycheck
- :ensure t
+ :straight t
  :init (global-flycheck-mode))
+ (use-package flycheck-color-mode-line
+  :straight t
+  :config
+  (eval-after-load "flycheck"
+   '(add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)))
+   (use-package pos-tip
+    :straight t)
+    (use-package flycheck-pos-tip
+     :straight t
+     :config
+     (with-eval-after-load 'flycheck
+  (flycheck-pos-tip-mode)))
 
 (use-package company
- :ensure t
+ :straight t
  :config
  (global-company-mode)
  ;; Evil Collection sets this variable to use TAB
@@ -568,7 +583,7 @@ Lastly, if no tabs left in the window, it is deleted with
  (setq evil-collection-company-use-tng nil))
 
 (use-package lsp-mode
-  :ensure t
+  :straight t
   :init
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-keymap-prefix "C-l")
@@ -577,19 +592,21 @@ Lastly, if no tabs left in the window, it is deleted with
 
 ;; optionally
 (use-package lsp-ui
- :ensure t
+ :straight t
+ :init
+ (setq lsp-ui-sideline-show-diagnostics nil)
  :commands lsp-ui-mode)
 ;; if you are ivy user
 (use-package lsp-ivy
- :ensure t
+ :straight t
  :commands lsp-ivy-workspace-symbol)
 (use-package lsp-treemacs
- :ensure t
+ :straight t
  :commands lsp-treemacs-errors-list)
 
 ;; optionally if you want to use debugger
 ;; (use-package dap-mode
-;;  :ensure t)
+;;  :straight t)
 ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 
 ;; EVIL keybinds

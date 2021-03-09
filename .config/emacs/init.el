@@ -13,27 +13,45 @@
 (add-hook 'emacs-startup-hook 'startup/revert-file-name-handler-alist)
 (add-hook 'emacs-startup-hook 'startup/reset-gc)
 
-(require 'package)
-(setq package-enable-at-startup nil)
-'(package-archives
-        '(("melpa" . "https://melpa.org/packages/")
-        '("gnu" . "https://elpa.gnu.org/packages/")
-        '("org" . "https://orgmode.org/elpa/")))
-(package-initialize)
+;; Turned off because I'm using straight now
+;; (require 'package)
+;; (setq package-enable-at-startup nil)
+;; '(package-archives
+;;         '(("melpa" . "https://melpa.org/packages/")
+;;         '("gnu" . "https://elpa.gnu.org/packages/")
+;;         '("org" . "https://orgmode.org/elpa/")))
+;; (package-initialize)
+;
+;; ;; Initialize use-package
+;; (unless (package-installed-p 'use-package)
+;;   (package-refresh-contents)
+;;   (package-install 'use-package))
 
-;; Initialize use-package
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
+(setq straight-repository-branch "master")
+(setq straight-use-package-by-default t)
 
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+(straight-use-package 'use-package)
 
 ;; Load theme
 ;; (use-package alect-themes
-;   :ensure t
+;   :straight t
 ;;   :config
 ;;   (load-theme 'alect-black t))
  (use-package doom-themes
-   :ensure t
+   :straight t
    :config
 ;;   ;; Global settings (defaults)
    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled

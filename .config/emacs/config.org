@@ -163,6 +163,7 @@ One of the main selling points of Emacs! Org Mode!
 ** Code
 #+BEGIN_SRC emacs-lisp
     (use-package org
+      :straight t
       :config
       (add-hook 'org-mode-hook 'org-indent-mode)
       (add-hook 'org-mode-hook
@@ -224,13 +225,14 @@ One of the main selling points of Emacs! Org Mode!
 
 
     (use-package org-indent
+      :straight nil
       :diminish org-indent-mode)
 
     (use-package htmlize
-      :ensure t)
+      :straight t)
 
   (use-package org-bullets
-    :ensure t
+    :straight t
     :hook ('org-mode-hook . (lambda () org-bullets-mode))
     :hook ('org-mode-hook 'variable-pitch-mode)
     :config
@@ -244,7 +246,7 @@ Utilize asynchronous processes whenever possible
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package async
-    :ensure t
+    :straight t
     :init
     (dired-async-mode 1))
 #+END_SRC
@@ -254,7 +256,7 @@ Emacs version of the Vim powerline.
 *** Code
 #+BEGIN_SRC emacs-lisp
 (use-package powerline
-  :ensure t
+  :straight t
   :config
    (powerline-default-theme))
 #+END_SRC
@@ -264,7 +266,7 @@ Bring nice icons to emacs
 *** Code
 #+BEGIN_SRC emacs-lisp
 (use-package all-the-icons
-  :ensure t
+  :straight t
   :config
     ;; (all-the-icons-install-fonts)
 
@@ -278,7 +280,7 @@ or a single key quickly pressed twice. (*)
 *** Code
 #+BEGIN_SRC emacs-lisp
 (use-package key-chord
-  :ensure t
+  :straight t
   :config
     (key-chord-mode 1))
 #+END_SRC
@@ -288,7 +290,7 @@ flexible, simple tools for minibuffer completion in Emacs
 *** Code
 #+BEGIN_SRC emacs-lisp
 (use-package ivy
-  :ensure t
+  :straight t
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
@@ -300,7 +302,7 @@ ivy-posframe is a ivy extension, which let ivy use posframe to show its candidat
 *** Code
 #+BEGIN_SRC emacs-lisp
 (use-package ivy-posframe
-  :ensure t
+  :straight t
   :config
   ;; Different command can use different display function.
   (setq ivy-posframe-display-functions-alist
@@ -326,7 +328,7 @@ undo history as a branching tree of changes, similar to the way Vim handles it.
 *** Code
 #+BEGIN_SRC emacs-lisp
 (use-package undo-tree
-  :ensure t
+  :straight t
   :init
   (global-undo-tree-mode 1))
 #+END_SRC
@@ -336,7 +338,7 @@ Vim keybindings in Emacs. Please note that Witchmacs has NO other evil-mode comp
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package evil
-    :ensure t
+    :straight t
     :init
     (setq evil-want-integration t) ;; This is true by default
     (setq evil-want-keybinding nil)
@@ -350,7 +352,7 @@ Vim keybindings in Emacs. Please note that Witchmacs has NO other evil-mode comp
 #+BEGIN_SRC emacs-lisp
   (use-package evil-collection
     :after evil
-    :ensure t
+    :straight t
     :config
     (evil-collection-init))
 #+END_SRC
@@ -367,7 +369,7 @@ it means an easier start.
 #+BEGIN_SRC emacs-lisp
   (use-package evil-leader
     :after (evil)
-    :ensure t
+    :straight t
     :config
     (global-evil-leader-mode t)
     (evil-leader/set-leader "<SPC>")
@@ -385,7 +387,7 @@ it means an easier start.
 #+BEGIN_SRC emacs-lisp
   (use-package evil-surround
     :after (evil)
-    :ensure t
+    :straight t
     :config
   (global-evil-surround-mode 1))
 #+END_SRC
@@ -394,14 +396,14 @@ it means an easier start.
 *** Code
 #+BEGIN_SRC emacs-lisp
 (use-package evil-indent-textobject
-    :ensure t)
+    :straight t)
 #+END_SRC
 
 ** Initialize =evil-quickscope=
 *** Code
 #+BEGIN_SRC emacs-lisp
 (use-package evil-quickscope
-  :ensure t
+  :straight t
   :config
 ;;  (global-evil-quickscope-always-mode 1)
 )
@@ -415,7 +417,7 @@ This package is a port of the vim-commentary plugin for Vim
 *** Code
 #+BEGIN_SRC emacs-lisp
 (use-package evil-commentary
-  :ensure t
+  :straight t
   :config
   (evil-commentary-mode))
 #+END_SRC
@@ -425,7 +427,7 @@ Vim keybinds for org-mode
 *** Code
 #+BEGIN_SRC emacs-lisp
 (use-package evil-org
-  :ensure t
+  :straight t
   :after org
   :hook ('org-mode-hook . (lambda () evil-org-mode))
   :config
@@ -437,7 +439,7 @@ Vim keybinds for org-mode
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package page-break-lines
-    :ensure t
+    :straight t
     :diminish (page-break-lines-mode visual-line-mode))
 #+END_SRC
 ** Initialize =projectile=
@@ -449,7 +451,7 @@ external dependencies (when feasible).
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
-   :ensure t
+   :straight t
    :after evil
    :config
      (projectile-mode +1)
@@ -463,7 +465,7 @@ Neat side-bar file and project explorer
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package treemacs
-    :ensure t
+    :straight t
     :init
     (with-eval-after-load 'winum
       (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
@@ -523,11 +525,11 @@ Neat side-bar file and project explorer
 
   (use-package treemacs-evil
     :after treemacs evil
-      :ensure t)
+      :straight t)
 
     (use-package treemacs-icons-dired
       :after treemacs dired
-      :ensure t
+      :straight t
       :config (treemacs-icons-dired-mode))
 #+END_SRC
 ** Initialize =dashboard=
@@ -536,7 +538,7 @@ The frontend of Witchmacs; without this there'd be no Marisa in your Emacs start
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package dashboard
-    :ensure t
+    :straight t
     :config
     (dashboard-setup-startup-hook)
         (setq dashboard-set-heading-icons t)
@@ -551,8 +553,8 @@ The frontend of Witchmacs; without this there'd be no Marisa in your Emacs start
     (setq dashboard-center-content t)
     (setq dashboard-show-shortcuts nil)
     (setq dashboard-set-init-info t)
-    (setq dashboard-init-info (format "%d packages loaded in %s"
-                                      (length package-activated-list) (emacs-init-time)))
+    ;; (setq dashboard-init-info (format "%d packages loaded in %s"
+    ;;                                   (length package-activated-list) (emacs-init-time)))
     (setq dashboard-set-footer t)
     (setq dashboard-set-navigator t))
 #+END_SRC
@@ -564,7 +566,7 @@ When doing <SPC> s s to search, you get this very nice and neat mini-buffer that
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package swiper
-    :ensure t
+    :straight t
     :bind ("C-s" . 'swiper))
 #+END_SRC
 
@@ -574,7 +576,7 @@ Git porcelain for Emacs
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package magit
-    :ensure t)
+    :straight t)
 #+END_SRC
 ** Initialize =format-all-the-code=
 *** Description
@@ -585,7 +587,7 @@ and formatting command for each language.
 *** Code
 #+BEGIN_SRC emacs-lisp
 (use-package format-all
-  :ensure t)
+  :straight t)
 #+END_SRC
 ** Initializn =doom-modeline=
 *** description
@@ -593,7 +595,7 @@ A fancy and fast mode-line inspired by minimalism design.
 *** Cose
 #+BEGIN_SRC emacs-lisp
 (use-package doom-modeline
-  :ensure t
+  :straight t
   :hook (after-init . doom-modeline-mode)
   :config
 ;; How tall the mode-line should be. It's only respected in GUI.
@@ -721,13 +723,13 @@ A fancy and fast mode-line inspired by minimalism design.
 *** Code
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-mode
-  :ensure t)
+  :straight t)
 #+END_SRC
 ** Initialize =rainbow-delimeters=
 *** Code
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-delimiters
-  :ensure t)
+  :straight t)
 #+END_SRC
 ** Initialize =which-key=
 *** Description
@@ -736,7 +738,7 @@ currently entered incomplete command
 *** Code
 #+BEGIN_SRC emacs-lisp
 (use-package which-key
-  :ensure t
+  :straight t
   :config
   (which-key-mode))
 #+END_SRC
@@ -744,12 +746,14 @@ currently entered incomplete command
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package eldoc
+    :straight nil
     :diminish eldoc-mode)
 #+END_SRC
 ** Built-in entry: =abbrev=
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package abbrev
+    :straight nil
     :diminish abbrev-mode)
 #+END_SRC
 * Programming
@@ -761,7 +765,7 @@ error or unexpected behavior inside an elisp configuration file
 *** Code
 #+BEGIN_SRC emacs-lisp
 (use-package bug-hunter
-  :ensure t)
+  :straight t)
 #+END_SRC
 
 ** Initialize =YASnippets=
@@ -771,14 +775,14 @@ abbreviation and automatically expand it into function templates
 *** Code
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet
-  :ensure t
+  :straight t
   :diminish yas
   :config
   (yas-global-mode 1)
 )
 ;; Bundled snippets
 (use-package yasnippet-snippets
-  :ensure t
+  :straight t
   :config
   (yas-global-mode 1)
 )
@@ -787,7 +791,7 @@ abbreviation and automatically expand it into function templates
 *** Code
 #+BEGIN_SRC emacs-lisp
 (use-package lua-mode
-:ensure t)
+:straight t)
 #+END_SRC
 ** Initialize =flychec=
 *** Description
@@ -795,8 +799,20 @@ hecking extension for GNU Emacs, intended as replacement for the older Flymake e
 *** Code
 #+BEGIN_SRC emacs-lisp
 (use-package flycheck
- :ensure t
+ :straight t
  :init (global-flycheck-mode))
+ (use-package flycheck-color-mode-line
+  :straight t
+  :config
+  (eval-after-load "flycheck"
+   '(add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)))
+   (use-package pos-tip
+    :straight t)
+    (use-package flycheck-pos-tip
+     :straight t
+     :config
+     (with-eval-after-load 'flycheck
+  (flycheck-pos-tip-mode)))
 #+END_SRC
 ** Initialize =company=
 *** Description
@@ -805,7 +821,7 @@ The name stands for "complete anything".
 *** Code
 #+BEGIN_SRC emacs-lisp
 (use-package company
- :ensure t
+ :straight t
  :config
  (global-company-mode)
  ;; Evil Collection sets this variable to use TAB
@@ -821,7 +837,7 @@ popular Emacs packages like company, flycheck and projectile.
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
-    :ensure t
+    :straight t
     :init
     ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
     (setq lsp-keymap-prefix "C-l")
@@ -830,19 +846,21 @@ popular Emacs packages like company, flycheck and projectile.
 
   ;; optionally
   (use-package lsp-ui
-   :ensure t
+   :straight t
+   :init
+   (setq lsp-ui-sideline-show-diagnostics nil)
    :commands lsp-ui-mode)
   ;; if you are ivy user
   (use-package lsp-ivy
-   :ensure t
+   :straight t
    :commands lsp-ivy-workspace-symbol)
   (use-package lsp-treemacs
-   :ensure t
+   :straight t
    :commands lsp-treemacs-errors-list)
 
   ;; optionally if you want to use debugger
   ;; (use-package dap-mode
-  ;;  :ensure t)
+  ;;  :straight t)
   ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 #+END_SRC
 * Keybindings

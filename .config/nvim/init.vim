@@ -421,7 +421,15 @@ let g:airline_theme = 'serene'
 " let g:airline_theme = 'gruvbox'
 let g:airline_exclude_preview = 1
 let g:airline#extensions#tabline#enabled = 1
+" Shows the open buffers as tabs at the top of the
+" window, but they still behave as buffers, they
+" don't behave like tabs.
+" That's a bit misleading, and I don't want that
+" feature activated.
 let g:airline#extensions#tabline#show_buffers = 0
+" Show bufffer numbers at the top of the screen
+" instead
+let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#tabline#show_splits = 0
 let g:airline#extensions#tabline#show_tabs = 1
 let g:airline#extensions#tabline#show_tab_nr = 0

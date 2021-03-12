@@ -14,6 +14,11 @@ set packpath+=~/.config/nvim
 
 " Mappings for :terminal
 
+if exists('g:vscode')
+    " VSCode extensions
+    source /home/anthony/.config/nvim/vscode.vim
+else
+    " Neovim Extensions
 " I don't remember why I mapped
 " <Esc> like that
 :tnoremap <Esc> <C-\><C-n>
@@ -31,13 +36,21 @@ endif
 call plug#begin('~/.config/nvim/plugins/')
     " Coc is an intellisense engine for Vim/Neovim.
     " Use release branch
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    " Switched to native LSP in the 0.5 nightly build
+    " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
     " Plug 'lifepillar/vim-mucomplete'
 
+    " Native LSP
+    Plug 'neovim/nvim-lspconfig'
+    Plug 'hrsh7th/nvim-compe'
+
     " This is that bar at the bottom
-    Plug 'vim-airline/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
+    " I'm replacing this with galaxyline
+    " Plug 'vim-airline/vim-airline'
+    " Plug 'vim-airline/vim-airline-themes'
+    " Replacing airline with this.
+    Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
 
     " Used to quickly switch colorschemes
     Plug 'xolox/vim-colorscheme-switcher'
@@ -140,7 +153,10 @@ call plug#begin('~/.config/nvim/plugins/')
     Plug 'godlygeek/tabular'
 
     " Adds icons to files/filetypes
+    " vim-devicons is stil used by
+    " startify
     Plug 'ryanoasis/vim-devicons'
+    Plug 'kyazdani42/nvim-web-devicons'
 
     Plug 'mhinz/neovim-remote'
 
@@ -152,6 +168,8 @@ call plug#begin('~/.config/nvim/plugins/')
     Plug 'voldikss/vim-floaterm'
     " Git blame plugin
     Plug 'APZelos/blamer.nvim'
+    " Only for nvim 0.5 Nightly
+    Plug 'andweeb/presence.nvim'
 
  call plug#end()
 
@@ -414,30 +432,244 @@ let NERDTreeNodeDelimiter = "\u263a" " smiley face
 
 " Airline
 
-let g:airline_powerline_fonts = 1
-let g:airline_theme = 'serene'
+" let g:airline_powerline_fonts = 1
+" let g:airline_theme = 'serene'
 " let g:airline_theme = 'simple'
 " let g:airline_theme = 'bubblegum'
 " let g:airline_theme = 'gruvbox'
-let g:airline_exclude_preview = 1
-let g:airline#extensions#tabline#enabled = 1
+" let g:airline_exclude_preview = 1
+" let g:airline#extensions#tabline#enabled = 1
 " Shows the open buffers as tabs at the top of the
 " window, but they still behave as buffers, they
 " don't behave like tabs.
 " That's a bit misleading, and I don't want that
 " feature activated.
-let g:airline#extensions#tabline#show_buffers = 0
+" let g:airline#extensions#tabline#show_buffers = 0
 " Show bufffer numbers at the top of the screen
 " instead
-let g:airline#extensions#tabline#buffer_nr_show = 1
-let g:airline#extensions#tabline#show_splits = 0
-let g:airline#extensions#tabline#show_tabs = 1
-let g:airline#extensions#tabline#show_tab_nr = 0
-let g:airline#extensions#tabline#show_tab_type = 0
-let g:airline#extensions#tabline#show_close_button = 0
+" let g:airline#extensions#tabline#buffer_nr_show = 1
+" let g:airline#extensions#tabline#show_splits = 0
+" let g:airline#extensions#tabline#show_tabs = 1
+" let g:airline#extensions#tabline#show_tab_nr = 0
+" let g:airline#extensions#tabline#show_tab_type = 0
+" let g:airline#extensions#tabline#show_close_button = 0
 
-let g:airline#extensions#whitespace#enabled = 0
+" let g:airline#extensions#whitespace#enabled = 0
 
+"==============================
+" Galaxyline
+lua << EOF
+local gl = require('galaxyline')
+local colors = require('galaxyline.theme').default
+local condition = require('galaxyline.condition')
+local gls = gl.section
+gl.short_line_list = {'NvimTree','vista','dbui','packer'}
+
+gls.left[1] = {
+  RainbowRed = {
+    provider = function() return '▊ ' end,
+    highlight = {colors.blue,colors.bg}
+  },
+}
+gls.left[2] = {
+  ViMode = {
+    provider = function()
+      -- auto change color according the vim mode
+      local mode_color = {n = colors.red, i = colors.green,v=colors.blue,
+                          [''] = colors.blue,V=colors.blue,
+                          c = colors.magenta,no = colors.red,s = colors.orange,
+                          S=colors.orange,[''] = colors.orange,
+                          ic = colors.yellow,R = colors.violet,Rv = colors.violet,
+                          cv = colors.red,ce=colors.red, r = colors.cyan,
+                          rm = colors.cyan, ['r?'] = colors.cyan,
+                          ['!']  = colors.red,t = colors.red}
+      vim.api.nvim_command('hi GalaxyViMode guifg='..mode_color[vim.fn.mode()])
+      return '  '
+    end,
+    highlight = {colors.red,colors.bg,'bold'},
+  },
+}
+gls.left[3] = {
+  FileSize = {
+    provider = 'FileSize',
+    condition = condition.buffer_not_empty,
+    highlight = {colors.fg,colors.bg}
+  }
+}
+gls.left[4] ={
+  FileIcon = {
+    provider = 'FileIcon',
+    condition = condition.buffer_not_empty,
+    highlight = {require('galaxyline.provider_fileinfo').get_file_icon_color,colors.bg},
+  },
+}
+
+gls.left[5] = {
+  FileName = {
+    provider = 'FileName',
+    condition = condition.buffer_not_empty,
+    highlight = {colors.magenta,colors.bg,'bold'}
+  }
+}
+
+gls.left[6] = {
+  LineInfo = {
+    provider = 'LineColumn',
+    separator = ' ',
+    separator_highlight = {'NONE',colors.bg},
+    highlight = {colors.fg,colors.bg},
+  },
+}
+
+gls.left[7] = {
+  PerCent = {
+    provider = 'LinePercent',
+    separator = ' ',
+    separator_highlight = {'NONE',colors.bg},
+    highlight = {colors.fg,colors.bg,'bold'},
+  }
+}
+
+gls.left[8] = {
+  DiagnosticError = {
+    provider = 'DiagnosticError',
+    icon = '  ',
+    highlight = {colors.red,colors.bg}
+  }
+}
+gls.left[9] = {
+  DiagnosticWarn = {
+    provider = 'DiagnosticWarn',
+    icon = '  ',
+    highlight = {colors.yellow,colors.bg},
+  }
+}
+
+gls.left[10] = {
+  DiagnosticHint = {
+    provider = 'DiagnosticHint',
+    icon = '  ',
+    highlight = {colors.cyan,colors.bg},
+  }
+}
+
+gls.left[11] = {
+  DiagnosticInfo = {
+    provider = 'DiagnosticInfo',
+    icon = '  ',
+    highlight = {colors.blue,colors.bg},
+  }
+}
+
+gls.mid[1] = {
+  ShowLspClient = {
+    provider = 'GetLspClient',
+    condition = function ()
+      local tbl = {['dashboard'] = true,['']=true}
+      if tbl[vim.bo.filetype] then
+        return false
+      end
+      return true
+    end,
+    icon = ' LSP:',
+    highlight = {colors.cyan,colors.bg,'bold'}
+  }
+}
+
+gls.right[1] = {
+  FileEncode = {
+    provider = 'FileEncode',
+    condition = condition.hide_in_width,
+    separator = ' ',
+    separator_highlight = {'NONE',colors.bg},
+    highlight = {colors.green,colors.bg,'bold'}
+  }
+}
+
+gls.right[2] = {
+  FileFormat = {
+    provider = 'FileFormat',
+    condition = condition.hide_in_width,
+    separator = ' ',
+    separator_highlight = {'NONE',colors.bg},
+    highlight = {colors.green,colors.bg,'bold'}
+  }
+}
+
+gls.right[3] = {
+  GitIcon = {
+    provider = function() return '  ' end,
+    condition = condition.check_git_workspace,
+    separator = ' ',
+    separator_highlight = {'NONE',colors.bg},
+    highlight = {colors.violet,colors.bg,'bold'},
+  }
+}
+
+gls.right[4] = {
+  GitBranch = {
+    provider = 'GitBranch',
+    condition = condition.check_git_workspace,
+    highlight = {colors.violet,colors.bg,'bold'},
+  }
+}
+
+gls.right[5] = {
+  DiffAdd = {
+    provider = 'DiffAdd',
+    condition = condition.hide_in_width,
+    icon = '  ',
+    highlight = {colors.green,colors.bg},
+  }
+}
+gls.right[6] = {
+  DiffModified = {
+    provider = 'DiffModified',
+    condition = condition.hide_in_width,
+    icon = ' 柳',
+    highlight = {colors.orange,colors.bg},
+  }
+}
+gls.right[7] = {
+  DiffRemove = {
+    provider = 'DiffRemove',
+    condition = condition.hide_in_width,
+    icon = '  ',
+    highlight = {colors.red,colors.bg},
+  }
+}
+
+gls.right[8] = {
+  RainbowBlue = {
+    provider = function() return ' ▊' end,
+    highlight = {colors.blue,colors.bg}
+  },
+}
+
+gls.short_line_left[1] = {
+  BufferType = {
+    provider = 'FileTypeName',
+    separator = ' ',
+    separator_highlight = {'NONE',colors.bg},
+    highlight = {colors.blue,colors.bg,'bold'}
+  }
+}
+
+gls.short_line_left[2] = {
+  SFileName = {
+    provider =  'SFileName',
+    condition = condition.buffer_not_empty,
+    highlight = {colors.fg,colors.bg,'bold'}
+  }
+}
+
+gls.short_line_right[1] = {
+  BufferIcon = {
+    provider= 'BufferIcon',
+    highlight = {colors.fg,colors.bg}
+  }
+}
+EOF
 "==============================
 
     " This rewires n and N to do the highlighing...
@@ -556,113 +788,195 @@ function! StartifyEntryFormat()
 endfunction
 " ==============================
 
-" Coc
+" " Coc
+" " ==============================
+" " Use tab for trigger completion with characters ahead and navigate.
+" " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+" function! s:check_back_space() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
+
+" " Use <c-space> to trigger completion.
+" inoremap <silent><expr> <c-space> coc#refresh()
+" " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" " Coc only does snippet and additional edit on confirm.
+" inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" " Or use `complete_info` if your vim support it, like:
+" " inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+" " Use `[g` and `]g` to navigate diagnostics
+" nmap <silent> [g <Plug>(coc-diagnostic-prev)
+" nmap <silent> ]g <Plug>(coc-diagnostic-next)
+" " Remap keys for gotos
+" nmap <silent> <leader>gtd <Plug>(coc-definition)
+" nmap <silent> <leader>gty <Plug>(coc-type-definition)
+" nmap <silent> <leader>gti <Plug>(coc-implementation)
+" nmap <silent> <leader>gtr <Plug>(coc-references)
+" " Use K to show documentation in preview window
+" nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+" function! s:show_documentation()
+"   if (index(['vim','help'], &filetype) >= 0)
+"     execute 'h '.expand('<cword>')
+"   else
+"     call CocAction('doHover')
+"   endif
+" endfunction
+
+" " Highlight symbol under cursor on CursorHold
+" autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" " Remap for rename current word
+" nmap <leader>rn <Plug>(coc-rename)
+
+" " Remap for format selected region
+" xmap <leader>fmt  <Plug>(coc-format-selected)
+" nmap <leader>fmt  <Plug>(coc-format-selected)
+
+" augroup mygroup
+"   autocmd!
+"   " Setup formatexpr specified filetype(s).
+"   autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+"   " Update signature help on jump placeholder
+"   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+" augroup end
+
+" " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+" xmap <leader>a  <Plug>(coc-codeaction-selected)
+" nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" " Remap for do codeAction of current line
+" nmap <leader>ac  <Plug>(coc-codeaction)
+" " Fix autofix problem of current line
+" nmap <leader>qf  <Plug>(coc-fix-current)
+
+" " Create mappings for function text object, requires document symbols feature of languageserver.
+" xmap if <Plug>(coc-funcobj-i)
+" xmap af <Plug>(coc-funcobj-a)
+" omap if <Plug>(coc-funcobj-i)
+" omap af <Plug>(coc-funcobj-a)
+
+" " Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+" nmap <silent> <C-d> <Plug>(coc-range-select)
+" xmap <silent> <C-d> <Plug>(coc-range-select)
+
+" " Use `:Format` to format current buffer
+" command! -nargs=0 Format :call CocAction('format')
+
+" " Use `:Fold` to fold current buffer
+" command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" " use `:OR` for organize import of current buffer
+" command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" " Add status line support, for integration with other plugin, checkout `:h coc-status`
+" set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" " Using CocList
+" " Show all diagnostics
+" nnoremap <silent> <leader>A  :<C-u>CocList diagnostics<cr>
+" " Manage extensions
+" nnoremap <silent> <leader>E  :<C-u>CocList extensions<cr>
+" " Show commands
+" nnoremap <silent> <leader>C  :<C-u>CocList commands<cr>
+" " Find symbol of current document
+" nnoremap <silent> <leader>O  :<C-u>CocList outline<cr>
+" " Search workspace symbols
+" nnoremap <silent> <leader>S  :<C-u>CocList -I symbols<cr>
+" " Do default action for next item.
+" nnoremap <silent> <leader>J  :<C-u>CocNext<CR>
+" " Do default action for previous item.
+" nnoremap <silent> <leader>K  :<C-u>CocPrev<CR>
+" " Resume latest coc list
+" nnoremap <silent> <leader>P  :<C-u>CocListResume<CR>
 " ==============================
-" Use tab for trigger completion with characters ahead and navigate.
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" Native LSP
+" LSP config (the mappings used in the default file don't quite work right)
+nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> [g <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+nnoremap <silent> ]g] <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+" auto-format
+autocmd BufWritePre *.js lua vim.lsp.buf.formatting_sync(nil, 100)
+autocmd BufWritePre *.jsx lua vim.lsp.buf.formatting_sync(nil, 100)
+autocmd BufWritePre *.py lua vim.lsp.buf.formatting_sync(nil, 100)
+autocmd BufWritePre *.cpp lua vim.lsp.buf.formatting_sync(nil, 100)
+autocmd BufWritePre *.c lua vim.lsp.buf.formatting_sync(nil, 100)
+" ==============================
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+" nvim-compe
+" This is configured in Lua.
+" I should probably switch to it
+" for my config at some point
+lua << EOF
+vim.o.completeopt = "menuone,noselect"
+require'compe'.setup {
+  enabled = true;
+  autocomplete = true;
+  debug = false;
+  min_length = 1;
+  preselect = 'enable';
+  throttle_time = 80;
+  source_timeout = 200;
+  incomplete_delay = 400;
+  max_abbr_width = 100;
+  max_kind_width = 100;
+  max_menu_width = 100;
+  documentation = true;
 
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" Or use `complete_info` if your vim support it, like:
-" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-" Use `[g` and `]g` to navigate diagnostics
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-" Remap keys for gotos
-nmap <silent> <leader>gtd <Plug>(coc-definition)
-nmap <silent> <leader>gty <Plug>(coc-type-definition)
-nmap <silent> <leader>gti <Plug>(coc-implementation)
-nmap <silent> <leader>gtr <Plug>(coc-references)
-" Use K to show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+  source = {
+    path = true;
+    buffer = true;
+    calc = true;
+    vsnip = true;
+    nvim_lsp = true;
+    nvim_lua = true;
+    spell = true;
+    tags = true;
+    snippets_nvim = true;
+    treesitter = true;
+  };
+}
 
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
+local t = function(str)
+  return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+_G.s_tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<TAB>"
+  elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
+    return t "<Plug>(vsnip-jump-prev)"
   else
-    call CocAction('doHover')
-  endif
-endfunction
+    return t "<S-Tab>"
+  end
+end
 
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
-
-" Remap for format selected region
-xmap <leader>fmt  <Plug>(coc-format-selected)
-nmap <leader>fmt  <Plug>(coc-format-selected)
-
-augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
-
-" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-
-" Remap for do codeAction of current line
-nmap <leader>ac  <Plug>(coc-codeaction)
-" Fix autofix problem of current line
-nmap <leader>qf  <Plug>(coc-fix-current)
-
-" Create mappings for function text object, requires document symbols feature of languageserver.
-xmap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap if <Plug>(coc-funcobj-i)
-omap af <Plug>(coc-funcobj-a)
-
-" Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-nmap <silent> <C-d> <Plug>(coc-range-select)
-xmap <silent> <C-d> <Plug>(coc-range-select)
-
-" Use `:Format` to format current buffer
-command! -nargs=0 Format :call CocAction('format')
-
-" Use `:Fold` to fold current buffer
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-
-" use `:OR` for organize import of current buffer
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
-" Add status line support, for integration with other plugin, checkout `:h coc-status`
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
-" Using CocList
-" Show all diagnostics
-nnoremap <silent> <leader>A  :<C-u>CocList diagnostics<cr>
-" Manage extensions
-nnoremap <silent> <leader>E  :<C-u>CocList extensions<cr>
-" Show commands
-nnoremap <silent> <leader>C  :<C-u>CocList commands<cr>
-" Find symbol of current document
-nnoremap <silent> <leader>O  :<C-u>CocList outline<cr>
-" Search workspace symbols
-nnoremap <silent> <leader>S  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent> <leader>J  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <leader>K  :<C-u>CocPrev<CR>
-" Resume latest coc list
-nnoremap <silent> <leader>P  :<C-u>CocListResume<CR>
+vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+EOF
+" ==============================
+" Language servers
+lua << EOF
+local lspc = require'lspconfig'
+    lspc.clangd.setup {
+    on_attatch = on_attatch,
+    init_options = {
+        cmd = { "clangd", "--background-index" },
+        filetypes = { "c", "cpp", "objc", "objcpp" }
+    }
+}
+EOF
 " ==============================
 
 " ultisnips
@@ -780,3 +1094,4 @@ augroup END
 " autocmd BufWinLeave *.* mkview
 " autocmd BufWinEnter *.* silent loadview
 " ===============================
+end

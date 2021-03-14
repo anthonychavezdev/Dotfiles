@@ -33,145 +33,152 @@ if &compatible
 endif
 
 " Plugins
-call plug#begin('~/.config/nvim/plugins/')
-    " Coc is an intellisense engine for Vim/Neovim.
-    " Use release branch
-    " Switched to native LSP in the 0.5 nightly build
-    " Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Switching to paq
+" call plug#begin('~/.config/nvim/plugins/')
+" call plug#end()
+lua << EOF
+vim.cmd 'packadd paq-nvim'         -- Load package
+local paq = require'paq-nvim'.paq  -- Import module and bind `paq` function
+paq{'savq/paq-nvim', opt=true}     -- Let Paq manage itself
+    -- Coc is an intellisense engine for Vim/Neovim.
+    -- Use release branch
+    -- Switched to native LSP in the 0.5 nightly build
+    -- Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-    " Plug 'lifepillar/vim-mucomplete'
+    -- Plug 'lifepillar/vim-mucomplete'
 
-    " Native LSP
-    Plug 'neovim/nvim-lspconfig'
-    Plug 'hrsh7th/nvim-compe'
+    -- Native LSP
+    paq {'neovim/nvim-lspconfig'}
+    paq {'hrsh7th/nvim-compe'}
 
-    " This is that bar at the bottom
-    " I'm replacing this with galaxyline
-    " Plug 'vim-airline/vim-airline'
-    " Plug 'vim-airline/vim-airline-themes'
-    " Replacing airline with this.
-    Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
+    -- This is that bar at the bottom
+    -- I'm replacing this with galaxyline
+    -- Plug 'vim-airline/vim-airline'
+    -- Plug 'vim-airline/vim-airline-themes'
+    -- Replacing airline with this.
+    paq {'glepnir/galaxyline.nvim', branch='main'}
 
-    " Used to quickly switch colorschemes
-    Plug 'xolox/vim-colorscheme-switcher'
-    " Used by vim-colorscheme-switcher
-    Plug 'xolox/vim-misc'
+    -- Used to quickly switch colorschemes
+    paq {'xolox/vim-colorscheme-switcher'}
+    -- Used by vim-colorscheme-switcher
+    paq {'xolox/vim-misc'}
 
-    " This plugin causes trailing whitespace to be highlighted in red.
-    " To delete the trailing whitespace, call :FixWhitespace
-    Plug 'bronson/vim-trailing-whitespace'
-    " Surround.vim is all about \"surroundings\": parentheses, brackets,
-    " quotes, XML tags, and more. The plugin provides mappings to easily
-    " delete, change and add such surroundings in pairs.
-    Plug 'tpope/vim-surround'
+    -- This plugin causes trailing whitespace to be highlighted in red.
+    -- To delete the trailing whitespace, call :FixWhitespace
+    paq {'bronson/vim-trailing-whitespace'}
+    -- Surround.vim is all about \"surroundings\": parentheses, brackets,
+    -- quotes, XML tags, and more. The plugin provides mappings to easily
+    -- delete, change and add such surroundings in pairs.
+    paq {'tpope/vim-surround'}
 
-    " VimWiki is a personal wiki for Vim -- a number of linked text files
-    " that have their own syntax highlighting
-    "
-    " With VimWiki you can:
+    -- VimWiki is a personal wiki for Vim -- a number of linked text files
+    -- that have their own syntax highlighting
+    --
+    -- With VimWiki you can:
 
-    " Organize notes and ideas
-    " Manage to-do lists
-    " Write documentation
-    " Maintain a diary
-    " Export everything to HTML
-    Plug 'vimwiki/vimwiki'
+    -- Organize notes and ideas
+    -- Manage to-do lists
+    -- Write documentation
+    -- Maintain a diary
+    -- Export everything to HTML
+    paq {'vimwiki/vimwiki'}
 
-    " This plugin makes it possible to select
-    " things in visual mode (Shifft+v, Ctrl+v, etc)
-    " and move the selected item(s) around
-    Plug 'file:///home/anthony/Instantly_Better_Vim_2013/plugin/dragvisuals'
+    -- This plugin makes it possible to select
+    -- things in visual mode (Shifft+v, Ctrl+v, etc)
+    -- and move the selected item(s) around
+    paq {'atweiden/vim-dragvisuals'}
 
-    " Distraction-free writing in Vim.
-    Plug 'junegunn/goyo.vim'
+    -- Distraction-free writing in Vim.
+    paq {'junegunn/goyo.vim'}
 
-    " Insert or delete brackets, parens, quotes in pair.
-    Plug 'jiangmiao/auto-pairs'
+    -- Insert or delete brackets, parens, quotes in pair.
+    paq {'jiangmiao/auto-pairs'}
 
-    " Plug 'tomtom/tlib_vim'
-    " Plug 'MarcWeber/vim-addon-mw-utils'
+    -- Plug 'tomtom/tlib_vim'
+    -- Plug 'MarcWeber/vim-addon-mw-utils'
 
-    Plug 'pangloss/vim-javascript'
+    paq {'pangloss/vim-javascript'}
 
-    " Plug 'ervandew/supertab'
-    Plug 'rust-lang/rust.vim'
+    -- Plug 'ervandew/supertab'
+    paq {'rust-lang/rust.vim'}
 
-    " ShowMarks provides a visual representation of the location marks
-    " See :help marks
-    " or, https://vim.fandom.com/wiki/Using_marks
-    Plug 'jacquesbh/vim-showmarks'
+    -- ShowMarks provides a visual representation of the location marks
+    -- See :help marks
+    -- or, https://vim.fandom.com/wiki/Using_marks
+    paq {'jacquesbh/vim-showmarks'}
 
-    " Tagbar is a Vim plugin that provides an easy way to browse the tags
-    " of the current file and get an overview of its structure
-    " bringing up tagbar shows you variables, and function names
-    " on a side panel, and allows you to quickly jump to them
-    Plug 'majutsushi/tagbar'
+    -- Tagbar is a Vim plugin that provides an easy way to browse the tags
+    -- of the current file and get an overview of its structure
+    -- bringing up tagbar shows you variables, and function names
+    -- on a side panel, and allows you to quickly jump to them
+    paq {'majutsushi/tagbar'}
 
-    " Matches HTML tags
-    Plug 'gregsexton/MatchTag'
+    -- Matches HTML tags
+    paq {'gregsexton/MatchTag'}
 
-    Plug 'udalov/kotlin-vim'
-    Plug 'dracula/vim', {'as': 'dracula'}
-    " Adds syntax highlighting for gdscript3,
-    " a programing language used by the
-    " Godot game engine
-    Plug 'calviken/vim-gdscript3'
+    paq {'udalov/kotlin-vim'}
+    paq {'dracula/vim', as='dracula'}
+    -- Adds syntax highlighting for gdscript3,
+    -- a programing language used by the
+    -- Godot game engine
+    paq {'calviken/vim-gdscript3'}
 
-    " Plug 'protesilaos/tempus-themes-vim'
+    -- Plug 'protesilaos/tempus-themes-vim'
 
-    " Easily comment stuff out, or uncomment
-    " them out.
-    Plug 'tpope/vim-commentary'
+    -- Easily comment stuff out, or uncomment
+    -- them out.
+    paq {'tpope/vim-commentary'}
 
-    " Plug 'morhetz/gruvbox'
+    -- Plug 'morhetz/gruvbox'
 
-    Plug 'tpope/vim-rails'
-    " Provides a file viewer on the left
-    " side of the screen, like you'd get with
-    " modern text editors
-    Plug 'scrooloose/nerdtree'
-    " Fuzzy finder, for quickly searching for files
-    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-    Plug 'junegunn/fzf.vim'
+    paq {'tpope/vim-rails'}
+    -- Provides a file viewer on the left
+    -- side of the screen, like you'd get with
+    -- modern text editors
+    paq {'scrooloose/nerdtree'}
+    -- Fuzzy finder, for quickly searching for files
+    paq {'junegunn/fzf', hook=vim.fn['fzf#install()']}
+    paq {'junegunn/fzf.vim'}
 
-    " Extra syntax highlighting.
-    " I don't remember what languages this was for.
-    Plug 'justinmk/vim-syntax-extra'
+    -- Extra syntax highlighting.
+    -- I don't remember what languages this was for.
+    paq {'justinmk/vim-syntax-extra'}
 
-    " The little starting page you get when you just run
-    " (Neo)vim without any arguments
-    Plug 'mhinz/vim-startify'
-    " Plug 'Yggdroot/indentline'
+    -- The little starting page you get when you just run
+    -- (Neo)vim without any arguments
+    paq {'mhinz/vim-startify'}
+    -- Plug 'Yggdroot/indentline'
 
-    Plug 'iamcco/markdown-preview.vim'
+    paq {'iamcco/markdown-preview.vim'}
 
-    " LaTeX plugin
-    Plug 'lervag/vimtex'
-    Plug 'aclements/latexrun'
+    -- LaTeX plugin
+    paq {'lervag/vimtex'}
+    paq {'aclements/latexrun'}
 
-    " Helps with ligning up text
-    Plug 'godlygeek/tabular'
+    -- Helps with ligning up text
+    paq {'godlygeek/tabular'}
 
-    " Adds icons to files/filetypes
-    " vim-devicons is stil used by
-    " startify
-    Plug 'ryanoasis/vim-devicons'
-    Plug 'kyazdani42/nvim-web-devicons'
+    -- Adds icons to files/filetypes
+    -- vim-devicons is stil used by
+    -- startify
+    paq {'ryanoasis/vim-devicons'}
+    paq {'kyazdani42/nvim-web-devicons'}
 
-    Plug 'mhinz/neovim-remote'
+    paq {'mhinz/neovim-remote'}
 
-    Plug 'sirver/ultisnips'
+    paq {'sirver/ultisnips'}
 
-    Plug 'KeitaNakamura/tex-conceal.vim', {'for': 'tex'}
+    paq {'KeitaNakamura/tex-conceal.vim'}
 
-    " Floating terminal window
-    Plug 'voldikss/vim-floaterm'
-    " Git blame plugin
-    Plug 'APZelos/blamer.nvim'
-    " Only for nvim 0.5 Nightly
-    Plug 'andweeb/presence.nvim'
-
- call plug#end()
+    -- Floating terminal window
+    paq {'voldikss/vim-floaterm'}
+    -- Git blame plugin
+    paq {'APZelos/blamer.nvim'}
+    -- Only for nvim 0.5 Nightly
+    paq {'andweeb/presence.nvim'}
+    -- treesitter
+    paq {'nvim-treesitter/nvim-treesitter', run=function() vim.cmd(":TSUpdate") end}
+EOF
 
 "Misc settigns
 filetype plugin indent on
@@ -484,7 +491,8 @@ gls.left[2] = {
                           rm = colors.cyan, ['r?'] = colors.cyan,
                           ['!']  = colors.red,t = colors.red}
       vim.api.nvim_command('hi GalaxyViMode guifg='..mode_color[vim.fn.mode()])
-      return '  '
+      -- return '  '
+      return 'ʎ  '
     end,
     highlight = {colors.red,colors.bg,'bold'},
   },
@@ -905,7 +913,7 @@ nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
 nnoremap <silent> [g <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-nnoremap <silent> ]g] <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+nnoremap <silent> ]g <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 " auto-format
 autocmd BufWritePre *.js lua vim.lsp.buf.formatting_sync(nil, 100)
 autocmd BufWritePre *.jsx lua vim.lsp.buf.formatting_sync(nil, 100)
@@ -929,9 +937,9 @@ require'compe'.setup {
   throttle_time = 80;
   source_timeout = 200;
   incomplete_delay = 400;
-  max_abbr_width = 100;
-  max_kind_width = 100;
-  max_menu_width = 100;
+  max_abbr_width = 300;
+  max_kind_width = 300;
+  max_menu_width = 300;
   documentation = true;
 
   source = {
@@ -975,6 +983,17 @@ local lspc = require'lspconfig'
         cmd = { "clangd", "--background-index" },
         filetypes = { "c", "cpp", "objc", "objcpp" }
     }
+}
+EOF
+" ==============================
+" treesitter
+lua << EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+    -- disable = { "c", "rust" },  -- list of language that will be disabled
+  },
 }
 EOF
 " ==============================

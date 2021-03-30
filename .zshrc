@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 #███████╗███████╗██╗  ██╗██████╗  ██████╗
 #╚══███╔╝██╔════╝██║  ██║██╔══██╗██╔════╝
 #  ███╔╝ ███████╗███████║██████╔╝██║
@@ -16,18 +23,6 @@ zle -N down-line-or-beginning-search
 [[ -n "$key[Down]" ]] && bindkey -- "$key[Down]" down-line-or-beginning-search
 # Path to your oh-my-zsh installation.
   export ZSH=/home/anthony/.oh-my-zsh
-
-# Set name of the theme to load. Optionally, if you set this to "random"
-# it'll load a random theme each time that oh-my-zsh is loaded.
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-# ZSH_THEME="gnzh"
-# ZSH_THEME="jonathan"
-# ZSH_THEME="bira"
-# ZSH_THEME=nicoulaj
-# ZSH_THEME=green_theme
-# ZSH_THEME=bira
-# ZSH_THEME="spaceship"
-ZSH_THEME="minimal"
 
 # Colors
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
@@ -49,7 +44,6 @@ zstyle ':completion:*' menu select
 #setopt complete_aliases # Brakes completion for aliases like ps (pacman -S)
 
 # zsh-completions
-fpath=($HOME/Git/zsh-completions/src $fpath)
 fpath=($HOME/.zsh/completions/ $fpath)
 
 # Case insensitive completion
@@ -61,7 +55,7 @@ zstyle ':completion:*' format $'\n%F{yellow}Completing %d%f\n'
 zstyle ':completion:*' group-name ''
 
 # Respect multibyte characters when found in strings
-unsetopt MULTIBYTE
+# unsetopt MULTIBYTE
 
 # When new programs is installed, auto update autocomplete without reloading shell
 zstyle ':completion:*' rehash true
@@ -118,11 +112,12 @@ autoload -U colors && colors
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zshrc zsh-syntax-highlighting fzf)
+plugins=(git zsh-syntax-highlighting fzf zsh_reload)
 
 source $ZSH/oh-my-zsh.sh
-# source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# source ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
 
 # User configuration
 
@@ -137,6 +132,9 @@ source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
  # else
  #   export EDITOR='nvim'
  # fi
+
+export TERMEMU="alacritty"
+export EDITOR="nvim"
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -177,7 +175,8 @@ ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=yellow
 ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=cyan
 ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=cyan
 ZSH_HIGHLIGHT_STYLES[assign]=none
-export PATH=$PATH:~/bin:~/scripts:~/GB/gbdk/bin:~/.local/bin:/home/anthony/.gem/ruby/2.7.0/bin:/opt/android-studio/bin:~/pico-8/
+
+export PATH=$PATH:~/bin:~/scripts:~/GB/gbdk/bin:~/.local/bin:/home/anthony/.local/share/gem/ruby/2.7.0/bin:/opt/android-studio/bin:~/pico-8:~/.npm-global/bin:~/.cargo/bin
 # export TERM=xterm
 # export TERM=rxvt-unicode
 # export TERM=st-256color
@@ -193,11 +192,29 @@ export XDG_CONFIG_HOME=$HOME/.config/
 
 export PRINTER=EPSON_XP-410_Series
 
+# Themes
+# Set name of the theme to load. Optionally, if you set this to "random"
+# it'll load a random theme each time that oh-my-zsh is loaded.
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+# ZSH_THEME="gnzh"
+# ZSH_THEME="jonathan"
+# ZSH_THEME="bira"
+# ZSH_THEME=nicoulaj
+# ZSH_THEME=green_theme
+# ZSH_THEME=bira
+# ZSH_THEME="spaceship"
+# ZSH_THEME="minimal"
+# ZSH_THEME="theunraveler"
+# ZSH_THEME="daveverwer"
+# ZSH_THEME="mortalscumbag"
+# ZSH_THEME="norm"
+ZSH_THEME="powerlevel10k"
+
 # Aliases
 alias open="xdg-open"
 alias wcache="wget -m -k -K -E"
-alias V="sudo nvim"
-alias v="nvim"
+alias V="sudo /home/anthony/Appimages/nvim/squashfs-root/usr/bin/nvim"
+alias v="/home/anthony/Appimages/nvim/squashfs-root/usr/bin/nvim"
 alias vc="nvim ~/.config/nvim/init.vim"
 alias vz="nvim ~/.zshrc"
 
@@ -241,4 +258,6 @@ alias tmux="tmux -f $HOME/.config/tmux/tmux.conf"
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/home/anthony/.sdkman"
 [[ -s "/home/anthony/.sdkman/bin/sdkman-init.sh" ]] && source "/home/anthony/.sdkman/bin/sdkman-init.sh"
-alias mupdf="zathura"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

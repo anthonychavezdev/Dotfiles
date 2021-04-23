@@ -65,7 +65,7 @@ window:
 scrolling:
   # maximum number of lines in the scrollback buffer. Specifying '0' will
   # disable scrolling.
-  history: 1000
+  history: 100000
 
   # Number of lines the viewport will move for every line scrolled when
   # scrollback is enabled (history > 0).
@@ -76,23 +76,24 @@ font:
   # The normal (roman) font face to use.
   # Style can be specified to pick a specific face.
   normal:
-    family: Hack
+    # family: "MesloLGS NF"
     # family: "Fira Code"
-    # family: "Source Code Pro"
-    # style: Retina
+    family: "Source Code Pro"
+    style: Regular
 
   # The bold font face
   bold:
-    family: Hack
+    # family: "MesloLGS NF"
     # family: "Fira Code"
-    # family: "Source Code Pro"
+    family: "Source Code Pro"
+    style: Bold
 
   # The italic font face
   italic:
-    family: Hack
+    # family: "MesloLGS NF"
     # family: "Fira Code"
-    # family: "Source Code Pro"
-    # style: "Medium Italic"
+    family: "Source Code Pro"
+    style: Italic
 
   # Point size of the font
   size: 15.0
@@ -110,6 +111,9 @@ font:
     x: 0
     y: 0
 
+  # Scale the font size based on the monitor's DPI. This will lead to bigger text on HiDPI
+  # screens and make reading text a little easier.
+  scale_with_dpi: true
   # Thin stroke font rendering (macOS only)
   #
   # Thin strokes are suitable for retina displays, but for non-retina you
@@ -124,7 +128,12 @@ font:
   #
   # This is a global setting and will require a log out or restart to take
   # effect.
-  use_thin_strokes: true
+  # use_thin_strokes: true
+
+  # Use custom cursor colors. If `true`, the `colors.cursor.foreground` and
+  # `colors.cursor.background` colors will be used to display the cursor.
+  # Otherwise the cell colors are inverted for the cursor.
+custom_cursor_colors: false
 
 # When true, bold text is drawn using the bright variant of colors.
 draw_bold_text_with_bright_colors: false
@@ -202,7 +211,8 @@ bell:
   duration: 0
 
 # Background opacity
-background_opacity: 0.7
+# background_opacity: 0.9
+background_opacity: 1.0
 
 # Key bindings
 #
@@ -397,7 +407,7 @@ selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>"
 
   # When set to `true`, selected text will be copied to the primary clipboard.
-  save_to_clipboard: false
+  save_to_clipboard: true
 
 # Mouse bindings
 #
@@ -500,8 +510,11 @@ colors:
     cyan: '0x61d6d6'
     white: '0xf2f2f2'
   cursor:
-    text: '0xd8d8d8'
-    cursor: '0xd8d8d8'
+    text: '0x000000'
+    # This makes the cursor
+    # take the color of the text
+    # it's under.
+    cursor: '0x000000'
 
   # Normal colors
   dim:

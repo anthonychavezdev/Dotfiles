@@ -116,9 +116,22 @@ return require('packer').startup(function()
     use {'ryanoasis/vim-devicons'}
     use {'kyazdani42/nvim-web-devicons'}
 
+    -- You'll need to have pynvim installed,
+    -- and add this plugin's path to your $PATH
+    -- environment variable.
+    -- Alternatively, just run
+    -- sudo pip3 install neovim-remote.
+    --
+    -- This package provides an executable called nvr
+    -- which solves these cases:
+    -- * Controlling nvim processes from the shell.
+    -- E.g. opening files in another terminal window.
+    -- * Opening files from within :terminal without
+    -- starting a nested nvim process.
     use {'mhinz/neovim-remote'}
 
     use {'hrsh7th/vim-vsnip'}
+    use {'hrsh7th/vim-vsnip-integ'}
 
     use {'KeitaNakamura/tex-conceal.vim'}
 
@@ -130,4 +143,6 @@ return require('packer').startup(function()
     use {'andweeb/presence.nvim'}
     -- treesitter
     use {'nvim-treesitter/nvim-treesitter', run=function() vim.cmd(":TSUpdate") end}
+    -- Monokai Theme for Neovim with tree-sitter support
+    use {'tanvirtin/nvim-monokai'}
 end)

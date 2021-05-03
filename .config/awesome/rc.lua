@@ -18,6 +18,8 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
+-- Alt+Tab plugin from https://github.com/berlam/awesome-switcher
+local switcher = require("awesome-switcher")
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -49,8 +51,9 @@ beautiful.init(gears.filesystem.get_configuration_dir() .. "themes/default/theme
 
 -- This is used later as the default terminal and editor to run.
 terminal = "alacritty"
-editor = os.getenv("EDITOR") or "nvim"
-editor_cmd = terminal .. " -e " .. editor
+editor = os.getenv("EDITOR") or "emacs"
+-- editor_cmd = terminal .. " -e " .. editor
+editor_cmd = editor
 ta_file = "ranger"
 
 -- Default modkey.
@@ -236,8 +239,18 @@ globalkeys = gears.table.join(
               {description = "view previous", group = "tag"}),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext,
               {description = "view next", group = "tag"}),
-    awful.key({ modkey,           }, "Tab", awful.tag.history.restore,
+    awful.key({ modkey,           }, "`", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
+
+    awful.key({ "Mod1",           }, "Tab",
+      function ()
+          switcher.switch( 1, "Mod1", "Alt_L", "Shift", "Tab")
+      end),
+    
+    awful.key({ "Mod1", "Shift"   }, "Tab",
+      function ()
+          switcher.switch(-1, "Mod1", "Alt_L", "Shift", "Tab")
+      end),
 
     awful.key({ modkey,           }, "j",
         function ()

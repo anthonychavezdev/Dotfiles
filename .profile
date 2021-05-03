@@ -1,17 +1,18 @@
 dbus-update-activation-environment --systemd DISPLAY
-eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
+eval $(gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
 export SSH_AUTH_SOCK
 
 export QT_AUTO_SCREEN_SCALE_FACTOR=0
 export QT_AUTO_SCREEN_SCALE_FACTORS=0
 export GDK_SCALE=0
 export QT_QPA_PLATFORMTHEME=gtk2
+export QT_STYLE_OVERRIDE=gtk2
 
 export _JAVA_AWT_WM_NONREPARENTING=1
 
 # Sets cursor size
 xsetroot -xcf /usr/share/icons/Adwaita/cursors/left_ptr 48 &
-start-pulseaudio-x11
+#start-pulseaudio-x11
 
 if [ "$TERM"=="xterm" ]; then
     # No it isn't, it's gnome-terminal
@@ -22,8 +23,8 @@ export TERMEMU="terminator"
 export EDITOR="nvim"
 
 # syntax highlighting for less
-export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
-export LESS=' -R '
+# export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
+# export LESS=' -R '
 # colorize man pages
 export LESS_TERMCAP_mb=$'\e[1;32m'
 export LESS_TERMCAP_md=$'\e[1;32m'
@@ -37,13 +38,15 @@ export LESS_TERMCAP_us=$'\e[1;4;31m'
 
 # Honestly, I don't know what this does.
 # I assume openGL multithreading?
-export mesa_glthread=true
+# export mesa_glthread=true
 
 # hid-nintendo SDL2 mappings
+
 export SDL_GAMECONTROLLERCONFIG="050000007e0500000920000001800000,Nintendo Switch Pro Controller,platform:Linux,a:b0,b:b1,x:b3,y:b2,back:b9,guide:b11,start:b10,leftstick:b12,rightstick:b13,leftshoulder:b5,rightshoulder:b6,dpup:b14,dpdown:b15,dpleft:b16,dpright:b17,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b7,righttrigger:b8,
-030000007e0500000920000011810000,Nintendo Switch Pro Controller,platform:Linux,a:b0,b:b1,x:b3,y:b2,back:b9,guide:b11,start:b10,leftstick:b12,rightstick:b13,leftshoulder:b5,rightshoulder:b6,dpup:h0.1,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b7,righttrigger:b8,
-060000007e0500000620000000000000,Nintendo Switch Combined Joy-Cons,platform:Linux,a:b0,b:b1,x:b3,y:b2,back:b9,guide:b11,start:b10,leftstick:b12,rightstick:b13,leftshoulder:b5,rightshoulder:b6,dpup:b14,dpdown:b15,dpleft:b16,dpright:b17,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b7,righttrigger:b8,
-"
+# 030000007e0500000920000011810000,Nintendo Switch Pro Controller,platform:Linux,a:b0,b:b1,x:b3,y:b2,back:b9,guide:b11,start:b10,leftstick:b12,rightstick:b13,leftshoulder:b5,rightshoulder:b6,dpup:h0.1,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b7,righttrigger:b8,
+# 060000007e0500000620000000000000,Nintendo Switch Combined Joy-Cons,platform:Linux,a:b0,b:b1,x:b3,y:b2,back:b9,guide:b11,start:b10,leftstick:b12,rightstick:b13,leftshoulder:b5,rightshoulder:b6,dpup:b14,dpdown:b15,dpleft:b16,dpright:b17,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b7,righttrigger:b8,
+# "
+
 # Pulseaudio sound for SDL instead of ALSA
 
 export SDL_AUDIODRIVER="pulse"
@@ -53,6 +56,13 @@ export FZF_COMPLETION_TRIGGER='**'
 
 # Options to fzf command
 export FZF_COMPLETION_OPTS="+c -x"
+
+# Alacritty theme downloading destination
+# Used with https://github.com/toggle-corp/alacritty-colorscheme
+export DEST="$HOME/.config/alacritty/themes"
+
+export EDITOR="nvim"
+export TERMEMU="alacritty"
 
 # Use fd (https://github.com/sharkdp/fd) instead of the default find
 # command for listing path candidates.

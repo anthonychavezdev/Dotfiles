@@ -19,8 +19,9 @@ if exists('g:vscode')
     source /home/anthony/.config/nvim/vscode.vim
 else
     " Neovim Extensions
-" I don't remember why I mapped
-" <Esc> like that
+" <C-\><C-n> key stroke is used to switch to
+" nomral mode in the Neovim Terminal.
+" I want to just hit escape, or jk though.
 :tnoremap <Esc> <C-\><C-n>
 :tnoremap jk <C-\><C-n>
 
@@ -240,8 +241,11 @@ nmap <leader>ep :lprevious<CR>
 nmap <leader>tb :TagbarToggle<CR>
 
 " For moving between buffers
-noremap <silent> [b :bprev<CR>
-noremap <silent> ]b :bnext<CR>
+nnoremap <silent> [b :bprev<CR>
+nnoremap <silent> ]b :bnext<CR>
+
+" To quickly open a terminal split
+nnoremap <silent> <leader>T :8sp term://$SHELL<CR>
 " Misc
 noremap <silent> <leader>f :FixWhitespace<CR>
 nmap <silent> <F3> :set spell!<CR>
@@ -257,7 +261,7 @@ nnoremap <leader>w <C-w>
 nnoremap <leader>s :w<CR>
 nnoremap <leader>x :x<CR>
 nnoremap <leader>q :q<CR>
-nnoremap nt :tabnew<CR>
+nnoremap <leader>nt :tabnew<CR>
 inoremap jk <Esc>
 
 " Swap v and CTRL-V
@@ -488,6 +492,8 @@ autocmd FileType tex,gitcommit,text,markdown setlocal spell
 augroup hlasmdetect
     au! BufRead,BufNewFile *.jcl set filetype=hlasm
 augroup END
+
+autocmd TermOpen term://* startinsert
 
 
 " Commands

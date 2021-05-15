@@ -98,7 +98,9 @@ return require('packer').startup(function()
 
     -- The little starting page you get when you just run
     -- (Neo)vim without any arguments
-    use {'mhinz/vim-startify'}
+    -- use {'mhinz/vim-startify'}
+    -- replacing it with Dashboard
+       use {'glepnir/dashboard-nvim'}
     -- Plug 'Yggdroot/indentline'
 
     use {'iamcco/markdown-preview.vim'}
@@ -144,5 +146,8 @@ return require('packer').startup(function()
     -- treesitter
     use {'nvim-treesitter/nvim-treesitter', run=function() vim.cmd(":TSUpdate") end}
     -- Monokai Theme for Neovim with tree-sitter support
-    use {'tanvirtin/nvim-monokai'}
+    -- use {'tanvirtin/nvim-monokai'}
+    -- Tokyo Night theme with tree-sitter support
+    use 'folke/tokyonight.nvim'
+    use 'folke/todo-comments.nvim'
 end)

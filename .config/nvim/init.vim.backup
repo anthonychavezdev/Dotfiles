@@ -12,13 +12,15 @@
 set runtimepath+=~/.config/nvim,~/.config/nvim/after
 set packpath+=~/.config/nvim
 
-" Mappings for :terminal
-
+" For VSCode
 if exists('g:vscode')
     " VSCode extensions
     source /home/anthony/.config/nvim/vscode.vim
 else
-    " Neovim Extensions
+
+" Mappings for :terminal
+
+" Neovim Extensions
 " <C-\><C-n> key stroke is used to switch to
 " nomral mode in the Neovim Terminal.
 " I want to just hit escape, or jk though.
@@ -95,7 +97,9 @@ endif
 " colo gardener
 " colo dante
 " From https://github.com/tomasr/molokai
-colo molokai
+" colo molokai
+let g:tokyonight_style = "night"
+colo tokyonight
 let g:rehash256 = 1
 " colo distinguished
 " colo colorful256
@@ -105,6 +109,9 @@ let g:rehash256 = 1
 filetype plugin indent on
 " Automatically indents lines according to previous indent
 set autoindent
+" Stops Vim from stopping the switching of buffers
+" when there are unsaved changes.
+set hidden
 " Tab is spaces instead of a single tab character
 set expandtab
 " Tabs are viewed as 4 spaced
@@ -447,6 +454,10 @@ lua << EOF
 require('plugin-configs/vim-vsnip')
 EOF
 " ==============================
+" todo-comments
+lua << EOF
+require('plugin-configs/todo-comments')
+EOF
 
 " tex-conceal
 " Config in ~/.config/nvim/after/ftplugin/tex.vim

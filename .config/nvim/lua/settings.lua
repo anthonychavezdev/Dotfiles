@@ -131,8 +131,12 @@ opt("o", "splitbelow", true)
 opt("o", "updatetime", 300)
 -- Settings for autocompletion menu
 -- See :help completeopt
-opt("o", "completeopt", "menuone,preview,noinsert")
+opt("o", "completeopt", "menuone,preview,noinsert,noselect")
 
 vim.cmd("set path+='**'")
 
 opt("w", "signcolumn", "auto")
+
+-- Use treesitter for folding
+-- opt("w", "foldmethod", "expr")
+-- opt("w", "foldexpr", "nvim_treesitter#foldexpr()")

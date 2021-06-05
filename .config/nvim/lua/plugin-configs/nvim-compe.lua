@@ -1,4 +1,3 @@
-vim.o.completeopt = "menuone,preview,noselect"
 require'compe'.setup {
   enabled = true;
   autocomplete = true;
@@ -15,16 +14,16 @@ require'compe'.setup {
 
   source = {
     path = true;
-    buffer = true;
+    buffer = {kind = "﬘", true},
     calc = true;
-    vsnip = true;
+    vsnip = {kind = "﬌", true},
     nvim_lsp = true;
     nvim_lua = true;
     spell = false;
     tags = true;
     snippets_nvim = true;
     treesitter = true;
-  };
+  }
 }
 
 local t = function(str)
@@ -41,7 +40,7 @@ local check_back_space = function()
 end
 
 -- Use (s-)tab to:
---- move to prev/next item in completion menuone
+--- move to prev/next item in completion menu
 --- jump to prev/next snippet's placeholder
 _G.tab_complete = function()
   if vim.fn.pumvisible() == 1 then
@@ -72,4 +71,35 @@ vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()",
                                         {expr = true})
 vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()",
                                         {expr = true})
+function _G.completions()
+    local npairs = require("nvim-autopairs")
+    if vim.fn.pumvisible() == 1 then
+        if vim.fn.complete_info()["selected"] ~= -1 then
+            return vim.fn["compe#confirm"]("<CR>")
+        end
+    end
+    return npairs.check_break_line_char()
+end
 
+vim.api.nvim_set_keymap("i", "<CR>", "v:lua.completions()", {expr = true})
+
+local g = vim.g
+
+-- speeden up compe
+g.loaded_compe_calc = 0
+g.loaded_compe_emoji = 0
+
+g.loaded_compe_luasnip = 0
+g.loaded_compe_nvim_lua = 0
+
+g.loaded_compe_path = 0
+g.loaded_compe_spell = 0
+g.loaded_compe_tags = 0
+g.loaded_compe_treesitter = 0
+
+g.loaded_compe_snippets_nvim = 0
+
+g.loaded_compe_ultisnips = 0
+g.loaded_compe_vim_lsc = 0
+g.loaded_compe_vim_lsp = 0
+g.loaded_compe_omni = 0

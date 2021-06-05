@@ -31,8 +31,8 @@ map("n", "<leader>ep", ":lprevious<CR>", opt)
 map("n", "<leader>tb", ":TagbarToggle<CR>", opt)
 
 -- For moving between buffers
-map("n", "[b", ":bprev<CR>", {silent = true})
-map("n", "]b", ":bnext<CR>", {silent = true})
+map("n", "[b", ":BufferLineCyclePrev<CR>", {silent = true})
+map("n", "]b", ":BufferLineCycleNext<CR>", {silent = true})
 
 
 -- To quickly open a terminal split

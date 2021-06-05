@@ -9,10 +9,12 @@ require('plugins')
 
 -- Misc settings
 require("settings")
+
+require("keymaps")
+
 vim.cmd(":luafile ~/.config/nvim/lua/plugin-requires.lua")
 
 require("augroups-and-autocmds")
-require("keymaps")
 
 require("colorscheme")
 -- require("custom-colors-and-highlights")

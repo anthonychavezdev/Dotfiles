@@ -8,7 +8,7 @@ return require('packer').startup(function()
     use {'hrsh7th/nvim-compe'}
 
     -- This is that bar at the bottom
-    use {'glepnir/galaxyline.nvim', branch='main'}
+    use {'glepnir/galaxyline.nvim', branch = 'main'}
 
     -- Used to quickly switch colorschemes
     use {'xolox/vim-colorscheme-switcher'}
@@ -40,11 +40,11 @@ return require('packer').startup(function()
     -- and move the selected item(s) around
     use {'atweiden/vim-dragvisuals'}
 
-    -- Distraction-free writing in Vim.
-    use {'junegunn/goyo.vim'}
+    -- Distraction-free writing in Neovim.
+    use {'folke/zen-mode.nvim'}
 
     -- Insert or delete brackets, parens, quotes in pair.
-    use {'jiangmiao/auto-pairs'}
+    use {'windwp/nvim-autopairs'}
 
     -- Plug 'tomtom/tlib_vim'
     -- Plug 'MarcWeber/vim-addon-mw-utils'
@@ -134,6 +134,7 @@ return require('packer').startup(function()
 
     use {'hrsh7th/vim-vsnip'}
     use {'hrsh7th/vim-vsnip-integ'}
+    use {'rafamadriz/friendly-snippets'}
 
     use {'KeitaNakamura/tex-conceal.vim'}
 
@@ -149,5 +150,10 @@ return require('packer').startup(function()
     -- use {'tanvirtin/nvim-monokai'}
     -- Tokyo Night theme with tree-sitter support
     use 'folke/tokyonight.nvim'
+    use 'ishan9299/modus-theme-vim'  -- if using nightly neovim'
     use 'folke/todo-comments.nvim'
+
+    -- A snazzy buffer line (with minimal tab integration) for Neovim built using lua.
+    use {'akinsho/nvim-bufferline.lua', require = 'kyazdani42/nvim-web-devicons'}
+    use 'norcalli/nvim-colorizer.lua'
 end)

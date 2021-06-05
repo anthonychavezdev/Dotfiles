@@ -33,3 +33,5 @@ vim.api.nvim_command[[colorscheme tokyonight]]
 vim.g.rehash256 = 1
 -- colo distinguished
 -- colo colorful256
+-- vim.g.modus_moody_enable = 1
+-- vim.cmd('colorscheme modus-vivendi')

@@ -145,9 +145,9 @@ left off in a file
 #+END_SRC
 ** Changing the font
 #+Begin_SRC emacs-lisp
-  (if (member "Inconsolata"
+  (if (member "Fira Code"
   (font-family-list))(add-to-list 'default-frame-alist
-  '(font . "Inconsolata-12")))
+  '(font . "Fira Code-12")))
 #+END_SRC
 ** Rebind C-u
 Since I'm an =EVIL= user,
@@ -161,10 +161,11 @@ This conflicts with Emac's C-u binding though.
 ** Open  terminal
 Opens a new terminal buffer at the bottom of the screen
 #+BEGIN_SRC emacs-lisp
-(defun open-horizontal-terminal ()
-  (interactive)
-  (split-and-follow-horizontally)
-  (term "/bin/zsh"))
+  (defun open-horizontal-terminal ()
+"Opens a horizontal split with a terminal buffer and focuses on it"
+    (interactive)
+    (split-and-follow-horizontally)
+    (term "/bin/zsh"))
 #+END_SRC
 * Org-mode
 ** Description
@@ -376,24 +377,28 @@ but for an Evil user coming from Vim
 it means an easier start.
 *** Code
 #+BEGIN_SRC emacs-lisp
-          (use-package evil-leader
-            :after (evil)
-            :straight t
-            :config
-            (global-evil-leader-mode t)
-            (evil-leader/set-leader "<SPC>")
-            (evil-leader/set-key
-              "f s" 'swiper
-              "f e" 'find-file
-              "d w" 'delete-trailing-whitespace
-              "b s" 'ivy-switch-buffer
-              "b k" 'kill-this-buffer
-              "b n" 'evil-buffer-new
-              "w"   'evil-window-map
-              "s"   'evil-write
-              "T"   'open-horizontal-terminal
-              "q"   'evil-quit
-              "x"   'evil-save-and-quit))
+              (use-package evil-leader
+                :after (evil)
+                :straight t
+                :config
+                (global-evil-leader-mode t)
+                (evil-leader/set-leader "<SPC>")
+                (evil-leader/set-key
+                  "f s" 'swiper
+                  "f e" 'find-file
+                  "d w" 'delete-trailing-whitespace
+                  "b s" 'ivy-switch-buffer
+                  "b k" 'kill-this-buffer
+                  "b n" 'evil-buffer-new
+                  "w"   'evil-window-map
+                  "s"   'evil-write
+                  "T"   'open-horizontal-terminal
+                  "q"   'evil-quit
+                  "x"   'evil-save-and-quit
+                  "eb"  'eval-buffer
+                  "el"  'eval-last-sexp
+                  "er"  'eval-region
+                  "ef"  'eval-defun))
 #+END_SRC
 ** Initialize =evil-surround=
 *** Code
@@ -755,6 +760,15 @@ currently entered incomplete command
   :config
   (which-key-mode))
 #+END_SRC
+** Initialize =fira-code-mode=
+*** Description
+This is a simple minor mode for Fira Code ligatures, built from [[https://github.com/tonsky/FiraCode/wiki/Emacs-instructions#using-prettify-symbols][these instructions on the FiraCode repo]].
+*** code
+#+BEGIN_SRC emacs-lisp
+(use-package fira-code-mode
+  :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x")) ;; List of ligatures to turn off
+  :hook prog-mode) ;; Enables fira-code-mode automatically for programming major modes
+#+END_SRC
 ** Built-in entry: =eldoc=
 *** Code
 #+BEGIN_SRC emacs-lisp
@@ -880,6 +894,12 @@ popular Emacs packages like company, flycheck and projectile.
 *** Code
 #+BEGIN_SRC emacs-lisp
     (use-package racket-mode
+      :straight t)
+#+END_SRC
+** Initialize =go-mode=
+*** Code
+#+BEGIN_SRC emacs-lisp
+    (use-package go-mode
       :straight t)
 #+END_SRC
 * Keybindings

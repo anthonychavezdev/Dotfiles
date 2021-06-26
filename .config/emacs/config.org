@@ -863,6 +863,12 @@ popular Emacs packages like company, flycheck and projectile.
   ;;  :straight t)
   ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 #+END_SRC
+** Initialize =racket-mode=
+*** Code
+#+BEGIN_SRC elisp
+    (use-package racket-mode
+      :straight t)
+#+END_SRC
 * Keybindings
 #+BEGIN_SRC emacs-lisp
   ;; EVIL keybinds

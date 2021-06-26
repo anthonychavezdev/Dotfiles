@@ -95,16 +95,17 @@ Lastly, if no tabs left in the window, it is deleted with
 (setq save-place-file "~/config/emacs/saveplace")
 (save-place-mode 1)
 
-(if (member "Inconsolata"
+(if (member "Fira Code"
 (font-family-list))(add-to-list 'default-frame-alist
-'(font . "Inconsolata-12")))
+'(font . "Fira Code-12")))
 
 (global-set-key (kbd "C-M-u") 'universal-argument)
 
 (defun open-horizontal-terminal ()
-  (interactive)
-  (split-and-follow-horizontally)
-  (term "/bin/zsh"))
+"Opens a horizontal split with a terminal buffer and focuses on it"
+    (interactive)
+    (split-and-follow-horizontally)
+    (term "/bin/zsh"))
 
 (use-package org
     :straight t
@@ -261,7 +262,11 @@ Lastly, if no tabs left in the window, it is deleted with
     "s"   'evil-write
     "T"   'open-horizontal-terminal
     "q"   'evil-quit
-    "x"   'evil-save-and-quit))
+    "x"   'evil-save-and-quit
+    "eb"  'eval-buffer
+    "el"  'eval-last-sexp
+    "er"  'eval-region
+    "ef"  'eval-defun))
 
 (use-package evil-surround
   :after (evil)
@@ -539,6 +544,10 @@ Lastly, if no tabs left in the window, it is deleted with
   :config
   (which-key-mode))
 
+(use-package fira-code-mode
+  :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x")) ;; List of ligatures to turn off
+  :hook prog-mode) ;; Enables fira-code-mode automatically for programming major modes
+
 (use-package eldoc
   :straight nil
   :diminish eldoc-mode)
@@ -619,6 +628,9 @@ Lastly, if no tabs left in the window, it is deleted with
 ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 
 (use-package racket-mode
+  :straight t)
+
+(use-package go-mode
   :straight t)
 
 ;; EVIL keybinds

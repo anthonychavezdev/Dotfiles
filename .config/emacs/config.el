@@ -101,6 +101,11 @@ Lastly, if no tabs left in the window, it is deleted with
 
 (global-set-key (kbd "C-M-u") 'universal-argument)
 
+(defun open-horizontal-terminal ()
+  (interactive)
+  (split-and-follow-horizontally)
+  (term "/bin/zsh"))
+
 (use-package org
     :straight t
     :config
@@ -252,7 +257,11 @@ Lastly, if no tabs left in the window, it is deleted with
     "b s" 'ivy-switch-buffer
     "b k" 'kill-this-buffer
     "b n" 'evil-buffer-new
-    "w"   'evil-window-map))
+    "w"   'evil-window-map
+    "s"   'evil-write
+    "T"   'open-horizontal-terminal
+    "q"   'evil-quit
+    "x"   'evil-save-and-quit))
 
 (use-package evil-surround
   :after (evil)
@@ -609,6 +618,9 @@ Lastly, if no tabs left in the window, it is deleted with
 ;;  :straight t)
 ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 
+(use-package racket-mode
+  :straight t)
+
 ;; EVIL keybinds
 ;; Exit insert mode by pressing j and then k quickly
   (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
@@ -617,6 +629,3 @@ Lastly, if no tabs left in the window, it is deleted with
   ;; It's equivalent to gj and gk in (Neo)vim
   (evil-global-set-key 'motion "j" 'evil-next-visual-line)
   (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
-
-(use-package racket-mode
-  :straight t)

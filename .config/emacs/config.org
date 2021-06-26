@@ -157,6 +157,15 @@ This conflicts with Emac's C-u binding though.
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-M-u") 'universal-argument)
 #+END_SRC
+* Custom functions
+** Open  terminal
+Opens a new terminal buffer at the bottom of the screen
+#+BEGIN_SRC emacs-lisp
+(defun open-horizontal-terminal ()
+  (interactive)
+  (split-and-follow-horizontally)
+  (term "/bin/zsh"))
+#+END_SRC
 * Org-mode
 ** Description
 One of the main selling points of Emacs! Org Mode!
@@ -367,20 +376,24 @@ but for an Evil user coming from Vim
 it means an easier start.
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (use-package evil-leader
-    :after (evil)
-    :straight t
-    :config
-    (global-evil-leader-mode t)
-    (evil-leader/set-leader "<SPC>")
-    (evil-leader/set-key
-      "f s" 'swiper
-      "f e" 'find-file
-      "d w" 'delete-trailing-whitespace
-      "b s" 'ivy-switch-buffer
-      "b k" 'kill-this-buffer
-      "b n" 'evil-buffer-new
-      "w"   'evil-window-map))
+          (use-package evil-leader
+            :after (evil)
+            :straight t
+            :config
+            (global-evil-leader-mode t)
+            (evil-leader/set-leader "<SPC>")
+            (evil-leader/set-key
+              "f s" 'swiper
+              "f e" 'find-file
+              "d w" 'delete-trailing-whitespace
+              "b s" 'ivy-switch-buffer
+              "b k" 'kill-this-buffer
+              "b n" 'evil-buffer-new
+              "w"   'evil-window-map
+              "s"   'evil-write
+              "T"   'open-horizontal-terminal
+              "q"   'evil-quit
+              "x"   'evil-save-and-quit))
 #+END_SRC
 ** Initialize =evil-surround=
 *** Code
@@ -865,7 +878,7 @@ popular Emacs packages like company, flycheck and projectile.
 #+END_SRC
 ** Initialize =racket-mode=
 *** Code
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
     (use-package racket-mode
       :straight t)
 #+END_SRC

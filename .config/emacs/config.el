@@ -617,3 +617,6 @@ Lastly, if no tabs left in the window, it is deleted with
   ;; It's equivalent to gj and gk in (Neo)vim
   (evil-global-set-key 'motion "j" 'evil-next-visual-line)
   (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+
+(use-package racket-mode
+  :straight t)

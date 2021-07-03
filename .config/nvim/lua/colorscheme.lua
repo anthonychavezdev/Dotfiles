@@ -27,10 +27,11 @@
 -- colo gardener
 -- colo dante
 -- From https://github.com/tomasr/molokai
--- colo molokai
+-- vim.cmd('colorscheme molokai')
+-- For the dark molokai theme
+-- vim.g.rehash256 = 1
 vim.g.tokyonight_style = "night"
-vim.api.nvim_command[[colorscheme tokyonight]]
-vim.g.rehash256 = 1
+vim.cmd('colorscheme tokyonight')
 -- colo distinguished
 -- colo colorful256
 -- vim.g.modus_moody_enable = 1

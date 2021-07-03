@@ -6,10 +6,12 @@ local function opt(scope, key, value)
         scopes["o"][key] = value
     end
 end
+
+vim.cmd("set guifont=Hack:h15")
 -- See :help runtimepath and :help packpath
 -- for more information on these variables
-vim.cmd[[set runtimepath+=~/.config/nvim,~/.config/nvim/after]]
-vim.cmd[[set packpath+=~/.config/nvim]]
+vim.cmd([[set runtimepath+=~/.config/nvim,~/.config/nvim/after]])
+vim.cmd([[set packpath+=~/.config/nvim]])
 
 
 if (vim.o.compatible == true)

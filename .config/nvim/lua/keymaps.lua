@@ -70,25 +70,25 @@ map("v", "<C-V>", "v", opt)
 
 
 -- Blink the line containing the match...
-vim.cmd[[
+vim.cmd([[
 function! HLNext (blinktime)
     set invcursorline
     redraw
     exec 'sleep ' . float2nr(a:blinktime * 1000) . 'm'
     set invcursorline
     redraw
-endfunction]]
+endfunction]])
 
 map("n", "n", "n:call HLNext(0.4)<cr>", {silent = true})
 map("n", "N", "N:call HLNext(0.4)<cr>", {silent = true})
 
 
-vim.cmd[[
+vim.cmd([[
 function! ShowDigraphs ()
     digraphs
     call getchar()
     return "\<C-K>"
-endfunction]]
+endfunction]])
 -- Make CTRL-K list diagraphs before each digraph entry
 
 -- This doesn't show the popup, you just type the keys for

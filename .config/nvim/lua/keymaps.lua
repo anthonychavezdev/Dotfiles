@@ -30,6 +30,9 @@ map("n", "<leader>en", ":lnext<CR>", opt)
 map("n", "<leader>ep", ":lprevious<CR>", opt)
 map("n", "<leader>tb", ":TagbarToggle<CR>", opt)
 
+-- Buffer keymaps
+map("n", "<leader>bw", ":bw<CR>", {silent = true})
+map("n", "<leader>bd", ":bd<CR>", {silent = true})
 -- For moving between buffers
 map("n", "[b", ":BufferLineCyclePrev<CR>", {silent = true})
 map("n", "]b", ":BufferLineCycleNext<CR>", {silent = true})

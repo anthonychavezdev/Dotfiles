@@ -108,80 +108,92 @@ Lastly, if no tabs left in the window, it is deleted with
     (term "/bin/zsh"))
 
 (use-package org
+      :straight t
+      :config
+      (add-hook 'org-mode-hook 'org-indent-mode)
+      (add-hook 'org-mode-hook
+                '(lambda ()
+                  (visual-line-mode 1)))
+      (add-hook 'org-mode-hook 'org-bullets-mode)
+      (add-hook 'org-mode-hook 'evil-org-mode)
+      ;; I'm commenting out the
+      ;; pretty org-mode features
+      ;; because it makes opening
+      ;; org files take too long
+      ;; (add-hook 'org-mode-hook 'variable-pitch-mode)
+
+      (setq org-hide-emphasis-markers t)
+
+      ;; Default directory for org files (not all are stored here).
+      (setq org-directory "~/Nextcloud/Documents/Notes/Org")
+
+      (setq org-log-done t)
+
+      (setq org-return-follows-link t)
+
+
+    ;; (let* ((variable-tuple
+    ;;         (cond ((x-list-fonts "ETBembo")         '(:font "ETBembo"))
+    ;;               ((x-list-fonts "Source Sans Pro") '(:font "Source Sans Pro"))
+    ;;               ((x-list-fonts "Lucida Grande")   '(:font "Lucida Grande"))
+    ;;               ((x-list-fonts "Verdana")         '(:font "Verdana"))
+    ;;               ((x-family-fonts "Sans Serif")    '(:family "Sans Serif"))
+    ;;               (nil (warn "Cannot find a Sans Serif Font.  Install Source Sans Pro."))))
+    ;;        (base-font-color     (face-foreground 'default nil 'default))
+    ;;        (headline           `(:inherit default :weight bold :foreground ,base-font-color)))
+
+    ;;   (custom-theme-set-faces
+    ;;    'user
+    ;;    `(org-level-8 ((t (,@headline ,@variable-tuple))))
+    ;;    `(org-level-7 ((t (,@headline ,@variable-tuple))))
+    ;;    `(org-level-6 ((t (,@headline ,@variable-tuple))))
+    ;;    `(org-level-5 ((t (,@headline ,@variable-tuple))))
+    ;;    `(org-level-4 ((t (,@headline ,@variable-tuple :height 1.1))))
+    ;;    `(org-level-3 ((t (,@headline ,@variable-tuple :height 1.25))))
+    ;;    `(org-level-2 ((t (,@headline ,@variable-tuple :height 1.5))))
+    ;;    `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.75))))
+    ;;    `(org-document-title ((t (,@headline ,@variable-tuple :height 2.0 :underline nil))))
+
+    ;;     '(org-block ((t (:inherit fixed-pitch))))
+    ;;     '(org-code ((t (:inherit (shadow fixed-pitch)))))
+    ;;     '(org-document-info ((t (:foreground "dark orange"))))
+    ;;     '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
+    ;;     '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
+    ;;     '(org-link ((t (:foreground "royal blue" :underline t))))
+    ;;     '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+    ;;     '(org-property-value ((t (:inherit fixed-pitch))) t)
+    ;;     '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+    ;;     '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
+    ;;     '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
+    ;;     '(org-verbatim ((t (:inherit (shadow fixed-pitch)))))
+
+    ;;  '(variable-pitch ((t (:family "Source Code Pro" :height 180 :weight thin))))
+    ;;  '(fixed-pitch ((t ( :family "Source Code Pro" :height 160))))))
+  )
+
+
+    (use-package org-indent
+      :straight nil
+      :diminish org-indent-mode)
+
+    (use-package htmlize
+      :straight t)
+
+  (use-package org-bullets
     :straight t
+    :hook ('org-mode-hook . (lambda () org-bullets-mode))
+    :hook ('org-mode-hook 'variable-pitch-mode)
     :config
-    (add-hook 'org-mode-hook 'org-indent-mode)
-    (add-hook 'org-mode-hook
-              '(lambda ()
-                (visual-line-mode 1)))
-    (add-hook 'org-mode-hook 'org-bullets-mode)
-    (add-hook 'org-mode-hook 'evil-org-mode)
-    ;; I'm commenting out the
-    ;; pretty org-mode features
-    ;; because it makes opening
-    ;; org files take too long
-    ;; (add-hook 'org-mode-hook 'variable-pitch-mode)
+    (require 'org-bullets))
 
-    (setq org-hide-emphasis-markers t)
+(defun echo-area-tooltips ()
+  "Show tooltips in the echo area automatically for current buffer."
+  (setq-local help-at-pt-display-when-idle t
+              help-at-pt-timer-delay 0)
+  (help-at-pt-cancel-timer)
+  (help-at-pt-set-timer))
 
-    ;; Default directory for org files (not all are stored here).
-    (setq org-directory "~/Nextcloud/Documents/Notes/Org")
-
-    (setq org-log-done t)
-
-  ;; (let* ((variable-tuple
-  ;;         (cond ((x-list-fonts "ETBembo")         '(:font "ETBembo"))
-  ;;               ((x-list-fonts "Source Sans Pro") '(:font "Source Sans Pro"))
-  ;;               ((x-list-fonts "Lucida Grande")   '(:font "Lucida Grande"))
-  ;;               ((x-list-fonts "Verdana")         '(:font "Verdana"))
-  ;;               ((x-family-fonts "Sans Serif")    '(:family "Sans Serif"))
-  ;;               (nil (warn "Cannot find a Sans Serif Font.  Install Source Sans Pro."))))
-  ;;        (base-font-color     (face-foreground 'default nil 'default))
-  ;;        (headline           `(:inherit default :weight bold :foreground ,base-font-color)))
-
-  ;;   (custom-theme-set-faces
-  ;;    'user
-  ;;    `(org-level-8 ((t (,@headline ,@variable-tuple))))
-  ;;    `(org-level-7 ((t (,@headline ,@variable-tuple))))
-  ;;    `(org-level-6 ((t (,@headline ,@variable-tuple))))
-  ;;    `(org-level-5 ((t (,@headline ,@variable-tuple))))
-  ;;    `(org-level-4 ((t (,@headline ,@variable-tuple :height 1.1))))
-  ;;    `(org-level-3 ((t (,@headline ,@variable-tuple :height 1.25))))
-  ;;    `(org-level-2 ((t (,@headline ,@variable-tuple :height 1.5))))
-  ;;    `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.75))))
-  ;;    `(org-document-title ((t (,@headline ,@variable-tuple :height 2.0 :underline nil))))
-
-  ;;     '(org-block ((t (:inherit fixed-pitch))))
-  ;;     '(org-code ((t (:inherit (shadow fixed-pitch)))))
-  ;;     '(org-document-info ((t (:foreground "dark orange"))))
-  ;;     '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
-  ;;     '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
-  ;;     '(org-link ((t (:foreground "royal blue" :underline t))))
-  ;;     '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-  ;;     '(org-property-value ((t (:inherit fixed-pitch))) t)
-  ;;     '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-  ;;     '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
-  ;;     '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
-  ;;     '(org-verbatim ((t (:inherit (shadow fixed-pitch)))))
-
-  ;;  '(variable-pitch ((t (:family "Source Code Pro" :height 180 :weight thin))))
-  ;;  '(fixed-pitch ((t ( :family "Source Code Pro" :height 160))))))
-)
-
-
-  (use-package org-indent
-    :straight nil
-    :diminish org-indent-mode)
-
-  (use-package htmlize
-    :straight t)
-
-(use-package org-bullets
-  :straight t
-  :hook ('org-mode-hook . (lambda () org-bullets-mode))
-  :hook ('org-mode-hook 'variable-pitch-mode)
-  :config
-  (require 'org-bullets))
+(add-hook 'org-mode-hook #'echo-area-tooltips)
 
 (use-package async
   :straight t
@@ -266,7 +278,9 @@ Lastly, if no tabs left in the window, it is deleted with
     "eb"  'eval-buffer
     "el"  'eval-last-sexp
     "er"  'eval-region
-    "ef"  'eval-defun))
+    "ef"  'eval-defun
+     "tt" 'treemacs
+     "gs" 'magit-status))
 
 (use-package evil-surround
   :after (evil)
@@ -632,6 +646,12 @@ Lastly, if no tabs left in the window, it is deleted with
 
 (use-package go-mode
   :straight t)
+
+(use-package php-mode
+  :straight t)
+
+(use-package web-mode
+    :straight t)
 
 ;; EVIL keybinds
 ;; Exit insert mode by pressing j and then k quickly

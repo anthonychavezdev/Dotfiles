@@ -194,6 +194,9 @@ One of the main selling points of Emacs! Org Mode!
 
       (setq org-log-done t)
 
+      (setq org-return-follows-link t)
+
+
     ;; (let* ((variable-tuple
     ;;         (cond ((x-list-fonts "ETBembo")         '(:font "ETBembo"))
     ;;               ((x-list-fonts "Source Sans Pro") '(:font "Source Sans Pro"))
@@ -247,6 +250,15 @@ One of the main selling points of Emacs! Org Mode!
     :hook ('org-mode-hook 'variable-pitch-mode)
     :config
     (require 'org-bullets))
+
+(defun echo-area-tooltips ()
+  "Show tooltips in the echo area automatically for current buffer."
+  (setq-local help-at-pt-display-when-idle t
+              help-at-pt-timer-delay 0)
+  (help-at-pt-cancel-timer)
+  (help-at-pt-set-timer))
+
+(add-hook 'org-mode-hook #'echo-area-tooltips)
 #+END_SRC
 
 * Packages
@@ -377,28 +389,30 @@ but for an Evil user coming from Vim
 it means an easier start.
 *** Code
 #+BEGIN_SRC emacs-lisp
-              (use-package evil-leader
-                :after (evil)
-                :straight t
-                :config
-                (global-evil-leader-mode t)
-                (evil-leader/set-leader "<SPC>")
-                (evil-leader/set-key
-                  "f s" 'swiper
-                  "f e" 'find-file
-                  "d w" 'delete-trailing-whitespace
-                  "b s" 'ivy-switch-buffer
-                  "b k" 'kill-this-buffer
-                  "b n" 'evil-buffer-new
-                  "w"   'evil-window-map
-                  "s"   'evil-write
-                  "T"   'open-horizontal-terminal
-                  "q"   'evil-quit
-                  "x"   'evil-save-and-quit
-                  "eb"  'eval-buffer
-                  "el"  'eval-last-sexp
-                  "er"  'eval-region
-                  "ef"  'eval-defun))
+                  (use-package evil-leader
+                    :after (evil)
+                    :straight t
+                    :config
+                    (global-evil-leader-mode t)
+                    (evil-leader/set-leader "<SPC>")
+                    (evil-leader/set-key
+                      "f s" 'swiper
+                      "f e" 'find-file
+                      "d w" 'delete-trailing-whitespace
+                      "b s" 'ivy-switch-buffer
+                      "b k" 'kill-this-buffer
+                      "b n" 'evil-buffer-new
+                      "w"   'evil-window-map
+                      "s"   'evil-write
+                      "T"   'open-horizontal-terminal
+                      "q"   'evil-quit
+                      "x"   'evil-save-and-quit
+                      "eb"  'eval-buffer
+                      "el"  'eval-last-sexp
+                      "er"  'eval-region
+                      "ef"  'eval-defun
+                       "tt" 'treemacs
+                       "gs" 'magit-status))
 #+END_SRC
 ** Initialize =evil-surround=
 *** Code
@@ -900,6 +914,22 @@ popular Emacs packages like company, flycheck and projectile.
 *** Code
 #+BEGIN_SRC emacs-lisp
     (use-package go-mode
+      :straight t)
+#+END_SRC
+** Initialize =php-mode=
+*** Code
+#+BEGIN_SRC emacs-lisp
+    (use-package php-mode
+      :straight t)
+#+END_SRC
+** Initialize =web-mode=
+*** Description
+web-mode.el is an emacs major mode for editing web templates aka HTML
+files embedding parts (CSS/JavaScript) and blocks (pre rendered by
+client/server side engines).
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package web-mode
       :straight t)
 #+END_SRC
 * Keybindings

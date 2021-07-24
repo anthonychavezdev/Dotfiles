@@ -2,7 +2,7 @@ local map = vim.api.nvim_set_keymap
 -- left by default
 vim.g.nvim_tree_side = 'left'
 -- 30 by default
-vim.g.nvim_tree_width = 30
+vim.g.nvim_tree_width = 20
 -- empty by default
 vim.g.nvim_tree_ignore = { '.git', 'node_modules', '.cache' }
  -- 0 by default, opens the tree when typing `vim $DIR` or `vim`

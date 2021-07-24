@@ -30,9 +30,12 @@
 -- vim.cmd('colorscheme molokai')
 -- For the dark molokai theme
 -- vim.g.rehash256 = 1
-vim.g.tokyonight_style = "night"
-vim.cmd('colorscheme tokyonight')
+
+-- vim.g.tokyonight_style = "night"
+-- vim.cmd('colorscheme tokyonight')
+
 -- colo distinguished
 -- colo colorful256
--- vim.g.modus_moody_enable = 1
--- vim.cmd('colorscheme modus-vivendi')
+vim.g.modus_yellow_comments = 1
+vim.g.modus_green_strings = 1
+vim.cmd('colorscheme modus-vivendi')

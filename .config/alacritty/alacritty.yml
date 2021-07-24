@@ -77,22 +77,19 @@ font:
   # Style can be specified to pick a specific face.
   normal:
     # family: "MesloLGS NF"
-    # family: "Fira Code"
-    family: "Source Code Pro"
+    family: "Hack"
     style: Regular
 
   # The bold font face
   bold:
     # family: "MesloLGS NF"
-    # family: "Fira Code"
-    family: "Source Code Pro"
+    family: "Hack"
     style: Bold
 
   # The italic font face
   italic:
     # family: "MesloLGS NF"
-    # family: "Fira Code"
-    family: "Source Code Pro"
+    family: "Hack"
     style: Italic
 
   # Point size of the font
@@ -479,51 +476,92 @@ debug:
   ref_test: false
 
 # vim: nospell
-colors:
-  # COLORSCHEME: campbell.yaml
+# Colors (Modus)
+schemes:
+modus-vivendi: &dark
   # Default colors
   primary:
-    # hard contrast: background = '0x1d2021'
-    background: '0x0c0c0c'
-    foreground: '0xcccccc'
+    background: '#000000'
+    foreground: '#ffffff'
 
-  # Normal colors
-  normal:
-  # Bright colors
-    black: '0x0c0c0c'
-    red: '0xc50f1f'
-    green: '0x13a10e'
-    yellow: '0xc19c00'
-    blue: '0x0037da'
-    magenta: '0x881798'
-    cyan: '0x3a96dd'
-    white: '0xcccccc'
-
-  # Bright colors
-  bright:
-    black: '0x767676'
-    red: '0xe74856'
-    green: '0x16c60c'
-    yellow: '0xf9f1a5'
-    blue: '0x3b78ff'
-    magenta: '0xb4009e'
-    cyan: '0x61d6d6'
-    white: '0xf2f2f2'
   cursor:
-    # This makes the cursor
-    # take the color of the text
-    # it's under.
-    text: '0xffffff'
-    cursor: '0x000000'
+    text: '#000000'
+    background: '#777777'
 
-  # Normal colors
+  # Normal colors (except green it is from intense colors)
+  normal:
+    black:   '#000000'
+    red:     '#ff8059'
+    green:   '#00fc50'
+    yellow:  '#eecc00'
+    blue:    '#29aeff'
+    magenta: '#feacd0'
+    cyan:    '#00d3d0'
+    white:   '#eeeeee'
+
+  # Bright colors [all the faint colors in the modus theme]
+  bright:
+    black:   '#555555'
+    red:     '#ffa0a0'
+    green:   '#88cf88'
+    yellow:  '#d2b580'
+    blue:    '#92baff'
+    magenta: '#e0b2d6'
+    cyan:    '#a0bfdf'
+    white:   '#ffffff'
+
+  # dim [all the intense colors in modus theme]
   dim:
-    black: '0x31363b'
-    red: '0x783228'
-    green: '0x17a262'
-    yellow: '0xb65619'
-    blue: '0x1b668f'
-    magenta: '0x614a73'
-    cyan: '0x186c60'
-    white: '0x63686d'
-  indexed_colors: []
+    black:   '#222222'
+    red:     '#fb6859'
+    green:   '#00fc50'
+    yellow:  '#ffdd00'
+    blue:    '#00a2ff'
+    magenta: '#ff8bd4'
+    cyan:    '#30ffc0'
+    white:   '#dddddd'
+
+modus-operandi: &light
+  # Default colors
+  primary:
+    background: '#ffffff'
+    foreground: '#000000'
+
+  cursor:
+    text: '#ffffff'
+    background: '#777777'
+
+  # Normal colors (except green it is from intense colors)
+  normal:
+    black:   '#000000'
+    red:     '#a60000'
+    green:   '#006800'
+    yellow:  '#813e00'
+    blue:    '#0030a6'
+    magenta: '#721045'
+    cyan:    '#00538b'
+    white:   '#eeeeee'
+
+  # Bright colors [all the faint colors in the modus theme]
+  bright:
+    black:   '#555555'
+    red:     '#7f1010'
+    green:   '#104410'
+    yellow:  '#5f4400'
+    blue:    '#002f88'
+    magenta: '#752f50'
+    cyan:    '#12506f'
+    white:   '#ffffff'
+
+  # dim [all the intense colors in modus theme]
+  dim:
+    black:   '#222222'
+    red:     '#b60000'
+    green:   '#006800'
+    yellow:  '#904200'
+    blue:    '#1111ee'
+    magenta: '#7000e0'
+    cyan:    '#205b93'
+    white:   '#dddddd'
+
+colors: *dark

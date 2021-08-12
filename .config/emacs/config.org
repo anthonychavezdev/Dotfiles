@@ -389,30 +389,31 @@ but for an Evil user coming from Vim
 it means an easier start.
 *** Code
 #+BEGIN_SRC emacs-lisp
-                  (use-package evil-leader
-                    :after (evil)
-                    :straight t
-                    :config
-                    (global-evil-leader-mode t)
-                    (evil-leader/set-leader "<SPC>")
-                    (evil-leader/set-key
-                      "f s" 'swiper
-                      "f e" 'find-file
-                      "d w" 'delete-trailing-whitespace
-                      "b s" 'ivy-switch-buffer
-                      "b k" 'kill-this-buffer
-                      "b n" 'evil-buffer-new
-                      "w"   'evil-window-map
-                      "s"   'evil-write
-                      "T"   'open-horizontal-terminal
-                      "q"   'evil-quit
-                      "x"   'evil-save-and-quit
-                      "eb"  'eval-buffer
-                      "el"  'eval-last-sexp
-                      "er"  'eval-region
-                      "ef"  'eval-defun
-                       "tt" 'treemacs
-                       "gs" 'magit-status))
+                    (use-package evil-leader
+                      :after (evil)
+                      :straight t
+                      :config
+                      (global-evil-leader-mode t)
+                      (evil-leader/set-leader "<SPC>")
+                      (evil-leader/set-key
+                        "f s" 'swiper
+                        "f e" 'find-file
+                        "d w" 'delete-trailing-whitespace
+                        "b s" 'ivy-switch-buffer
+                        "b k" 'kill-this-buffer
+                        "b n" 'evil-buffer-new
+                        "w"   'evil-window-map
+                        "s"   'evil-write
+                        "T"   'open-horizontal-terminal
+                        "q"   'evil-quit
+                        "x"   'evil-save-and-quit
+                        "eb"  'eval-buffer
+                        "el"  'eval-last-sexp
+                        "er"  'eval-region
+                        "ef"  'eval-defun
+                         "tt" 'treemacs
+                         "gs" 'magit-status
+                         "dd" 'define-word-at-point))
 #+END_SRC
 ** Initialize =evil-surround=
 *** Code
@@ -680,7 +681,7 @@ A fancy and fast mode-line inspired by minimalism design.
 (setq doom-modeline-number-limit 99)
 
 ;; The maximum displayed length of the branch name of version control.
-(setq doom-modeline-vcs-max-length 12)
+(setq doom-modeline-vcs-max-length 20)
 
 ;; Whether display the workspace name. Non-nil to display in the mode-line.
 (setq doom-modeline-workspace-name t)
@@ -782,6 +783,12 @@ This is a simple minor mode for Fira Code ligatures, built from [[https://github
 (use-package fira-code-mode
   :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x")) ;; List of ligatures to turn off
   :hook prog-mode) ;; Enables fira-code-mode automatically for programming major modes
+#+END_SRC
+** =Initialize define-word=
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package define-word
+    :straight t)
 #+END_SRC
 ** Built-in entry: =eldoc=
 *** Code

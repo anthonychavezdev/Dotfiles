@@ -280,7 +280,8 @@ Lastly, if no tabs left in the window, it is deleted with
     "er"  'eval-region
     "ef"  'eval-defun
      "tt" 'treemacs
-     "gs" 'magit-status))
+     "gs" 'magit-status
+     "dd" 'define-word-at-point))
 
 (use-package evil-surround
   :after (evil)
@@ -476,7 +477,7 @@ Lastly, if no tabs left in the window, it is deleted with
 (setq doom-modeline-number-limit 99)
 
 ;; The maximum displayed length of the branch name of version control.
-(setq doom-modeline-vcs-max-length 12)
+(setq doom-modeline-vcs-max-length 20)
 
 ;; Whether display the workspace name. Non-nil to display in the mode-line.
 (setq doom-modeline-workspace-name t)
@@ -561,6 +562,9 @@ Lastly, if no tabs left in the window, it is deleted with
 (use-package fira-code-mode
   :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x")) ;; List of ligatures to turn off
   :hook prog-mode) ;; Enables fira-code-mode automatically for programming major modes
+
+(use-package define-word
+  :straight t)
 
 (use-package eldoc
   :straight nil

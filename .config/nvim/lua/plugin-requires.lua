@@ -1,8 +1,6 @@
 require('plugin-configs/colorscheme-switcher')
-require('plugin-configs/vimwiki')
 require('plugin-configs/nvim-tree')
 require('plugin-configs/galaxyline')
-require("plugin-configs/tagbar")
 require('plugin-configs/vimtex')
 require('plugin-configs/dashboard-nvim')
 require('plugin-configs/trailing-whitespace')

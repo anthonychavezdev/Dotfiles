@@ -23,18 +23,6 @@ return require('packer').startup(function()
     -- delete, change and add such surroundings in pairs.
     use {'tpope/vim-surround'}
 
-    -- VimWiki is a personal wiki for Vim -- a number of linked text files
-    -- that have their own syntax highlighting
-    --
-    -- With VimWiki you can:
-
-    -- Organize notes and ideas
-    -- Manage to-do lists
-    -- Write documentation
-    -- Maintain a diary
-    -- Export everything to HTML
-    use {'vimwiki/vimwiki'}
-
     -- This plugin makes it possible to select
     -- things in visual mode (Shifft+v, Ctrl+v, etc)
     -- and move the selected item(s) around
@@ -51,19 +39,10 @@ return require('packer').startup(function()
 
     use {'pangloss/vim-javascript'}
 
-    -- Plug 'ervandew/supertab'
-    use {'rust-lang/rust.vim'}
-
     -- ShowMarks provides a visual representation of the location marks
     -- See :help marks
     -- or, https://vim.fandom.com/wiki/Using_marks
     use {'jacquesbh/vim-showmarks'}
-
-    -- Tagbar is a Vim plugin that provides an easy way to browse the tags
-    -- of the current file and get an overview of its structure
-    -- bringing up tagbar shows you variables, and function names
-    -- on a side panel, and allows you to quickly jump to them
-    use {'majutsushi/tagbar'}
 
     -- Matches HTML tags
     use {'gregsexton/MatchTag'}
@@ -145,7 +124,7 @@ return require('packer').startup(function()
     -- Only for nvim 0.5 Nightly
     use {'andweeb/presence.nvim'}
     -- treesitter
-    use {'nvim-treesitter/nvim-treesitter', run=function() vim.cmd(":TSUpdate") end}
+    use {'nvim-treesitter/nvim-treesitter', run=function() vim.cmd(":TSUpdate") end, branch = '0.5-compat'}
     -- Monokai Theme for Neovim with tree-sitter support
     -- use {'tanvirtin/nvim-monokai'}
     -- Tokyo Night theme with tree-sitter support

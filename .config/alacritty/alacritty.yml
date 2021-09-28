@@ -20,7 +20,7 @@ env:
   # `infocmp xterm-256color`.
   TERM: xterm-256color
 
-  WINIT_X11_SCALE_FACTOR: "1"
+  # WINIT_X11_SCALE_FACTOR: "1"
 
 window:
   # Window dimensions (changes require restart)
@@ -93,7 +93,7 @@ font:
     style: Italic
 
   # Point size of the font
-  size: 15.0
+  size: 14.0
 
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
@@ -475,93 +475,32 @@ debug:
   # Record all characters and escape sequences as test data.
   ref_test: false
 
-# vim: nospell
 # Colors (Modus)
-schemes:
-modus-vivendi: &dark
+colors:
   # Default colors
   primary:
-    background: '#000000'
-    foreground: '#ffffff'
+    background: '0x1b182c'
+    foreground: '0xcbe3e7'
 
-  cursor:
-    text: '#000000'
-    background: '#777777'
-
-  # Normal colors (except green it is from intense colors)
+  # Normal colors
   normal:
-    black:   '#000000'
-    red:     '#ff8059'
-    green:   '#00fc50'
-    yellow:  '#eecc00'
-    blue:    '#29aeff'
-    magenta: '#feacd0'
-    cyan:    '#00d3d0'
-    white:   '#eeeeee'
+    black:   '0x100e23'
+    red:     '0xff8080'
+    green:   '0x95ffa4'
+    yellow:  '0xffe9aa'
+    blue:    '0x91ddff'
+    magenta: '0xc991e1'
+    cyan:    '0xaaffe4'
+    white:   '0xcbe3e7'
 
-  # Bright colors [all the faint colors in the modus theme]
+  # Bright colors
   bright:
-    black:   '#555555'
-    red:     '#ffa0a0'
-    green:   '#88cf88'
-    yellow:  '#d2b580'
-    blue:    '#92baff'
-    magenta: '#e0b2d6'
-    cyan:    '#a0bfdf'
-    white:   '#ffffff'
-
-  # dim [all the intense colors in modus theme]
-  dim:
-    black:   '#222222'
-    red:     '#fb6859'
-    green:   '#00fc50'
-    yellow:  '#ffdd00'
-    blue:    '#00a2ff'
-    magenta: '#ff8bd4'
-    cyan:    '#30ffc0'
-    white:   '#dddddd'
-
-modus-operandi: &light
-  # Default colors
-  primary:
-    background: '#ffffff'
-    foreground: '#000000'
-
-  cursor:
-    text: '#ffffff'
-    background: '#777777'
-
-  # Normal colors (except green it is from intense colors)
-  normal:
-    black:   '#000000'
-    red:     '#a60000'
-    green:   '#006800'
-    yellow:  '#813e00'
-    blue:    '#0030a6'
-    magenta: '#721045'
-    cyan:    '#00538b'
-    white:   '#eeeeee'
-
-  # Bright colors [all the faint colors in the modus theme]
-  bright:
-    black:   '#555555'
-    red:     '#7f1010'
-    green:   '#104410'
-    yellow:  '#5f4400'
-    blue:    '#002f88'
-    magenta: '#752f50'
-    cyan:    '#12506f'
-    white:   '#ffffff'
-
-  # dim [all the intense colors in modus theme]
-  dim:
-    black:   '#222222'
-    red:     '#b60000'
-    green:   '#006800'
-    yellow:  '#904200'
-    blue:    '#1111ee'
-    magenta: '#7000e0'
-    cyan:    '#205b93'
-    white:   '#dddddd'
-
-colors: *dark
+    black:   '0x565575'
+    red:     '0xff5458'
+    green:   '0x62d196'
+    yellow:  '0xffb378'
+    blue:    '0x65b2ff'
+    magenta: '0x906cff'
+    cyan:    '0x63f2f1'
+    white:   '0xa6b3cc'
+# vim: nospell

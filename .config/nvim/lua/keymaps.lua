@@ -23,12 +23,12 @@ map("", "k", "gk")
 
 
 -- for creating and moving between tags.
-map("n", "<leader>tn", ":tnext<CR>", opt)
-map("n", "<leader>tp", ":tprev<CR>", opt)
-map("n", "<leader>tj", ":tjump<CR>", opt)
-map("n", "<leader>en", ":lnext<CR>", opt)
-map("n", "<leader>ep", ":lprevious<CR>", opt)
-map("n", "<leader>tb", ":TagbarToggle<CR>", opt)
+map("n", "<leader>tn", ":tnext<CR>", {silent = true})
+map("n", "<leader>tp", ":tprev<CR>", {silent = true})
+map("n", "<leader>tj", ":tjump<CR>", {silent = true})
+map("n", "<leader>en", ":lnext<CR>", {silent = true})
+map("n", "<leader>ep", ":lprevious<CR>", {silent = true})
+map("n", "<leader>tt", ":NvimTreeToggle<CR>", {silent = true})
 
 -- Buffer keymaps
 map("n", "<leader>bw", ":bw<CR>", {silent = true})

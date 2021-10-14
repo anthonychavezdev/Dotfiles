@@ -5,15 +5,22 @@ return require('packer').startup(function()
     use {'wbthomason/packer.nvim', opt = true}
     -- Native LSP
     use {'neovim/nvim-lspconfig'}
-    use {'hrsh7th/nvim-compe'}
+    -- completion engine
+    use {'hrsh7th/cmp-nvim-lsp'}
+    use {'hrsh7th/cmp-buffer'}
+    use {'hrsh7th/nvim-cmp'}
+    -- snippets
+    use {'hrsh7th/cmp-vsnip'}
+    use {'hrsh7th/vim-vsnip'}
+    use {'hrsh7th/vim-vsnip-integ'}
 
     -- This is that bar at the bottom
     use {'glepnir/galaxyline.nvim', branch = 'main'}
 
-    -- Used to quickly switch colorschemes
-    use {'xolox/vim-colorscheme-switcher'}
     -- Used by vim-colorscheme-switcher
     use {'xolox/vim-misc'}
+    -- Used to quickly switch colorschemes
+    use {'xolox/vim-colorscheme-switcher'}
 
     -- This plugin causes trailing whitespace to be highlighted in red.
     -- To delete the trailing whitespace, call :FixWhitespace
@@ -34,55 +41,25 @@ return require('packer').startup(function()
     -- Insert or delete brackets, parens, quotes in pair.
     use {'windwp/nvim-autopairs'}
 
-    -- Plug 'tomtom/tlib_vim'
-    -- Plug 'MarcWeber/vim-addon-mw-utils'
-
-    use {'pangloss/vim-javascript'}
-
-    -- ShowMarks provides a visual representation of the location marks
-    -- See :help marks
-    -- or, https://vim.fandom.com/wiki/Using_marks
-    use {'jacquesbh/vim-showmarks'}
-
-    -- Matches HTML tags
-    use {'gregsexton/MatchTag'}
-
-    use {'udalov/kotlin-vim'}
-    use {'dracula/vim', as='dracula'}
-    -- Adds syntax highlighting for gdscript3,
-    -- a programing language used by the
-    -- Godot game engine
-    use {'calviken/vim-gdscript3'}
-
-    -- Plug 'protesilaos/tempus-themes-vim'
-
     -- Easily comment stuff out, or uncomment
     -- them out.
     use {'tpope/vim-commentary'}
 
-    -- Plug 'morhetz/gruvbox'
-
-    use {'tpope/vim-rails'}
     use {'kyazdani42/nvim-tree.lua'}
     -- telescope.nvim is a highly extendable fuzzy finder over lists.
     -- Built on the latest awesome features from neovim core.
     -- Telescope is centered around modularity, allowing for easy customization.
+    --
+    -- INSTALL:
+    -- ripgrep
+    -- fd
+    -- fzf
+    -- required by Telescope
+    use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
     use {
   'nvim-telescope/telescope.nvim',
-  requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
-}
-    -- Extra syntax highlighting.
-    -- I don't remember what languages this was for.
-    use {'justinmk/vim-syntax-extra'}
-
-    -- The little starting page you get when you just run
-    -- (Neo)vim without any arguments
-    -- use {'mhinz/vim-startify'}
-    -- replacing it with Dashboard
-       use {'glepnir/dashboard-nvim'}
-    -- Plug 'Yggdroot/indentline'
-
-    use {'iamcco/markdown-preview.vim'}
+  requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}}
+    use {'glepnir/dashboard-nvim'}
 
     -- LaTeX plugin
     use {'lervag/vimtex'}
@@ -92,9 +69,6 @@ return require('packer').startup(function()
     use {'godlygeek/tabular'}
 
     -- Adds icons to files/filetypes
-    -- vim-devicons is stil used by
-    -- startify
-    use {'ryanoasis/vim-devicons'}
     use {'kyazdani42/nvim-web-devicons'}
 
     -- You'll need to have pynvim installed,
@@ -111,8 +85,6 @@ return require('packer').startup(function()
     -- starting a nested nvim process.
     use {'mhinz/neovim-remote'}
 
-    use {'hrsh7th/vim-vsnip'}
-    use {'hrsh7th/vim-vsnip-integ'}
     use {'rafamadriz/friendly-snippets'}
 
     use {'KeitaNakamura/tex-conceal.vim'}
@@ -121,7 +93,7 @@ return require('packer').startup(function()
     use {'voldikss/vim-floaterm'}
     -- Git blame plugin
     use {'APZelos/blamer.nvim'}
-    -- Only for nvim 0.5 Nightly
+    -- Only for nvim 0.5
     use {'andweeb/presence.nvim'}
     -- treesitter
     use {'nvim-treesitter/nvim-treesitter', run=function() vim.cmd(":TSUpdate") end, branch = '0.5-compat'}
@@ -129,7 +101,6 @@ return require('packer').startup(function()
     -- use {'tanvirtin/nvim-monokai'}
     -- Tokyo Night theme with tree-sitter support
     use 'folke/tokyonight.nvim'
-    use 'ishan9299/modus-theme-vim'  -- if using nightly neovim'
     use 'folke/todo-comments.nvim'
 
     -- A snazzy buffer line (with minimal tab integration) for Neovim built using lua.

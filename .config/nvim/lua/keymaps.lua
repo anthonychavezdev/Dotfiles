@@ -28,7 +28,6 @@ map("n", "<leader>tp", ":tprev<CR>", {silent = true})
 map("n", "<leader>tj", ":tjump<CR>", {silent = true})
 map("n", "<leader>en", ":lnext<CR>", {silent = true})
 map("n", "<leader>ep", ":lprevious<CR>", {silent = true})
-map("n", "<leader>tt", ":NvimTreeToggle<CR>", {silent = true})
 
 -- Buffer keymaps
 map("n", "<leader>bw", ":bw<CR>", {silent = true})
@@ -101,3 +100,19 @@ endfunction]])
 map("i", "<d-k", "call ShowDigraphs()<cr>", {expr = true})
 
 map("n", "<leader>C", ":Compile<CR>", opt)
+
+-- Keymaps for plugins
+
+-- NvimTree
+map("n", "<leader>tt", ":NvimTreeToggle<CR>", {silent = true})
+map('n', '<leader>tr', ':NvimTreeRefresh<CR>', {noremap = true})
+map('n', '<leader>tf', ':NvimTreeFindFile<CR>', {noremap = true})
+-- end
+
+-- Telescope
+map("n", "<leader>ff", ":Telescope find_files<CR>", {silent = true, noremap = true})
+map("n", "<leader>fg", ":Telescope find_files<CR>", {silent = true, noremap = true})
+map("n", "<leader>fb", ":Telescope buffers<CR>", {silent = true, noremap = true})
+map("n", "<leader>fh", ":Telescope help_tags<CR>", {silent = true, noremap = true})
+-- end
+-- end

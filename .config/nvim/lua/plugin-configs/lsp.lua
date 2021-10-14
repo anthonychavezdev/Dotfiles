@@ -32,12 +32,13 @@ end
 local lspconf = require("lspconfig")
 
 -- these langs require same lspconfig so put em all in a table and loop through!
-local servers = {"html", "cssls", "tsserver", "pyright", "bashls", "clangd"}
+local servers = {"html", "cssls", "tsserver", "pyright", "bashls", "clangd", "rls"}
 
 for _, lang in ipairs(servers) do
     lspconf[lang].setup {
         on_attach = on_attach,
-        root_dir = vim.loop.cwd
+        root_dir = vim.loop.cwd,
+        capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
     }
 end
 
@@ -98,3 +99,4 @@ vim.cmd('autocmd BufWritePre *.py lua vim.lsp.buf.formatting_sync(nil, 100)')
 vim.cmd('autocmd BufWritePre *.cpp lua vim.lsp.buf.formatting_sync(nil, 100)')
 vim.cmd('autocmd BufWritePre *.c lua vim.lsp.buf.formatting_sync(nil, 100)')
 vim.cmd('autocmd BufWritePre *.lua lua vim.lsp.buf.formatting_sync(nil, 100)')
+vim.cmd('autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 100)')

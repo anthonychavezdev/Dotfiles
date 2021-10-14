@@ -26,7 +26,7 @@ vim.cmd[[syntax on]]
 
 -- Correct RGB escape codes for (Neo)vim inside tmux
 -- Use 256 colors in terminal
-if (vim.env.TERM == "xterm-256color" or vim.env.TERM == "screen-256color")
+if (vim.env.TERM == "xterm-256color" or vim.env.TERM == "screen-256color" or vim.env.TERM == "xterm-kitty")
     then
         -- Use 256 colors in terminal
         vim.cmd[[

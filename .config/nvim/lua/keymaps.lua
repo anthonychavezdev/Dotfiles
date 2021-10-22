@@ -115,4 +115,12 @@ map("n", "<leader>fg", ":Telescope find_files<CR>", {silent = true, noremap = tr
 map("n", "<leader>fb", ":Telescope buffers<CR>", {silent = true, noremap = true})
 map("n", "<leader>fh", ":Telescope help_tags<CR>", {silent = true, noremap = true})
 -- end
+
+-- Floaterm
+map("n", "<leader>ftn", ":FloatermNew<CR>", {silent = true, noremap = true})
+map("n", "<leader>fts", ":FloatermShow<CR>", {silent = true, noremap = true})
+map("n", "<leader>ftk", ":FloatermKill<CR>", {silent = true, noremap = true})
+map("n", "<leader>ftf", ":FloatermFirst<CR>", {silent = true, noremap = true})
+map("n", "<leader>ftp", ":FloatermPrev<CR>", {silent = true, noremap = true})
+--end
 -- end

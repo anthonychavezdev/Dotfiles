@@ -7,7 +7,13 @@ local function opt(scope, key, value)
     end
 end
 
-vim.cmd("set guifont=Hack:h15")
+-- Neovide settings
+vim.cmd("set guifont=FuraCode\\ Nerd\\ Font:h20")
+vim.cmd("let g:neovide_refresh_rate=60")
+vim.cmd("let g:neovide_fullscreen=v:true")
+vim.cmd("let g:neovide_cursor_antialiasing=v:true")
+vim.cmd("let g:neovide_cursor_vfx_mode = \"ripple\"")
+
 -- See :help runtimepath and :help packpath
 -- for more information on these variables
 vim.cmd([[set runtimepath+=~/.config/nvim,~/.config/nvim/after]])

@@ -31,8 +31,14 @@
 -- For the dark molokai theme
 -- vim.g.rehash256 = 1
 
-vim.g.tokyonight_style = "night"
-vim.cmd('colorscheme tokyonight')
+-- vim.g.tokyonight_style = "night"
+-- vim.cmd('colorscheme tokyonight')
+-- moonfly theme
+vim.g.moonflyCursorColor = 1
+vim.g.moonflyItalics = 1
+vim.g.moonflyNormalFloat = 1
+vim.g.moonflyUndercurls = 1
+vim.cmd("colorscheme moonfly")
 
 -- colo distinguished
 -- colo colorful256

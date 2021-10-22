@@ -106,4 +106,8 @@ return require('packer').startup(function()
     -- A snazzy buffer line (with minimal tab integration) for Neovim built using lua.
     use {'akinsho/nvim-bufferline.lua', require = 'kyazdani42/nvim-web-devicons'}
     use 'norcalli/nvim-colorizer.lua'
+
+    use 'marko-cerovac/material.nvim'
+
+    use 'bluz71/vim-moonfly-colors'
 end)

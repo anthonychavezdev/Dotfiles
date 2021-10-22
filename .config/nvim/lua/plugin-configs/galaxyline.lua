@@ -4,13 +4,13 @@ local gls = gl.section
 gl.short_line_list = {" "} -- keeping this table { } as empty will show inactive statuslines
 
 local colors = {
-    bg = "#1e222a",
-    line_bg = "#1e222a",
+    bg = "#050505",
+    line_bg = "#050505",
     fg = "#D8DEE9",
     green = "#BBE67E",
     orange = "#FF8800",
     red = "#DF8890",
-    lightbg = "#282c34",
+    lightbg = "#151515",
     lightGreen = "#88CC88",
     greenYel = "#EBCB8B"
 }
@@ -25,7 +25,7 @@ gls.left[1] = {
 gls.left[2] = {
     statusIcon = {
         provider = function()
-            return "  ♆ "
+            return "   "
         end,
         highlight = {colors.bg, colors.lightGreen},
         separator = " ",

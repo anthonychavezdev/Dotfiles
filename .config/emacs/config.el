@@ -99,80 +99,13 @@ Lastly, if no tabs left in the window, it is deleted with
 (font-family-list))(add-to-list 'default-frame-alist
 '(font . "Fira Code-12")))
 
-(global-set-key (kbd "C-M-u") 'universal-argument)
-
 (defun open-horizontal-terminal ()
 "Opens a horizontal split with a terminal buffer and focuses on it"
     (interactive)
     (split-and-follow-horizontally)
     (term "/bin/zsh"))
 
-(use-package org
-      :straight t
-      :config
-      (add-hook 'org-mode-hook 'org-indent-mode)
-      (add-hook 'org-mode-hook
-                '(lambda ()
-                  (visual-line-mode 1)))
-      (add-hook 'org-mode-hook 'org-bullets-mode)
-      (add-hook 'org-mode-hook 'evil-org-mode)
-      ;; I'm commenting out the
-      ;; pretty org-mode features
-      ;; because it makes opening
-      ;; org files take too long
-      ;; (add-hook 'org-mode-hook 'variable-pitch-mode)
-
-      (setq org-hide-emphasis-markers t)
-
-      ;; Default directory for org files (not all are stored here).
-      (setq org-directory "~/Nextcloud/Documents/Notes/Org")
-
-      (setq org-log-done t)
-
-      (setq org-return-follows-link t)
-
-
-    ;; (let* ((variable-tuple
-    ;;         (cond ((x-list-fonts "ETBembo")         '(:font "ETBembo"))
-    ;;               ((x-list-fonts "Source Sans Pro") '(:font "Source Sans Pro"))
-    ;;               ((x-list-fonts "Lucida Grande")   '(:font "Lucida Grande"))
-    ;;               ((x-list-fonts "Verdana")         '(:font "Verdana"))
-    ;;               ((x-family-fonts "Sans Serif")    '(:family "Sans Serif"))
-    ;;               (nil (warn "Cannot find a Sans Serif Font.  Install Source Sans Pro."))))
-    ;;        (base-font-color     (face-foreground 'default nil 'default))
-    ;;        (headline           `(:inherit default :weight bold :foreground ,base-font-color)))
-
-    ;;   (custom-theme-set-faces
-    ;;    'user
-    ;;    `(org-level-8 ((t (,@headline ,@variable-tuple))))
-    ;;    `(org-level-7 ((t (,@headline ,@variable-tuple))))
-    ;;    `(org-level-6 ((t (,@headline ,@variable-tuple))))
-    ;;    `(org-level-5 ((t (,@headline ,@variable-tuple))))
-    ;;    `(org-level-4 ((t (,@headline ,@variable-tuple :height 1.1))))
-    ;;    `(org-level-3 ((t (,@headline ,@variable-tuple :height 1.25))))
-    ;;    `(org-level-2 ((t (,@headline ,@variable-tuple :height 1.5))))
-    ;;    `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.75))))
-    ;;    `(org-document-title ((t (,@headline ,@variable-tuple :height 2.0 :underline nil))))
-
-    ;;     '(org-block ((t (:inherit fixed-pitch))))
-    ;;     '(org-code ((t (:inherit (shadow fixed-pitch)))))
-    ;;     '(org-document-info ((t (:foreground "dark orange"))))
-    ;;     '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
-    ;;     '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
-    ;;     '(org-link ((t (:foreground "royal blue" :underline t))))
-    ;;     '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-    ;;     '(org-property-value ((t (:inherit fixed-pitch))) t)
-    ;;     '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-    ;;     '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
-    ;;     '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
-    ;;     '(org-verbatim ((t (:inherit (shadow fixed-pitch)))))
-
-    ;;  '(variable-pitch ((t (:family "Source Code Pro" :height 180 :weight thin))))
-    ;;  '(fixed-pitch ((t ( :family "Source Code Pro" :height 160))))))
-  )
-
-
-    (use-package org-indent
+(use-package org-indent
       :straight nil
       :diminish org-indent-mode)
 
@@ -241,88 +174,16 @@ Lastly, if no tabs left in the window, it is deleted with
   :init
   (global-undo-tree-mode 1))
 
-(use-package evil
-  :straight t
-  :init
-  (setq evil-want-integration t) ;; This is true by default
-  (setq evil-want-keybinding nil)
-  (setq evil-want-C-u-scroll t)
-  (setq evil-undo-system 'undo-tree)
-  :config
-  (evil-mode 1))
-
-(use-package evil-collection
-  :after evil
-  :straight t
-  :config
-  (evil-collection-init))
-
-(use-package evil-leader
-  :after (evil)
-  :straight t
-  :config
-  (global-evil-leader-mode t)
-  (evil-leader/set-leader "<SPC>")
-  (evil-leader/set-key
-    "f s" 'swiper
-    "f e" 'find-file
-    "d w" 'delete-trailing-whitespace
-    "b s" 'ivy-switch-buffer
-    "b k" 'kill-this-buffer
-    "b n" 'evil-buffer-new
-    "w"   'evil-window-map
-    "s"   'evil-write
-    "T"   'open-horizontal-terminal
-    "q"   'evil-quit
-    "x"   'evil-save-and-quit
-    "eb"  'eval-buffer
-    "el"  'eval-last-sexp
-    "er"  'eval-region
-    "ef"  'eval-defun
-     "tt" 'treemacs
-     "gs" 'magit-status
-     "dd" 'define-word-at-point))
-
-(use-package evil-surround
-  :after (evil)
-  :straight t
-  :config
-(global-evil-surround-mode 1))
-
-(use-package evil-indent-textobject
-    :straight t)
-
-(use-package evil-quickscope
-  :straight t
-  :config
-;;  (global-evil-quickscope-always-mode 1)
-)
-
-(use-package evil-commentary
-  :straight t
-  :config
-  (evil-commentary-mode))
-
-(use-package evil-org
-  :straight t
-  :after org
-  :hook ('org-mode-hook . (lambda () evil-org-mode))
-  :config
-    (require 'evil-org-agenda)
-    (evil-org-agenda-set-keys))
-
 (use-package page-break-lines
   :straight t
   :diminish (page-break-lines-mode visual-line-mode))
 
 (use-package projectile
  :straight t
- :after evil
  :config
    (projectile-mode +1)
-   :bind
-   (:map evil-normal-state-map
-              ("<SPC> p" . projectile-command-map)))
+  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
 (use-package treemacs
   :straight t
@@ -382,10 +243,6 @@ Lastly, if no tabs left in the window, it is deleted with
         ("C-x t B"   . treemacs-bookmark)
         ("C-x t C-t" . treemacs-find-file)
         ("C-x t M-t" . treemacs-find-tag)))
-
-(use-package treemacs-evil
-  :after treemacs evil
-    :straight t)
 
   (use-package treemacs-icons-dired
     :after treemacs dired
@@ -500,10 +357,6 @@ Lastly, if no tabs left in the window, it is deleted with
 ;; The interval of checking GitHub.
 (setq doom-modeline-github-interval (* 30 60))
 
-;; Whether display the modal state icon.
-;; Including `evil', `overwrite', `god', `ryo' and `xah-fly-keys', etc.
-(setq doom-modeline-modal-icon t)
-
 ;; Whether display the mu4e notifications. It requires `mu4e-alert' package.
 (setq doom-modeline-mu4e nil)
 
@@ -612,11 +465,7 @@ Lastly, if no tabs left in the window, it is deleted with
 (use-package company
  :straight t
  :config
- (global-company-mode)
- ;; Evil Collection sets this variable to use TAB
- ;; to insert completion.
- ;; It doesn't seem to be working though.
- (setq evil-collection-company-use-tng nil))
+ (global-company-mode))
 
 (use-package lsp-mode
   :straight t
@@ -656,12 +505,3 @@ Lastly, if no tabs left in the window, it is deleted with
 
 (use-package web-mode
     :straight t)
-
-;; EVIL keybinds
-;; Exit insert mode by pressing j and then k quickly
-  (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-
-  ;; Moves up and down without skipping wrapped lines.
-  ;; It's equivalent to gj and gk in (Neo)vim
-  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-  (evil-global-set-key 'motion "k" 'evil-previous-visual-line)

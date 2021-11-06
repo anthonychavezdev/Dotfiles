@@ -608,6 +608,16 @@ This is a simple minor mode for Fira Code ligatures, built from [[https://github
     :diminish abbrev-mode)
 #+END_SRC
 * Programming
+** Initializze =tree-sitter=
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package tree-sitter
+    :straight t)
+  (use-package tree-sitter-langs
+    :straight t)
+  (require 'tree-sitter)
+    (require 'tree-sitter-langs)
+#+END_SRC
 ** Initialize =elisp-bug-hunter=
 *** Description
 The Bug Hunter is an Emacs library that finds the source of an
@@ -736,5 +746,11 @@ client/server side engines).
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package web-mode
+      :straight t)
+#+END_SRC
+** Initialize =rust-mode=
+*** Code
+#+BEGIN_SRC emacs-lisp
+    (use-package rust-mode
       :straight t)
 #+END_SRC

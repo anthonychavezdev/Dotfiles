@@ -13,19 +13,6 @@
 (add-hook 'emacs-startup-hook 'startup/revert-file-name-handler-alist)
 (add-hook 'emacs-startup-hook 'startup/reset-gc)
 
-;; Turned off because I'm using straight now
-;; (require 'package)
-;; (setq package-enable-at-startup nil)
-;; '(package-archives
-;;         '(("melpa" . "https://melpa.org/packages/")
-;;         '("gnu" . "https://elpa.gnu.org/packages/")
-;;         '("org" . "https://orgmode.org/elpa/")))
-;; (package-initialize)
-;
-;; ;; Initialize use-package
-;; (unless (package-installed-p 'use-package)
-;;   (package-refresh-contents)
-;;   (package-install 'use-package))
 
 (setq straight-repository-branch "master")
 (setq straight-use-package-by-default t)
@@ -72,6 +59,27 @@
   
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
+
+
+;; This causes straight.el to download
+;; and load the latest version of Org mode,
+;; and use the newer version, instead of
+;; Emacs' build in version
+(use-package org
+  :straight t
+  :config
+  (progn
+  (setq org-hide-emphasis-markers t)
+  ;; Default directory for org files (not all are stored here).
+  (setq org-directory "~/Nextcloud/Documents/Notes/Org")
+
+  (setq org-log-done t)
+  (setq org-return-follows-link t)
+  (add-hook 'org-mode-hook 'org-indent-mode)
+  (add-hook 'org-mode-hook
+            '(lambda ()
+              (visual-line-mode 1)))
+  (add-hook 'org-mode-hook 'org-bullets-mode)))
 
 ;; Load config.org for init.el configuration
 (org-babel-load-file (expand-file-name "~/.config/emacs/config.org"))

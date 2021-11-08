@@ -103,6 +103,10 @@ Super - Control - <arrow>
   (font-family-list))(add-to-list 'default-frame-alist
   '(font . "Fira Code-12")))
 #+END_SRC
+** Enable deleting selection by typing
+#+BEGIN_SRC emacs-lisp
+(delete-selection-mode)
+#+END_SRC
 * Custom functions
 ** Open  terminal
 Opens a new terminal buffer at the bottom of the screen
@@ -748,6 +752,17 @@ This is a simple minor mode for Fira Code ligatures, built from [[https://github
             (require 'doi-utils))
   
   #+END_SRC
+** Initialize =expand-region=
+*** Description
+Expand region increases the selected region by semantic units. Just keep pressing the key
+until it selects what you want.
+*** Code
+#+BEGIN_SRC emacs-lisp
+        (use-package expand-region
+          :straight t
+          :config
+          (global-set-key (kbd "C-=") 'er/expand-region))
+#+END_SRC
 ** Built-in entry: =eldoc=
 *** Code
 #+BEGIN_SRC emacs-lisp

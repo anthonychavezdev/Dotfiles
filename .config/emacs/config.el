@@ -9,7 +9,7 @@
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 
-(setq x-select-enable-clipboard t)
+(setq select-enable-clipboard t)
 
 (setq make-backup-files nil)
 (setq auto-save-default nil)
@@ -59,74 +59,41 @@
 
 (global-hl-line-mode t)
 
-(defun tab-line-close-tab (&optional e)
-  "Close the selected tab.
-If tab is presented in another window, close the tab by using
-`bury-buffer` function.
-If tab is uniq to all existing windows, kill the buffer with
-`kill-buffer` function.
-Lastly, if no tabs left in the window, it is deleted with
-`delete-window` function."
-  (interactive "e")
-  (let* ((posnp (event-start e))
-         (window (posn-window posnp))
-         (buffer (get-pos-property 1 'tab (car (posn-string posnp)))))
-    (with-selected-window window
-      (let ((tab-list (tab-line-tabs-window-buffers))
-            (buffer-list (flatten-list
-                          (seq-reduce (lambda (list window)
-                                        (select-window window t)
-                                        (cons (tab-line-tabs-window-buffers) list))
-                                      (window-list) nil))))
-        (select-window window)
-        (if (> (seq-count (lambda (b) (eq b buffer)) buffer-list) 1)
-            (progn
-              (if (eq buffer (current-buffer))
-                  (bury-buffer)
-                (set-window-prev-buffers window (assq-delete-all buffer (window-prev-buffers)))
-                (set-window-next-buffers window (delq buffer (window-next-buffers))))
-              (unless (cdr tab-list)
-                (ignore-errors (delete-window window))))
-          (and (kill-buffer buffer)
-               (unless (cdr tab-list)
-                 (ignore-errors (delete-window window)))))))
-    (force-mode-line-update)))
-
-(setq save-place-file "~/config/emacs/saveplace")
-(save-place-mode 1)
-
 (if (member "Fira Code"
 (font-family-list))(add-to-list 'default-frame-alist
 '(font . "Fira Code-12")))
 
-(defun open-horizontal-terminal ()
-"Opens a horizontal split with a terminal buffer and focuses on it"
-    (interactive)
-    (split-and-follow-horizontally)
-    (term "/bin/zsh"))
+(delete-selection-mode)
 
 (use-package org-indent
-      :straight nil
-      :diminish org-indent-mode)
+        :straight nil
+        :diminish org-indent-mode)
 
-    (use-package htmlize
-      :straight t)
+      (use-package htmlize
+        :straight t)
 
-  (use-package org-bullets
-    :straight t
-    :hook ('org-mode-hook . (lambda () org-bullets-mode))
-    :hook ('org-mode-hook 'variable-pitch-mode)
-    :config
-    (require 'org-bullets))
+    (use-package org-bullets
+      :straight t
+      :hook ('org-mode-hook . (lambda () org-bullets-mode))
+      :hook ('org-mode-hook 'variable-pitch-mode)
+      :config
+      (require 'org-bullets))
 
-(defun echo-area-tooltips ()
-  "Show tooltips in the echo area automatically for current buffer."
-  (setq-local help-at-pt-display-when-idle t
-              help-at-pt-timer-delay 0)
-  (help-at-pt-cancel-timer)
-  (help-at-pt-set-timer))
+  (defun echo-area-tooltips ()
+    "Show tooltips in the echo area automatically for current buffer."
+    (setq-local help-at-pt-display-when-idle t
+                help-at-pt-timer-delay 0)
+    (help-at-pt-cancel-timer)
+    (help-at-pt-set-timer))
 
-(add-hook 'org-mode-hook #'echo-area-tooltips)
+  (add-hook 'org-mode-hook #'echo-area-tooltips)
+;; Sets LaTeX preview size
+(setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+
+(use-package org-beautify-theme
+  :straight t)
+
+(add-hook 'org-mode-hook '(lambda () (load-theme 'org-beautify t)))
 
 (use-package async
   :straight t
@@ -272,7 +239,8 @@ Lastly, if no tabs left in the window, it is deleted with
 
 (use-package swiper
   :straight t
-  :bind ("C-s" . 'swiper))
+  :bind ("C-s" . 'swiper)
+  ("C-r" . 'swiper-backward))
 
 (use-package magit
   :straight t)
@@ -403,6 +371,8 @@ Lastly, if no tabs left in the window, it is deleted with
 
 (use-package rainbow-mode
   :straight t)
+;; To enable in all programming-related modes (Emacs 24+):
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
 (use-package rainbow-delimiters
   :straight t)
@@ -419,6 +389,210 @@ Lastly, if no tabs left in the window, it is deleted with
 (use-package define-word
   :straight t)
 
+(use-package pdf-tools
+		:magic ("%PDF" . pdf-view-mode)
+		:config
+		(pdf-tools-install)
+		(setq-default pdf-view-display-size 'fit-page)
+		 ;; automatically annotate highlights
+		(setq pdf-annot-activate-created-annotations t)
+		;; use normal isearch
+		(define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
+		(define-key pdf-view-mode-map (kbd "C-r") 'isearch-backward))
+
+
+	  (defun try/TeX-command-save-buffer-and-run-all ()
+	      "Save the buffer and run TeX-command-run-all"
+	      (interactive)
+	      (let (TeX-save-query) (TeX-save-document (TeX-master-file)))
+	      (TeX-command-run-all nil))
+
+	  ;; copied ivy-bibtex and modified it to cite action
+	  (defun try/ivy-bibtex-cite (&optional arg local-bib)
+	    "Search BibTeX entries using ivy.
+
+	  With a prefix ARG the cache is invalidated and the bibliography
+	  reread.
+
+	  If LOCAL-BIB is non-nil, display that the BibTeX entries are read
+	  from the local bibliography.  This is set internally by
+	  `ivy-bibtex-with-local-bibliography'."
+	    (interactive "P")
+	    (when arg
+	      (bibtex-completion-clear-cache))
+	    (bibtex-completion-init)
+	    (let* ((candidates (bibtex-completion-candidates))
+		    (key (bibtex-completion-key-at-point))
+		    (preselect (and key
+				    (cl-position-if (lambda (cand)
+						      (member (cons "=key=" key)
+							      (cdr cand)))
+						    candidates))))
+	      (ivy-read (format "Insert citation %s: " (if local-bib " (local)" ""))
+			candidates
+			:preselect preselect
+			:caller 'ivy-bibtex
+			:history 'ivy-bibtex-history
+			:action 'ivy-bibtex-insert-citation)))
+
+	  (defun try/latex-mode-setup ()
+	    (require 'company-reftex)
+		  (turn-on-reftex)
+		  (require 'company-auctex)
+		  (require 'company-math)
+	  (setq-local company-backends
+
+	      (append '(
+					(company-reftex-labels
+					  company-reftex-citations)
+			(company-math-symbols-unicode company-math-symbols-latex company-latex-commands)
+			(company-auctex-macros company-auctex-symbols company-auctex-environments)
+			company-ispell
+			)
+		      company-backends)))
+
+
+	  (defun try/counsel-insert-file-path ()
+	    "Insert relative file path using counsel minibuffer"
+	    (interactive)
+	    (unless (featurep 'counsel) (require 'counsel))
+	    (ivy-read "Insert filename: " 'read-file-name-internal
+		      :matcher #'counsel--find-file-matcher
+		      :action
+		      (lambda (x)
+			(insert (file-relative-name x)))))
+
+
+	  ;; Olivetti
+
+	  (use-package olivetti
+	    :diminish
+	    :hook (text-mode . olivetti-mode)
+	    :config
+	    (setq olivetti-body-width 100))
+
+
+
+	  ;; Enable folding and unfolding sections just like org-mode (using ~C-c-n~) using [[https://github.com/alphapapa/outshine/issues/85][outshine]]
+
+	  ;; Check ~outshine-cycle~ for more options.
+
+	  (use-package outshine
+	    :config
+	  (setq LaTeX-section-list '(
+				     ("part" 0)
+				     ("chapter" 1)
+				     ("section" 2)
+				     ("subsection" 3)
+				     ("subsubsection" 4)
+				     ("paragraph" 5)
+				     ("subparagraph" 6)
+				     ("begin" 7)
+				     )
+		)
+	  (add-hook 'LaTeX-mode-hook #'(lambda ()
+					 (outshine-mode 1)
+					 (setq outline-level #'LaTeX-outline-level)
+					 (setq outline-regexp (LaTeX-outline-regexp t))
+					 (setq outline-heading-alist
+					       (mapcar (lambda (x)
+							 (cons (concat "\\" (nth 0 x)) (nth 1 x)))
+						       LaTeX-section-list))))
+
+	    )
+
+
+(add-hook 'LaTeX-mode-hook
+	  (lambda () (local-set-key (kbd "C-c n") '(outshine-cycle :which-key "outshine-cycle"))))
+
+		;; latexmk
+		(use-package auctex-latexmk)
+		;; company
+		(use-package company-math)
+		(use-package company-auctex)
+	  (use-package company-reftex)
+
+
+		;;  use cdlatex
+		(use-package cdlatex)
+
+		;; https://gist.github.com/saevarb/367d3266b3f302ecc896
+		;; https://piotr.is/2010/emacs-as-the-ultimate-latex-editor/
+
+		(use-package latex
+		  :straight auctex
+		  :defer t
+		  :custom
+		  (olivetti-body-width 100)
+		  (cdlatex-simplify-sub-super-scripts nil)
+		  (reftex-default-bibliography
+			'("~/ref.bib"))
+		  (bibtex-dialect 'biblatex)
+		  :mode
+		    ("\\.tex\\'" . latex-mode)
+		  :bind (:map LaTeX-mode-map
+			    ("C-c C-e" . cdlatex-environment)
+			)
+		  :hook
+		    (LaTeX-mode . olivetti-mode)
+		    (LaTeX-mode . TeX-PDF-mode)
+		    (LaTeX-mode . company-mode)
+		    (LaTeX-mode . flyspell-mode)
+		    (LaTeX-mode . flycheck-mode)
+		    (LaTeX-mode . LaTeX-math-mode)
+		    (LaTeX-mode . turn-on-reftex)
+		    (LaTeX-mode . TeX-source-correlate-mode)
+		    (LaTeX-mode . try/latex-mode-setup)
+		    (LaTeX-mode . turn-on-cdlatex)
+
+		  :config
+		    (setq TeX-auto-save t)
+		    (setq TeX-parse-self t)
+		    (setq-default TeX-master nil)
+		    (setq TeX-save-query nil)
+
+		    (setq reftex-plug-into-AUCTeX t)
+
+		    ;; pdftools
+		    ;; https://emacs.stackexchange.com/questions/21755/use-pdfview-as-default-auctex-pdf-viewer#21764
+		    (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+			TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view))
+			TeX-source-correlate-start-server t) ;; not sure if last line is neccessary
+		    ;; to have the buffer refresh after compilation,
+		    ;; very important so that PDFView refesh itself after comilation
+		    (add-hook 'TeX-after-compilation-finished-functions
+				#'TeX-revert-document-buffer)
+
+		    ;; latexmk
+		    (require 'auctex-latexmk)
+		    (auctex-latexmk-setup)
+		    (setq auctex-latexmk-inherit-TeX-PDF-mode t))
+
+
+	;; ivy-bibtex
+	  (use-package ivy-bibtex
+	    :custom
+	    (bibtex-completion-bibliography
+		  '("~/ref.bib"))
+	    (bibtex-completion-library-path '("~/papers"))
+	    (bibtex-completion-cite-prompt-for-optional-arguments nil)
+	    (bibtex-completion-cite-default-as-initial-input t))
+
+      ;; org-ref
+	    (use-package org-ref
+	  :custom
+	  (org-ref-default-bibliography "/tmp/ref.bib")
+	  (org-ref-pdf-directory "/tmp/papers")
+	  (org-ref-completion-library 'org-ref-ivy-cite)
+	  :config
+	  (require 'org-ref-wos)
+	  (require 'doi-utils))
+
+(use-package expand-region
+  :straight t
+  :config
+  (global-set-key (kbd "C-=") 'er/expand-region))
+
 (use-package eldoc
   :straight nil
   :diminish eldoc-mode)
@@ -426,6 +600,13 @@ Lastly, if no tabs left in the window, it is deleted with
 (use-package abbrev
   :straight nil
   :diminish abbrev-mode)
+
+(use-package tree-sitter
+  :straight t)
+(use-package tree-sitter-langs
+  :straight t)
+(require 'tree-sitter)
+  (require 'tree-sitter-langs)
 
 (use-package bug-hunter
   :straight t)
@@ -505,3 +686,9 @@ Lastly, if no tabs left in the window, it is deleted with
 
 (use-package web-mode
     :straight t)
+
+(use-package rust-mode
+  :straight t)
+
+(use-package json-mode
+  :straight t)

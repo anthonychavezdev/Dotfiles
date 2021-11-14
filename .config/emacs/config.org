@@ -107,43 +107,40 @@ Super - Control - <arrow>
 #+BEGIN_SRC emacs-lisp
 (delete-selection-mode)
 #+END_SRC
-* Custom functions
-** Open  terminal
-Opens a new terminal buffer at the bottom of the screen
-#+BEGIN_SRC emacs-lisp
-  (defun open-horizontal-terminal ()
-"Opens a horizontal split with a terminal buffer and focuses on it"
-    (interactive)
-    (split-and-follow-horizontally)
-    (term "/bin/zsh"))
-#+END_SRC
 * Org-mode
 ** Description
 One of the main selling points of Emacs! Org Mode!
 ** Code
 #+BEGIN_SRC emacs-lisp
-    (use-package org-indent
-      :straight nil
-      :diminish org-indent-mode)
+        (use-package org-indent
+          :straight nil
+          :diminish org-indent-mode)
 
-    (use-package htmlize
-      :straight t)
+        (use-package htmlize
+          :straight t)
 
-  (use-package org-bullets
-    :straight t
-    :hook ('org-mode-hook . (lambda () org-bullets-mode))
-    :hook ('org-mode-hook 'variable-pitch-mode)
-    :config
-    (require 'org-bullets))
+      (use-package org-bullets
+        :straight t
+        :hook ('org-mode-hook . (lambda () org-bullets-mode))
+        :hook ('org-mode-hook 'variable-pitch-mode)
+        :config
+        (require 'org-bullets))
 
-(defun echo-area-tooltips ()
-  "Show tooltips in the echo area automatically for current buffer."
-  (setq-local help-at-pt-display-when-idle t
-              help-at-pt-timer-delay 0)
-  (help-at-pt-cancel-timer)
-  (help-at-pt-set-timer))
+    (defun echo-area-tooltips ()
+      "Show tooltips in the echo area automatically for current buffer."
+      (setq-local help-at-pt-display-when-idle t
+                  help-at-pt-timer-delay 0)
+      (help-at-pt-cancel-timer)
+      (help-at-pt-set-timer))
 
-(add-hook 'org-mode-hook #'echo-area-tooltips)
+    (add-hook 'org-mode-hook #'echo-area-tooltips)
+  ;; Sets LaTeX preview size
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+
+  (use-package org-beautify-theme
+    :straight t)
+
+  (add-hook 'org-mode-hook '(lambda () (load-theme 'org-beautify t)))
 #+END_SRC
 
 * Packages
@@ -365,7 +362,8 @@ When doing <SPC> s s to search, you get this very nice and neat mini-buffer that
 #+BEGIN_SRC emacs-lisp
   (use-package swiper
     :straight t
-    :bind ("C-s" . 'swiper))
+    :bind ("C-s" . 'swiper)
+    ("C-r" . 'swiper-backward))
 #+END_SRC
 
 ** Initialize =magit=
@@ -518,6 +516,8 @@ A fancy and fast mode-line inspired by minimalism design.
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-mode
   :straight t)
+;; To enable in all programming-related modes (Emacs 24+):
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 #+END_SRC
 ** Initialize =rainbow-delimeters=
 *** Code
@@ -557,200 +557,205 @@ This is a simple minor mode for Fira Code ligatures, built from [[https://github
  TeX files in GNU Emacs.
 *** Code
 #+BEGIN_SRC emacs-lisp
-             (use-package pdf-tools
-                  :magic ("%PDF" . pdf-view-mode)
-                  :config
-                  (pdf-tools-install)
-                  (setq-default pdf-view-display-size 'fit-page))
+         (use-package pdf-tools
+          :magic ("%PDF" . pdf-view-mode)
+          :config
+          (pdf-tools-install)
+          (setq-default pdf-view-display-size 'fit-page)
+           ;; automatically annotate highlights
+          (setq pdf-annot-activate-created-annotations t)
+          ;; use normal isearch
+          (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
+          (define-key pdf-view-mode-map (kbd "C-r") 'isearch-backward))
 
 
-            (defun try/TeX-command-save-buffer-and-run-all ()
-                "Save the buffer and run TeX-command-run-all"
-                (interactive)
-                (let (TeX-save-query) (TeX-save-document (TeX-master-file)))
-                (TeX-command-run-all nil))
+        (defun try/TeX-command-save-buffer-and-run-all ()
+        "Save the buffer and run TeX-command-run-all"
+        (interactive)
+        (let (TeX-save-query) (TeX-save-document (TeX-master-file)))
+        (TeX-command-run-all nil))
 
-            ;; copied ivy-bibtex and modified it to cite action
-            (defun try/ivy-bibtex-cite (&optional arg local-bib)
-              "Search BibTeX entries using ivy.
+        ;; copied ivy-bibtex and modified it to cite action
+        (defun try/ivy-bibtex-cite (&optional arg local-bib)
+          "Search BibTeX entries using ivy.
 
-            With a prefix ARG the cache is invalidated and the bibliography
-            reread.
+        With a prefix ARG the cache is invalidated and the bibliography
+        reread.
 
-            If LOCAL-BIB is non-nil, display that the BibTeX entries are read
-            from the local bibliography.  This is set internally by
-            `ivy-bibtex-with-local-bibliography'."
-              (interactive "P")
-              (when arg
-                (bibtex-completion-clear-cache))
-              (bibtex-completion-init)
-              (let* ((candidates (bibtex-completion-candidates))
-                      (key (bibtex-completion-key-at-point))
-                      (preselect (and key
-                                      (cl-position-if (lambda (cand)
-                                                        (member (cons "=key=" key)
-                                                                (cdr cand)))
-                                                      candidates))))
-                (ivy-read (format "Insert citation %s: " (if local-bib " (local)" ""))
-                          candidates
-                          :preselect preselect
-                          :caller 'ivy-bibtex
-                          :history 'ivy-bibtex-history
-                          :action 'ivy-bibtex-insert-citation)))
+        If LOCAL-BIB is non-nil, display that the BibTeX entries are read
+        from the local bibliography.  This is set internally by
+        `ivy-bibtex-with-local-bibliography'."
+          (interactive "P")
+          (when arg
+        (bibtex-completion-clear-cache))
+          (bibtex-completion-init)
+          (let* ((candidates (bibtex-completion-candidates))
+              (key (bibtex-completion-key-at-point))
+              (preselect (and key
+                      (cl-position-if (lambda (cand)
+                            (member (cons "=key=" key)
+                                (cdr cand)))
+                              candidates))))
+        (ivy-read (format "Insert citation %s: " (if local-bib " (local)" ""))
+              candidates
+              :preselect preselect
+              :caller 'ivy-bibtex
+              :history 'ivy-bibtex-history
+              :action 'ivy-bibtex-insert-citation)))
 
-            (defun try/latex-mode-setup ()
-              (require 'company-reftex)
-                    (turn-on-reftex)
-                    (require 'company-auctex)
-                    (require 'company-math)
-            (setq-local company-backends
+        (defun try/latex-mode-setup ()
+          (require 'company-reftex)
+            (turn-on-reftex)
+            (require 'company-auctex)
+            (require 'company-math)
+        (setq-local company-backends
 
-                (append '(
-                                          (company-reftex-labels
-                                            company-reftex-citations)
-                          (company-math-symbols-unicode company-math-symbols-latex company-latex-commands)
-                          (company-auctex-macros company-auctex-symbols company-auctex-environments)
-                          company-ispell
-                          )
-                        company-backends)))
-
-
-            (defun try/counsel-insert-file-path ()
-              "Insert relative file path using counsel minibuffer"
-              (interactive)
-              (unless (featurep 'counsel) (require 'counsel))
-              (ivy-read "Insert filename: " 'read-file-name-internal
-                        :matcher #'counsel--find-file-matcher
-                        :action
-                        (lambda (x)
-                          (insert (file-relative-name x)))))
-
-
-            ;; Olivetti
-
-            (use-package olivetti
-              :diminish
-              :hook (text-mode . olivetti-mode)
-              :config
-              (setq olivetti-body-width 100))
-
-
-
-            ;; Enable folding and unfolding sections just like org-mode (using ~C-c-n~) using [[https://github.com/alphapapa/outshine/issues/85][outshine]]
-
-            ;; Check ~outshine-cycle~ for more options.
-
-            (use-package outshine
-              :config
-            (setq LaTeX-section-list '(
-                                       ("part" 0)
-                                       ("chapter" 1)
-                                       ("section" 2)
-                                       ("subsection" 3)
-                                       ("subsubsection" 4)
-                                       ("paragraph" 5)
-                                       ("subparagraph" 6)
-                                       ("begin" 7)
-                                       )
-                  )
-            (add-hook 'LaTeX-mode-hook #'(lambda ()
-                                           (outshine-mode 1)
-                                           (setq outline-level #'LaTeX-outline-level)
-                                           (setq outline-regexp (LaTeX-outline-regexp t))
-                                           (setq outline-heading-alist
-                                                 (mapcar (lambda (x)
-                                                           (cons (concat "\\" (nth 0 x)) (nth 1 x)))
-                                                         LaTeX-section-list))))
-
+        (append '(
+                      (company-reftex-labels
+                        company-reftex-citations)
+              (company-math-symbols-unicode company-math-symbols-latex company-latex-commands)
+              (company-auctex-macros company-auctex-symbols company-auctex-environments)
+              company-ispell
               )
+            company-backends)))
+
+
+        (defun try/counsel-insert-file-path ()
+          "Insert relative file path using counsel minibuffer"
+          (interactive)
+          (unless (featurep 'counsel) (require 'counsel))
+          (ivy-read "Insert filename: " 'read-file-name-internal
+            :matcher #'counsel--find-file-matcher
+            :action
+            (lambda (x)
+              (insert (file-relative-name x)))))
+
+
+        ;; Olivetti
+
+        (use-package olivetti
+          :diminish
+          :hook (text-mode . olivetti-mode)
+          :config
+          (setq olivetti-body-width 100))
+
+
+
+        ;; Enable folding and unfolding sections just like org-mode (using ~C-c-n~) using [[https://github.com/alphapapa/outshine/issues/85][outshine]]
+
+        ;; Check ~outshine-cycle~ for more options.
+
+        (use-package outshine
+          :config
+        (setq LaTeX-section-list '(
+                       ("part" 0)
+                       ("chapter" 1)
+                       ("section" 2)
+                       ("subsection" 3)
+                       ("subsubsection" 4)
+                       ("paragraph" 5)
+                       ("subparagraph" 6)
+                       ("begin" 7)
+                       )
+          )
+        (add-hook 'LaTeX-mode-hook #'(lambda ()
+                       (outshine-mode 1)
+                       (setq outline-level #'LaTeX-outline-level)
+                       (setq outline-regexp (LaTeX-outline-regexp t))
+                       (setq outline-heading-alist
+                         (mapcar (lambda (x)
+                               (cons (concat "\\" (nth 0 x)) (nth 1 x)))
+                             LaTeX-section-list))))
+
+          )
 
 
   (add-hook 'LaTeX-mode-hook
-            (lambda () (local-set-key (kbd "C-c n") '(outshine-cycle :which-key "outshine-cycle"))))
+        (lambda () (local-set-key (kbd "C-c n") '(outshine-cycle :which-key "outshine-cycle"))))
 
-                  ;; latexmk
-                  (use-package auctex-latexmk)
-                  ;; company
-                  (use-package company-math)
-                  (use-package company-auctex)
-            (use-package company-reftex)
-
-
-                  ;;  use cdlatex
-                  (use-package cdlatex)
-
-                  ;; https://gist.github.com/saevarb/367d3266b3f302ecc896
-                  ;; https://piotr.is/2010/emacs-as-the-ultimate-latex-editor/
-
-                  (use-package latex
-                    :straight auctex
-                    :defer t
-                    :custom
-                    (olivetti-body-width 100)
-                    (cdlatex-simplify-sub-super-scripts nil)
-                    (reftex-default-bibliography
-                          '("~/ref.bib"))
-                    (bibtex-dialect 'biblatex)
-                    :mode
-                      ("\\.tex\\'" . latex-mode)
-                    :bind (:map LaTeX-mode-map
-                              ("C-c C-e" . cdlatex-environment)
-                          )
-                    :hook
-                      (LaTeX-mode . olivetti-mode)
-                      (LaTeX-mode . TeX-PDF-mode)
-                      (LaTeX-mode . company-mode)
-                      (LaTeX-mode . flyspell-mode)
-                      (LaTeX-mode . flycheck-mode)
-                      (LaTeX-mode . LaTeX-math-mode)
-                      (LaTeX-mode . turn-on-reftex)
-                      (LaTeX-mode . TeX-source-correlate-mode)
-                      (LaTeX-mode . try/latex-mode-setup)
-                      (LaTeX-mode . turn-on-cdlatex)
-
-                    :config
-                      (setq TeX-auto-save t)
-                      (setq TeX-parse-self t)
-                      (setq-default TeX-master nil)
-                      (setq TeX-save-query nil)
-
-                      (setq reftex-plug-into-AUCTeX t)
-
-                      ;; pdftools
-                      ;; https://emacs.stackexchange.com/questions/21755/use-pdfview-as-default-auctex-pdf-viewer#21764
-                      (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
-                          TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view))
-                          TeX-source-correlate-start-server t) ;; not sure if last line is neccessary
-                      ;; to have the buffer refresh after compilation,
-                      ;; very important so that PDFView refesh itself after comilation
-                      (add-hook 'TeX-after-compilation-finished-functions
-                                  #'TeX-revert-document-buffer)
-
-                      ;; latexmk
-                      (require 'auctex-latexmk)
-                      (auctex-latexmk-setup)
-                      (setq auctex-latexmk-inherit-TeX-PDF-mode t))
+          ;; latexmk
+          (use-package auctex-latexmk)
+          ;; company
+          (use-package company-math)
+          (use-package company-auctex)
+        (use-package company-reftex)
 
 
-          ;; ivy-bibtex
-            (use-package ivy-bibtex
-              :custom
-              (bibtex-completion-bibliography
-                    '("~/ref.bib"))
-              (bibtex-completion-library-path '("~/papers"))
-              (bibtex-completion-cite-prompt-for-optional-arguments nil)
-              (bibtex-completion-cite-default-as-initial-input t))
+          ;;  use cdlatex
+          (use-package cdlatex)
 
-        ;; org-ref
-              (use-package org-ref
+          ;; https://gist.github.com/saevarb/367d3266b3f302ecc896
+          ;; https://piotr.is/2010/emacs-as-the-ultimate-latex-editor/
+
+          (use-package latex
+            :straight auctex
+            :defer t
             :custom
-            (org-ref-default-bibliography "/tmp/ref.bib")
-            (org-ref-pdf-directory "/tmp/papers")
-            (org-ref-completion-library 'org-ref-ivy-cite)
+            (olivetti-body-width 100)
+            (cdlatex-simplify-sub-super-scripts nil)
+            (reftex-default-bibliography
+              '("~/ref.bib"))
+            (bibtex-dialect 'biblatex)
+            :mode
+              ("\\.tex\\'" . latex-mode)
+            :bind (:map LaTeX-mode-map
+                  ("C-c C-e" . cdlatex-environment)
+              )
+            :hook
+              (LaTeX-mode . olivetti-mode)
+              (LaTeX-mode . TeX-PDF-mode)
+              (LaTeX-mode . company-mode)
+              (LaTeX-mode . flyspell-mode)
+              (LaTeX-mode . flycheck-mode)
+              (LaTeX-mode . LaTeX-math-mode)
+              (LaTeX-mode . turn-on-reftex)
+              (LaTeX-mode . TeX-source-correlate-mode)
+              (LaTeX-mode . try/latex-mode-setup)
+              (LaTeX-mode . turn-on-cdlatex)
+
             :config
-            (require 'org-ref-wos)
-            (require 'doi-utils))
-  
+              (setq TeX-auto-save t)
+              (setq TeX-parse-self t)
+              (setq-default TeX-master nil)
+              (setq TeX-save-query nil)
+
+              (setq reftex-plug-into-AUCTeX t)
+
+              ;; pdftools
+              ;; https://emacs.stackexchange.com/questions/21755/use-pdfview-as-default-auctex-pdf-viewer#21764
+              (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+              TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view))
+              TeX-source-correlate-start-server t) ;; not sure if last line is neccessary
+              ;; to have the buffer refresh after compilation,
+              ;; very important so that PDFView refesh itself after comilation
+              (add-hook 'TeX-after-compilation-finished-functions
+                  #'TeX-revert-document-buffer)
+
+              ;; latexmk
+              (require 'auctex-latexmk)
+              (auctex-latexmk-setup)
+              (setq auctex-latexmk-inherit-TeX-PDF-mode t))
+
+
+      ;; ivy-bibtex
+        (use-package ivy-bibtex
+          :custom
+          (bibtex-completion-bibliography
+            '("~/ref.bib"))
+          (bibtex-completion-library-path '("~/papers"))
+          (bibtex-completion-cite-prompt-for-optional-arguments nil)
+          (bibtex-completion-cite-default-as-initial-input t))
+
+    ;; org-ref
+          (use-package org-ref
+        :custom
+        (org-ref-default-bibliography "/tmp/ref.bib")
+        (org-ref-pdf-directory "/tmp/papers")
+        (org-ref-completion-library 'org-ref-ivy-cite)
+        :config
+        (require 'org-ref-wos)
+        (require 'doi-utils))
+
   #+END_SRC
 ** Initialize =expand-region=
 *** Description
@@ -778,7 +783,7 @@ until it selects what you want.
     :diminish abbrev-mode)
 #+END_SRC
 * Programming
-** Initializze =tree-sitter=
+** Initialize =tree-sitter=
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package tree-sitter
@@ -923,4 +928,10 @@ client/server side engines).
 #+BEGIN_SRC emacs-lisp
     (use-package rust-mode
       :straight t)
+#+END_SRC
+** Initialize =json-mode=
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package json-mode
+    :straight t)
 #+END_SRC

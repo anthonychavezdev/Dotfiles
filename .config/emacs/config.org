@@ -53,7 +53,33 @@ Emacs breaks certain modes when it has line-numbers-mode enabled, (like docview 
 #+END_SRC
 ** Enable prettify symbols mode
 #+BEGIN_SRC emacs-lisp
-  (global-prettify-symbols-mode t)
+       (setq prettify-symbols-alist '(("TODO" . "")
+                    ("WAIT" . "")
+                    ("NOPE" . "")
+                    ("DONE" . "")
+                    ("[#A]" . "")
+                    ("[#B]" . "")
+                    ("[#C]" . "")
+                    ("[ ]" . "")
+                    ("[X]" . "")
+                    ("[-]" . "")
+                    ("#+BEGIN_SRC" . "")
+                    ("#+END_SRC" . "―")
+                    (":PROPERTIES:" . "")
+                    (":END:" . "―")
+                    ("#+STARTUP:" . "")
+                    ("#+TITLE: " . "")
+                    ("#+RESULTS:" . "")
+                    ("#+NAME:" . "")
+                    ("#+ROAM_TAGS:" . "")
+                    ("#+FILETAGS:" . "")
+                    ("#+HTML_HEAD:" . "")
+                    ("#+SUBTITLE:" . "")
+                    ("#+AUTHOR:" . "")
+                    (":Effort:" . "")
+                    ("SCHEDULED:" . "")
+                    ("DEADLINE:" . ""))
+    (global-prettify-symbols-mode t)
 #+END_SRC
 ** Enable bracket pair-matching
 #+BEGIN_SRC emacs-lisp
@@ -188,33 +214,29 @@ or a single key quickly pressed twice. (*)
   :config
     (key-chord-mode 1))
 #+END_SRC
-** Initialize =ivy=
+** Initialize =vertico=
 *** Description
-flexible, simple tools for minibuffer completion in Emacs
+Vertico provides a performant and minimalistic vertical completion UI based on the default completion system
 *** Code
 #+BEGIN_SRC emacs-lisp
-(use-package ivy
-  :straight t
-  :config
-  (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t)
- (setq enable-recursive-minibuffers t))
-#+END_SRC
-** Initialize =ivy-postframe=
-*** Description
-ivy-posframe is a ivy extension, which let ivy use posframe to show its candidate menu.
-*** Code
-#+BEGIN_SRC emacs-lisp
-(use-package ivy-posframe
-  :straight t
-  :config
-  ;; Different command can use different display function.
-  (setq ivy-posframe-display-functions-alist
-      '((swiper          . ivy-posframe-display-at-point)
-        (complete-symbol . ivy-posframe-display-at-point)
-        (counsel-M-x     . ivy-posframe-display-at-window-bottom-left)
-        (t               . ivy-posframe-display)))
-(ivy-posframe-mode 1)
+        (use-package vertico
+          :straight t
+          :custom
+          (vertico-cycle t)
+          :init
+          (vertico-mode))
+        ;; Built in
+        (use-package savehist
+          :straight nil
+          :init
+          (savehist-mode))
+
+        (use-package marginalia
+          :straight t
+          :after vertico
+          :custom
+          (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
+          :init
 )
 #+END_SRC
 ** Initialize =undo-tree=
@@ -933,5 +955,13 @@ client/server side engines).
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package json-mode
+    :straight t)
+#+END_SRC
+** Initialize =Indium=
+*** Description
+A JavaScript development environment for Emacs.
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package indium
     :straight t)
 #+END_SRC

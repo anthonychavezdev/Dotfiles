@@ -78,7 +78,7 @@ Emacs breaks certain modes when it has line-numbers-mode enabled, (like docview 
                     ("#+AUTHOR:" . "")
                     (":Effort:" . "")
                     ("SCHEDULED:" . "")
-                    ("DEADLINE:" . ""))
+                    ("DEADLINE:" . "")))
     (global-prettify-symbols-mode t)
 #+END_SRC
 ** Enable bracket pair-matching

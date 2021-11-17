@@ -790,6 +790,17 @@ until it selects what you want.
           :config
           (global-set-key (kbd "C-=") 'er/expand-region))
 #+END_SRC
+** Initialize =solaire-mode=
+*** Description
+solaire-mode is an aesthetic plugin designed to visually distinguish "real" buffers (i.e.
+file-visiting code buffers where you do most of your work) from "unreal" buffers (like
+popups, sidebars, log buffers, terminals, etc) by giving the latter a slightly different
+-- often darker -- background
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package solaire-mode
+    :ensure t)
+#+END_SRC
 ** Built-in entry: =eldoc=
 *** Code
 #+BEGIN_SRC emacs-lisp

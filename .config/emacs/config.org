@@ -850,6 +850,29 @@ popups, sidebars, log buffers, terminals, etc) by giving the latter a slightly d
   (use-package solaire-mode
     :ensure t)
 #+END_SRC
+** Initialize =visual-regexp=
+*** Description
+Live visual feedback for regex
+*** Code
+#+BEGIN_SRC emacs-lisp
+          (use-package visual-regexp
+            :straight t
+            :bind (("C-c r" . vr/replace)
+                   ("C-c q" . vr/query-replace)
+                   ("C-c m" . vr/mc-mark)))
+#+END_SRC
+** Initialize =visual-regexp-steroids=
+*** Description
+visual-regexp-steroids is an extension to visual-regexp which
+enables the use of modern regexp engines
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package visual-regexp-steroids
+    :straight t
+    :bind (("C-c r" . vr/replace)
+           ("C-c q" . vr/query-replace)
+           ("C-c m" . vr/mc-mark)))
+#+END_SRC
 ** Built-in entry: =eldoc=
 *** Code
 #+BEGIN_SRC emacs-lisp

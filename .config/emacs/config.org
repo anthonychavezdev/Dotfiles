@@ -616,15 +616,6 @@ currently entered incomplete command
   :config
   (which-key-mode))
 #+END_SRC
-** Initialize =fira-code-mode=
-*** Description
-This is a simple minor mode for Fira Code ligatures, built from [[https://github.com/tonsky/FiraCode/wiki/Emacs-instructions#using-prettify-symbols][these instructions on the FiraCode repo]].
-*** code
-#+BEGIN_SRC emacs-lisp
-(use-package fira-code-mode
-  :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x")) ;; List of ligatures to turn off
-  :hook prog-mode) ;; Enables fira-code-mode automatically for programming major modes
-#+END_SRC
 ** Initialize =define-word=
 *** Code
 #+BEGIN_SRC emacs-lisp

@@ -250,6 +250,7 @@ One of the main selling points of Emacs! Org Mode!
     :straight t)
 
   (add-hook 'org-mode-hook '(lambda () (load-theme 'org-beautify t)))
+  (add-to-list 'org-modules 'org-tempo t)
 #+END_SRC
 
 * Packages

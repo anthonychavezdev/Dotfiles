@@ -134,6 +134,31 @@ Super - Control - <arrow>
 (delete-selection-mode)
 #+END_SRC
 
+** Taking screenshots
+#+BEGIN_SRC emacs-lisp
+(defun screenshot-svg ()
+  "Save a screenshot of the current frame as an SVG image.
+Saves to a temp file and puts the filename in the kill ring."
+  (interactive)
+  (let* ((filename (make-temp-file "Emacs" nil ".svg"))
+         (data (x-export-frames nil 'svg)))
+    (with-temp-file filename
+      (insert data))
+    (kill-new filename)
+    (message filename)))
+
+(defun screenshot-png ()
+  "Save a screenshot of the current frame as a PNG image.
+Saves to a temp file and puts the filename in the kill ring."
+  (interactive)
+  (let* ((filename (make-temp-file "Emacs" nil ".png"))
+         (data (x-export-frames nil 'png)))
+    (with-temp-file filename
+      (insert data))
+    (kill-new filename)
+    (message filename)))
+
+#+END_SRC
 * Custom functions and key mappings
 ** C/C++
 *** Insert header guards
@@ -908,6 +933,8 @@ RSS Feeder
     :straight t)
   (require 'tree-sitter)
     (require 'tree-sitter-langs)
+  (add-hook 'c-mode-hook 'tree-sitter-hl-mode)
+  (add-hook 'c++-mode-hook 'tree-sitter-hl-mode)
 #+END_SRC
 ** Initialize =elisp-bug-hunter=
 *** Description

@@ -1,3 +1,15 @@
 [user]
 	name = Anthony Chavez
 	email = anthony@anthonychavez.xyz
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[core]
+	excludesfile = /home/anthony/.gitignore_global
+    editor = vim --clean
+[credential]
+	helper = cache --timeout=604800
+[alias]
+	adog = log --all --decorate --oneline --graph

@@ -8,7 +8,7 @@
 Emacs breaks certain modes when it has line-numbers-mode enabled, (like docview or ansi-term) so I utilize the approach of only enabling it on some major modes rather than globally
 #+BEGIN_SRC emacs-lisp
   (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-  (add-hook 'text-mode-hook 'display-line-numbers-mode)
+  ;; (add-hook 'text-mode-hook 'display-line-numbers-mode)
 #+END_SRC
 ** Show parent parentheses
 #+BEGIN_SRC emacs-lisp
@@ -159,6 +159,11 @@ Saves to a temp file and puts the filename in the kill ring."
     (message filename)))
 
 #+END_SRC
+** Hide-mode-line plugin
+#+BEGIN_SRC emacs-lisp
+      (use-package hide-mode-line
+        :straight t)
+#+END_SRC
 * Custom functions and key mappings
 ** C/C++
 *** Insert header guards
@@ -221,36 +226,55 @@ Saves to a temp file and puts the filename in the kill ring."
 One of the main selling points of Emacs! Org Mode!
 ** Code
 #+BEGIN_SRC emacs-lisp
-        (use-package org-indent
-          :straight nil
-          :diminish org-indent-mode)
+                    (use-package org-indent
+                      :straight nil
+                      :diminish org-indent-mode)
 
-        (use-package htmlize
-          :straight t)
+                    (use-package htmlize
+                      :straight t)
 
-      (use-package org-bullets
-        :straight t
-        :hook ('org-mode-hook . (lambda () org-bullets-mode))
-        :hook ('org-mode-hook 'variable-pitch-mode)
-        :config
-        (require 'org-bullets))
+                  (use-package org-bullets
+                    :straight t
+                    :hook ('org-mode-hook . (lambda () org-bullets-mode))
+                    :hook ('org-mode-hook 'variable-pitch-mode)
+                    :config
+                    (require 'org-bullets))
 
-    (defun echo-area-tooltips ()
-      "Show tooltips in the echo area automatically for current buffer."
-      (setq-local help-at-pt-display-when-idle t
-                  help-at-pt-timer-delay 0)
-      (help-at-pt-cancel-timer)
-      (help-at-pt-set-timer))
+                (defun echo-area-tooltips ()
+                  "Show tooltips in the echo area automatically for current buffer."
+                  (setq-local help-at-pt-display-when-idle t
+                              help-at-pt-timer-delay 0)
+                  (help-at-pt-cancel-timer)
+                  (help-at-pt-set-timer))
 
-    (add-hook 'org-mode-hook #'echo-area-tooltips)
-  ;; Sets LaTeX preview size
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+                (add-hook 'org-mode-hook #'echo-area-tooltips)
+              ;; Sets LaTeX preview size
+              (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
 
-  (use-package org-beautify-theme
-    :straight t)
+              (use-package org-beautify-theme
+                :straight t)
 
-  ;; (add-hook 'org-mode-hook '(lambda () (load-theme 'org-beautify t)))
-  (add-to-list 'org-modules 'org-tempo t)
+              ;; (add-hook 'org-mode-hook '(lambda () (load-theme 'org-beautify t)))
+              (add-to-list 'org-modules 'org-tempo t)
+
+              (use-package org-present
+                :straight t
+                :config
+                (add-hook 'org-present-mode-hook
+                     (lambda ()
+                       (org-present-big)
+                       (org-display-inline-images)
+                       (org-present-hide-cursor)
+                       (org-present-read-only)
+                       (hide-mode-line-mode +1)))
+
+                (add-hook 'org-present-mode-quit-hook
+                   (lambda ()
+                     (org-present-small)
+                     (org-remove-inline-images)
+                     (org-present-show-cursor)
+                     (org-present-read-write)
+                     (hide-mode-line-mode))))
 #+END_SRC
 
 * Packages

@@ -293,10 +293,11 @@ Utilize asynchronous processes whenever possible
 Emacs version of the Vim powerline.
 *** Code
 #+BEGIN_SRC emacs-lisp
-(use-package powerline
-  :straight t
-  :config
-   (powerline-default-theme))
+  (use-package powerline
+    :straight t
+    :config
+     ;; (powerline-default-theme)
+    )
 #+END_SRC
 ** Initialize =all-the-icons=
 *** Description
@@ -634,14 +635,12 @@ A fancy and fast mode-line inspired by minimalism design.
   ;; (setq doom-modeline-env-elixir-executable "iex")
   ;; (setq doom-modeline-env-rust-executable "rustc")
 
-  ;; ;; What to
-  dispaly as the version while a new one is being loaded
+  ;; ;; What to dispaly as the version while a new one is being loaded
   ;; (setq doom-modeline-env-load-string "...")
 
   ;; Hooks that run before/after the modeline version string is updated
   ;; (setq doom-modeline-before-update-env-hook nil)
-  ;; (setq doom-modeline-after-update-env-hook nil)
-  )
+  ;; (setq doom-modeline-after-update-env-hook nil))
 #+END_SRC
 ** Initialize =rainbow-mode=
 *** Code

@@ -936,6 +936,16 @@ RSS Feeder
     (setq elfeed-db-directory (expand-file-name "elfeed" user-emacs-directory)
           elfeed-show-entry-switch 'display-buffer))
 #+END_SRC
+** Initialize =wrap-region=
+*** Description
+Wrap Region is a minor mode for Emacs that wraps a region with punctuations.
+*** Codoe
+#+begin_src emacs-lisp
+        (use-package wrap-region
+          :straight t
+          :config
+          (wrap-region-mode t))
+#+end_src
 ** Built-in entry: =eldoc=
 *** Code
 #+BEGIN_SRC emacs-lisp

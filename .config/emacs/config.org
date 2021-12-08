@@ -168,113 +168,115 @@ Saves to a temp file and puts the filename in the kill ring."
 ** C/C++
 *** Insert header guards
 #+BEGIN_SRC emacs-lisp
-    (defun maybe-add-newline-at-buf-start ()
-      (if (and (char-equal (char-after (point-min)) ?\n)
-               (char-equal (char-after (1+ (point-min))) ?\n))
-          ""
-        "\n"))
-    (defun maybe-add-newline-at-buf-end ()
-      (if (and (char-equal (char-before (point-max)) ?\n)
-               (char-equal (char-before (1- (point-max))) ?\n))
-          ""
-        "\n"))
+      (defun maybe-add-newline-at-buf-start ()
+        (if (and (char-equal (char-after (point-min)) ?\n)
+                 (char-equal (char-after (1+ (point-min))) ?\n))
+            ""
+          "\n"))
+      (defun maybe-add-newline-at-buf-end ()
+        (if (and (char-equal (char-before (point-max)) ?\n)
+                 (char-equal (char-before (1- (point-max))) ?\n))
+            ""
+          "\n"))
 
-      (defun add_header_guards ()
-      "Add header guards to .h files"
-      (interactive)
-      (if (buffer-file-name)
-          (let*
-              ((fName (upcase (file-name-nondirectory (file-name-sans-extension buffer-file-name))))
-               (ifDef (concat "#ifndef " fName "_H" "\n#define " fName "_H"
-                              (maybe-add-newline-at-buf-start)))
-               (begin (point-marker))
-               )
-            (progn
-              ; If less then 5 characters are in the buffer, insert the class definition
-              (if (< (- (point-max) (point-min)) 5 )
-                  (progn
-                    (insert "\nclass " (capitalize fName) "{\npublic:\n\nprivate:\n\n};\n")
-                    (goto-char (point-min))
-                    (next-line-nomark 3)
-                    (setq begin (point-marker))
-                    )
-                )
+        (defun add_header_guards ()
+        "Add header guards to .h files"
+        (interactive)
+        (if (buffer-file-name)
+            (let*
+                ((fName (upcase (file-name-nondirectory (file-name-sans-extension
+                                                         buffer-file-name))))
+                 (ifDef (concat "#ifndef " fName "_H" "\n#define " fName "_H"
+                                (maybe-add-newline-at-buf-start)))
+                 (begin (point-marker))
+                 )
+              (progn
+                ; If less then 5 characters are in the buffer, insert the class definition
+                (if (< (- (point-max) (point-min)) 5 )
+                    (progn
+                      (insert "\nclass " (capitalize fName) "{\npublic:\n\nprivate:\n\n};\n")
+                      (goto-char (point-min))
+                      (next-line-nomark 3)
+                      (setq begin (point-marker))
+                      )
+                  )
 
-              ;Insert the Header Guard
-              (goto-char (point-min))
-              (insert ifDef)
-              (goto-char (point-max))
-              (insert (maybe-add-newline-at-buf-end) "#endif" " //" fName "_H")
-              (goto-char begin))
-            )
-        ;else
-        (message (concat "Buffer " (buffer-name) " must have a filename"))
+                ;Insert the Header Guard
+                (goto-char (point-min))
+                (insert ifDef)
+                (goto-char (point-max))
+                (insert (maybe-add-newline-at-buf-end) "#endif" " //" fName "_H")
+                (goto-char begin))
+              )
+          ;else
+          (message (concat "Buffer " (buffer-name) " must have a filename"))
+          )
         )
-      )
-  (add-hook 'c-mode-hook '(lambda ()
-    (define-key c-mode-map (kbd "C-c C-x C-d")
-      'add_header_guards)
-  ))
+    (add-hook 'c-mode-hook '(lambda ()
+      (define-key c-mode-map (kbd "C-c C-x C-d")
+        'add_header_guards)
+    ))
 
-  (add-hook 'c++-mode-hook '(lambda ()
-    (define-key c++-mode-map (kbd "C-c C-x C-d")
-      'add_header_guards)
-  ))
+    (add-hook 'c++-mode-hook '(lambda ()
+      (define-key c++-mode-map (kbd "C-c C-x C-d")
+        'add_header_guards)
+    ))
 #+END_SRC
 * Org-mode
 ** Description
 One of the main selling points of Emacs! Org Mode!
 ** Code
 #+BEGIN_SRC emacs-lisp
-                    (use-package org-indent
-                      :straight nil
-                      :diminish org-indent-mode)
+        (use-package org-indent
+          :straight nil
+          :diminish org-indent-mode)
 
-                    (use-package htmlize
-                      :straight t)
+        (use-package htmlize
+          :straight t)
 
-                  (use-package org-bullets
-                    :straight t
-                    :hook ('org-mode-hook . (lambda () org-bullets-mode))
-                    :hook ('org-mode-hook 'variable-pitch-mode)
-                    :config
-                    (require 'org-bullets))
+      (use-package org-bullets
+        :straight t
+        :hook ('org-mode-hook . (lambda () org-bullets-mode))
+        :hook ('org-mode-hook 'variable-pitch-mode)
+        :config
+        (require 'org-bullets))
 
-                (defun echo-area-tooltips ()
-                  "Show tooltips in the echo area automatically for current buffer."
-                  (setq-local help-at-pt-display-when-idle t
-                              help-at-pt-timer-delay 0)
-                  (help-at-pt-cancel-timer)
-                  (help-at-pt-set-timer))
+    (defun echo-area-tooltips ()
+      "Show tooltips in the echo area automatically for current buffer."
+      (setq-local help-at-pt-display-when-idle t
+                  help-at-pt-timer-delay 0)
+      (help-at-pt-cancel-timer)
+      (help-at-pt-set-timer))
 
-                (add-hook 'org-mode-hook #'echo-area-tooltips)
-              ;; Sets LaTeX preview size
-              (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+    (add-hook 'org-mode-hook #'echo-area-tooltips)
+  ;; Sets LaTeX preview size
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
 
-              (use-package org-beautify-theme
-                :straight t)
+  (use-package org-beautify-theme
+    :straight t)
+  (add-hook 'org-mode-hook #'(lambda () (load-theme 'org-beautify t)))
 
-              ;; (add-hook 'org-mode-hook '(lambda () (load-theme 'org-beautify t)))
-              (add-to-list 'org-modules 'org-tempo t)
+  ;; (add-hook 'org-mode-hook '(lambda () (load-theme 'org-beautify t)))
+  (add-to-list 'org-modules 'org-tempo t)
 
-              (use-package org-present
-                :straight t
-                :config
-                (add-hook 'org-present-mode-hook
-                     (lambda ()
-                       (org-present-big)
-                       (org-display-inline-images)
-                       (org-present-hide-cursor)
-                       (org-present-read-only)
-                       (hide-mode-line-mode +1)))
+  (use-package org-present
+    :straight t
+    :config
+    (add-hook 'org-present-mode-hook
+         (lambda ()
+           (org-present-big)
+           (org-display-inline-images)
+           (org-present-hide-cursor)
+           (org-present-read-only)
+           (hide-mode-line-mode +1)))
 
-                (add-hook 'org-present-mode-quit-hook
-                   (lambda ()
-                     (org-present-small)
-                     (org-remove-inline-images)
-                     (org-present-show-cursor)
-                     (org-present-read-write)
-                     (hide-mode-line-mode))))
+    (add-hook 'org-present-mode-quit-hook
+       (lambda ()
+         (org-present-small)
+         (org-remove-inline-images)
+         (org-present-show-cursor)
+         (org-present-read-write)
+         (hide-mode-line-mode))))
 #+END_SRC
 
 * Packages
@@ -296,8 +298,7 @@ Emacs version of the Vim powerline.
   (use-package powerline
     :straight t
     :config
-     ;; (powerline-default-theme)
-    )
+    (powerline-default-theme))
 #+END_SRC
 ** Initialize =all-the-icons=
 *** Description

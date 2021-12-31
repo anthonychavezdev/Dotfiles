@@ -290,16 +290,18 @@ Utilize asynchronous processes whenever possible
     :init
     (dired-async-mode 1))
 #+END_SRC
-** Initialize =powerline=
-*** Description
-Emacs version of the Vim powerline.
+** Initialize =moody=
 *** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package powerline
-    :straight t
-    :config
-    (powerline-default-theme))
-#+END_SRC
+#+begin_src emacs-lisp
+(use-package moody
+  :straight t
+  :custom
+  (mode-line-compact t) ; not moody specific but reduces spacing in modeline
+  (x-underline-at-descent-line t) ; not moody specific, just cosmetic
+  :config
+  (moody-replace-mode-line-buffer-identification)
+  (moody-replace-vc-mode))
+#+end_src
 ** Initialize =all-the-icons=
 *** Description
 Bring nice icons to emacs
@@ -947,6 +949,18 @@ Wrap Region is a minor mode for Emacs that wraps a region with punctuations.
           :config
           (wrap-region-mode t))
 #+end_src
+** Initialize =novel.el=
+*** Used to read ebpub books in Emacs
+*** Code
+#+begin_src emacs-lisp
+      (use-package esxml
+        :straight t) ;; required by nov
+
+      (use-package nov
+        :straight (nov :type git :repo "https://depp.brause.cc/nov.el.git")
+        :config
+        (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
+#+end_src
 ** Built-in entry: =eldoc=
 *** Code
 #+BEGIN_SRC emacs-lisp
@@ -1126,8 +1140,28 @@ A JavaScript development environment for Emacs.
 #+END_SRC
 ** Initialize =slime=
 #+BEGIN_SRC emacs-lisp
-      (use-package slime
-        :straight t
-        :config
-        (setq inferior-lisp-program "sbcl"))
+  (use-package slime
+    :straight t
+    :config
+    (setq inferior-lisp-program "sbcl")
+    ;; Customizing the REPL
+    (defvar slime-repl-font-lock-keywords lisp-font-lock-keywords-2)
+(defun slime-repl-font-lock-setup ()
+  (setq font-lock-defaults
+        '(slime-repl-font-lock-keywords
+         ;; From lisp-mode.el
+         nil nil (("+-*/.<>=!?$%_&~^:@" . "w")) nil
+         (font-lock-syntactic-face-function
+         . lisp-font-lock-syntactic-face-function))))
+
+(add-hook 'slime-repl-mode-hook 'slime-repl-font-lock-setup)
+
+(defadvice slime-repl-insert-prompt (after font-lock-face activate)
+  (let ((inhibit-read-only t))
+    (add-text-properties
+     slime-repl-prompt-start-mark (point)
+     '(font-lock-face
+      slime-repl-prompt-face
+      rear-nonsticky
+      (slime-repl-prompt read-only font-lock-face intangible))))))
 #+END_SRC

@@ -53,33 +53,33 @@ Emacs breaks certain modes when it has line-numbers-mode enabled, (like docview 
 #+END_SRC
 ** Enable prettify symbols mode
 #+BEGIN_SRC emacs-lisp
-  (setq-default prettify-symbols-alist '(("TODO" . "")
-                  ("WAIT" . "")
-                  ("NOPE" . "")
-                  ("DONE" . "")
-                  ("[#A]" . "")
-                  ("[#B]" . "")
-                  ("[#C]" . "")
-                  ("[ ]" . "")
-                  ("[X]" . "")
-                  ("[-]" . "")
-                  ("#+BEGIN_SRC" . "")
-                  ("#+END_SRC" . "―")
-                  (":PROPERTIES:" . "")
-                  (":END:" . "―")
-                  ("#+STARTUP:" . "")
-                  ("#+TITLE: " . "")
-                  ("#+RESULTS:" . "")
-                  ("#+NAME:" . "")
-                  ("#+ROAM_TAGS:" . "")
-                  ("#+FILETAGS:" . "")
-                  ("#+HTML_HEAD:" . "")
-                  ("#+SUBTITLE:" . "")
-                  ("#+AUTHOR:" . "")
-                  (":Effort:" . "")
-                  ("SCHEDULED:" . "")
-                  ("DEADLINE:" . "")))
-  (global-prettify-symbols-mode t)
+  ;; (setq-default prettify-symbols-alist '(("TODO" . "")
+  ;;                 ("WAIT" . "")
+  ;;                 ("NOPE" . "")
+  ;;                 ("DONE" . "")
+  ;;                 ("[#A]" . "")
+  ;;                 ("[#B]" . "")
+  ;;                 ("[#C]" . "")
+  ;;                 ("[ ]" . "")
+  ;;                 ("[X]" . "")
+  ;;                 ("[-]" . "")
+  ;;                 ("#+BEGIN_SRC" . "")
+  ;;                 ("#+END_SRC" . "―")
+  ;;                 (":PROPERTIES:" . "")
+  ;;                 (":END:" . "―")
+  ;;                 ("#+STARTUP:" . "")
+  ;;                 ("#+TITLE: " . "")
+  ;;                 ("#+RESULTS:" . "")
+  ;;                 ("#+NAME:" . "")
+  ;;                 ("#+ROAM_TAGS:" . "")
+  ;;                 ("#+FILETAGS:" . "")
+  ;;                 ("#+HTML_HEAD:" . "")
+  ;;                 ("#+SUBTITLE:" . "")
+  ;;                 ("#+AUTHOR:" . "")
+  ;;                 (":Effort:" . "")
+  ;;                 ("SCHEDULED:" . "")
+  ;;                 ("DEADLINE:" . "")))
+  ;; (global-prettify-symbols-mode t)
 #+END_SRC
 ** Enable bracket pair-matching
 #+BEGIN_SRC emacs-lisp
@@ -164,6 +164,64 @@ Saves to a temp file and puts the filename in the kill ring."
       (use-package hide-mode-line
         :straight t)
 #+END_SRC
+** Compilation-mode customizations
+#+begin_src emacs-lisp
+;;; From https://emacs.stackexchange.com/questions/24698/ansi-escape-sequences-in-compilation-mode
+
+  ;; Have ansi escape codes appear as colors in the compilation window
+  ;; Stolen from (http://endlessparentheses.com/ansi-colors-in-the-compilation-buffer-output.html)
+  (require 'ansi-color)
+  (defun endless/colorize-compilation ()
+    "Colorize from `compilation-filter-start' to `point'."
+    (let ((inhibit-read-only t))
+      (ansi-color-apply-on-region
+       compilation-filter-start (point))))
+
+  (add-hook 'compilation-filter-hook
+            #'endless/colorize-compilation)
+
+  ;; Filter out unwanted ansi codes
+  ;; Stolen from (https://oleksandrmanzyuk.wordpress.com/2011/11/05/better-emacs-shell-part-i/)
+  (defun regexp-alternatives (regexps)
+    "Return the alternation of a list of regexps."
+    (mapconcat (lambda (regexp)
+                 (concat "\\(?:" regexp "\\)"))
+               regexps "\\|"))
+
+  (defvar non-sgr-control-sequence-regexp nil
+    "Regexp that matches non-SGR control sequences.")
+
+  (setq non-sgr-control-sequence-regexp
+        (regexp-alternatives
+         '(;; icon name escape sequences
+           "\033\\][0-2];.*?\007"
+           ;; non-SGR CSI escape sequences
+           "\033\\[\\??[0-9;]*[^0-9;m]"
+           ;; noop
+           "\012\033\\[2K\033\\[1F"
+           )))
+
+  (defun filter-non-sgr-control-sequences-in-region (begin end)
+    (save-excursion
+      (goto-char begin)
+      (while (re-search-forward
+              non-sgr-control-sequence-regexp end t)
+        (replace-match ""))))
+
+  (defun filter-non-sgr-control-sequences-in-output (ignored)
+    (let ((start-marker
+           (or comint-last-output-start
+               (point-min-marker)))
+          (end-marker
+           (process-mark
+            (get-buffer-process (current-buffer)))))
+      (filter-non-sgr-control-sequences-in-region
+       start-marker
+       end-marker)))
+
+  (add-hook 'comint-output-filter-functions
+            'filter-non-sgr-control-sequences-in-output)
+#+end_src
 * Custom functions and key mappings
 ** C/C++
 *** Insert header guards
@@ -222,6 +280,11 @@ Saves to a temp file and puts the filename in the kill ring."
         'add_header_guards)
     ))
 #+END_SRC
+** imenu
+map imenu to M-i
+#+begin_src emacs-lisp
+(global-set-key (kbd "M-i") #'imenu)
+#+end_src
 * Org-mode
 ** Description
 One of the main selling points of Emacs! Org Mode!
@@ -276,7 +339,7 @@ One of the main selling points of Emacs! Org Mode!
          (org-remove-inline-images)
          (org-present-show-cursor)
          (org-present-read-write)
-         (hide-mode-line-mode))))
+         (hide-mode-line-mode))))  
 #+END_SRC
 
 * Packages
@@ -293,14 +356,14 @@ Utilize asynchronous processes whenever possible
 ** Initialize =moody=
 *** Code
 #+begin_src emacs-lisp
-(use-package moody
-  :straight t
-  :custom
-  (mode-line-compact t) ; not moody specific but reduces spacing in modeline
-  (x-underline-at-descent-line t) ; not moody specific, just cosmetic
-  :config
-  (moody-replace-mode-line-buffer-identification)
-  (moody-replace-vc-mode))
+  ;; (use-package moody
+  ;;   :straight t
+  ;;   :custom
+  ;;   (mode-line-compact t) ; not moody specific but reduces spacing in modeline
+  ;;   (x-underline-at-descent-line t) ; not moody specific, just cosmetic
+  ;;   :config
+  ;;   (moody-replace-mode-line-buffer-identification)
+  ;;   (moody-replace-vc-mode))
 #+end_src
 ** Initialize =all-the-icons=
 *** Description
@@ -489,17 +552,6 @@ The frontend of Witchmacs; without this there'd be no Marisa in your Emacs start
 #+END_SRC
 *** Notes
 If you pay close attention to the code in dashboard, you'll  notice that it uses custom functions defined under the :preface use-package block. I wrote all of those functions by looking at other people's Emacs distributions (Mainly [[https://github.com/seagle0128/.emacs.d][Centaur Emacs]]) and then experimenting and adapting them to Witchmacs. If you dig around, you'll find the same things I did - maybe even more!
-** Initialize =swiper=
-*** Description
-When doing <SPC> s s to search, you get this very nice and neat mini-buffer that you can traverse with the arrow keys (or C-n and C-p) and then press <RET> to select where you want to go
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package swiper
-    :straight t
-    :bind ("C-s" . 'swiper)
-    ("C-r" . 'swiper-backward))
-#+END_SRC
-
 ** Initialize =magit=
 *** Description
 Git porcelain for Emacs
@@ -524,126 +576,128 @@ and formatting command for each language.
 A fancy and fast mode-line inspired by minimalism design.
 *** Cose
 #+BEGIN_SRC emacs-lisp
-  ;; (use-package doom-modeline
-    ;; :straight t
-    ;; :hook (after-init . doom-modeline-mode)
-    ;; :config
-  ;; How tall the mode-line should be. It's only respected in GUI.
-  ;; If the actual char height is larger, it respects the actual height.
-  ;; (setq doom-modeline-height 35)
-  ;; How to detect the project root.
-  ;; The default priority of detection is `ffip' > `projectile' > `project'.
-  ;; nil means to use `default-directory'.
-  ;; The project management packages have some issues on detecting project root.
-  ;; e.g. `projectile' doesn't handle symlink folders well, while `project' is unable
-  ;; to hanle sub-projects.
-  ;; You can specify one if you encounter the issue.
-  ;; (setq doom-modeline-project-detection 'projectile)
-  ;; Whether display icons in the mode-line.
-  ;; While using the server mode in GUI, should set the value explicitly.
-  ;; (setq doom-modeline-icon (display-graphic-p))
-  ;; Whether display icons in the mode-line.
-  ;; While using the server mode in GUI, should set the value explicitly.
-  ;; (setq doom-modeline-icon (display-graphic-p))
-  ;; Whether display the colorful icon for `major-mode'.
-  ;; It respects `all-the-icons-color-icons'.
-  ;; (setq doom-modeline-major-mode-color-icon t)
-  ;; Whether display the icon for the buffer state. It respects `doom-modeline-icon'.
-  ;; (setq doom-modeline-buffer-state-icon t)
-  ;; Whether display the modification icon for the buffer.
-  ;; It respects `doom-modeline-icon' and `doom-modeline-buffer-state-icon'.
-  ;; (setq doom-modeline-buffer-modification-icon t)
-  ;; Whether to use unicode as a fallback (instead of ASCII) when not using icons.
-  ;; (setq doom-modeline-unicode-fallback t)
-  ;; Whether display the minor modes in the mode-line.
-  ;; (setq doom-modeline-minor-modes nil)
-  ;; If non-nil, a word count will be added to the selection-info modeline segment.
-  ;; (setq doom-modeline-enable-word-count t)
-  ;; Major modes in which to display word count continuously.
-  ;; Also applies to any derived modes. Respects `doom-modeline-enable-word-count'.
-  ;; If it brings the sluggish issue, disable `doom-modeline-enable-word-count' or
-  ;; remove the modes from `doom-modeline-continuous-word-count-modes'.
-  ;; (setq doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode))
+  (use-package doom-modeline
+    :straight t
+    :hook (after-init . doom-modeline-mode)
+    :config
+    (add-hook 'text-scale-mode-hook #'(lambda ()                                        
+                                        (message "Adjusting text size")))
+    ;; How tall the mode-line should be. It's only respected in GUI.
+    ;; If the actual char height is larger, it respects the actual height.
+    (setq doom-modeline-height 35)
+    ;; How to detect the project root.
+    ;; The default priority of detection is `ffip' > `projectile' > `project'.
+    ;; nil means to use `default-directory'.
+    ;; The project management packages have some issues on detecting project root.
+    ;; e.g. `projectile' doesn't handle symlink folders well, while `project' is unable
+    ;; to hanle sub-projects.
+    ;; You can specify one if you encounter the issue.
+    (setq doom-modeline-project-detection 'projectile)
+    ;; Whether display icons in the mode-line.
+    ;; While using the server mode in GUI, should set the value explicitly.
+    (setq doom-modeline-icon (display-graphic-p))
+    ;; Whether display icons in the mode-line.
+    ;; While using the server mode in GUI, should set the value explicitly.
+    (setq doom-modeline-icon (display-graphic-p))
+    ;; Whether display the colorful icon for `major-mode'.
+    ;; It respects `all-the-icons-color-icons'.
+    (setq doom-modeline-major-mode-color-icon t)
+    ;; Whether display the icon for the buffer state. It respects `doom-modeline-icon'.
+    (setq doom-modeline-buffer-state-icon t)
+    ;; Whether display the modification icon for the buffer.
+    ;; It respects `doom-modeline-icon' and `doom-modeline-buffer-state-icon'.
+    (setq doom-modeline-buffer-modification-icon t)
+    ;; Whether to use unicode as a fallback (instead of ASCII) when not using icons.
+    (setq doom-modeline-unicode-fallback t)
+    ;; Whether display the minor modes in the mode-line.
+    (setq doom-modeline-minor-modes nil)
+    ;; If non-nil, a word count will be added to the selection-info modeline segment.
+    (setq doom-modeline-enable-word-count t)
+    ;; Major modes in which to display word count continuously.
+    ;; Also applies to any derived modes. Respects `doom-modeline-enable-word-count'.
+    ;; If it brings the sluggish issue, disable `doom-modeline-enable-word-count' or
+    ;; remove the modes from `doom-modeline-continuous-word-count-modes'.
+    (setq doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode))
 
-  ;; Whether display the buffer encoding.
-  ;; (setq doom-modeline-buffer-encoding t)
+    ;; Whether display the buffer encoding.
+    (setq doom-modeline-buffer-encoding t)
 
-  ;; Whether display the indentation information.
-  ;; (setq doom-modeline-indent-info nil)
+    ;; Whether display the indentation information.
+    (setq doom-modeline-indent-info nil)
 
-  ;; If non-nil, only display one number for checker information if applicable.
-  ;; (setq doom-modeline-checker-simple-format t)
+    ;; If non-nil, only display one number for checker information if applicable.
+    (setq doom-modeline-checker-simple-format t)
 
-  ;; The maximum number displayed for notifications.
-  ;; (setq doom-modeline-number-limit 99)
+    ;; The maximum number displayed for notifications.
+    (setq doom-modeline-number-limit 99)
 
-  ;; The maximum displayed length of the branch name of version control.
-  ;; (setq doom-modeline-vcs-max-length 20)
+    ;; The maximum displayed length of the branch name of version control.
+    (setq doom-modeline-vcs-max-length 20)
 
-  ;; Whether display the workspace name. Non-nil to display in the mode-line.
-  ;; (setq doom-modeline-workspace-name t)
+    ;; Whether display the workspace name. Non-nil to display in the mode-line.
+    (setq doom-modeline-workspace-name t)
 
-  ;; Whether display the perspective name. Non-nil to display in the mode-line.
-  ;; (setq doom-modeline-persp-name t)
+    ;; Whether display the perspective name. Non-nil to display in the mode-line.
+    ;; (setq doom-modeline-persp-name t)
 
-  ;; If non nil the default perspective name is displayed in the mode-line.
-  ;; (setq doom-modeline-display-default-persp-name nil)
+    ;; If non nil the default perspective name is displayed in the mode-line.
+    (setq doom-modeline-display-default-persp-name nil)
 
-  ;; If non nil the perspective name is displayed alongside a folder icon.
-  ;; (setq doom-modeline-persp-icon t)
+    ;; If non nil the perspective name is displayed alongside a folder icon.
+    (setq doom-modeline-persp-icon t)
 
-  ;; Whether display the `lsp' state. Non-nil to display in the mode-line.
-  ;; (setq doom-modeline-lsp t)
+    ;; Whether display the `lsp' state. Non-nil to display in the mode-line.
+    (setq doom-modeline-lsp t)
 
-  ;; Whether display the GitHub notifications. It requires `ghub' package.
-  ;; (setq doom-modeline-github nil)
+    ;; Whether display the GitHub notifications. It requires `ghub' package.
+    (setq doom-modeline-github nil)
 
-  ;; The interval of checking GitHub.
-  ;; (setq doom-modeline-github-interval (* 30 60))
+    ;; The interval of checking GitHub.
+    (setq doom-modeline-github-interval (* 30 60))
 
-  ;; Whether display the mu4e notifications. It requires `mu4e-alert' package.
-  ;; (setq doom-modeline-mu4e nil)
+    ;; Whether display the mu4e notifications. It requires `mu4e-alert' package.
+    (setq doom-modeline-mu4e nil)
 
-  ;; Whether display the gnus notifications.
-  ;; (setq doom-modeline-gnus t)
+    ;; Whether display the gnus notifications.
+    (setq doom-modeline-gnus t)
 
-  ;; Wheter gnus should automatically be updated and how often (set to 0 or smaller than 0 to disable)
-  ;; (setq doom-modeline-gnus-timer 2)
+    ;; Wheter gnus should automatically be updated and how often (set to 0 or smaller than 0 to disable)
+    (setq doom-modeline-gnus-timer 2)
 
-  ;; Wheter groups should be excludede when gnus automatically being updated.
-  ;; (setq doom-modeline-gnus-excluded-groups '("dummy.group"))
+    ;; Wheter groups should be excludede when gnus automatically being updated.
+    (setq doom-modeline-gnus-excluded-groups '("dummy.group"))
 
-  ;; Whether display the IRC notifications. It requires `circe' or `erc' package.
-  ;; (setq doom-modeline-irc t)
+    ;; Whether display the IRC notifications. It requires `circe' or `erc' package.
+    (setq doom-modeline-irc t)
 
-  ;; Function to stylize the irc buffer names.
-  ;; (setq doom-modeline-irc-stylize 'identity)
+    ;; Function to stylize the irc buffer names.
+    (setq doom-modeline-irc-stylize 'identity)
 
-  ;; Whether display the environment version.
-  ;; (setq doom-modeline-env-version t)
-  ;; Or for individual languages
-  ;; (setq doom-modeline-env-enable-python t)
-  ;; (setq doom-modeline-env-enable-ruby t)
-  ;; (setq doom-modeline-env-enable-perl t)
-  ;; (setq doom-modeline-env-enable-go t)
-  ;; (setq doom-modeline-env-enable-elixir t)
-  ;; (setq doom-modeline-env-enable-rust t)
+    ;; Whether display the environment version.
+    (setq doom-modeline-env-version t)
+    ;; Or for individual languages
+    (setq doom-modeline-env-enable-python t)
+    (setq doom-modeline-env-enable-ruby t)
+    (setq doom-modeline-env-enable-perl t)
+    (setq doom-modeline-env-enable-go t)
+    (setq doom-modeline-env-enable-elixir t)
+    (setq doom-modeline-env-enable-rust t)
 
-  ;; ;; Change
-  ;; the executables to use for the language version string
-  ;; (setq doom-modeline-env-python-executable "python") ; or `python-shell-interpreter'
-  ;; (setq doom-modeline-env-ruby-executable "ruby")
-  ;; (setq doom-modeline-env-perl-executable "perl")
-  ;; (setq doom-modeline-env-go-executable "go")
-  ;; (setq doom-modeline-env-elixir-executable "iex")
-  ;; (setq doom-modeline-env-rust-executable "rustc")
+    ;; ;; Change
+    ;; the executables to use for the language version string
+    (setq doom-modeline-env-python-executable "python") ; or `python-shell-interpreter'
+    (setq doom-modeline-env-ruby-executable "ruby")
+    (setq doom-modeline-env-perl-executable "perl")
+    (setq doom-modeline-env-go-executable "go")
+    (setq doom-modeline-env-elixir-executable "iex")
+    (setq doom-modeline-env-rust-executable "rustc")
 
-  ;; ;; What to dispaly as the version while a new one is being loaded
-  ;; (setq doom-modeline-env-load-string "...")
+    ;; What to dispaly as the version while a new one is being loaded
+    (setq doom-modeline-env-load-string "...")
 
-  ;; Hooks that run before/after the modeline version string is updated
-  ;; (setq doom-modeline-before-update-env-hook nil)
-  ;; (setq doom-modeline-after-update-env-hook nil))
+    ;; Hooks that run before/after the modeline version string is updated
+    (setq doom-modeline-before-update-env-hook nil)
+    (setq doom-modeline-after-update-env-hook nil))
 #+END_SRC
 ** Initialize =rainbow-mode=
 *** Code
@@ -760,7 +814,7 @@ currently entered incomplete command
 
           (use-package olivetti
             :diminish
-            :hook (text-mode . olivetti-mode)
+            :hook (org-mode . olivetti-mode)
             :config
             (setq olivetti-body-width 100)
             (define-key olivetti-mode-map (kbd "C-c |") 'org-table-create-or-convert-from-region))
@@ -903,7 +957,9 @@ popups, sidebars, log buffers, terminals, etc) by giving the latter a slightly d
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package solaire-mode
-    :ensure t)
+    :ensure t
+    :config
+    (solaire-global-mode +1))
 #+END_SRC
 ** Initialize =visual-regexp=
 *** Description
@@ -955,11 +1011,21 @@ Wrap Region is a minor mode for Emacs that wraps a region with punctuations.
 #+begin_src emacs-lisp
       (use-package esxml
         :straight t) ;; required by nov
-
+  
       (use-package nov
         :straight (nov :type git :repo "https://depp.brause.cc/nov.el.git")
         :config
         (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
+#+end_src
+** Initialize =elcord=
+*** Description
+Discord Presence in Emacs
+*** Code
+#+begin_src emacs-lisp
+(use-package elcord
+  :straight t
+  :config
+  (elcord-mode))
 #+end_src
 ** Built-in entry: =eldoc=
 *** Code
@@ -1067,7 +1133,7 @@ popular Emacs packages like company, flycheck and projectile.
     :straight t
     :init
     ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-    (setq lsp-keymap-prefix "C-l")
+    (setq lsp-keymap-prefix "C-c l")
     :hook (c++-mode . lsp)
     :commands lsp)
 
@@ -1165,3 +1231,9 @@ A JavaScript development environment for Emacs.
       rear-nonsticky
       (slime-repl-prompt read-only font-lock-face intangible))))))
 #+END_SRC
+** Initialize =cmake-mode=
+*** Code
+#+begin_src emacs-lisp
+  (use-package cmake-mode
+    :straight t)
+#+end_src

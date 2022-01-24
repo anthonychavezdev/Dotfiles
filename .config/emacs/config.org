@@ -433,13 +433,6 @@ undo history as a branching tree of changes, similar to the way Vim handles it.
   :init
   (global-undo-tree-mode 1))
 #+END_SRC
-** Initialize =page-break-lines=
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package page-break-lines
-    :straight t
-    :diminish (page-break-lines-mode visual-line-mode))
-#+END_SRC
 ** Initialize =projectile=
 *** Description
 Projectile is a project interaction library for Emacs.
@@ -451,9 +444,8 @@ external dependencies (when feasible).
   (use-package projectile
    :straight t
    :config
-     (projectile-mode +1)
-    (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+   (projectile-mode +1)
+   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 #+END_SRC
 ** Initialize =treemacs=
 *** Description
@@ -513,16 +505,17 @@ Neat side-bar file and project explorer
     :bind
     (:map global-map
           ("M-0"       . treemacs-select-window)
-          ("C-x t 1"   . treemacs-delete-other-windows)
-          ("C-x t t"   . treemacs)
-          ("C-x t B"   . treemacs-bookmark)
-          ("C-x t C-t" . treemacs-find-file)
-          ("C-x t M-t" . treemacs-find-tag)))
+          ("C-c t 1"   . treemacs-delete-other-windows)
+          ("C-c t t"   . treemacs)
+          ("C-c t B"   . treemacs-bookmark)
+          ("C-c t C-t" . treemacs-find-file)
+          ("C-c t M-t" . treemacs-find-tag)))
 
     (use-package treemacs-icons-dired
       :after treemacs dired
       :straight t
-      :config (treemacs-icons-dired-mode))
+      :config
+      (treemacs-icons-dired-mode))
 #+END_SRC
 ** Initialize =dashboard=
 *** Description
@@ -550,8 +543,6 @@ The frontend of Witchmacs; without this there'd be no Marisa in your Emacs start
     (setq dashboard-set-footer t)
     (setq dashboard-set-navigator t))
 #+END_SRC
-*** Notes
-If you pay close attention to the code in dashboard, you'll  notice that it uses custom functions defined under the :preface use-package block. I wrote all of those functions by looking at other people's Emacs distributions (Mainly [[https://github.com/seagle0128/.emacs.d][Centaur Emacs]]) and then experimenting and adapting them to Witchmacs. If you dig around, you'll find the same things I did - maybe even more!
 ** Initialize =magit=
 *** Description
 Git porcelain for Emacs
@@ -736,205 +727,205 @@ currently entered incomplete command
  TeX files in GNU Emacs.
 *** Code
 #+BEGIN_SRC emacs-lisp
-           (use-package pdf-tools
-            :magic ("%PDF" . pdf-view-mode)
-            :config
-            (pdf-tools-install)
-            (setq-default pdf-view-display-size 'fit-page)
-             ;; automatically annotate highlights
-            (setq pdf-annot-activate-created-annotations t)
-            ;; use normal isearch
-            (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
-            (define-key pdf-view-mode-map (kbd "C-r") 'isearch-backward))
+  (use-package pdf-tools
+    :magic ("%PDF" . pdf-view-mode)
+    :config
+    (pdf-tools-install)
+    (setq-default pdf-view-display-size 'fit-page)
+    ;; automatically annotate highlights
+    (setq pdf-annot-activate-created-annotations t)
+    ;; use normal isearch
+    (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
+    (define-key pdf-view-mode-map (kbd "C-r") 'isearch-backward))
 
 
-          (defun try/TeX-command-save-buffer-and-run-all ()
-          "Save the buffer and run TeX-command-run-all"
-          (interactive)
-          (let (TeX-save-query) (TeX-save-document (TeX-master-file)))
-          (TeX-command-run-all nil))
+  (defun try/TeX-command-save-buffer-and-run-all ()
+    "Save the buffer and run TeX-command-run-all"
+    (interactive)
+    (let (TeX-save-query) (TeX-save-document (TeX-master-file)))
+    (TeX-command-run-all nil))
 
-          ;; copied ivy-bibtex and modified it to cite action
-          (defun try/ivy-bibtex-cite (&optional arg local-bib)
-            "Search BibTeX entries using ivy.
+  ;; copied ivy-bibtex and modified it to cite action
+  (defun try/ivy-bibtex-cite (&optional arg local-bib)
+    "Search BibTeX entries using ivy.
 
-          With a prefix ARG the cache is invalidated and the bibliography
-          reread.
+        With a prefix ARG the cache is invalidated and the bibliography
+        reread.
 
-          If LOCAL-BIB is non-nil, display that the BibTeX entries are read
-          from the local bibliography.  This is set internally by
-          `ivy-bibtex-with-local-bibliography'."
-            (interactive "P")
-            (when arg
-          (bibtex-completion-clear-cache))
-            (bibtex-completion-init)
-            (let* ((candidates (bibtex-completion-candidates))
-                (key (bibtex-completion-key-at-point))
-                (preselect (and key
-                        (cl-position-if (lambda (cand)
-                              (member (cons "=key=" key)
-                                  (cdr cand)))
-                                candidates))))
-          (ivy-read (format "Insert citation %s: " (if local-bib " (local)" ""))
+        If LOCAL-BIB is non-nil, display that the BibTeX entries are read
+        from the local bibliography.  This is set internally by
+        `ivy-bibtex-with-local-bibliography'."
+    (interactive "P")
+    (when arg
+      (bibtex-completion-clear-cache))
+    (bibtex-completion-init)
+    (let* ((candidates (bibtex-completion-candidates))
+           (key (bibtex-completion-key-at-point))
+           (preselect (and key
+                           (cl-position-if (lambda (cand)
+                                             (member (cons "=key=" key)
+                                                     (cdr cand)))
+                                           candidates))))
+      (ivy-read (format "Insert citation %s: " (if local-bib " (local)" ""))
                 candidates
                 :preselect preselect
                 :caller 'ivy-bibtex
                 :history 'ivy-bibtex-history
                 :action 'ivy-bibtex-insert-citation)))
 
-          (defun try/latex-mode-setup ()
-            (require 'company-reftex)
-              (turn-on-reftex)
-              (require 'company-auctex)
-              (require 'company-math)
-          (setq-local company-backends
+  (defun try/latex-mode-setup ()
+    (require 'company-reftex)
+    (turn-on-reftex)
+    (require 'company-auctex)
+    (require 'company-math)
+    (setq-local company-backends
 
-          (append '(
-                        (company-reftex-labels
-                          company-reftex-citations)
-                (company-math-symbols-unicode company-math-symbols-latex company-latex-commands)
-                (company-auctex-macros company-auctex-symbols company-auctex-environments)
-                company-ispell
-                )
-              company-backends)))
+                (append '(
+                          (company-reftex-labels
+                           company-reftex-citations)
+                          (company-math-symbols-unicode company-math-symbols-latex company-latex-commands)
+                          (company-auctex-macros company-auctex-symbols company-auctex-environments)
+                          company-ispell
+                          )
+                        company-backends)))
 
 
-          (defun try/counsel-insert-file-path ()
-            "Insert relative file path using counsel minibuffer"
-            (interactive)
-            (unless (featurep 'counsel) (require 'counsel))
-            (ivy-read "Insert filename: " 'read-file-name-internal
+  (defun try/counsel-insert-file-path ()
+    "Insert relative file path using counsel minibuffer"
+    (interactive)
+    (unless (featurep 'counsel) (require 'counsel))
+    (ivy-read "Insert filename: " 'read-file-name-internal
               :matcher #'counsel--find-file-matcher
               :action
               (lambda (x)
                 (insert (file-relative-name x)))))
 
 
-          ;; Olivetti
+  ;; Olivetti
 
-          (use-package olivetti
-            :diminish
-            :hook (org-mode . olivetti-mode)
-            :config
-            (setq olivetti-body-width 100)
-            (define-key olivetti-mode-map (kbd "C-c |") 'org-table-create-or-convert-from-region))
-
-
-
-          ;; Enable folding and unfolding sections just like org-mode (using ~C-c-n~) using [[https://github.com/alphapapa/outshine/issues/85][outshine]]
-
-          ;; Check ~outshine-cycle~ for more options.
-
-          (use-package outshine
-            :config
-          (setq LaTeX-section-list '(
-                         ("part" 0)
-                         ("chapter" 1)
-                         ("section" 2)
-                         ("subsection" 3)
-                         ("subsubsection" 4)
-                         ("paragraph" 5)
-                         ("subparagraph" 6)
-                         ("begin" 7)
-                         )
-            )
-          (add-hook 'LaTeX-mode-hook #'(lambda ()
-                         (outshine-mode 1)
-                         (setq outline-level #'LaTeX-outline-level)
-                         (setq outline-regexp (LaTeX-outline-regexp t))
-                         (setq outline-heading-alist
-                           (mapcar (lambda (x)
-                                 (cons (concat "\\" (nth 0 x)) (nth 1 x)))
-                               LaTeX-section-list))))
-
-            )
+  (use-package olivetti
+    :diminish
+    :hook (org-mode . olivetti-mode)
+    :config
+    (setq olivetti-body-width 100)
+    (define-key olivetti-mode-map (kbd "C-c |") 'org-table-create-or-convert-from-region))
 
 
-    (add-hook 'LaTeX-mode-hook
-          (lambda () (local-set-key (kbd "C-c n") '(outshine-cycle :which-key "outshine-cycle"))))
 
-            ;; latexmk
-            (use-package auctex-latexmk)
-            ;; company
-            (use-package company-math)
-            (use-package company-auctex)
-          (use-package company-reftex)
+  ;; Enable folding and unfolding sections just like org-mode (using ~C-c-n~) using [[https://github.com/alphapapa/outshine/issues/85][outshine]]
+
+  ;; Check ~outshine-cycle~ for more options.
+
+  (use-package outshine
+    :config
+    (setq LaTeX-section-list '(
+                               ("part" 0)
+                               ("chapter" 1)
+                               ("section" 2)
+                               ("subsection" 3)
+                               ("subsubsection" 4)
+                               ("paragraph" 5)
+                               ("subparagraph" 6)
+                               ("begin" 7)
+                               )
+          )
+    (add-hook 'LaTeX-mode-hook #'(lambda ()
+                                   (outshine-mode 1)
+                                   (setq outline-level #'LaTeX-outline-level)
+                                   (setq outline-regexp (LaTeX-outline-regexp t))
+                                   (setq outline-heading-alist
+                                         (mapcar (lambda (x)
+                                                   (cons (concat "\\" (nth 0 x)) (nth 1 x)))
+                                                 LaTeX-section-list))))
+
+    )
 
 
-            ;;  use cdlatex
-            (use-package cdlatex)
+  (add-hook 'LaTeX-mode-hook
+            (lambda () (local-set-key (kbd "C-c n") '(outshine-cycle :which-key "outshine-cycle"))))
 
-            ;; https://gist.github.com/saevarb/367d3266b3f302ecc896
-            ;; https://piotr.is/2010/emacs-as-the-ultimate-latex-editor/
+  ;; latexmk
+  (use-package auctex-latexmk)
+  ;; company
+  (use-package company-math)
+  (use-package company-auctex)
+  (use-package company-reftex)
 
-            (use-package latex
-              :straight auctex
-              :defer t
-              :custom
-              (olivetti-body-width 100)
-              (cdlatex-simplify-sub-super-scripts nil)
-              (reftex-default-bibliography
-                '("~/ref.bib"))
-              (bibtex-dialect 'biblatex)
-              :mode
-                ("\\.tex\\'" . latex-mode)
-              :bind (:map LaTeX-mode-map
-                    ("C-c C-e" . cdlatex-environment)
+
+  ;;  use cdlatex
+  (use-package cdlatex)
+
+  ;; https://gist.github.com/saevarb/367d3266b3f302ecc896
+  ;; https://piotr.is/2010/emacs-as-the-ultimate-latex-editor/
+
+  (use-package latex
+    :straight auctex
+    :defer t
+    :custom
+    (olivetti-body-width 100)
+    (cdlatex-simplify-sub-super-scripts nil)
+    (reftex-default-bibliography
+     '("~/ref.bib"))
+    (bibtex-dialect 'biblatex)
+    :mode
+    ("\\.tex\\'" . latex-mode)
+    :bind (:map LaTeX-mode-map
+                ("C-c C-e" . cdlatex-environment)
                 )
-              :hook
-                (LaTeX-mode . olivetti-mode)
-                (LaTeX-mode . TeX-PDF-mode)
-                (LaTeX-mode . company-mode)
-                (LaTeX-mode . flyspell-mode)
-                (LaTeX-mode . flycheck-mode)
-                (LaTeX-mode . LaTeX-math-mode)
-                (LaTeX-mode . turn-on-reftex)
-                (LaTeX-mode . TeX-source-correlate-mode)
-                (LaTeX-mode . try/latex-mode-setup)
-                (LaTeX-mode . turn-on-cdlatex)
+    :hook
+    (LaTeX-mode . olivetti-mode)
+    (LaTeX-mode . TeX-PDF-mode)
+    (LaTeX-mode . company-mode)
+    (LaTeX-mode . flyspell-mode)
+    (LaTeX-mode . flycheck-mode)
+    (LaTeX-mode . LaTeX-math-mode)
+    (LaTeX-mode . turn-on-reftex)
+    (LaTeX-mode . TeX-source-correlate-mode)
+    (LaTeX-mode . try/latex-mode-setup)
+    (LaTeX-mode . turn-on-cdlatex)
 
-              :config
-                (setq TeX-auto-save t)
-                (setq TeX-parse-self t)
-                (setq-default TeX-master nil)
-                (setq TeX-save-query nil)
+    :config
+    (setq TeX-auto-save t)
+    (setq TeX-parse-self t)
+    (setq-default TeX-master nil)
+    (setq TeX-save-query nil)
 
-                (setq reftex-plug-into-AUCTeX t)
+    (setq reftex-plug-into-AUCTeX t)
 
-                ;; pdftools
-                ;; https://emacs.stackexchange.com/questions/21755/use-pdfview-as-default-auctex-pdf-viewer#21764
-                (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
-                TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view))
-                TeX-source-correlate-start-server t) ;; not sure if last line is neccessary
-                ;; to have the buffer refresh after compilation,
-                ;; very important so that PDFView refesh itself after comilation
-                (add-hook 'TeX-after-compilation-finished-functions
-                    #'TeX-revert-document-buffer)
+    ;; pdftools
+    ;; https://emacs.stackexchange.com/questions/21755/use-pdfview-as-default-auctex-pdf-viewer#21764
+    (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+          TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view))
+          TeX-source-correlate-start-server t) ;; not sure if last line is neccessary
+    ;; to have the buffer refresh after compilation,
+    ;; very important so that PDFView refesh itself after comilation
+    (add-hook 'TeX-after-compilation-finished-functions
+              #'TeX-revert-document-buffer)
 
-                ;; latexmk
-                (require 'auctex-latexmk)
-                (auctex-latexmk-setup)
-                (setq auctex-latexmk-inherit-TeX-PDF-mode t))
+    ;; latexmk
+    (require 'auctex-latexmk)
+    (auctex-latexmk-setup)
+    (setq auctex-latexmk-inherit-TeX-PDF-mode t))
 
 
-        ;; ivy-bibtex
-          (use-package ivy-bibtex
-            :custom
-            (bibtex-completion-bibliography
-              '("~/ref.bib"))
-            (bibtex-completion-library-path '("~/papers"))
-            (bibtex-completion-cite-prompt-for-optional-arguments nil)
-            (bibtex-completion-cite-default-as-initial-input t))
+  ;; ivy-bibtex
+  (use-package ivy-bibtex
+    :custom
+    (bibtex-completion-bibliography
+     '("~/ref.bib"))
+    (bibtex-completion-library-path '("~/papers"))
+    (bibtex-completion-cite-prompt-for-optional-arguments nil)
+    (bibtex-completion-cite-default-as-initial-input t))
 
-      ;; org-ref
-            (use-package org-ref
-          :custom
-          (org-ref-default-bibliography "/tmp/ref.bib")
-          (org-ref-pdf-directory "/tmp/papers")
-          (org-ref-completion-library 'org-ref-ivy-cite)
-          :config
-          (require 'org-ref-wos)
-          (require 'doi-utils))
+  ;; org-ref
+  (use-package org-ref
+    :custom
+    (org-ref-default-bibliography "/tmp/ref.bib")
+    (org-ref-pdf-directory "/tmp/papers")
+    (org-ref-completion-library 'org-ref-ivy-cite)
+    :config
+    (require 'org-ref-wos)
+    (require 'doi-utils))
 
   #+END_SRC
 ** Initialize =expand-region=
@@ -993,7 +984,9 @@ RSS Feeder
     :ensure t
     :config
     (setq elfeed-db-directory (expand-file-name "elfeed" user-emacs-directory)
-          elfeed-show-entry-switch 'display-buffer))
+          elfeed-show-entry-switch 'display-buffer)
+          elfeed-feeds '("https://protesilaos.com/advice.xml"
+                         "https://protesilaos.com/feeds/"))
 #+END_SRC
 ** Initialize =wrap-region=
 *** Description
@@ -1022,10 +1015,12 @@ Wrap Region is a minor mode for Emacs that wraps a region with punctuations.
 Discord Presence in Emacs
 *** Code
 #+begin_src emacs-lisp
-(use-package elcord
-  :straight t
-  :config
-  (elcord-mode))
+    (use-package elcord
+      :straight t
+      :config
+      (elcord-mode)
+      (setq elcord-display-buffer-details t)
+      (setq elcord-buffer-details-format-function #'buffer-file-name))
 #+end_src
 ** Built-in entry: =eldoc=
 *** Code
@@ -1053,6 +1048,7 @@ Discord Presence in Emacs
     (require 'tree-sitter-langs)
   (add-hook 'c-mode-hook 'tree-sitter-hl-mode)
   (add-hook 'c++-mode-hook 'tree-sitter-hl-mode)
+  (add-hook 'js-mode-hook 'tree-sitter-hl-mode)
 #+END_SRC
 ** Initialize =elisp-bug-hunter=
 *** Description
@@ -1134,8 +1130,11 @@ popular Emacs packages like company, flycheck and projectile.
     :init
     ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
     (setq lsp-keymap-prefix "C-c l")
-    :hook (c++-mode . lsp)
-    :commands lsp)
+    :commands lsp
+    :config
+    (add-hook 'c++-mode-hook 'lsp-mode)
+    (add-hook 'c-mode-hook 'lsp-mode)
+    (add-hook 'js-mode-hook 'lsp-mode))
 
   ;; optionally
   (use-package lsp-ui
@@ -1236,4 +1235,27 @@ A JavaScript development environment for Emacs.
 #+begin_src emacs-lisp
   (use-package cmake-mode
     :straight t)
+#+end_src
+
+** Initialize =Java=
+*** Code
+#+BEGIN_SRC emacs-lisp
+        (use-package lsp-java
+          :straight t
+          :config
+          (add-hook 'java-mode-hook #'lsp-mode))
+#+END_SRC
+** Initialize =yaml-mode=
+*** Code
+#+begin_src emacs-lisp
+        (use-package yaml-mode
+          :straight t
+          :config
+          (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)))
+#+end_src
+** Initialize =restclient-mode=
+*** Code
+#+begin_src emacs-lisp
+      (use-package restclient
+        :straight t)
 #+end_src

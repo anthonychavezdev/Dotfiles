@@ -1049,6 +1049,8 @@ Discord Presence in Emacs
   (add-hook 'c-mode-hook 'tree-sitter-hl-mode)
   (add-hook 'c++-mode-hook 'tree-sitter-hl-mode)
   (add-hook 'js-mode-hook 'tree-sitter-hl-mode)
+  (add-hook 'python-mode-hook 'tree-sitter-hl-mode)
+  (add-hook 'java-mode-hook 'tree-sitter-hl-mode)
 #+END_SRC
 ** Initialize =elisp-bug-hunter=
 *** Description
@@ -1125,35 +1127,37 @@ IDE-like experience by providing optional integration with the most
 popular Emacs packages like company, flycheck and projectile.
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (use-package lsp-mode
-    :straight t
-    :init
-    ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-    (setq lsp-keymap-prefix "C-c l")
-    :commands lsp
-    :config
-    (add-hook 'c++-mode-hook 'lsp-mode)
-    (add-hook 'c-mode-hook 'lsp-mode)
-    (add-hook 'js-mode-hook 'lsp-mode))
+        (use-package lsp-mode
+          :straight t
+          :init
+          ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+          (setq lsp-keymap-prefix "C-c l")
+          (add-to-list 'company-backends 'company-capf)
+          :hook ((c++-mode . lsp)
+                 (c-mode . lsp)
+                 (js-mode . lsp)
+                 (python-mode . lsp)
+                 (java-mode . lsp))
+          :commands lsp)
 
-  ;; optionally
-  (use-package lsp-ui
-   :straight t
-   :init
-   (setq lsp-ui-sideline-show-diagnostics nil)
-   :commands lsp-ui-mode)
-  ;; if you are ivy user
-  (use-package lsp-ivy
-   :straight t
-   :commands lsp-ivy-workspace-symbol)
-  (use-package lsp-treemacs
-   :straight t
-   :commands lsp-treemacs-errors-list)
+        ;; optionally
+        (use-package lsp-ui
+         :straight t
+         :init
+         (setq lsp-ui-sideline-show-diagnostics nil)
+         :commands lsp-ui-mode)
+        ;; if you are ivy user
+        (use-package lsp-ivy
+         :straight t
+         :commands lsp-ivy-workspace-symbol)
+        (use-package lsp-treemacs
+         :straight t
+         :commands lsp-treemacs-errors-list)
 
-  ;; optionally if you want to use debugger
-  ;; (use-package dap-mode
-  ;;  :straight t)
-  ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
+        ;; optionally if you want to use debugger
+        ;; (use-package dap-mode
+        ;;  :straight t)
+        ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 #+END_SRC
 ** Initialize =racket-mode=
 *** Code

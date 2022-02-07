@@ -1263,3 +1263,9 @@ A JavaScript development environment for Emacs.
       (use-package restclient
         :straight t)
 #+end_src
+** Initialize =android-mode=
+*** Code
+#+begin_src emacs-lisp
+    (use-package android-mode
+      :straight t)
+#+end_src

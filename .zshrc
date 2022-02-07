@@ -5,7 +5,7 @@
 #███████╗███████║██║  ██║██║  ██║╚██████╗
 #╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:$HOME/.local/bin:$HOME/.local/bin/sumneko/:/usr/local/bin:/home/anthony/android/platform-tools:$PATH
 #
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
@@ -109,8 +109,8 @@ autoload -U colors && colors
 # ZSH_THEME="bira"
 # ZSH_THEME=nicoulaj
 # ZSH_THEME=green_theme
-# ZSH_THEME=bira
-ZSH_THEME="spaceship"
+ZSH_THEME=bira
+# ZSH_THEME="spaceship"
 # ZSH_THEME="minimal"
 # ZSH_THEME="theunraveler"
 # ZSH_THEME="daveverwer"
@@ -122,7 +122,7 @@ ZSH_THEME="spaceship"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-syntax-highlighting fzf zsh_reload)
+plugins=(git zsh-syntax-highlighting fzf)
 source $ZSH/oh-my-zsh.sh
 # source ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -142,14 +142,8 @@ source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighti
  #   export EDITOR='nvim'
  # fi
 
-export TERMEMU="alacritty"
-export EDITOR="nvim"
-
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
-
-# ssh
- export SSH_KEY_PATH="~/.ssh/rsa_id"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -185,14 +179,11 @@ ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=cyan
 ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=cyan
 ZSH_HIGHLIGHT_STYLES[assign]=none
 
-export PATH=$PATH:~/bin:~/scripts:~/GB/gbdk/bin:~/.local/bin:/home/anthony/.local/share/gem/ruby/2.7.0/bin:/opt/android-studio/bin:~/pico-8:~/.npm-global/bin:~/.cargo/bin
 # export TERM=xterm
 # export TERM=rxvt-unicode
 # export TERM=st-256color
 # export TERM=st-256color
 #./git/wal/wal -r
-
-export XDG_CONFIG_HOME=$HOME/.config/
 
 # For the 3DS homebrew development environment.
 # export DEVKITPRO=/opt/devkitpro
@@ -204,10 +195,9 @@ export PRINTER=EPSON_XP-410_Series
 # Aliases
 alias open="xdg-open"
 alias wcache="wget -m -k -K -E"
-alias V="sudo /home/anthony/Appimages/nvim/squashfs-root/AppRun"
-alias v="/home/anthony/Appimages/nvim/squashfs-root/AppRun"
-alias nvim="/home/anthony/Appimages/nvim/squashfs-root/AppRun"
-alias vc="nvim ~/.config/nvim/init.vim"
+alias V="sudo nvim"
+alias v="nvim"
+alias vc="nvim ~/.config/nvim/init.lua"
 alias vz="nvim ~/.zshrc"
 
 alias sc="nvim ~/.config/sxhkd/sxhkdrc"
@@ -247,6 +237,5 @@ alias tmux="tmux -f $HOME/.config/tmux/tmux.conf"
 
 # (cat ~/.cache/wal/sequences &)
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/home/anthony/.sdkman"
-[[ -s "/home/anthony/.sdkman/bin/sdkman-init.sh" ]] && source "/home/anthony/.sdkman/bin/sdkman-init.sh"
+alias luamake=/home/anthony/git/lua-language-server/3rd/luamake/luamake
+

@@ -1,3 +1,6 @@
+
+alias chromium="chromium-browser"
+
 export TERMEMU="alacritty"
 export EDITOR="emacsclient -c"
 

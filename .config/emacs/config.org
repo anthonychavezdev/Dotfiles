@@ -984,9 +984,8 @@ RSS Feeder
     :ensure t
     :config
     (setq elfeed-db-directory (expand-file-name "elfeed" user-emacs-directory)
-          elfeed-show-entry-switch 'display-buffer)
-          elfeed-feeds '("https://protesilaos.com/advice.xml"
-                         "https://protesilaos.com/feeds/"))
+          elfeed-show-entry-switch 'display-buffer
+          elfeed-feeds '("https://protesilaos.com/master.xml")))
 #+END_SRC
 ** Initialize =wrap-region=
 *** Description

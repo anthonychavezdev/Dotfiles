@@ -1022,6 +1022,14 @@ Discord Presence in Emacs
       (setq elcord-display-buffer-details t)
       (setq elcord-buffer-details-format-function #'buffer-file-name))
 #+end_src
+** Initialize =perspective.el=
+#+begin_src emacs-lisp
+  (use-package perspective
+  :bind
+  ("C-x C-b" . persp-list-buffers)   ; or use a nicer switcher, see below
+  :config
+  (persp-mode))
+#+end_src
 ** Built-in entry: =eldoc=
 *** Code
 #+BEGIN_SRC emacs-lisp
@@ -1127,37 +1135,63 @@ IDE-like experience by providing optional integration with the most
 popular Emacs packages like company, flycheck and projectile.
 *** Code
 #+BEGIN_SRC emacs-lisp
-        (use-package lsp-mode
-          :straight t
-          :init
-          ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-          (setq lsp-keymap-prefix "C-c l")
-          (add-to-list 'company-backends 'company-capf)
-          :hook ((c++-mode . lsp)
-                 (c-mode . lsp)
-                 (js-mode . lsp)
-                 (python-mode . lsp)
-                 (java-mode . lsp))
-          :commands lsp)
+      (use-package lsp-mode
+        :straight t
+        :init
+        ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+        (setq lsp-keymap-prefix "C-c l")
+        (add-to-list 'company-backends 'company-capf)
+        :hook ((c++-mode . lsp)
+               (c-mode . lsp)
+               (js-mode . lsp)
+               (python-mode . lsp)
+               (java-mode . lsp))
+        :commands lsp
+        :config
+        (setq lsp-auto-guess-root t)
+        (setq lsp-log-io nil)
+        (setq lsp-restart 'auto-restart)
+        (setq lsp-enable-symbol-highlighting nil)
+        (setq lsp-enable-on-type-formatting nil)
+        (setq lsp-signature-auto-activate nil)
+        (setq lsp-signature-render-documentation nil)
+        (setq lsp-eldoc-hook nil)
+        (setq lsp-modeline-code-actions-enable nil)
+        (setq lsp-modeline-diagnostics-enable nil)
+        (setq lsp-headerline-breadcrumb-enable nil)
+        (setq lsp-semantic-tokens-enable nil)
+        (setq lsp-enable-folding nil)
+        (setq lsp-enable-imenu nil)
+        (setq lsp-enable-snippet nil)
+        (setq read-process-output-max (* 1024 1024)) ;; 1MB
+        (setq lsp-idle-delay 0.5)
 
-        ;; optionally
-        (use-package lsp-ui
-         :straight t
-         :init
-         (setq lsp-ui-sideline-show-diagnostics nil)
-         :commands lsp-ui-mode)
-        ;; if you are ivy user
-        (use-package lsp-ivy
-         :straight t
-         :commands lsp-ivy-workspace-symbol)
-        (use-package lsp-treemacs
-         :straight t
-         :commands lsp-treemacs-errors-list)
+        (defun start-lsp-for-svelte ()
+          (when (string= (file-name-extension buffer-file-name) "svelte")
+            (lsp)))
+        (add-hook 'find-file-hook 'start-lsp-for-svelte))
 
-        ;; optionally if you want to use debugger
-        ;; (use-package dap-mode
-        ;;  :straight t)
-        ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
+      ;; optionally
+      (use-package lsp-ui
+       :straight t
+       :commands lsp-ui-mode
+       :config
+       (setq lsp-ui-sideline-show-diagnostics nil
+             lsp-ui-doc-enable t
+             lsp-ui-doc-header t
+             lsp-ui-doc-include-signature t
+             lsp-ui-doc-border (face-foreground 'default)
+             lsp-ui-sideline-show-code-actions nil
+             lsp-ui-sideline-delay 0.5))
+
+      (use-package lsp-treemacs
+       :straight t
+       :commands lsp-treemacs-errors-list)
+
+      ;; optionally if you want to use debugger
+      ;; (use-package dap-mode
+      ;;  :straight t)
+      ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 #+END_SRC
 ** Initialize =racket-mode=
 *** Code
@@ -1185,7 +1219,9 @@ client/server side engines).
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package web-mode
-      :straight t)
+      :straight t
+      :config
+      (add-to-list 'auto-mode-alist '("\\.svelte\\'" . web-mode)))
 #+END_SRC
 ** Initialize =rust-mode=
 *** Code
@@ -1268,4 +1304,41 @@ A JavaScript development environment for Emacs.
 #+begin_src emacs-lisp
     (use-package android-mode
       :straight t)
+#+end_src
+** Initialize =svelte-mode=
+*** Code
+#+begin_src emacs-lisp
+      (use-package svelte-mode
+        :straight t)
+#+end_src
+** Initialize =typescript-mode=
+*** Code
+n#+begin_src emacs-lisp
+  (defun setup-tide-mode ()
+    (interactive)
+    (tide-setup)
+    (flycheck-mode +1)
+    (setq flycheck-check-syntax-automatically '(save mode-enabled))
+    (eldoc-mode +1)
+    (tide-hl-identifier-mode +1)
+    ;; company is an optional dependency. You have to
+    ;; install it separately via package-install
+    ;; `M-x package-install [ret] company`
+    (company-mode +1))
+
+  ;; aligns annotation to the right hand side
+  (setq company-tooltip-align-annotations t)
+
+  ;; formats the buffer before saving
+  (add-hook 'before-save-hook 'tide-format-before-save)
+
+  (add-hook 'typescript-mode-hook #'setup-tide-mode)
+
+  (use-package tide
+    :ensure t
+    :after (typescript-mode company flycheck)
+    :hook ((typescript-mode . tide-setup)
+           (typescript-mode . tide-hl-identifier-mode)
+           (before-save . tide-format-before-save)))
+
 #+end_src

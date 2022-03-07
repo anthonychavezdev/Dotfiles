@@ -222,7 +222,7 @@ Saves to a temp file and puts the filename in the kill ring."
   (add-hook 'comint-output-filter-functions
             'filter-non-sgr-control-sequences-in-output)
 #+end_src
-* Custom functions and key mappings
+* Custom functionality
 ** C/C++
 *** Insert header guards
 #+BEGIN_SRC emacs-lisp
@@ -284,6 +284,10 @@ Saves to a temp file and puts the filename in the kill ring."
 map imenu to M-i
 #+begin_src emacs-lisp
 (global-set-key (kbd "M-i") #'imenu)
+#+end_src
+** set tramp terminal type
+#+begin_src emacs-lisp
+(setq tramp-terminal-type "tramp")
 #+end_src
 * Org-mode
 ** Description
@@ -632,7 +636,7 @@ A fancy and fast mode-line inspired by minimalism design.
     ;; (setq doom-modeline-persp-name t)
 
     ;; If non nil the default perspective name is displayed in the mode-line.
-    (setq doom-modeline-display-default-persp-name nil)
+    (setq doom-modeline-display-default-persp-name t)
 
     ;; If non nil the perspective name is displayed alongside a folder icon.
     (setq doom-modeline-persp-icon t)
@@ -1100,21 +1104,17 @@ abbreviation and automatically expand it into function templates
 hecking extension for GNU Emacs, intended as replacement for the older Flymake extension which is part of GNU Emacs.
 *** Code
 #+BEGIN_SRC emacs-lisp
-(use-package flycheck
- :straight t
- :init (global-flycheck-mode))
- (use-package flycheck-color-mode-line
-  :straight t
-  :config
-  (eval-after-load "flycheck"
-   '(add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)))
-   (use-package pos-tip
+  (use-package flycheck
+   :straight t
+   :init (global-flycheck-mode))
+
+  (use-package pos-tip
     :straight t)
-    (use-package flycheck-pos-tip
-     :straight t
-     :config
-     (with-eval-after-load 'flycheck
-  (flycheck-pos-tip-mode)))
+  (use-package flycheck-pos-tip
+    :straight t
+    :config
+    (with-eval-after-load 'flycheck
+      (flycheck-pos-tip-mode)))
 #+END_SRC
 ** Initialize =company=
 *** Description

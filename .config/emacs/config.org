@@ -28,11 +28,16 @@ Emacs breaks certain modes when it has line-numbers-mode enabled, (like docview 
 #+BEGIN_SRC emacs-lisp
   (setq select-enable-clipboard t)
 #+END_SRC
-** Disable automatic creation of backup files
+** Move automatic creation of backup files
 #+BEGIN_SRC emacs-lisp
-  (setq make-backup-files nil)
-  (setq auto-save-default nil)
+    (setq backup-directory-alist '(("." . "~/.config/emacs/backups")))
+    ;; disk space is cheap
+  (setq delete-old-versions -1)
+  (setq version-control t)
+  (setq vc-make-backup-files t)
+  (setq auto-save-file-name-transforms '((".*" "~/.config/emacs/auto-save-list/" t)))
 #+END_SRC
+
 ** Enable conservative scrolling
 #+BEGIN_SRC emacs-lisp
   (setq scroll-conservatively 100)
@@ -131,7 +136,7 @@ Super - Control - <arrow>
 #+END_SRC
 ** Enable deleting selection by typing
 #+BEGIN_SRC emacs-lisp
-(delete-selection-mode)
+  (delete-selection-mode)
 #+END_SRC
 
 ** Taking screenshots
@@ -184,7 +189,7 @@ Saves to a temp file and puts the filename in the kill ring."
   ;; Stolen from (https://oleksandrmanzyuk.wordpress.com/2011/11/05/better-emacs-shell-part-i/)
   (defun regexp-alternatives (regexps)
     "Return the alternation of a list of regexps."
-    (mapconcat (lambda (regexp)
+    (mapconcat #'(lambda (regexp)
                  (concat "\\(?:" regexp "\\)"))
                regexps "\\|"))
 
@@ -222,6 +227,18 @@ Saves to a temp file and puts the filename in the kill ring."
   (add-hook 'comint-output-filter-functions
             'filter-non-sgr-control-sequences-in-output)
 #+end_src
+** Sentences end with a single space
+#+BEGIN_SRC emacs-lisp
+  (setq sentence-end-double-space nil)
+#+END_SRC
+** Display the time in the modeline
+#+BEGIN_SRC emacs-lisp
+  (display-time-mode 1)
+#+END_SRC
+** Increase the max amount that can be stored in the kill ring
+#+BEGIN_SRC emacs-lisp
+  (setq kill-ring-max 10000)
+#+END_SRC
 * Custom functionality
 ** C/C++
 *** Insert header guards
@@ -270,12 +287,12 @@ Saves to a temp file and puts the filename in the kill ring."
           (message (concat "Buffer " (buffer-name) " must have a filename"))
           )
         )
-    (add-hook 'c-mode-hook '(lambda ()
+    (add-hook 'c-mode-hook #'(lambda ()
       (define-key c-mode-map (kbd "C-c C-x C-d")
         'add_header_guards)
     ))
 
-    (add-hook 'c++-mode-hook '(lambda ()
+    (add-hook 'c++-mode-hook #'(lambda ()
       (define-key c++-mode-map (kbd "C-c C-x C-d")
         'add_header_guards)
     ))
@@ -288,6 +305,10 @@ map imenu to M-i
 ** set tramp terminal type
 #+begin_src emacs-lisp
 (setq tramp-terminal-type "tramp")
+#+end_src
+** Dired
+#+begin_src emacs-lisp
+  (add-hook 'dired-mode-hook #'dired-hide-details-mode)
 #+end_src
 * Org-mode
 ** Description
@@ -303,10 +324,7 @@ One of the main selling points of Emacs! Org Mode!
 
       (use-package org-bullets
         :straight t
-        :hook ('org-mode-hook . (lambda () org-bullets-mode))
-        :hook ('org-mode-hook 'variable-pitch-mode)
-        :config
-        (require 'org-bullets))
+        :hook (org-mode . org-bullets-mode))
 
     (defun echo-area-tooltips ()
       "Show tooltips in the echo area automatically for current buffer."
@@ -323,7 +341,7 @@ One of the main selling points of Emacs! Org Mode!
     :straight t)
   (add-hook 'org-mode-hook #'(lambda () (load-theme 'org-beautify t)))
 
-  ;; (add-hook 'org-mode-hook '(lambda () (load-theme 'org-beautify t)))
+  ;; (add-hook 'org-mode-hook #'(lambda () (load-theme 'org-beautify t)))
   (add-to-list 'org-modules 'org-tempo t)
 
   (use-package org-present
@@ -338,7 +356,7 @@ One of the main selling points of Emacs! Org Mode!
            (hide-mode-line-mode +1)))
 
     (add-hook 'org-present-mode-quit-hook
-       (lambda ()
+       #'(lambda ()
          (org-present-small)
          (org-remove-inline-images)
          (org-present-show-cursor)
@@ -1002,16 +1020,17 @@ Wrap Region is a minor mode for Emacs that wraps a region with punctuations.
           (wrap-region-mode t))
 #+end_src
 ** Initialize =novel.el=
-*** Used to read ebpub books in Emacs
+*** Description
+     Used to read ebpub books in Emacs
 *** Code
 #+begin_src emacs-lisp
-      (use-package esxml
-        :straight t) ;; required by nov
-  
-      (use-package nov
-        :straight (nov :type git :repo "https://depp.brause.cc/nov.el.git")
-        :config
-        (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
+  (use-package esxml
+    :straight t) ;; required by nov
+
+  (use-package nov
+    :straight (nov :type git :repo "https://depp.brause.cc/nov.el.git")
+    :config
+    (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
 #+end_src
 ** Initialize =elcord=
 *** Description
@@ -1028,10 +1047,26 @@ Discord Presence in Emacs
 ** Initialize =perspective.el=
 #+begin_src emacs-lisp
   (use-package perspective
-  :bind
-  ("C-x C-b" . persp-list-buffers)   ; or use a nicer switcher, see below
-  :config
-  (persp-mode))
+    :straight t
+    :bind
+    ("C-x C-b" . persp-list-buffers)   ; or use a nicer switcher, see below
+    :config
+    (persp-mode))
+#+end_src
+** Initialize =avy=
+*** Description
+avy is a GNU Emacs package for jumping to visible text using a char-based decision tree.
+See also =ace-jump-mode= and =vim-easymotion= - avy uses the same idea.
+*** Code
+#+begin_src emacs-lisp
+  (use-package avy
+    :straight t
+    :config
+    (global-set-key (kbd "M-g :") 'avy-goto-char)
+    (global-set-key (kbd "M-g '") 'avy-goto-char-2)
+    (global-set-key (kbd "M-g f") 'avy-goto-line)
+    (global-set-key (kbd "M-g w") 'avy-goto-word-1)
+    (global-set-key (kbd "M-g e") 'avy-goto-word-0))
 #+end_src
 ** Built-in entry: =eldoc=
 *** Code
@@ -1047,6 +1082,19 @@ Discord Presence in Emacs
     :straight nil
     :diminish abbrev-mode)
 #+END_SRC
+** Built-in entry: =dired-x=
+*** Code
+#+begin_src emacs-lisp
+  (with-eval-after-load 'dired
+    (require 'dired-x)
+    ;; Set dired-x global variables here.  For example:
+    (setq dired-guess-shell-gnutar "gtar")
+    (setq dired-x-hands-off-my-keys nil))
+  (add-hook 'dired-mode-hook
+            (lambda ()
+              ;; Set dired-x buffer-local variables here.  For example:
+              (dired-omit-mode 1)))
+#+end_src
 * Programming
 ** Initialize =tree-sitter=
 *** Code
@@ -1163,12 +1211,7 @@ popular Emacs packages like company, flycheck and projectile.
         (setq lsp-enable-imenu nil)
         (setq lsp-enable-snippet nil)
         (setq read-process-output-max (* 1024 1024)) ;; 1MB
-        (setq lsp-idle-delay 0.5)
-
-        (defun start-lsp-for-svelte ()
-          (when (string= (file-name-extension buffer-file-name) "svelte")
-            (lsp)))
-        (add-hook 'find-file-hook 'start-lsp-for-svelte))
+        (setq lsp-idle-delay 0.5))
 
       ;; optionally
       (use-package lsp-ui
@@ -1303,12 +1346,6 @@ A JavaScript development environment for Emacs.
 #+begin_src emacs-lisp
     (use-package android-mode
       :straight t)
-#+end_src
-** Initialize =svelte-mode=
-*** Code
-#+begin_src emacs-lisp
-      (use-package svelte-mode
-        :straight t)
 #+end_src
 ** Initialize =typescript-mode=
 *** Code

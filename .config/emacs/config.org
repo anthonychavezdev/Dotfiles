@@ -399,6 +399,14 @@ Bring nice icons to emacs
 
 )
 #+END_SRC
+** Initialize =all-the-icons-completion=
+*** Code
+#+begin_src emacs-lisp
+      (use-package all-the-icons-completion
+        :straight t
+        :config
+        (all-the-icons-completion-mode))
+#+end_src
 ** Initialize =key-chord=
 *** Description
 Key-chord lets you bind commands to combinations of key-strokes.

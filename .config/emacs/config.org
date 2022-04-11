@@ -132,10 +132,25 @@ Super - Control - <arrow>
 #+END_SRC
 ** Changing the font
 #+Begin_SRC emacs-lisp
-  (if (member "Fira Code"
-  (font-family-list))(add-to-list 'default-frame-alist
-  '(font . "Fira Code-12")))
+  ;; From: https://emacsredux.com/blog/2021/12/22/check-if-a-font-is-available-with-emacs-lisp/
+  (defun font-available-p (font-name)
+    (find-font (font-spec :name font-name)))
+
+    (cond
+     ((font-available-p "Cascadia Code")
+      (set-frame-font "Cascadia Code-12"))
+     ((font-available-p "Menlo")
+      (set-frame-font "Menlo-12"))
+     ((font-available-p "DejaVu Sans Mono")
+      (set-frame-font "DejaVu Sans Mono-12"))
+     ((font-available-p "Inconsolata")
+      (set-frame-font "Inconsolata-12"))
+     ((font-available-p "Fira Code")
+      (set-frame-font "Fira Code-12")))
 #+END_SRC
+
+#+RESULTS:
+
 ** Enable deleting selection by typing
 #+BEGIN_SRC emacs-lisp
   (delete-selection-mode)

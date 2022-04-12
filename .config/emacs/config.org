@@ -359,7 +359,6 @@ One of the main selling points of Emacs! Org Mode!
   (add-hook 'org-mode-hook #'(lambda () (load-theme 'org-beautify t)))
 
   ;; (add-hook 'org-mode-hook #'(lambda () (load-theme 'org-beautify t)))
-  (add-to-list 'org-modules 'org-tempo t)
 
   (use-package org-present
     :straight t

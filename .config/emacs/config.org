@@ -327,6 +327,39 @@ map imenu to M-i
 #+begin_src emacs-lisp
   (add-hook 'dired-mode-hook #'dired-hide-details-mode)
 #+end_src
+** Eval and replace
+*** General Elisp
+#+begin_src emacs-lisp
+  ;; From: http://emacs.wordpress.com/2007/01/17/eval-and-replace-anywhere/
+  (defun fc-eval-and-replace ()
+  "Replace the preceding sexp with its value."
+  (interactive)
+  (backward-kill-sexp)
+  (condition-case nil
+      (prin1 (eval (read (current-kill 0)))
+             (current-buffer))
+    (error (message "Invalid expression")
+           (insert (current-kill 0)))))
+
+(global-set-key (kbd "C-c e") 'fc-eval-and-replace)
+#+end_src
+*** Calculations
+#+begin_src emacs-lisp
+    ;; From a comment at https://emacsredux.com/blog/2013/06/21/eval-and-replace/
+    ;; by csar
+      (defun calc-eval-and-insert (&optional start end)
+        (interactive "r")
+        (let ((result (calc-eval (buffer-substring-no-properties start end))))
+          (goto-char (point-at-eol))
+          (insert " = " result)))
+
+    (defun calc-eval-line-and-insert ()
+      (interactive)
+      (calc-eval-and-insert
+       (point-at-bol)
+       (point-at-eol)))
+
+#+end_src
 * Org-mode
 ** Description
 One of the main selling points of Emacs! Org Mode!

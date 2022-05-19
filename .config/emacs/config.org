@@ -385,6 +385,10 @@ map imenu to M-i
   (global-set-key (kbd "C-c e") 'try-eval-equation-or-elisp)
 
   #+end_src
+** use hippie-expand instead of dabbrev-expand
+#+begin_src emacs-lisp
+  (global-set-key [remap dabbrev-expand] 'hippie-expand)
+#+end_src
 * Org-mode
 ** Description
 One of the main selling points of Emacs! Org Mode!

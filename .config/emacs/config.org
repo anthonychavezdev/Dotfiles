@@ -439,7 +439,7 @@ One of the main selling points of Emacs! Org Mode!
          (org-remove-inline-images)
          (org-present-show-cursor)
          (org-present-read-write)
-         (hide-mode-line-mode))))  
+         (hide-mode-line-mode))))
 #+END_SRC
 
 * Packages
@@ -679,7 +679,7 @@ A fancy and fast mode-line inspired by minimalism design.
     :straight t
     :hook (after-init . doom-modeline-mode)
     :config
-    (add-hook 'text-scale-mode-hook #'(lambda ()                                        
+    (add-hook 'text-scale-mode-hook #'(lambda ()
                                         (message "Adjusting text size")))
     ;; How tall the mode-line should be. It's only respected in GUI.
     ;; If the actual char height is larger, it respects the actual height.
@@ -829,57 +829,31 @@ currently entered incomplete command
   (use-package define-word
     :straight t)
 #+END_SRC
-** Initialize =tex=
+** Initialize =pdf-tools=
 *** Description
- AUCTeX is an extensible package for writing and formatting
- TeX files in GNU Emacs.
+View pdf files in Emacs
 *** Code
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package pdf-tools
     :magic ("%PDF" . pdf-view-mode)
     :config
     (pdf-tools-install)
     (setq-default pdf-view-display-size 'fit-page)
     ;; automatically annotate highlights
-    (setq pdf-annot-activate-created-annotations t)
-    ;; use normal isearch
-    (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
-    (define-key pdf-view-mode-map (kbd "C-r") 'isearch-backward))
-
-
+    (setq pdf-annot-activate-created-annotations t))
+#+end_src
+** Initialize =tex=
+*** Description
+AUCTeX is an extensible package for writing and formatting
+TeX files in GNU Emacs.
+*** Code
+#+BEGIN_SRC emacs-lisp
   (defun try/TeX-command-save-buffer-and-run-all ()
     "Save the buffer and run TeX-command-run-all"
     (interactive)
     (let (TeX-save-query) (TeX-save-document (TeX-master-file)))
     (TeX-command-run-all nil))
 
-  ;; copied ivy-bibtex and modified it to cite action
-  (defun try/ivy-bibtex-cite (&optional arg local-bib)
-    "Search BibTeX entries using ivy.
-
-        With a prefix ARG the cache is invalidated and the bibliography
-        reread.
-
-        If LOCAL-BIB is non-nil, display that the BibTeX entries are read
-        from the local bibliography.  This is set internally by
-        `ivy-bibtex-with-local-bibliography'."
-    (interactive "P")
-    (when arg
-      (bibtex-completion-clear-cache))
-    (bibtex-completion-init)
-    (let* ((candidates (bibtex-completion-candidates))
-           (key (bibtex-completion-key-at-point))
-           (preselect (and key
-                           (cl-position-if (lambda (cand)
-                                             (member (cons "=key=" key)
-                                                     (cdr cand)))
-                                           candidates))))
-      (ivy-read (format "Insert citation %s: " (if local-bib " (local)" ""))
-                candidates
-                :preselect preselect
-                :caller 'ivy-bibtex
-                :history 'ivy-bibtex-history
-                :action 'ivy-bibtex-insert-citation)))
 
   (defun try/latex-mode-setup ()
     (require 'company-reftex)
@@ -897,20 +871,7 @@ currently entered incomplete command
                           )
                         company-backends)))
 
-
-  (defun try/counsel-insert-file-path ()
-    "Insert relative file path using counsel minibuffer"
-    (interactive)
-    (unless (featurep 'counsel) (require 'counsel))
-    (ivy-read "Insert filename: " 'read-file-name-internal
-              :matcher #'counsel--find-file-matcher
-              :action
-              (lambda (x)
-                (insert (file-relative-name x)))))
-
-
   ;; Olivetti
-
   (use-package olivetti
     :diminish
     :hook (org-mode . olivetti-mode)
@@ -935,8 +896,7 @@ currently entered incomplete command
                                ("paragraph" 5)
                                ("subparagraph" 6)
                                ("begin" 7)
-                               )
-          )
+                               ))
     (add-hook 'LaTeX-mode-hook #'(lambda ()
                                    (outshine-mode 1)
                                    (setq outline-level #'LaTeX-outline-level)
@@ -944,9 +904,7 @@ currently entered incomplete command
                                    (setq outline-heading-alist
                                          (mapcar (lambda (x)
                                                    (cons (concat "\\" (nth 0 x)) (nth 1 x)))
-                                                 LaTeX-section-list))))
-
-    )
+                                                 LaTeX-section-list)))))
 
 
   (add-hook 'LaTeX-mode-hook
@@ -973,7 +931,7 @@ currently entered incomplete command
     (olivetti-body-width 100)
     (cdlatex-simplify-sub-super-scripts nil)
     (reftex-default-bibliography
-     '("~/ref.bib"))
+     '("~/Nextcloud/Documents/ref.bib"))
     (bibtex-dialect 'biblatex)
     :mode
     ("\\.tex\\'" . latex-mode)
@@ -1008,32 +966,7 @@ currently entered incomplete command
     ;; to have the buffer refresh after compilation,
     ;; very important so that PDFView refesh itself after comilation
     (add-hook 'TeX-after-compilation-finished-functions
-              #'TeX-revert-document-buffer)
-
-    ;; latexmk
-    (require 'auctex-latexmk)
-    (auctex-latexmk-setup)
-    (setq auctex-latexmk-inherit-TeX-PDF-mode t))
-
-
-  ;; ivy-bibtex
-  (use-package ivy-bibtex
-    :custom
-    (bibtex-completion-bibliography
-     '("~/ref.bib"))
-    (bibtex-completion-library-path '("~/papers"))
-    (bibtex-completion-cite-prompt-for-optional-arguments nil)
-    (bibtex-completion-cite-default-as-initial-input t))
-
-  ;; org-ref
-  (use-package org-ref
-    :custom
-    (org-ref-default-bibliography "/tmp/ref.bib")
-    (org-ref-pdf-directory "/tmp/papers")
-    (org-ref-completion-library 'org-ref-ivy-cite)
-    :config
-    (require 'org-ref-wos)
-    (require 'doi-utils))
+              #'TeX-revert-document-buffer))
 
   #+END_SRC
 ** Initialize =expand-region=
@@ -1136,7 +1069,9 @@ Discord Presence in Emacs
     :straight t
     :bind
     ("C-x C-b" . persp-list-buffers)   ; or use a nicer switcher, see below
-    :config
+    :custom
+    (persp-mode-prefix-key (kbd "C-c M-p"))
+    :init
     (persp-mode))
 #+end_src
 ** Initialize =avy=
@@ -1159,6 +1094,22 @@ See also =ace-jump-mode= and =vim-easymotion= - avy uses the same idea.
 #+begin_src emacs-lisp
       (use-package gif-screencast
         :straight (gif-screencast :type git :host gitlab :repo "ambrevar/emacs-gif-screencast"))
+#+end_src
+** Initialize =hydra=
+*** Description
+Hydra allows you to create keymaps for related commands, with the ability to easily repeat commands by using a single keystroke. Here is a small example:
+*** Code
+#+begin_src emacs-lisp
+    (use-package hydra
+      :straight t)
+
+   ;; TODO: Come up with hydr
+#+end_src
+** Initialize =multiple-cursors=
+*** Code
+#+begin_src emacs-lisp
+        (use-package multiple-cursors
+          :straight t)
 #+end_src
 ** Built-in entry: =eldoc=
 *** Code
@@ -1421,7 +1372,7 @@ A JavaScript development environment for Emacs.
 #+end_src
 ** Initialize =typescript-mode=
 *** Code
-n#+begin_src emacs-lisp
+#+begin_src emacs-lisp
   (defun setup-tide-mode ()
     (interactive)
     (tide-setup)
@@ -1443,10 +1394,15 @@ n#+begin_src emacs-lisp
   (add-hook 'typescript-mode-hook #'setup-tide-mode)
 
   (use-package tide
-    :ensure t
+    :straight t
     :after (typescript-mode company flycheck)
     :hook ((typescript-mode . tide-setup)
            (typescript-mode . tide-hl-identifier-mode)
            (before-save . tide-format-before-save)))
 
+#+end_src
+** Initialize =kotlin-mode=
+#+begin_src emacs-lisp
+      (use-package kotlin-mode
+        :straight t)
 #+end_src

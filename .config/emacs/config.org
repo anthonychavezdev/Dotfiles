@@ -30,12 +30,12 @@ Emacs breaks certain modes when it has line-numbers-mode enabled, (like docview 
 #+END_SRC
 ** Move automatic creation of backup files
 #+BEGIN_SRC emacs-lisp
-    (setq backup-directory-alist '(("." . "~/.config/emacs/backups")))
-    ;; disk space is cheap
+  (setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
+  ;; disk space is cheap
   (setq delete-old-versions -1)
   (setq version-control t)
   (setq vc-make-backup-files t)
-  (setq auto-save-file-name-transforms '((".*" "~/.config/emacs/auto-save-list/" t)))
+  (setq auto-save-file-name-transforms `((".*" ,(concat user-emacs-directory "auto-save-list") t)))
 #+END_SRC
 
 ** Enable conservative scrolling
@@ -642,7 +642,7 @@ The frontend of Witchmacs; without this there'd be no Marisa in your Emacs start
                                 (bookmarks . 5)
                                 (agenda . 5)))
     (setq dashboard-banner-logo-title "E M A C S - The worst text editor!")
-    (setq dashboard-startup-banner "~/.config/emacs/emacs-logo.png")
+    (setq dashboard-startup-banner (concat user-emacs-directory "emacs-logo.png"))
     (setq dashboard-center-content t)
     (setq dashboard-show-shortcuts nil)
     (setq dashboard-set-init-info t)

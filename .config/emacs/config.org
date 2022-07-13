@@ -1406,3 +1406,21 @@ A JavaScript development environment for Emacs.
       (use-package kotlin-mode
         :straight t)
 #+end_src
+** Initialize =csharp-mode=
+*** Code
+#+begin_src emacs-lisp
+  (when (eq system-type 'windows-nt)
+    (use-package omnisharp
+      :straight t)
+    (use-package csproj-mode
+      :straight t)
+    (use-package dotnet
+      :straight t)
+    (use-package csharp-mode
+      :straight t)
+
+    (add-hook 'csharp-mode-hook 'omnisharp-mode)
+    (add-hook 'csharp-mode-hook 'dotnet-mode))
+
+#+end_src
+

@@ -256,6 +256,23 @@ Saves to a temp file and puts the filename in the kill ring."
 #+BEGIN_SRC emacs-lisp
   (setq kill-ring-max 10000)
 #+END_SRC
+** UTF-8 Encoding
+I want text to be encoded in utf8
+#+begin_src emacs-lisp
+  (set-default-coding-systems 'utf-8)  ; Default to utf-8 encoding
+  (prefer-coding-system 'utf-8)        ; Add utf-8 at the front for automatic detection.
+  (set-terminal-coding-system 'utf-8)  ; Set coding system of terminal output
+  (set-keyboard-coding-system 'utf-8)  ; Set coding system for keyboard input on TERMINAL
+  (set-language-environment "English") ; Set up multilingual environment
+#+end_src
+** Remove text properties from kill-ring
+I don't want text properties to be killed (copied or cut), I just want the plain text
+#+begin_src emacs-lisp
+  (defun unpropertize-kill-ring ()
+    (setq kill-ring (mapcar 'substring-no-properties kill-ring)))
+
+  (add-hook 'kill-emacs-hook 'unpropertize-kill-ring)
+#+end_src
 * Custom functionality
 ** C/C++
 *** Insert header guards
@@ -453,18 +470,6 @@ Utilize asynchronous processes whenever possible
     :init
     (dired-async-mode 1))
 #+END_SRC
-** Initialize =moody=
-*** Code
-#+begin_src emacs-lisp
-  ;; (use-package moody
-  ;;   :straight t
-  ;;   :custom
-  ;;   (mode-line-compact t) ; not moody specific but reduces spacing in modeline
-  ;;   (x-underline-at-descent-line t) ; not moody specific, just cosmetic
-  ;;   :config
-  ;;   (moody-replace-mode-line-buffer-identification)
-  ;;   (moody-replace-vc-mode))
-#+end_src
 ** Initialize =all-the-icons=
 *** Description
 Bring nice icons to emacs
@@ -731,7 +736,7 @@ A fancy and fast mode-line inspired by minimalism design.
     (setq doom-modeline-number-limit 99)
 
     ;; The maximum displayed length of the branch name of version control.
-    (setq doom-modeline-vcs-max-length 20)
+    (setq doom-modeline-vcs-max-length 40)
 
     ;; Whether display the workspace name. Non-nil to display in the mode-line.
     (setq doom-modeline-workspace-name t)
@@ -835,6 +840,7 @@ View pdf files in Emacs
 *** Code
 #+begin_src emacs-lisp
   (use-package pdf-tools
+    :straight (pdf-tools :type git :host github :repo "vedang/pdf-tools")
     :magic ("%PDF" . pdf-view-mode)
     :config
     (pdf-tools-install)
@@ -911,7 +917,7 @@ TeX files in GNU Emacs.
             (lambda () (local-set-key (kbd "C-c n") '(outshine-cycle :which-key "outshine-cycle"))))
 
   ;; latexmk
-  (use-package auctex-latexmk)
+  ;; (use-package auctex-latexmk)
   ;; company
   (use-package company-math)
   (use-package company-auctex)
@@ -926,7 +932,6 @@ TeX files in GNU Emacs.
 
   (use-package latex
     :straight auctex
-    :defer t
     :custom
     (olivetti-body-width 100)
     (cdlatex-simplify-sub-super-scripts nil)
@@ -1147,12 +1152,14 @@ Hydra allows you to create keymaps for related commands, with the ability to eas
   (use-package tree-sitter-langs
     :straight t)
   (require 'tree-sitter)
-    (require 'tree-sitter-langs)
+  (require 'tree-sitter-langs)
+
   (add-hook 'c-mode-hook 'tree-sitter-hl-mode)
   (add-hook 'c++-mode-hook 'tree-sitter-hl-mode)
   (add-hook 'js-mode-hook 'tree-sitter-hl-mode)
   (add-hook 'python-mode-hook 'tree-sitter-hl-mode)
   (add-hook 'java-mode-hook 'tree-sitter-hl-mode)
+  (add-hook 'rust-mode-hook 'tree-sitter-hl-mode)
 #+END_SRC
 ** Initialize =elisp-bug-hunter=
 *** Description
@@ -1325,8 +1332,10 @@ client/server side engines).
 A JavaScript development environment for Emacs.
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (use-package indium
-    :straight t)
+  ;; Commented out for now because json-process-client
+  ;; has an outdated git url and it fails to fetch
+  ;; (use-package indium
+  ;;   :straight t)
 #+END_SRC
 ** Initialize =sly=
 #+BEGIN_SRC emacs-lisp

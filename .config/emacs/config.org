@@ -322,12 +322,12 @@ I don't want text properties to be killed (copied or cut), I just want the plain
         )
       )
   (add-hook 'c-mode-hook #'(lambda ()
-    (define-key c-mode-map (kbd "C-c C-x C-d")
+    (define-key c-mode-map (kbd "C-c g")
       'add_header_guards)
   ))
 
   (add-hook 'c++-mode-hook #'(lambda ()
-    (define-key c++-mode-map (kbd "C-c C-x C-d")
+    (define-key c++-mode-map (kbd "C-c g")
       'add_header_guards)
   ))
 #+END_SRC
@@ -532,6 +532,32 @@ map imenu to M-i
     (yank))
 
   (global-set-key (kbd "C-c d") 'acd/duplicate-line)
+#+end_src
+** copy-line
+#+begin_src emacs-lisp
+  (defun acd/kill-save-line ()
+    (interactive)
+    (kill-ring-save (line-beginning-position) (line-end-position))
+    (message "Line copied"))
+
+  (global-set-key (kbd "C-c w") 'acd/kill-save-line)
+
+#+end_src
+** Compile / run programs
+#+begin_src emacs-lisp
+  (defvar acd/already-compiled nil "nil if the program is being compiled for the first time,
+      otherwise it's t")
+  (defun acd/compile-or-recompile ()
+    "Compile program. Recompile if the program has already been compiled
+  to avoid prompting for the compilation command each time"
+    (interactive)
+    (if acd/already-compiled
+        (recompile)
+      (call-interactively 'compile)
+      (setq acd/already-compiled t)))
+
+  (global-set-key (kbd "C-c c") 'acd/compile-or-recompile)
+
 #+end_src
 * Org-mode
 ** Description
@@ -1130,10 +1156,7 @@ Live visual feedback for regex
 *** Code
 #+BEGIN_SRC emacs-lisp
           (use-package visual-regexp
-            :straight t
-            :bind (("C-c r" . vr/replace)
-                   ("C-c q" . vr/query-replace)
-                   ("C-c m" . vr/mc-mark)))
+            :straight t)
 #+END_SRC
 ** Initialize =visual-regexp-steroids=
 *** Description
@@ -1145,19 +1168,22 @@ enables the use of modern regexp engines
     :straight t
     :bind (("C-c r" . vr/replace)
            ("C-c q" . vr/query-replace)
-           ("C-c m" . vr/mc-mark)))
+           ("C-c m" . vr/mc-mark)
+           ("C-s" . vr/isearch-forward)
+           ("C-r" . vr/isearch-backward)))
 #+END_SRC
 ** Initialize =elfeed=
 *** Description
 RSS Feeder
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (use-package elfeed
-    :ensure t
-    :config
-    (setq elfeed-db-directory (expand-file-name "elfeed" user-emacs-directory)
-          elfeed-show-entry-switch 'display-buffer
-          elfeed-feeds '("https://protesilaos.com/master.xml")))
+    (use-package elfeed
+      :ensure t
+      :config
+      (setq elfeed-db-directory (expand-file-name "elfeed" user-emacs-directory)
+            elfeed-show-entry-switch 'display-buffer
+            elfeed-feeds '(("https://protesilaos.com/master.xml" prot-master)
+                           ("https://jvns.ca/atom.xml" julia))))
 #+END_SRC
 ** Initialize =wrap-region=
 *** Description
@@ -1392,8 +1418,8 @@ popular Emacs packages like company, flycheck and projectile.
         (setq lsp-headerline-breadcrumb-enable nil)
         (setq lsp-semantic-tokens-enable nil)
         (setq lsp-enable-folding nil)
-        (setq lsp-enable-imenu nil)
-        (setq lsp-enable-snippet nil)
+        (setq lsp-enable-imenu t)
+        (setq lsp-enable-snippet t)
         (setq read-process-output-max (* 1024 1024)) ;; 1MB
         (setq lsp-idle-delay 0.5))
 
@@ -1566,3 +1592,15 @@ A JavaScript development environment for Emacs.
     (add-hook 'csharp-mode-hook 'dotnet-mode))
 
 #+end_src
+** Initialize =clojure-mode=
+*** Code
+#+begin_src emacs-lisp
+  (use-package clojure-mode
+    :straight t)
+#+end_src
+** Initialize =CIDER=
+*** Code
+    #+begin_src emacs-lisp
+      (use-package cider
+        :straight t)
+    #+end_src

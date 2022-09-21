@@ -25,17 +25,18 @@
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
+      (bootstrap-version 6))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
         (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
          'silent 'inhibit-cookies)
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
 (straight-use-package 'use-package)
+
 
 ;; Load theme
 ;; (use-package alect-themes
@@ -135,6 +136,7 @@
   :config
   (load-theme 'ef-autumn t))
 
+
 (use-package doom-themes
    :straight t
    :config
@@ -180,33 +182,17 @@
         org-src-fontify-natively t   ;; Pretty code blocks
         org-src-tab-acts-natively t
         org-confirm-babel-evaluate nil
-        org-list-allow-alphabetical t) ;; Make lists using Roman alphabetical characters
+        org-list-allow-alphabetical t ;; Make lists using Roman alphabetical characters
         org-adapt-indentation t ;; Aligns text to headings by inserting tabs or spaces accordingly
-        )
+        ))
 (org-babel-do-load-languages 'org-babel-load-languages
     '((shell . t)
       (python . t)
       (C . t)
+      (ruby . t)
       (makefile . t)
       (sql . t)
       (sqlite . t))))
 
 ;; Load config.org for init.el configuration
 (org-babel-load-file (concat user-emacs-directory "config.org"))
-(put 'upcase-region 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("81006de2b57ea81ebf278277c61f8bdadbac4894f52f15220d932befea6e9839" "126d30c137a7e345193d7f77f5b2af92d9669ebf60ed81346c897dbe16f40376" "616a43bd873b09e966e837c7138e5b2561b3442b92723d21b8c80166f3ecd9f3" "0c2d7f410f835d59a0293f2a55744e9d3be13aab8753705c6ad4a9a968fb3b28" default))
- '(warning-suppress-log-types '((server))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )

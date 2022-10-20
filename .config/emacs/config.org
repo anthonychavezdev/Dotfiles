@@ -1177,13 +1177,14 @@ enables the use of modern regexp engines
 RSS Feeder
 *** Code
 #+BEGIN_SRC emacs-lisp
-    (use-package elfeed
-      :ensure t
-      :config
-      (setq elfeed-db-directory (expand-file-name "elfeed" user-emacs-directory)
-            elfeed-show-entry-switch 'display-buffer
-            elfeed-feeds '(("https://protesilaos.com/master.xml" prot-master)
-                           ("https://jvns.ca/atom.xml" julia))))
+      (use-package elfeed
+        :ensure t
+        :config
+        (setq elfeed-db-directory (expand-file-name "elfeed" user-emacs-directory)
+              elfeed-show-entry-switch 'display-buffer
+              elfeed-feeds '(("https://protesilaos.com/master.xml" prot-master)
+                             ("https://jvns.ca/atom.xml" julia)
+                             ("https://robertheaton.com/feed.xml" robert-heaton))))
 #+END_SRC
 ** Initialize =wrap-region=
 *** Description
@@ -1470,10 +1471,12 @@ files embedding parts (CSS/JavaScript) and blocks (pre rendered by
 client/server side engines).
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (use-package web-mode
-      :straight t
-      :config
-      (add-to-list 'auto-mode-alist '("\\.svelte\\'" . web-mode)))
+      (use-package web-mode
+          :straight t
+          :config
+          (add-to-list 'auto-mode-alist '("\\.svelte?\\'" . web-mode))
+          (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+          (add-to-list 'auto-mode-alist '("\\.cshtml?\\'" . web-mode)))
 #+END_SRC
 ** Initialize =rust-mode=
 *** Code
@@ -1578,18 +1581,17 @@ A JavaScript development environment for Emacs.
 ** Initialize =csharp-mode=
 *** Code
 #+begin_src emacs-lisp
-  (when (eq system-type 'windows-nt)
-    (use-package omnisharp
-      :straight t)
-    (use-package csproj-mode
-      :straight t)
-    (use-package dotnet
-      :straight t)
-    (use-package csharp-mode
-      :straight t)
+  (use-package omnisharp
+    :straight t)
+  (use-package csproj-mode
+    :straight t)
+  (use-package dotnet
+    :straight t)
+  (use-package csharp-mode
+    :straight t)
 
-    (add-hook 'csharp-mode-hook 'omnisharp-mode)
-    (add-hook 'csharp-mode-hook 'dotnet-mode))
+  (add-hook 'csharp-mode-hook 'omnisharp-mode)
+  (add-hook 'csharp-mode-hook 'dotnet-mode)
 
 #+end_src
 ** Initialize =clojure-mode=

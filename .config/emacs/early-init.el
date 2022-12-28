@@ -15,4 +15,7 @@
 ;; to skip the mtime checks on every *.elc file.
 (setq load-prefer-newer noninteractive)
 
-
+;; Disable most gui elements
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)

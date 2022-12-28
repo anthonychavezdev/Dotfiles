@@ -18,12 +18,6 @@ Emacs breaks certain modes when it has line-numbers-mode enabled, (like docview 
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-message t)
 #+END_SRC
-** Disable most gui elements
-#+BEGIN_SRC emacs-lisp
-  (tool-bar-mode -1)
-  (menu-bar-mode -1)
-  (scroll-bar-mode -1)
-#+END_SRC
 ** Enable copypasting outside of Emacs
 #+BEGIN_SRC emacs-lisp
   (setq select-enable-clipboard t)
@@ -128,7 +122,7 @@ Super - Control - <arrow>
 #+END_SRC
 ** Highlight current line
 #+BEGIN_SRC emacs-lisp
-  (global-hl-line-mode t)
+  ;; (global-hl-line-mode t)
 #+END_SRC
 ** Changing the font
 #+Begin_SRC emacs-lisp
@@ -273,6 +267,21 @@ I don't want text properties to be killed (copied or cut), I just want the plain
 
   (add-hook 'kill-emacs-hook 'unpropertize-kill-ring)
 #+end_src
+** Tree-sitter
+*** Enable and setup if available
+     #+begin_src emacs-lisp
+       (when (treesit-available-p)
+         ;; Module path
+         (setq treesit-extra-load-path `(,(concat user-emacs-directory "tree-sitter-modules"))))
+     #+end_src
+*** Enable for supported languages
+** Better window navigation
+*** Enable and install ace-window
+    #+begin_src emacs-lisp
+      (use-package ace-window
+        :straight t
+        :bind (("M-o" . ace-window)))
+    #+end_src
 * Custom functionality
 ** C/C++
 *** Insert header guards
@@ -343,6 +352,7 @@ map imenu to M-i
 ** Dired
 #+begin_src emacs-lisp
   (add-hook 'dired-mode-hook #'dired-hide-details-mode)
+  (setq dired-dwim-target t)
 #+end_src
 ** Eval and replace
 #+begin_src emacs-lisp
@@ -365,7 +375,8 @@ map imenu to M-i
       (error (message "Invalid expression")
              (insert (current-kill 0)))))
 
-  (defvar equation-re "[[:digit:]]+[[:blank:]]*[\\+\\-\\*\\/\\^][[:blank:]]*[[:digit:]]+")
+  (defvar equation-re "(*[0-9]+)*\\([[:blank:]]*[+-\\*/^][[:blank:]]*(*[0-9]+)*\\)+")
+
   ;; From a comment at https://emacsredux.com/blog/2013/06/21/eval-and-replace/
   ;; by csar
   (defun calc-eval-and-insert (&optional start end)
@@ -386,11 +397,11 @@ map imenu to M-i
     (let ((equation nil))
       (save-excursion
         (narrow-to-line)
-        (if (re-search-backward equation-re nil t 1)
+        (move-beginning-of-line 1)
+        (if (re-search-forward equation-re nil t 1)
             (progn
               (setq equation t)
-              (set-mark (point))
-              (re-search-forward equation-re nil t 1)
+              (set-mark (match-beginning 0))
               (widen))
           (widen)
           (setq equation nil))
@@ -627,20 +638,25 @@ Utilize asynchronous processes whenever possible
 Bring nice icons to emacs
 *** Code
 #+BEGIN_SRC emacs-lisp
-(use-package all-the-icons
-  :straight t
-  :config
+  (use-package all-the-icons
+    :straight t
+    :config
     ;; (all-the-icons-install-fonts)
 
-)
+    )
+  (use-package all-the-icons-dired
+    :straight t
+    :hook
+    (dired-mode . all-the-icons-dired-mode))
 #+END_SRC
 ** Initialize =all-the-icons-completion=
 *** Code
 #+begin_src emacs-lisp
-      (use-package all-the-icons-completion
-        :straight t
-        :config
-        (all-the-icons-completion-mode))
+  (use-package all-the-icons-completion
+    :straight t
+    :config
+    (all-the-icons-completion-mode))
+  (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup)
 #+end_src
 ** Initialize =key-chord=
 *** Description
@@ -712,76 +728,6 @@ external dependencies (when feasible).
    (projectile-mode +1)
    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 #+END_SRC
-** Initialize =treemacs=
-*** Description
-Neat side-bar file and project explorer
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package treemacs
-    :straight t
-    :init
-    (with-eval-after-load 'winum
-      (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
-    :config
-    (progn
-      (setq treemacs-collapse-dirs                 (if (executable-find "python3") 3 0)
-            treemacs-deferred-git-apply-delay      0.5
-            treemacs-display-in-side-window        t
-            treemacs-eldoc-display                 t
-            treemacs-file-event-delay              5000
-            treemacs-file-follow-delay             0.2
-            treemacs-follow-after-init             t
-            treemacs-git-command-pipe              ""
-            treemacs-goto-tag-strategy             'refetch-index
-            treemacs-indentation                   2
-            treemacs-indentation-string            " "
-            treemacs-is-never-other-window         nil
-            treemacs-max-git-entries               5000
-            treemacs-missing-project-action        'ask
-            treemacs-no-png-images                 nil
-            treemacs-no-delete-other-windows       t
-            treemacs-project-follow-cleanup        nil
-            treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
-            treemacs-recenter-distance             0.1
-            treemacs-recenter-after-file-follow    nil
-            treemacs-recenter-after-tag-follow     nil
-            treemacs-recenter-after-project-jump   'always
-            treemacs-recenter-after-project-expand 'on-distance
-            treemacs-show-cursor                   nil
-            treemacs-show-hidden-files             t
-            treemacs-silent-filewatch              nil
-            treemacs-silent-refresh                nil
-            treemacs-sorting                       'alphabetic-desc
-            treemacs-space-between-root-nodes      t
-            treemacs-tag-follow-cleanup            t
-            treemacs-tag-follow-delay              1.5
-            treemacs-width                         30)
-      (treemacs-resize-icons 11)
-
-      (treemacs-follow-mode t)
-      (treemacs-filewatch-mode t)
-      (treemacs-fringe-indicator-mode t)
-      (pcase (cons (not (null (executable-find "git")))
-                   (not (null (executable-find "python3"))))
-        (`(t . t)
-         (treemacs-git-mode 'deferred))
-        (`(t . _)
-         (treemacs-git-mode 'simple))))
-    :bind
-    (:map global-map
-          ("M-0"       . treemacs-select-window)
-          ("C-c t 1"   . treemacs-delete-other-windows)
-          ("C-c t t"   . treemacs)
-          ("C-c t B"   . treemacs-bookmark)
-          ("C-c t C-t" . treemacs-find-file)
-          ("C-c t M-t" . treemacs-find-tag)))
-
-    (use-package treemacs-icons-dired
-      :after treemacs dired
-      :straight t
-      :config
-      (treemacs-icons-dired-mode))
-#+END_SRC
 ** Initialize =dashboard=
 *** Description
 The frontend of Witchmacs; without this there'd be no Marisa in your Emacs startup screen
@@ -827,7 +773,7 @@ and formatting command for each language.
 (use-package format-all
   :straight t)
 #+END_SRC
-** Initializn =doom-modeline=
+** Initialize =doom-modeline=
 *** description
 A fancy and fast mode-line inspired by minimalism design.
 *** Cose
@@ -1000,132 +946,6 @@ View pdf files in Emacs
     ;; automatically annotate highlights
     (setq pdf-annot-activate-created-annotations t))
 #+end_src
-** Initialize =tex=
-*** Description
-AUCTeX is an extensible package for writing and formatting
-TeX files in GNU Emacs.
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (defun try/TeX-command-save-buffer-and-run-all ()
-    "Save the buffer and run TeX-command-run-all"
-    (interactive)
-    (let (TeX-save-query) (TeX-save-document (TeX-master-file)))
-    (TeX-command-run-all nil))
-
-
-  (defun try/latex-mode-setup ()
-    (require 'company-reftex)
-    (turn-on-reftex)
-    (require 'company-auctex)
-    (require 'company-math)
-    (setq-local company-backends
-
-                (append '(
-                          (company-reftex-labels
-                           company-reftex-citations)
-                          (company-math-symbols-unicode company-math-symbols-latex company-latex-commands)
-                          (company-auctex-macros company-auctex-symbols company-auctex-environments)
-                          company-ispell
-                          )
-                        company-backends)))
-
-  ;; Olivetti
-  (use-package olivetti
-    :diminish
-    :hook (org-mode . olivetti-mode)
-    :config
-    (setq olivetti-body-width 100)
-    (define-key olivetti-mode-map (kbd "C-c |") 'org-table-create-or-convert-from-region))
-
-
-
-  ;; Enable folding and unfolding sections just like org-mode (using ~C-c-n~) using [[https://github.com/alphapapa/outshine/issues/85][outshine]]
-
-  ;; Check ~outshine-cycle~ for more options.
-
-  (use-package outshine
-    :config
-    (setq LaTeX-section-list '(
-                               ("part" 0)
-                               ("chapter" 1)
-                               ("section" 2)
-                               ("subsection" 3)
-                               ("subsubsection" 4)
-                               ("paragraph" 5)
-                               ("subparagraph" 6)
-                               ("begin" 7)
-                               ))
-    (add-hook 'LaTeX-mode-hook #'(lambda ()
-                                   (outshine-mode 1)
-                                   (setq outline-level #'LaTeX-outline-level)
-                                   (setq outline-regexp (LaTeX-outline-regexp t))
-                                   (setq outline-heading-alist
-                                         (mapcar (lambda (x)
-                                                   (cons (concat "\\" (nth 0 x)) (nth 1 x)))
-                                                 LaTeX-section-list)))))
-
-
-  (add-hook 'LaTeX-mode-hook
-            (lambda () (local-set-key (kbd "C-c n") '(outshine-cycle :which-key "outshine-cycle"))))
-
-  ;; latexmk
-  ;; (use-package auctex-latexmk)
-  ;; company
-  (use-package company-math)
-  (use-package company-auctex)
-  (use-package company-reftex)
-
-
-  ;;  use cdlatex
-  (use-package cdlatex)
-
-  ;; https://gist.github.com/saevarb/367d3266b3f302ecc896
-  ;; https://piotr.is/2010/emacs-as-the-ultimate-latex-editor/
-
-  (use-package latex
-    :straight auctex
-    :custom
-    (olivetti-body-width 100)
-    (cdlatex-simplify-sub-super-scripts nil)
-    (reftex-default-bibliography
-     '("~/Nextcloud/Documents/ref.bib"))
-    (bibtex-dialect 'biblatex)
-    :mode
-    ("\\.tex\\'" . latex-mode)
-    :bind (:map LaTeX-mode-map
-                ("C-c C-e" . cdlatex-environment)
-                )
-    :hook
-    (LaTeX-mode . olivetti-mode)
-    (LaTeX-mode . TeX-PDF-mode)
-    (LaTeX-mode . company-mode)
-    (LaTeX-mode . flyspell-mode)
-    (LaTeX-mode . flycheck-mode)
-    (LaTeX-mode . LaTeX-math-mode)
-    (LaTeX-mode . turn-on-reftex)
-    (LaTeX-mode . TeX-source-correlate-mode)
-    (LaTeX-mode . try/latex-mode-setup)
-    (LaTeX-mode . turn-on-cdlatex)
-
-    :config
-    (setq TeX-auto-save t)
-    (setq TeX-parse-self t)
-    (setq-default TeX-master nil)
-    (setq TeX-save-query nil)
-
-    (setq reftex-plug-into-AUCTeX t)
-
-    ;; pdftools
-    ;; https://emacs.stackexchange.com/questions/21755/use-pdfview-as-default-auctex-pdf-viewer#21764
-    (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
-          TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view))
-          TeX-source-correlate-start-server t) ;; not sure if last line is neccessary
-    ;; to have the buffer refresh after compilation,
-    ;; very important so that PDFView refesh itself after comilation
-    (add-hook 'TeX-after-compilation-finished-functions
-              #'TeX-revert-document-buffer))
-
-  #+END_SRC
 ** Initialize =expand-region=
 *** Description
 Expand region increases the selected region by semantic units. Just keep pressing the key
@@ -1168,9 +988,10 @@ enables the use of modern regexp engines
     :straight t
     :bind (("C-c r" . vr/replace)
            ("C-c q" . vr/query-replace)
-           ("C-c m" . vr/mc-mark)
            ("C-s" . vr/isearch-forward)
-           ("C-r" . vr/isearch-backward)))
+           ("C-r" . vr/isearch-backward)
+           ;; if you use multiple-cursors, this is for you:
+           ("C-c m" . vr/mc-mark)))
 #+END_SRC
 ** Initialize =elfeed=
 *** Description
@@ -1261,7 +1082,7 @@ Hydra allows you to create keymaps for related commands, with the ability to eas
     (use-package hydra
       :straight t)
 
-   ;; TODO: Come up with hydr
+   ;; TODO: Come up with hydra
 #+end_src
 ** Initialize =multiple-cursors=
 *** Code
@@ -1277,6 +1098,27 @@ Used to make HTTP requests
   (use-package request
     :straight (request :type git :host github :repo "tkf/emacs-request"))
 #+end_src
+** Initialize =marginalia=
+*** Description
+    This package provides marginalia-mode which adds marginalia to the
+    minibuffer completions.
+*** Code
+    #+begin_src emacs-lisp
+      ;; Enable rich annotations using the Marginalia package
+      (use-package marginalia
+        :straight t
+        ;; Either bind `marginalia-cycle' globally or only in the minibuffer
+        :bind (("M-A" . marginalia-cycle)
+               :map minibuffer-local-map
+               ("M-A" . marginalia-cycle))
+
+        ;; The :init configuration is always executed (Not lazy!)
+        :init
+
+        ;; Must be in the :init section of use-package such that the mode gets
+        ;; enabled right away. Note that this forces loading the package.
+        (marginalia-mode))
+    #+end_src
 ** Built-in entry: =eldoc=
 *** Code
 #+BEGIN_SRC emacs-lisp
@@ -1358,34 +1200,98 @@ abbreviation and automatically expand it into function templates
 (use-package lua-mode
 :straight t)
 #+END_SRC
-** Initialize =flychec=
-*** Description
-hecking extension for GNU Emacs, intended as replacement for the older Flymake extension which is part of GNU Emacs.
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package flycheck
-   :straight t
-   :init (global-flycheck-mode))
-
-  (use-package pos-tip
-    :straight t)
-  (use-package flycheck-pos-tip
-    :straight t
-    :config
-    (with-eval-after-load 'flycheck
-      (flycheck-pos-tip-mode)))
-#+END_SRC
-** Initialize =company=
+** Initialize =corfu=
 *** Description
 Company is a text completion framework for Emacs.
 The name stands for "complete anything".
 *** Code
 #+BEGIN_SRC emacs-lisp
-(use-package company
- :straight t
- :config
- (global-company-mode))
+  (use-package corfu
+   :straight (corfu :files (:defaults "extensions/*")
+                    :includes (corfu-info corfu-history))
+   :custom
+   (corfu-cycle t)    ; Allow cycling through candidates
+   (corfu-auto t)     ; Enable auto completion
+   (corfu-auto-prefix 2)
+   (corfu-auto-delay 0.0)
+   (corfu-quit-at-boundary 'separator)
+   (corfu-echo-documentation 0.25)
+   (corfu-preview-current nil) ;; Preview current candidate
+   (corfu-preselect nil)
+   (corfu-quit-no-match t)
+   ;; Optionally use TAB for cycling (default is `corfu-complete')
+   :bind (:map corfu-map
+               ("M-SPC" . corfu-insert-separator)
+               ("TAB" . corfu-next)
+               ([tab] . corfu-next)
+               ("S-TAB" . corfu-previous)
+               ([backtab] . corfu-previous)
+               ("C-h" . corfu-info-documentation)
+               ("M-l" . corfu-info-location))
+   :init
+   (global-corfu-mode)
+   (corfu-history-mode 1)
+   :hook
+   ((eshell-mode . (lambda ()
+                     (setq-local corfu-quit-at-boundary t
+                                 corfu-quit-no-match t
+                                 corfu-auto nil)))))
+
 #+END_SRC
+** Initialize =cape=
+*** Code
+    #+begin_src emacs-lisp
+      (use-package cape
+        ;; Bind dedicated completion commands
+        ;; Alternative prefix keys: C-c p, M-p, M-+, ...
+        :bind (("C-c f p" . completion-at-point) ;; capf
+               ("C-c f t" . complete-tag)        ;; etags
+               ("C-c f d" . cape-dabbrev)        ;; or dabbrev-completion
+               ("C-c f h" . cape-history)
+               ("C-c f f" . cape-file)
+               ("C-c f k" . cape-keyword)
+               ("C-c f s" . cape-symbol)
+               ("C-c f a" . cape-abbrev)
+               ("C-c f i" . cape-ispell)
+               ("C-c f l" . cape-line)
+               ("C-c f w" . cape-dict)
+               ("C-c f \\" . cape-tex)
+               ("C-c f _" . cape-tex)
+               ("C-c f ^" . cape-tex)
+               ("C-c f &" . cape-sgml)
+               ("C-c f r" . cape-rfc1345))
+        :init
+        ;; Add `completion-at-point-functions', used by `completion-at-point'.
+        ;; (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+        (add-to-list 'completion-at-point-functions #'cape-file)
+        ;; (add-to-list 'completion-at-point-functions #'cape-history)
+        ;; (add-to-list 'completion-at-point-functions #'cape-keyword)
+        (add-to-list 'completion-at-point-functions #'cape-tex)
+        (add-to-list 'completion-at-point-functions #'cape-sgml)
+        (add-to-list 'completion-at-point-functions #'cape-rfc1345)
+        ;; (add-to-list 'completion-at-point-functions #'cape-abbrev)
+        (add-to-list 'completion-at-point-functions #'cape-ispell)
+        (add-to-list 'completion-at-point-functions #'cape-dict)
+        ;; (add-to-list 'completion-at-point-functions #'cape-symbol)
+        ;; (add-to-list 'completion-at-point-functions #'cape-line)
+        )
+    #+end_src
+** Initialize =kind-icons=
+*** Description
+    This emacs package adds configurable icon or text-based completion prefixes
+    based on the :company-kind property that many
+    completion backends (such as lsp-mode and Emacs 28's elisp-mode) provide.
+*** Code
+    #+begin_src emacs-lisp
+      (use-package kind-icon
+        :straight t
+        :after corfu
+        :custom
+        (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+        :config
+        (setq kind-icons-use-icons nil)
+        (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+    #+end_src
 ** Initialize =lsp-mode=
 *** Description
 Client for Language Server Protocol (v3.14). lsp-mode aims to provide
@@ -1393,58 +1299,62 @@ IDE-like experience by providing optional integration with the most
 popular Emacs packages like company, flycheck and projectile.
 *** Code
 #+BEGIN_SRC emacs-lisp
-      (use-package lsp-mode
-        :straight t
-        :init
-        ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-        (setq lsp-keymap-prefix "C-c l")
-        (add-to-list 'company-backends 'company-capf)
-        :hook ((c++-mode . lsp)
-               (c-mode . lsp)
-               (js-mode . lsp)
-               (python-mode . lsp)
-               (java-mode . lsp))
-        :commands lsp
-        :config
-        (setq lsp-auto-guess-root t)
-        (setq lsp-log-io nil)
-        (setq lsp-restart 'auto-restart)
-        (setq lsp-enable-symbol-highlighting nil)
-        (setq lsp-enable-on-type-formatting nil)
-        (setq lsp-signature-auto-activate nil)
-        (setq lsp-signature-render-documentation nil)
-        (setq lsp-eldoc-hook nil)
-        (setq lsp-modeline-code-actions-enable nil)
-        (setq lsp-modeline-diagnostics-enable nil)
-        (setq lsp-headerline-breadcrumb-enable nil)
-        (setq lsp-semantic-tokens-enable nil)
-        (setq lsp-enable-folding nil)
-        (setq lsp-enable-imenu t)
-        (setq lsp-enable-snippet t)
-        (setq read-process-output-max (* 1024 1024)) ;; 1MB
-        (setq lsp-idle-delay 0.5))
+  (use-package lsp-mode
+    :straight t
+    :custom
+    (lsp-completion-provider :none) ;; We use Curfu
+    :init
+    (defun my/lsp-mode-setup-completion ()
+      (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+            '(flex))) ;; Configure flex
 
-      ;; optionally
-      (use-package lsp-ui
-       :straight t
-       :commands lsp-ui-mode
-       :config
-       (setq lsp-ui-sideline-show-diagnostics nil
-             lsp-ui-doc-enable t
-             lsp-ui-doc-header t
-             lsp-ui-doc-include-signature t
-             lsp-ui-doc-border (face-foreground 'default)
-             lsp-ui-sideline-show-code-actions nil
-             lsp-ui-sideline-delay 0.5))
+    ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+    (setq lsp-keymap-prefix "C-c l")
+    :hook
+    (
+     (c++-mode . lsp)
+     (c-mode . lsp)
+     (js-mode . lsp)
+     (python-mode . lsp)
+     (java-mode . lsp)
+     (lsp-completion-mode . my/lsp-mode-setup-completion))
+    :commands lsp
+    :config
+    (setq lsp-auto-guess-root t)
+    (setq lsp-log-io nil)
+    (setq lsp-restart 'auto-restart)
+    (setq lsp-enable-symbol-highlighting nil)
+    (setq lsp-enable-on-type-formatting nil)
+    (setq lsp-signature-auto-activate nil)
+    (setq lsp-signature-render-documentation nil)
+    (setq lsp-eldoc-hook nil)
+    (setq lsp-modeline-code-actions-enable nil)
+    (setq lsp-modeline-diagnostics-enable nil)
+    (setq lsp-headerline-breadcrumb-enable nil)
+    (setq lsp-semantic-tokens-enable nil)
+    (setq lsp-enable-folding nil)
+    (setq lsp-enable-imenu t)
+    (setq lsp-enable-snippet t)
+    (setq read-process-output-max (* 1024 1024)) ;; 1MB
+    (setq lsp-idle-delay 0.5))
 
-      (use-package lsp-treemacs
-       :straight t
-       :commands lsp-treemacs-errors-list)
+  ;; optionally
+  (use-package lsp-ui
+    :straight t
+    :commands lsp-ui-mode
+    :config
+    (setq lsp-ui-sideline-show-diagnostics nil
+          lsp-ui-doc-enable t
+          lsp-ui-doc-header t
+          lsp-ui-doc-include-signature t
+          lsp-ui-doc-border (face-foreground 'default)
+          lsp-ui-sideline-show-code-actions nil
+          lsp-ui-sideline-delay 0.5))
 
-      ;; optionally if you want to use debugger
-      ;; (use-package dap-mode
-      ;;  :straight t)
-      ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
+  ;; optionally if you want to use debugger
+  ;; (use-package dap-mode
+  ;;  :straight t)
+  ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 #+END_SRC
 ** Initialize =racket-mode=
 *** Code
@@ -1481,8 +1391,11 @@ client/server side engines).
 ** Initialize =rust-mode=
 *** Code
 #+BEGIN_SRC emacs-lisp
-    (use-package rust-mode
+  (use-package rust-mode
+    :straight t)
+  (use-package rustic
       :straight t)
+#+END_SRC
 #+END_SRC
 ** Initialize =json-mode=
 *** Code
@@ -1551,14 +1464,7 @@ A JavaScript development environment for Emacs.
     (flycheck-mode +1)
     (setq flycheck-check-syntax-automatically '(save mode-enabled))
     (eldoc-mode +1)
-    (tide-hl-identifier-mode +1)
-    ;; company is an optional dependency. You have to
-    ;; install it separately via package-install
-    ;; `M-x package-install [ret] company`
-    (company-mode +1))
-
-  ;; aligns annotation to the right hand side
-  (setq company-tooltip-align-annotations t)
+    (tide-hl-identifier-mode +1))
 
   ;; formats the buffer before saving
   (add-hook 'before-save-hook 'tide-format-before-save)
@@ -1567,7 +1473,7 @@ A JavaScript development environment for Emacs.
 
   (use-package tide
     :straight t
-    :after (typescript-mode company flycheck)
+    :after (typescript-mode flycheck)
     :hook ((typescript-mode . tide-setup)
            (typescript-mode . tide-hl-identifier-mode)
            (before-save . tide-format-before-save)))
@@ -1581,14 +1487,18 @@ A JavaScript development environment for Emacs.
 ** Initialize =csharp-mode=
 *** Code
 #+begin_src emacs-lisp
-  (use-package omnisharp
-    :straight t)
-  (use-package csproj-mode
-    :straight t)
-  (use-package dotnet
-    :straight t)
-  (use-package csharp-mode
-    :straight t)
+
+  (if (version<= emacs-version "29.0")
+      (progn
+        (use-package csharp-mode
+          :straight t)
+        (use-package omnisharp
+          :straight t)
+        (use-package csproj-mode
+          :straight t)
+        (use-package dotnet
+          :straight t)))
+
 
   (add-hook 'csharp-mode-hook 'omnisharp-mode)
   (add-hook 'csharp-mode-hook 'dotnet-mode)
@@ -1605,4 +1515,16 @@ A JavaScript development environment for Emacs.
     #+begin_src emacs-lisp
       (use-package cider
         :straight t)
+    #+end_src
+** Initialize =gradle-mode=
+*** Code
+    #+begin_src emacs-lisp
+      (use-package gradle-mode
+        :straight t)
+    #+end_src
+** Initialize =groovy-mode=
+*** Code
+    #+begin_src emacs-lisp
+      (use-package groovy-mode
+        :straight (groovy-mode :type git :host github :repo "Groovy-Emacs-Modes/groovy-emacs-modes"))
     #+end_src

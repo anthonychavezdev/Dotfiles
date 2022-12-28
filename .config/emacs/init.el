@@ -134,7 +134,7 @@
 (use-package ef-themes
   :straight (:host github :repo "protesilaos/ef-themes")
   :config
-  (load-theme 'ef-autumn t))
+  (load-theme 'ef-duo-dark t))
 
 
 (use-package doom-themes
@@ -196,3 +196,16 @@
 
 ;; Load config.org for init.el configuration
 (org-babel-load-file (concat user-emacs-directory "config.org"))
+(put 'upcase-region 'disabled nil)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ignored-local-variable-values '((vc-prepare-patches-separately))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

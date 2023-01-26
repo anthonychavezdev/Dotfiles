@@ -97,32 +97,28 @@ Emacs breaks certain modes when it has line-numbers-mode enabled, (like docview 
     (split-window-below)
     (balance-windows)
     (other-window 1))
-  (global-set-key (kbd "C-x 2") 'split-and-follow-horizontally)
+  (global-set-key (kbd "C-x 2") #'split-and-follow-horizontally)
 
   (defun split-and-follow-vertically ()
     (interactive)
     (split-window-right)
     (balance-windows)
     (other-window 1))
-  (global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
+  (global-set-key (kbd "C-x 3") #'split-and-follow-vertically)
 #+END_SRC
 ** Transform yes-or-no questions into y-or-n
 #+BEGIN_SRC emacs-lisp
-  (if (version<= emacs-version "28.0")
+  (if (version< emacs-version "28.1")
       (defalias 'yes-or-no-p 'y-or-n-p)
     (setq use-short-answers 1))
 #+END_SRC
 ** Easier resize bindigs
 Super - Control - <arrow>
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "s-C-<left>") 'shrink-window-horizontally)
-  (global-set-key (kbd "s-C-<right>") 'enlarge-window-horizontally)
-  (global-set-key (kbd "s-C-<down>") 'shrink-window)
-  (global-set-key (kbd "s-C-<up>") 'enlarge-window)
-#+END_SRC
-** Highlight current line
-#+BEGIN_SRC emacs-lisp
-  ;; (global-hl-line-mode t)
+  (global-set-key (kbd "s-C-<left>")  #'shrink-window-horizontally)
+  (global-set-key (kbd "s-C-<right>") #'enlarge-window-horizontally)
+  (global-set-key (kbd "s-C-<down>")  #'shrink-window)
+  (global-set-key (kbd "s-C-<up>")    #'enlarge-window)
 #+END_SRC
 ** Changing the font
 #+Begin_SRC emacs-lisp
@@ -177,8 +173,8 @@ Saves to a temp file and puts the filename in the kill ring."
 #+END_SRC
 ** Hide-mode-line plugin
 #+BEGIN_SRC emacs-lisp
-      (use-package hide-mode-line
-        :straight t)
+  (use-package hide-mode-line
+    :straight t)
 #+END_SRC
 ** Compilation-mode customizations
 #+begin_src emacs-lisp
@@ -410,12 +406,12 @@ map imenu to M-i
           (calc-eval-and-insert (region-beginning) (region-end))
         (fc-eval-and-replace)))))
 
-  (global-set-key (kbd "C-c e") 'try-eval-equation-or-elisp)
+  (global-set-key (kbd "C-c e") #'try-eval-equation-or-elisp)
 
   #+end_src
 ** use hippie-expand instead of dabbrev-expand
 #+begin_src emacs-lisp
-  (global-set-key [remap dabbrev-expand] 'hippie-expand)
+  (global-set-key [remap dabbrev-expand] #'hippie-expand)
 #+end_src
 ** Automations
 #+begin_src emacs-lisp
@@ -528,21 +524,34 @@ map imenu to M-i
 
   (progn
     (define-prefix-command 'automation-map)
-    (define-key automation-map (kbd "l o") 'acd/ha-turn-lights-on)
-    (define-key automation-map (kbd "l f") 'acd/ha-turn-lights-off))
+    (define-key automation-map (kbd "l o") #'acd/ha-turn-lights-on)
+    (define-key automation-map (kbd "l f") #'acd/ha-turn-lights-off))
   (global-set-key (kbd "C-c a") 'automation-map)
 #+end_src
 ** Duplicate line
 #+begin_src emacs-lisp
-  (defun acd/duplicate-line ()
-    (interactive)
+  (defun acd/duplicate-line (args)
+    (interactive "*P")
+    (message "%s " args)
     (move-beginning-of-line 1)
     (kill-line)
     (yank)
     (newline)
     (yank))
 
-  (global-set-key (kbd "C-c d") 'acd/duplicate-line)
+  (defun acd/duplicate-line-dwim (args)
+    (interactive "*P")
+    (message "%s" (use-region-p))
+    (if (use-region-p)
+        (progn
+          (kill-ring-save (region-beginning)
+                          (region-end))
+          (goto-char (region-end))
+          (newline)
+          (yank))
+      (acd/duplicate-line args)))
+
+  (global-set-key (kbd "C-c d") #'acd/duplicate-line-dwim)
 #+end_src
 ** copy-line
 #+begin_src emacs-lisp
@@ -551,7 +560,7 @@ map imenu to M-i
     (kill-ring-save (line-beginning-position) (line-end-position))
     (message "Line copied"))
 
-  (global-set-key (kbd "C-c w") 'acd/kill-save-line)
+  (global-set-key (kbd "C-c w") #'acd/kill-save-line)
 
 #+end_src
 ** Compile / run programs
@@ -567,7 +576,7 @@ map imenu to M-i
       (call-interactively 'compile)
       (setq acd/already-compiled t)))
 
-  (global-set-key (kbd "C-c c") 'acd/compile-or-recompile)
+  (global-set-key (kbd "C-c c") #'acd/compile-or-recompile)
 
 #+end_src
 * Org-mode
@@ -575,25 +584,25 @@ map imenu to M-i
 One of the main selling points of Emacs! Org Mode!
 ** Code
 #+BEGIN_SRC emacs-lisp
-        (use-package org-indent
-          :straight nil
-          :diminish org-indent-mode)
+  (use-package org-indent
+    :straight nil
+    :diminish org-indent-mode)
 
-        (use-package htmlize
-          :straight t)
+  (use-package htmlize
+    :straight t)
 
-      (use-package org-bullets
-        :straight t
-        :hook (org-mode . org-bullets-mode))
+  (use-package org-bullets
+    :straight t
+    :hook (org-mode . org-bullets-mode))
 
-    (defun echo-area-tooltips ()
-      "Show tooltips in the echo area automatically for current buffer."
-      (setq-local help-at-pt-display-when-idle t
-                  help-at-pt-timer-delay 0)
-      (help-at-pt-cancel-timer)
-      (help-at-pt-set-timer))
+  (defun echo-area-tooltips ()
+    "Show tooltips in the echo area automatically for current buffer."
+    (setq-local help-at-pt-display-when-idle t
+                help-at-pt-timer-delay 0)
+    (help-at-pt-cancel-timer)
+    (help-at-pt-set-timer))
 
-    (add-hook 'org-mode-hook #'echo-area-tooltips)
+  (add-hook 'org-mode-hook #'echo-area-tooltips)
   ;; Sets LaTeX preview size
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
 
@@ -607,20 +616,20 @@ One of the main selling points of Emacs! Org Mode!
     :straight t
     :config
     (add-hook 'org-present-mode-hook
-         (lambda ()
-           (org-present-big)
-           (org-display-inline-images)
-           (org-present-hide-cursor)
-           (org-present-read-only)
-           (hide-mode-line-mode +1)))
+              (lambda ()
+                (org-present-big)
+                (org-display-inline-images)
+                (org-present-hide-cursor)
+                (org-present-read-only)
+                (hide-mode-line-mode +1)))
 
     (add-hook 'org-present-mode-quit-hook
-       #'(lambda ()
-         (org-present-small)
-         (org-remove-inline-images)
-         (org-present-show-cursor)
-         (org-present-read-write)
-         (hide-mode-line-mode))))
+              #'(lambda ()
+                  (org-present-small)
+                  (org-remove-inline-images)
+                  (org-present-show-cursor)
+                  (org-present-read-write)
+                  (hide-mode-line-mode))))
 #+END_SRC
 * Packages
 ** Initialize =async=
@@ -638,25 +647,25 @@ Utilize asynchronous processes whenever possible
 Bring nice icons to emacs
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (use-package all-the-icons
-    :straight t
-    :config
-    ;; (all-the-icons-install-fonts)
+        (use-package all-the-icons
+          :straight t
+          :config
+            ;; (all-the-icons-install-fonts)
 
-    )
-  (use-package all-the-icons-dired
-    :straight t
-    :hook
-    (dired-mode . all-the-icons-dired-mode))
+        )
+      (use-package all-the-icons-dired
+        :straight t
+        :hook
+        (dired-mode . all-the-icons-dired-mode))
 #+END_SRC
 ** Initialize =all-the-icons-completion=
 *** Code
 #+begin_src emacs-lisp
-  (use-package all-the-icons-completion
-    :straight t
-    :config
-    (all-the-icons-completion-mode))
-  (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup)
+        (use-package all-the-icons-completion
+          :straight t
+          :config
+          (all-the-icons-completion-mode))
+      (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup)
 #+end_src
 ** Initialize =key-chord=
 *** Description
@@ -675,25 +684,29 @@ or a single key quickly pressed twice. (*)
 Vertico provides a performant and minimalistic vertical completion UI based on the default completion system
 *** Code
 #+BEGIN_SRC emacs-lisp
-        (use-package vertico
-          :straight t
-          :custom
-          (vertico-cycle t)
-          :init
-          (vertico-mode))
-        ;; Built in
-        (use-package savehist
-          :straight nil
-          :init
-          (savehist-mode))
+  (use-package vertico
+    :straight t
+    :custom
+    (vertico-cycle t)
+    :init
+    (vertico-mode))
+  ;; Built in
+  (use-package savehist
+    :straight nil
+    :init
+    (savehist-mode))
 
-        (use-package marginalia
-          :straight t
-          :after vertico
-          :custom
-          (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
-          :init
-)
+  (use-package marginalia
+    :straight t
+    :after vertico
+    :custom
+    (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil)))
+
+  (use-package orderless
+    :straight t
+    :custom
+    (completion-styles '(orderless basic))
+    (completion-category-overrides '((file (styles basic partial-completion)))))
 #+END_SRC
 ** Initialize =undo-tree=
 *** Description
@@ -955,7 +968,7 @@ until it selects what you want.
         (use-package expand-region
           :straight t
           :config
-          (global-set-key (kbd "C-=") 'er/expand-region))
+          (global-set-key (kbd "C-=") #'er/expand-region))
 #+END_SRC
 ** Initialize =solaire-mode=
 *** Description
@@ -1062,11 +1075,11 @@ See also =ace-jump-mode= and =vim-easymotion= - avy uses the same idea.
   (use-package avy
     :straight t
     :config
-    (global-set-key (kbd "M-g :") 'avy-goto-char)
-    (global-set-key (kbd "M-g '") 'avy-goto-char-2)
-    (global-set-key (kbd "M-g f") 'avy-goto-line)
-    (global-set-key (kbd "M-g w") 'avy-goto-word-1)
-    (global-set-key (kbd "M-g e") 'avy-goto-word-0))
+    (global-set-key (kbd "M-g :") #'avy-goto-char)
+    (global-set-key (kbd "M-g '") #'avy-goto-char-2)
+    (global-set-key (kbd "M-g f") #'avy-goto-line)
+    (global-set-key (kbd "M-g w") #'avy-goto-word-1)
+    (global-set-key (kbd "M-g e") #'avy-goto-word-0))
 #+end_src
 ** Initialize =emacs-gif-screencast=
 *** code

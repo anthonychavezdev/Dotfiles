@@ -138,9 +138,6 @@ Super - Control - <arrow>
      ((font-available-p "Fira Code")
       (set-frame-font "Fira Code-12")))
 #+END_SRC
-
-#+RESULTS:
-
 ** Enable deleting selection by typing
 #+BEGIN_SRC emacs-lisp
   (delete-selection-mode)

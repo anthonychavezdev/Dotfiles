@@ -933,16 +933,18 @@ A fancy and fast mode-line inspired by minimalism design.
 ** Initialize =rainbow-mode=
 *** Code
 #+BEGIN_SRC emacs-lisp
-(use-package rainbow-mode
-  :straight t)
-;; To enable in all programming-related modes (Emacs 24+):
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+  (use-package rainbow-mode
+    :straight t
+    :hook
+    ((prog-mode . rainbow-mode)))
 #+END_SRC
 ** Initialize =rainbow-delimeters=
 *** Code
 #+BEGIN_SRC emacs-lisp
-(use-package rainbow-delimiters
-  :straight t)
+  (use-package rainbow-delimiters
+    :straight (rainbow-delimiters :type git :host github :repo "Fanael/rainbow-delimiters")
+    :hook
+    ((prog-mode . rainbow-delimiters-mode)))
 #+END_SRC
 ** Initialize =which-key=
 *** Description

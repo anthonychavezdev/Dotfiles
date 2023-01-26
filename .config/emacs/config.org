@@ -970,7 +970,7 @@ View pdf files in Emacs
     :magic ("%PDF" . pdf-view-mode)
     :config
     (pdf-tools-install)
-    (setq-default pdf-view-display-size 'fit-page)
+    (setq-default pdf-view-display-size 'fit-width)
     ;; automatically annotate highlights
     (setq pdf-annot-activate-created-annotations t))
 #+end_src

@@ -134,8 +134,7 @@
 (use-package ef-themes
   :straight (:host github :repo "protesilaos/ef-themes")
   :config
-  (load-theme 'ef-duo-dark t))
-
+  (load-theme 'ef-night t))
 
 (use-package doom-themes
    :straight t
@@ -151,7 +150,6 @@
    ;; (load-theme 'doom-one t)
    ;; (load-theme 'doom-sourcerer t)
    ;; (load-theme 'doom-dark+ t)
-   ;; (load-theme 'doom-tomorrow-night t)
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
 

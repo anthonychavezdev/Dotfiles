@@ -1148,13 +1148,6 @@ Used to make HTTP requests
         ;; enabled right away. Note that this forces loading the package.
         (marginalia-mode))
     #+end_src
-** Built-in entry: =eldoc=
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package eldoc
-    :straight nil
-    :diminish eldoc-mode)
-#+END_SRC
 ** Built-in entry: =abbrev=
 *** Code
 #+BEGIN_SRC emacs-lisp
@@ -1270,40 +1263,39 @@ The name stands for "complete anything".
 ** Initialize =cape=
 *** Code
     #+begin_src emacs-lisp
-      (use-package cape
-        ;; Bind dedicated completion commands
-        ;; Alternative prefix keys: C-c p, M-p, M-+, ...
-        :bind (("C-c f p" . completion-at-point) ;; capf
-               ("C-c f t" . complete-tag)        ;; etags
-               ("C-c f d" . cape-dabbrev)        ;; or dabbrev-completion
-               ("C-c f h" . cape-history)
-               ("C-c f f" . cape-file)
-               ("C-c f k" . cape-keyword)
-               ("C-c f s" . cape-symbol)
-               ("C-c f a" . cape-abbrev)
-               ("C-c f i" . cape-ispell)
-               ("C-c f l" . cape-line)
-               ("C-c f w" . cape-dict)
-               ("C-c f \\" . cape-tex)
-               ("C-c f _" . cape-tex)
-               ("C-c f ^" . cape-tex)
-               ("C-c f &" . cape-sgml)
-               ("C-c f r" . cape-rfc1345))
-        :init
-        ;; Add `completion-at-point-functions', used by `completion-at-point'.
-        ;; (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-        (add-to-list 'completion-at-point-functions #'cape-file)
-        ;; (add-to-list 'completion-at-point-functions #'cape-history)
-        ;; (add-to-list 'completion-at-point-functions #'cape-keyword)
-        (add-to-list 'completion-at-point-functions #'cape-tex)
-        (add-to-list 'completion-at-point-functions #'cape-sgml)
-        (add-to-list 'completion-at-point-functions #'cape-rfc1345)
-        ;; (add-to-list 'completion-at-point-functions #'cape-abbrev)
-        (add-to-list 'completion-at-point-functions #'cape-ispell)
-        (add-to-list 'completion-at-point-functions #'cape-dict)
-        ;; (add-to-list 'completion-at-point-functions #'cape-symbol)
-        ;; (add-to-list 'completion-at-point-functions #'cape-line)
-        )
+       (use-package cape
+         ;; Bind dedicated completion commands
+         ;; Alternative prefix keys: C-c p, M-p, M-+, ...
+         :bind (("C-c f p" . completion-at-point) ;; capf
+                ("C-c f t" . complete-tag)        ;; etags
+                ("C-c f d" . cape-dabbrev)        ;; or dabbrev-completion
+                ("C-c f h" . cape-history)
+                ("C-c f f" . cape-file)
+                ("C-c f k" . cape-keyword)
+                ("C-c f s" . cape-symbol)
+                ("C-c f a" . cape-abbrev)
+                ("C-c f i" . cape-ispell)
+                ("C-c f l" . cape-line)
+                ("C-c f w" . cape-dict)
+                ("C-c f \\" . cape-tex)
+                ("C-c f _" . cape-tex)
+                ("C-c f ^" . cape-tex)
+                ("C-c f &" . cape-sgml)
+                ("C-c f r" . cape-rfc1345))
+         :init
+         ;; Add `completion-at-point-functions', used by `completion-at-point'.
+         ;; (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+         (add-to-list 'completion-at-point-functions #'cape-file)
+         ;; (add-to-list 'completion-at-point-functions #'cape-history)
+         ;; (add-to-list 'completion-at-point-functions #'cape-keyword)
+         (add-to-list 'completion-at-point-functions #'cape-tex)
+         (add-to-list 'completion-at-point-functions #'cape-sgml)
+         (add-to-list 'completion-at-point-functions #'cape-rfc1345)
+         ;; (add-to-list 'completion-at-point-functions #'cape-abbrev)
+         (add-to-list 'completion-at-point-functions #'cape-ispell)
+         ;; (add-to-list 'completion-at-point-functions #'cape-symbol)
+         ;; (add-to-list 'completion-at-point-functions #'cape-line)
+         )
     #+end_src
 ** Initialize =kind-icons=
 *** Description
@@ -1328,63 +1320,120 @@ IDE-like experience by providing optional integration with the most
 popular Emacs packages like company, flycheck and projectile.
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (use-package lsp-mode
-    :straight t
-    :custom
-    (lsp-completion-provider :none) ;; We use Curfu
-    :init
-    (defun my/lsp-mode-setup-completion ()
-      (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-            '(flex))) ;; Configure flex
+  ;; (use-package lsp-mode
+  ;;   :straight t
+  ;;   :custom
+  ;;   (lsp-completion-provider :none) ;; We use Curfu
+  ;;   :init
+  ;;   (defun my/lsp-mode-setup-completion ()
+  ;;     (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+  ;;           '(flex))) ;; Configure flex
 
-    ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-    (setq lsp-keymap-prefix "C-c l")
-    :hook
-    (
-     (c++-mode . lsp)
-     (c-mode . lsp)
-     (js-mode . lsp)
-     (python-mode . lsp)
-     (java-mode . lsp)
-     (lsp-completion-mode . my/lsp-mode-setup-completion))
-    :commands lsp
-    :config
-    (setq lsp-auto-guess-root t)
-    (setq lsp-log-io nil)
-    (setq lsp-restart 'auto-restart)
-    (setq lsp-enable-symbol-highlighting nil)
-    (setq lsp-enable-on-type-formatting nil)
-    (setq lsp-signature-auto-activate nil)
-    (setq lsp-signature-render-documentation nil)
-    (setq lsp-eldoc-hook nil)
-    (setq lsp-modeline-code-actions-enable nil)
-    (setq lsp-modeline-diagnostics-enable nil)
-    (setq lsp-headerline-breadcrumb-enable nil)
-    (setq lsp-semantic-tokens-enable nil)
-    (setq lsp-enable-folding nil)
-    (setq lsp-enable-imenu t)
-    (setq lsp-enable-snippet t)
-    (setq read-process-output-max (* 1024 1024)) ;; 1MB
-    (setq lsp-idle-delay 0.5))
+  ;;   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  ;;   (setq lsp-keymap-prefix "C-c l")
+  ;;   :hook
+  ;;   (
+  ;;    (c++-mode . lsp)
+  ;;    (c-mode . lsp)
+  ;;    (js-mode . lsp)
+  ;;    (python-mode . lsp)
+  ;;    (java-mode . lsp)
+  ;;    (lsp-completion-mode . my/lsp-mode-setup-completion))
+  ;;   :commands lsp
+  ;;   :config
+  ;;   (setq lsp-auto-guess-root t)
+  ;;   (setq lsp-log-io nil)
+  ;;   (setq lsp-restart 'auto-restart)
+  ;;   (setq lsp-enable-symbol-highlighting nil)
+  ;;   (setq lsp-enable-on-type-formatting nil)
+  ;;   (setq lsp-signature-auto-activate nil)
+  ;;   (setq lsp-signature-render-documentation nil)
+  ;;   (setq eldoc-documentation-functions nil)
+  ;;   (setq lsp-modeline-code-actions-enable nil)
+  ;;   (setq lsp-modeline-diagnostics-enable nil)
+  ;;   (setq lsp-headerline-breadcrumb-enable nil)
+  ;;   (setq lsp-semantic-tokens-enable nil)
+  ;;   (setq lsp-enable-folding nil)
+  ;;   (setq lsp-enable-imenu t)
+  ;;   (setq lsp-enable-snippet t)
+  ;;   (setq read-process-output-max (* 1024 1024)) ;; 1MB
+  ;;   (setq lsp-idle-delay 0.5))
 
-  ;; optionally
-  (use-package lsp-ui
-    :straight t
-    :commands lsp-ui-mode
-    :config
-    (setq lsp-ui-sideline-show-diagnostics nil
-          lsp-ui-doc-enable t
-          lsp-ui-doc-header t
-          lsp-ui-doc-include-signature t
-          lsp-ui-doc-border (face-foreground 'default)
-          lsp-ui-sideline-show-code-actions nil
-          lsp-ui-sideline-delay 0.5))
+  ;; ;; optionally
+  ;; (use-package lsp-ui
+  ;;   :straight t
+  ;;   :commands lsp-ui-mode
+  ;;   :config
+  ;;   (setq lsp-ui-sideline-show-diagnostics nil
+  ;;         lsp-ui-doc-enable t
+  ;;         lsp-ui-doc-header t
+  ;;         lsp-ui-doc-include-signature t
+  ;;         lsp-ui-doc-border (face-foreground 'default)
+  ;;         lsp-ui-sideline-show-code-actions nil
+  ;;         lsp-ui-sideline-delay 0.5))
 
-  ;; optionally if you want to use debugger
-  ;; (use-package dap-mode
-  ;;  :straight t)
-  ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
+  ;; ;; optionally if you want to use debugger
+  ;; ;; (use-package dap-mode
+  ;; ;;  :straight t)
+  ;; ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 #+END_SRC
+** Initialize =eglot=
+*** Code
+    #+begin_src emacs-lisp
+      (use-package eglot
+        :straight nil
+        :custom
+        (eglot-autoshutdown t)
+        (eglot-extend-to-xref t)
+        :hook
+        ((typescript-ts-base-mode . eglot-ensure)
+         (c-ts-mode . eglot-ensure)
+         (c-mode . eglot-ensure)
+         (c++-mode . eglot-ensure)
+         (c++-ts-mode . eglot-ensure)
+         (js-mode . eglot-ensure)
+         (js-ts-mode . eglot-ensure)
+         (python-mode . eglot-ensure)
+         (python-ts-mode . eglot-ensure)
+         (java-mode . eglot-ensure)
+         (java-ts-mode . eglot-ensure))
+        :config
+        :bind (:map eglot-mode-map
+                    ("C-c l r"   . eglot-rename)
+                    ("C-c l f f" . eglot-format)
+                    ("C-c l f b" . eglot-format-buffer)
+                    ("C-c l a a" . eglot-code-actions)
+                    ("C-c l a q" . eglot-code-action-quickfix)
+                    ("C-c l a e" . eglot-code-action-extract)
+                    ("C-c l a i" . eglot-code-action-inline)
+                    ("C-c l a r" . eglot-code-action-rewrite)))
+    #+end_src
+** Initialize =flymake=
+*** Code
+    #+begin_src emacs-lisp
+      (use-package flymake
+        :straight nil
+        :custom
+        (flymake-fringe-indicator-position nil)
+        (flymake-fringe-indicator-position 'left-fringe)
+        (help-at-pt-display-when-idle t) ;; Show diagnostic messages in echo area
+        :bind
+        (("M-n" . flymake-goto-next-error)
+         ("M-p" . flymake-goto-prev-error)))
+
+      (defun me/flymake-eslint-enable-maybe ()
+        "Enable `flymake-eslint' based on the project configuration.
+            Search for the project ESLint configuration to determine whether the buffer
+            should be checked."
+        (when-let* ((root (locate-dominating-file (buffer-file-name) "package.json"))
+                    (rc (locate-file ".eslintrc" (list root) '(".js" ".json"))))
+          (make-local-variable 'exec-path)
+          (push (file-name-concat root "node_modules" ".bin") exec-path)
+          (flymake-eslint-enable)))
+
+      (use-package flymake-eslint
+        :straight t)
+    #+end_src
 ** Initialize =racket-mode=
 *** Code
 #+BEGIN_SRC emacs-lisp
@@ -1417,13 +1466,23 @@ client/server side engines).
           (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
           (add-to-list 'auto-mode-alist '("\\.cshtml?\\'" . web-mode)))
 #+END_SRC
+** Initialize =jsx-mode=
+*** Description
+    For React dev
+*** Code
+    #+begin_src emacs-lisp
+      (use-package rjsx-mode
+        :straight (rjsx-mode :type git :host github :repo "felipeochoa/rjsx-mode"))
+    #+end_src
 ** Initialize =rust-mode=
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package rust-mode
     :straight t)
   (use-package rustic
-      :straight t)
+    :straight t
+    :custom
+    (rustic-lsp-client 'eglot))
 #+END_SRC
 #+END_SRC
 ** Initialize =json-mode=
@@ -1459,10 +1518,22 @@ A JavaScript development environment for Emacs.
 ** Initialize =Java=
 *** Code
 #+BEGIN_SRC emacs-lisp
-        (use-package lsp-java
-          :straight t
-          :config
-          (add-hook 'java-mode-hook #'lsp-mode))
+  ;; (use-package lsp-java
+  ;;   :straight t
+  ;;   :config
+  ;;   (add-hook 'java-mode-hook #'lsp-mode))
+  (use-package eglot-java
+    :straight (eglot-java :type git :host github :repo "yveszoundi/eglot-java")
+    :custom
+    (eglot-java-server-install-dir "~/lsp/jdtls-lsp") ;; Don't download the server
+    :hook ((java-mode . eglot-java-mode))
+    :bind (:map eglot-java-mode-map
+                ("C-c j n" . #'eglot-java-file-new)
+                ("C-c j x" . #'eglot-java-run-main)
+                ("C-c j t" . #'eglot-java-run-test)
+                ("C-c j p" . #'eglot-java-project-new)
+                ("C-c j T" . #'eglot-java-project-build-task)
+                ("C-c j R" . #'eglot-java-project-build-refresh)))
 #+END_SRC
 ** Initialize =yaml-mode=
 *** Code
@@ -1490,9 +1561,7 @@ A JavaScript development environment for Emacs.
   (defun setup-tide-mode ()
     (interactive)
     (tide-setup)
-    (flycheck-mode +1)
-    (setq flycheck-check-syntax-automatically '(save mode-enabled))
-    (eldoc-mode +1)
+    (flymake-mode +1)
     (tide-hl-identifier-mode +1))
 
   ;; formats the buffer before saving
@@ -1502,7 +1571,7 @@ A JavaScript development environment for Emacs.
 
   (use-package tide
     :straight t
-    :after (typescript-mode flycheck)
+    :after (typescript-mode flymake)
     :hook ((typescript-mode . tide-setup)
            (typescript-mode . tide-hl-identifier-mode)
            (before-save . tide-format-before-save)))
@@ -1557,3 +1626,12 @@ A JavaScript development environment for Emacs.
       (use-package groovy-mode
         :straight (groovy-mode :type git :host github :repo "Groovy-Emacs-Modes/groovy-emacs-modes"))
     #+end_src
+** Built-in entry: =eldoc=
+*** Code
+#+BEGIN_SRC emacs-lisp
+      (use-package eldoc
+        :straight nil
+        :after flymake
+        :hook
+        (typescript-ts-base-mode . eglot-ensure))
+#+END_SRC

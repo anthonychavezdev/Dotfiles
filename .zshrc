@@ -5,7 +5,7 @@
 #███████╗███████║██║  ██║██║  ██║╚██████╗
 #╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:$HOME/.local/bin:$HOME/.local/bin/sumneko/:/usr/local/bin:/home/anthony/android/platform-tools:$PATH
+export PATH=$HOME/bin:$HOME/.local/bin:$HOME/.local/bin/sumneko/:/usr/local/bin:$HOME/android/platform-tools:$PATH
 #
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
@@ -14,7 +14,7 @@ zle -N down-line-or-beginning-search
 [[ -n "$key[Up]"   ]] && bindkey -- "$key[Up]"   up-line-or-beginning-search
 [[ -n "$key[Down]" ]] && bindkey -- "$key[Down]" down-line-or-beginning-search
 # Path to your oh-my-zsh installation.
-  export ZSH=/home/anthony/.oh-my-zsh
+  export ZSH=$HOME/.oh-my-zsh
 
 # Colors
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
@@ -237,5 +237,5 @@ alias tmux="tmux -f $HOME/.config/tmux/tmux.conf"
 
 # (cat ~/.cache/wal/sequences &)
 
-alias luamake=/home/anthony/git/lua-language-server/3rd/luamake/luamake
+alias luamake=$HOME/git/lua-language-server/3rd/luamake/luamake
 

@@ -263,7 +263,7 @@ I don't want text properties to be killed (copied or cut), I just want the plain
 ** Tree-sitter
 *** Enable and setup if available
      #+begin_src emacs-lisp
-              (when (treesit-available-p)
+              (when (fboundp 'treesit-available-p)
                 ;; Module path
                 (setq treesit-extra-load-path `(,(concat user-emacs-directory "tree-sitter-modules")))
                 (setq treesit-modules-repo "https://github.com/casouri/tree-sitter-module")

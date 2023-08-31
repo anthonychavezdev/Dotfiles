@@ -1640,6 +1640,11 @@ A JavaScript development environment for Emacs.
       (use-package groovy-mode
         :straight (groovy-mode :type git :host github :repo "Groovy-Emacs-Modes/groovy-emacs-modes"))
     #+end_src
+** Initialize =pyvenv-mode=
+*** Code
+    #+begin_src emacs-lisp
+      (use-package pyvenv)
+    #+end_src
 ** Built-in entry: =eldoc=
 *** Code
 #+BEGIN_SRC emacs-lisp

@@ -2,6 +2,8 @@
 
 (server-start)
 
+(toggle-frame-fullscreen)
+
 (setq comp-deferred-compilation t)
 (setq native-comp-async-report-warnings-errors nil)
 

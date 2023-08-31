@@ -1399,8 +1399,11 @@ popular Emacs packages like company, flycheck and projectile.
         :custom
         (eglot-autoshutdown t)
         (eglot-extend-to-xref t)
+        (eglot-ignored-server-capabilities '(:documentHighlightProvider))
         :hook
-        ((typescript-ts-base-mode . eglot-ensure)
+        ((typescript-mode . eglot-ensure)
+         (tsx-ts-mode . eglot-ensure)
+         (typescript-ts-mode . eglot-ensure)
          (c-ts-mode . eglot-ensure)
          (c-mode . eglot-ensure)
          (c++-mode . eglot-ensure)
@@ -1412,6 +1415,8 @@ popular Emacs packages like company, flycheck and projectile.
          (java-mode . eglot-ensure)
          (java-ts-mode . eglot-ensure))
         :config
+        (add-to-list 'eglot-server-programs '(typescript-ts-mode . ("typescript-language-server" "--stdio")))
+        (add-to-list 'eglot-server-programs '(tsx-ts-mode . ("typescript-language-server" "--stdio")))
         :bind (:map eglot-mode-map
                     ("C-c l r"   . eglot-rename)
                     ("C-c l f f" . eglot-format)

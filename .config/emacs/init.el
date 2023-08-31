@@ -111,7 +111,7 @@
       ;; Options for `modus-themes-region' are either nil (the default),
       ;; or a list of properties that may include any of those symbols:
       ;; `no-extend', `bg-only', `accented'
-      modus-themes-region '(bg-only no-extend)
+      modus-themes-region '(accented no-extend)
 
       ;; Options for `modus-themes-diffs': nil, 'desaturated,
       ;; 'bg-only, 'deuteranopia, 'fg-only-deuteranopia
@@ -126,17 +126,16 @@
         (scheduled . uniform)
         (habit . traffic-light-deuteranopia)))
 
-  ;; Load the theme files before enabling a theme (else you get an error).
-;;   (modus-themes-load-themes)
-  :config
   ;; Load the theme of your choice:
-;;  (modus-themes-load-vivendi) ;; OR (modus-themes-load-vivendi)
-  ;; :bind ("<f5>" . modus-themes-toggle)
+  (modus-themes-select 'modus-vivendi) ;; OR (modus-themes-load-vivendi)
+  :config
+  :bind ("<f5>" . modus-themes-toggle)
   )
 (use-package ef-themes
   :straight (:host github :repo "protesilaos/ef-themes")
   :config
-  (load-theme 'ef-night t))
+  ;; (load-theme 'ef-bio t)
+  )
 
 (use-package doom-themes
    :straight t
@@ -194,8 +193,11 @@
       (sql . t)
       (sqlite . t))))
 
+;; compiled config.el / config.org
+;; eln-cache/30.0.50-d5ac6def/config-638a6af9-f8e4e278.eln
 ;; Load config.org for init.el configuration
 (org-babel-load-file (concat user-emacs-directory "config.org"))
+
 (put 'upcase-region 'disabled nil)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

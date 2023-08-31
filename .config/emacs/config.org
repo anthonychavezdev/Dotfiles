@@ -788,6 +788,20 @@ Git porcelain for Emacs
   (use-package magit
     :straight t)
 #+END_SRC
+** Initialize =git-gutter=
+*** Code
+    #+begin_src emacs-lisp
+      (use-package git-gutter
+        :straight t
+        :custom
+        (git-gutter:window-width 1)
+        (git-gutter:modified-sign "☁")
+        (git-gutter:added-sign "☀")
+        (git-gutter:deleted-sign "☂")
+        :config
+        (global-git-gutter-mode t))
+
+    #+end_src
 ** Initialize =format-all-the-code=
 *** Description
 Lets you auto-format source code in many languages

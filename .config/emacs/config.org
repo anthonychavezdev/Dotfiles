@@ -1648,9 +1648,11 @@ A JavaScript development environment for Emacs.
 ** Built-in entry: =eldoc=
 *** Code
 #+BEGIN_SRC emacs-lisp
-      (use-package eldoc
-        :straight nil
-        :after flymake
-        :hook
-        (typescript-ts-base-mode . eglot-ensure))
+  (use-package eldoc
+    :straight nil
+    :after flymake
+    :custom
+    (eldoc-echo-area-use-multiline-p nil)
+    :hook
+    (typescript-ts-base-mode . eglot-ensure))
 #+END_SRC

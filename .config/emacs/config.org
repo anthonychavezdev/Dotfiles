@@ -362,6 +362,13 @@ map imenu to M-i
 #+begin_src emacs-lisp
   (add-hook 'dired-mode-hook #'dired-hide-details-mode)
   (setq dired-dwim-target t)
+  ;; From https://emacs.stackexchange.com/questions/64982/copy-a-file-content-to-clipboard-with-dired
+  (defun acd/copy-file-contents-in-dired ()
+    (interactive)
+    (let ((buffer (find-file-noselect (dired-get-file-for-visit))))
+      (with-current-buffer buffer
+        (kill-new (buffer-substring-no-properties (point-min) (point-max))))
+      (kill-buffer buffer)))
 #+end_src
 ** Eval and replace
 #+begin_src emacs-lisp
@@ -1081,7 +1088,7 @@ Discord Presence in Emacs
     (use-package elcord
       :straight t
       :config
-      (elcord-mode)
+      ;; (elcord-mode)
       (setq elcord-display-buffer-details t)
       (setq elcord-buffer-details-format-function #'buffer-file-name))
 #+end_src

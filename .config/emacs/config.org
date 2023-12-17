@@ -1255,7 +1255,7 @@ abbreviation and automatically expand it into function templates
 #+END_SRC
 ** Initialize =corfu=
 *** Description
-Company is a text completion framework for Emacs.
+corfu is a text completion framework for Emacs.
 The name stands for "complete anything".
 *** Code
 #+BEGIN_SRC emacs-lisp

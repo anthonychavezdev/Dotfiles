@@ -1271,7 +1271,7 @@ The name stands for "complete anything".
    (corfu-echo-documentation 0.25)
    (corfu-preview-current nil) ;; Preview current candidate
    (corfu-preselect nil)
-   (corfu-quit-no-match t)
+   (corfu-quit-no-match 'separator)
    ;; Optionally use TAB for cycling (default is `corfu-complete')
    :bind (:map corfu-map
                ("M-SPC" . corfu-insert-separator)

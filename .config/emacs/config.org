@@ -1603,6 +1603,7 @@ A JavaScript development environment for Emacs.
 ** Initialize =typescript-mode=
 *** Code
 #+begin_src emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
   (defun setup-tide-mode ()
     (interactive)
     (tide-setup)

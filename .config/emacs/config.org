@@ -735,7 +735,7 @@ Vertico provides a performant and minimalistic vertical completion UI based on t
   (use-package orderless
     :straight t
     :custom
-    (completion-styles '(orderless basic))
+    (completion-styles '(orderless partial-completion basic))
     (completion-category-overrides '((file (styles basic partial-completion)))))
 #+END_SRC
 ** Initialize =undo-tree=

@@ -12,7 +12,7 @@
 
 (defun startup/reset-gc ()
   (setq gc-cons-threshold 16777216
-    gc-cons-percentage 0.1))
+        gc-cons-percentage 0.1))
 
 (add-hook 'emacs-startup-hook 'startup/revert-file-name-handler-alist)
 (add-hook 'emacs-startup-hook 'startup/reset-gc)
@@ -169,26 +169,26 @@
   :straight t
   :config
   (progn
-  (setq org-hide-emphasis-markers t)
-  ;; Default directory for org files (not all are stored here).
-  (setq org-directory "~/Nextcloud/Documents/Notes/Org")
+    (setq org-hide-emphasis-markers t)
+    ;; Default directory for org files (not all are stored here).
+    (setq org-directory "~/Nextcloud/Documents/Notes/Org")
 
-  (setq org-log-done t
-        org-return-follows-link t
-        org-src-fontify-natively t   ;; Pretty code blocks
-        org-src-tab-acts-natively t
-        org-confirm-babel-evaluate nil
-        org-list-allow-alphabetical t ;; Make lists using Roman alphabetical characters
-        org-adapt-indentation t ;; Aligns text to headings by inserting tabs or spaces accordingly
-        ))
-(org-babel-do-load-languages 'org-babel-load-languages
-    '((shell . t)
-      (python . t)
-      (C . t)
-      (ruby . t)
-      (makefile . t)
-      (sql . t)
-      (sqlite . t))))
+    (setq org-log-done t
+          org-return-follows-link t
+          org-src-fontify-natively t   ;; Pretty code blocks
+          org-src-tab-acts-natively t
+          org-confirm-babel-evaluate nil
+          org-list-allow-alphabetical t ;; Make lists using Roman alphabetical characters
+          org-adapt-indentation t ;; Aligns text to headings by inserting tabs or spaces accordingly
+          ))
+  (org-babel-do-load-languages 'org-babel-load-languages
+                               '((shell . t)
+                                 (python . t)
+                                 (C . t)
+                                 (ruby . t)
+                                 (makefile . t)
+                                 (sql . t)
+                                 (sqlite . t))))
 
 ;; compiled config.el / config.org
 ;; eln-cache/30.0.50-d5ac6def/config-638a6af9-f8e4e278.eln

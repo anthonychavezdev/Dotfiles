@@ -620,7 +620,7 @@ map imenu to M-i
 #+end_src
 * Org-mode
 ** Description
-One of the main selling points of Emacs! Org Mode!
+   One of the main selling points of Emacs! Org Mode!
 ** Code
 #+BEGIN_SRC emacs-lisp
   (use-package htmlize
@@ -978,10 +978,11 @@ which-key is a minor mode for Emacs that displays the key bindings following you
 currently entered incomplete command
 *** Code
 #+BEGIN_SRC emacs-lisp
-(use-package which-key
-  :straight t
-  :config
-  (which-key-mode))
+  (use-package which-key
+    :straight t
+    :diminish which-key-mode
+    :config
+    (which-key-mode))
 #+END_SRC
 ** Initialize =define-word=
 *** Code
@@ -1032,8 +1033,8 @@ popups, sidebars, log buffers, terminals, etc) by giving the latter a slightly d
 Live visual feedback for regex
 *** Code
 #+BEGIN_SRC emacs-lisp
-          (use-package visual-regexp
-            :straight t)
+  (use-package visual-regexp
+    :straight t)
 #+END_SRC
 ** Initialize =visual-regexp-steroids=
 *** Description
@@ -1056,14 +1057,14 @@ enables the use of modern regexp engines
 RSS Feeder
 *** Code
 #+BEGIN_SRC emacs-lisp
-      (use-package elfeed
-        :ensure t
-        :config
-        (setq elfeed-db-directory (expand-file-name "elfeed" user-emacs-directory)
-              elfeed-show-entry-switch 'display-buffer
-              elfeed-feeds '(("https://protesilaos.com/master.xml" prot-master)
-                             ("https://jvns.ca/atom.xml" julia)
-                             ("https://robertheaton.com/feed.xml" robert-heaton))))
+  (use-package elfeed
+    :ensure t
+    :config
+    (setq elfeed-db-directory (expand-file-name "elfeed" user-emacs-directory)
+          elfeed-show-entry-switch 'display-buffer
+          elfeed-feeds '(("https://protesilaos.com/master.xml" prot-master)
+                         ("https://jvns.ca/atom.xml" julia)
+                         ("https://robertheaton.com/feed.xml" robert-heaton))))
 #+END_SRC
 ** Initialize =wrap-region=
 *** Description
@@ -1134,7 +1135,7 @@ See also =ace-jump-mode= and =vim-easymotion= - avy uses the same idea.
 #+end_src
 ** Initialize =request.el=
 *** Description
-Used to make HTTP requests
+    Used to make HTTP requests
 *** Code
 #+begin_src emacs-lisp
   (use-package request
@@ -1226,18 +1227,18 @@ YASnippet is a template system for Emacs. It allows you to type an
 abbreviation and automatically expand it into function templates
 *** Code
 #+BEGIN_SRC emacs-lisp
-(use-package yasnippet
-  :straight t
-  :diminish yas
-  :config
-  (yas-global-mode 1)
-)
-;; Bundled snippets
-(use-package yasnippet-snippets
-  :straight t
-  :config
-  (yas-global-mode 1)
-)
+  (use-package yasnippet
+    :straight t
+    :diminish yas-minor-mode
+    :custom ((yas-snippet-dirs `(,(concat user-emacs-directory "snippets")
+                                 ,(concat straight-base-dir "straight/repos/yasnippet-snippets/snippets"))))
+    :config
+    (yas-global-mode 1))
+  ;; Bundled snippets
+  (use-package yasnippet-snippets
+    :straight t
+    :config
+    (yas-global-mode 1))
 #+END_SRC
 ** Initialize =lua=
 *** Code
@@ -1541,10 +1542,10 @@ A JavaScript development environment for Emacs.
 #+END_SRC
 ** Initialize =sly=
 #+BEGIN_SRC emacs-lisp
-    (use-package sly
-      :straight t
-      :config
-      (setq inferior-lisp-program "sbcl"))
+  (use-package sly
+    :straight t
+    :config
+    (setq inferior-lisp-program "sbcl"))
 #+END_SRC
 ** Initialize =cmake-mode=
 *** Code

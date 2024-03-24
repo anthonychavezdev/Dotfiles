@@ -4,6 +4,11 @@
 #+OPTIONS: num:nil
 
 * Quality of life
+** Native-comp
+#+begin_src emacs-lisp
+(setq comp-deferred-compilation t)
+(setq native-comp-async-report-warnings-errors nil)
+#+end_src
 ** Enable line numbers
 Emacs breaks certain modes when it has line-numbers-mode enabled, (like docview or ansi-term) so I utilize the approach of only enabling it on some major modes rather than globally
 #+BEGIN_SRC emacs-lisp

@@ -4,9 +4,6 @@
 
 (toggle-frame-fullscreen)
 
-(setq comp-deferred-compilation t)
-(setq native-comp-async-report-warnings-errors nil)
-
 (defvar startup/file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
 

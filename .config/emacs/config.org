@@ -178,7 +178,8 @@ Saves to a temp file and puts the filename in the kill ring."
 ** Hide-mode-line plugin
 #+BEGIN_SRC emacs-lisp
   (use-package hide-mode-line
-    :straight t)
+    :straight t
+    :defer t)
 #+END_SRC
 ** Compilation-mode customizations
 #+begin_src emacs-lisp
@@ -621,12 +622,9 @@ map imenu to M-i
 One of the main selling points of Emacs! Org Mode!
 ** Code
 #+BEGIN_SRC emacs-lisp
-  (use-package org-indent
-    :straight nil
-    :diminish org-indent-mode)
-
   (use-package htmlize
-    :straight t)
+    :straight t
+    :defer t)
 
   (use-package org-bullets
     :straight t
@@ -644,31 +642,34 @@ One of the main selling points of Emacs! Org Mode!
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
 
   (use-package org-beautify-theme
-    :straight t)
-  (add-hook 'org-mode-hook #'(lambda () (load-theme 'org-beautify t)))
+    :straight t
+    :hook ((org-mode . (lambda () (load-theme 'org-beautify t)))))
 
-  ;; (add-hook 'org-mode-hook #'(lambda () (load-theme 'org-beautify t)))
-
+  ;; I can't get this to work properly
   (use-package org-present
     :straight t
-    :config
-    (add-hook 'org-present-mode-hook
-              (lambda ()
-                (org-present-big)
-                (org-display-inline-images)
-                (org-present-hide-cursor)
-                (org-present-read-only)
-                (hide-mode-line-mode +1)))
-
-    (add-hook 'org-present-mode-quit-hook
-              #'(lambda ()
-                  (org-present-small)
-                  (org-remove-inline-images)
-                  (org-present-show-cursor)
-                  (org-present-read-write)
-                  (hide-mode-line-mode))))
+    :hook ((org-present-mode . (lambda ()
+                                 (org-present-big)
+                                 (org-display-inline-images)
+                                 (org-present-hide-cursor)
+                                 (org-present-read-only)
+                                 (hide-mode-line-mode +1)))
+           (org-present-mode-quit . (lambda ()
+                                      (org-present-small)
+                                      (org-remove-inline-images)
+                                      (org-present-show-cursor)
+                                      (org-present-read-write)
+                                      (hide-mode-line-mode 0)))))
 #+END_SRC
 * Packages
+** Initialize =diminish=
+*** Description
+    Hide chosen minor modes from showing up in the modeline
+*** Code
+   #+begin_src emacs-lisp
+     (use-package diminish
+       :straight t)
+   #+end_src
 ** Initialize =async=
 *** Description
 Utilize asynchronous processes whenever possible
@@ -698,24 +699,12 @@ Bring nice icons to emacs
 ** Initialize =all-the-icons-completion=
 *** Code
 #+begin_src emacs-lisp
-        (use-package all-the-icons-completion
-          :straight t
-          :config
-          (all-the-icons-completion-mode))
-      (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup)
+    (use-package all-the-icons-completion
+      :straight t
+      :hook ((marginalia-mode . all-the-icons-completion-marginalia-setup))
+      :config
+      (all-the-icons-completion-mode))
 #+end_src
-** Initialize =key-chord=
-*** Description
-Key-chord lets you bind commands to combinations of key-strokes.
-Here a “key chord” means two keys pressed simultaneously,
-or a single key quickly pressed twice. (*)
-*** Code
-#+BEGIN_SRC emacs-lisp
-(use-package key-chord
-  :straight t
-  :config
-    (key-chord-mode 1))
-#+END_SRC
 ** Initialize =vertico=
 *** Description
 Vertico provides a performant and minimalistic vertical completion UI based on the default completion system
@@ -774,9 +763,9 @@ external dependencies (when feasible).
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
    :straight t
+   :bind-keymap ("C-c p" . projectile-command-map)
    :config
-   (projectile-mode +1)
-   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+   (add-to-list 'projectile-globally-ignored-directories "^node_modules"))
 #+END_SRC
 ** Initialize =dashboard=
 *** Description
@@ -810,7 +799,8 @@ Git porcelain for Emacs
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package magit
-    :straight t)
+    :straight t
+    :bind (("C-x g" . magit-status)))
 #+END_SRC
 ** Initialize =git-gutter=
 *** Code
@@ -826,160 +816,160 @@ Git porcelain for Emacs
         (global-git-gutter-mode t))
 
     #+end_src
-** Initialize =format-all-the-code=
-*** Description
-Lets you auto-format source code in many languages
-using the same command for all languages,
-instead of learning a different Emacs package
-and formatting command for each language.
-*** Code
-#+BEGIN_SRC emacs-lisp
-(use-package format-all
-  :straight t)
-#+END_SRC
 ** Initialize =doom-modeline=
 *** description
 A fancy and fast mode-line inspired by minimalism design.
 *** Cose
 #+BEGIN_SRC emacs-lisp
-  (use-package doom-modeline
-    :straight t
-    :hook (after-init . doom-modeline-mode)
-    :config
-    (add-hook 'text-scale-mode-hook #'(lambda ()
-                                        (message "Adjusting text size")))
-    ;; How tall the mode-line should be. It's only respected in GUI.
-    ;; If the actual char height is larger, it respects the actual height.
-    (setq doom-modeline-height 35)
-    ;; How to detect the project root.
-    ;; The default priority of detection is `ffip' > `projectile' > `project'.
-    ;; nil means to use `default-directory'.
-    ;; The project management packages have some issues on detecting project root.
-    ;; e.g. `projectile' doesn't handle symlink folders well, while `project' is unable
-    ;; to hanle sub-projects.
-    ;; You can specify one if you encounter the issue.
-    (setq doom-modeline-project-detection 'projectile)
-    ;; Whether display icons in the mode-line.
-    ;; While using the server mode in GUI, should set the value explicitly.
-    (setq doom-modeline-icon (display-graphic-p))
-    ;; Whether display icons in the mode-line.
-    ;; While using the server mode in GUI, should set the value explicitly.
-    (setq doom-modeline-icon (display-graphic-p))
-    ;; Whether display the colorful icon for `major-mode'.
-    ;; It respects `all-the-icons-color-icons'.
-    (setq doom-modeline-major-mode-color-icon t)
-    ;; Whether display the icon for the buffer state. It respects `doom-modeline-icon'.
-    (setq doom-modeline-buffer-state-icon t)
-    ;; Whether display the modification icon for the buffer.
-    ;; It respects `doom-modeline-icon' and `doom-modeline-buffer-state-icon'.
-    (setq doom-modeline-buffer-modification-icon t)
-    ;; Whether to use unicode as a fallback (instead of ASCII) when not using icons.
-    (setq doom-modeline-unicode-fallback t)
-    ;; Whether display the minor modes in the mode-line.
-    (setq doom-modeline-minor-modes nil)
-    ;; If non-nil, a word count will be added to the selection-info modeline segment.
-    (setq doom-modeline-enable-word-count t)
-    ;; Major modes in which to display word count continuously.
-    ;; Also applies to any derived modes. Respects `doom-modeline-enable-word-count'.
-    ;; If it brings the sluggish issue, disable `doom-modeline-enable-word-count' or
-    ;; remove the modes from `doom-modeline-continuous-word-count-modes'.
-    (setq doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode))
-
-    ;; Whether display the buffer encoding.
-    (setq doom-modeline-buffer-encoding t)
-
-    ;; Whether display the indentation information.
-    (setq doom-modeline-indent-info nil)
-
-    ;; If non-nil, only display one number for checker information if applicable.
-    (setq doom-modeline-checker-simple-format t)
-
-    ;; The maximum number displayed for notifications.
-    (setq doom-modeline-number-limit 99)
-
-    ;; The maximum displayed length of the branch name of version control.
-    (setq doom-modeline-vcs-max-length 40)
-
-    ;; Whether display the workspace name. Non-nil to display in the mode-line.
-    (setq doom-modeline-workspace-name t)
-
-    ;; Whether display the perspective name. Non-nil to display in the mode-line.
-    ;; (setq doom-modeline-persp-name t)
-
-    ;; If non nil the default perspective name is displayed in the mode-line.
-    (setq doom-modeline-display-default-persp-name t)
-
-    ;; If non nil the perspective name is displayed alongside a folder icon.
-    (setq doom-modeline-persp-icon t)
-
-    ;; Whether display the `lsp' state. Non-nil to display in the mode-line.
-    (setq doom-modeline-lsp t)
-
-    ;; Whether display the GitHub notifications. It requires `ghub' package.
-    (setq doom-modeline-github nil)
-
-    ;; The interval of checking GitHub.
-    (setq doom-modeline-github-interval (* 30 60))
-
-    ;; Whether display the mu4e notifications. It requires `mu4e-alert' package.
-    (setq doom-modeline-mu4e nil)
-
-    ;; Whether display the gnus notifications.
-    (setq doom-modeline-gnus t)
-
-    ;; Wheter gnus should automatically be updated and how often (set to 0 or smaller than 0 to disable)
-    (setq doom-modeline-gnus-timer 2)
-
-    ;; Wheter groups should be excludede when gnus automatically being updated.
-    (setq doom-modeline-gnus-excluded-groups '("dummy.group"))
-
-    ;; Whether display the IRC notifications. It requires `circe' or `erc' package.
-    (setq doom-modeline-irc t)
-
-    ;; Function to stylize the irc buffer names.
-    (setq doom-modeline-irc-stylize 'identity)
-
-    ;; Whether display the environment version.
-    (setq doom-modeline-env-version t)
-    ;; Or for individual languages
-    (setq doom-modeline-env-enable-python t)
-    (setq doom-modeline-env-enable-ruby t)
-    (setq doom-modeline-env-enable-perl t)
-    (setq doom-modeline-env-enable-go t)
-    (setq doom-modeline-env-enable-elixir t)
-    (setq doom-modeline-env-enable-rust t)
-
-    ;; ;; Change
-    ;; the executables to use for the language version string
-    (setq doom-modeline-env-python-executable "python") ; or `python-shell-interpreter'
-    (setq doom-modeline-env-ruby-executable "ruby")
-    (setq doom-modeline-env-perl-executable "perl")
-    (setq doom-modeline-env-go-executable "go")
-    (setq doom-modeline-env-elixir-executable "iex")
-    (setq doom-modeline-env-rust-executable "rustc")
-
-    ;; What to dispaly as the version while a new one is being loaded
-    (setq doom-modeline-env-load-string "...")
-
-    ;; Hooks that run before/after the modeline version string is updated
-    (setq doom-modeline-before-update-env-hook nil)
-    (setq doom-modeline-after-update-env-hook nil))
+;;  (use-package doom-modeline
+;;    :straight t
+;;    :hook (after-init . doom-modeline-mode)
+;;    :config
+;;    (add-hook 'text-scale-mode-hook #'(lambda ()
+;;                                        (message "Adjusting text size")))
+;;    ;; How tall the mode-line should be. It's only respected in GUI.
+;;    ;; If the actual char height is larger, it respects the actual height.
+;;    (setq doom-modeline-height 35)
+;;    ;; How to detect the project root.
+;;    ;; The default priority of detection is `ffip' > `projectile' > `project'.
+;;    ;; nil means to use `default-directory'.
+;;    ;; The project management packages have some issues on detecting project root.
+;;    ;; e.g. `projectile' doesn't handle symlink folders well, while `project' is unable
+;;    ;; to hanle sub-projects.
+;;    ;; You can specify one if you encounter the issue.
+;;    (setq doom-modeline-project-detection 'projectile)
+;;    ;; Whether display icons in the mode-line.
+;;    ;; While using the server mode in GUI, should set the value explicitly.
+;;    (setq doom-modeline-icon (display-graphic-p))
+;;    ;; Whether display icons in the mode-line.
+;;    ;; While using the server mode in GUI, should set the value explicitly.
+;;    (setq doom-modeline-icon (display-graphic-p))
+;;    ;; Whether display the colorful icon for `major-mode'.
+;;    ;; It respects `all-the-icons-color-icons'.
+;;    (setq doom-modeline-major-mode-color-icon t)
+;;    ;; Whether display the icon for the buffer state. It respects `doom-modeline-icon'.
+;;    (setq doom-modeline-buffer-state-icon t)
+;;    ;; Whether display the modification icon for the buffer.
+;;    ;; It respects `doom-modeline-icon' and `doom-modeline-buffer-state-icon'.
+;;    (setq doom-modeline-buffer-modification-icon t)
+;;    ;; Whether to use unicode as a fallback (instead of ASCII) when not using icons.
+;;    (setq doom-modeline-unicode-fallback t)
+;;    ;; Whether display the minor modes in the mode-line.
+;;    (setq doom-modeline-minor-modes nil)
+;;    ;; If non-nil, a word count will be added to the selection-info modeline segment.
+;;    (setq doom-modeline-enable-word-count t)
+;;    ;; Major modes in which to display word count continuously.
+;;    ;; Also applies to any derived modes. Respects `doom-modeline-enable-word-count'.
+;;    ;; If it brings the sluggish issue, disable `doom-modeline-enable-word-count' or
+;;    ;; remove the modes from `doom-modeline-continuous-word-count-modes'.
+;;    (setq doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode))
+;;
+;;    ;; Whether display the buffer encoding.
+;;    (setq doom-modeline-buffer-encoding t)
+;;
+;;    ;; Whether display the indentation information.
+;;    (setq doom-modeline-indent-info nil)
+;;
+;;    ;; If non-nil, only display one number for checker information if applicable.
+;;    (setq doom-modeline-checker-simple-format t)
+;;
+;;    ;; The maximum number displayed for notifications.
+;;    (setq doom-modeline-number-limit 99)
+;;
+;;    ;; The maximum displayed length of the branch name of version control.
+;;    (setq doom-modeline-vcs-max-length 40)
+;;
+;;    ;; Whether display the workspace name. Non-nil to display in the mode-line.
+;;    (setq doom-modeline-workspace-name t)
+;;
+;;    ;; Whether display the perspective name. Non-nil to display in the mode-line.
+;;    ;; (setq doom-modeline-persp-name t)
+;;
+;;    ;; If non nil the default perspective name is displayed in the mode-line.
+;;    (setq doom-modeline-display-default-persp-name t)
+;;
+;;    ;; If non nil the perspective name is displayed alongside a folder icon.
+;;    (setq doom-modeline-persp-icon t)
+;;
+;;    ;; Whether display the `lsp' state. Non-nil to display in the mode-line.
+;;    (setq doom-modeline-lsp t)
+;;
+;;    ;; Whether display the GitHub notifications. It requires `ghub' package.
+;;    (setq doom-modeline-github nil)
+;;
+;;    ;; The interval of checking GitHub.
+;;    (setq doom-modeline-github-interval (* 30 60))
+;;
+;;    ;; Whether display the mu4e notifications. It requires `mu4e-alert' package.
+;;    (setq doom-modeline-mu4e nil)
+;;
+;;    ;; Whether display the gnus notifications.
+;;    (setq doom-modeline-gnus t)
+;;
+;;    ;; Wheter gnus should automatically be updated and how often (set to 0 or smaller than 0 to disable)
+;;    (setq doom-modeline-gnus-timer 2)
+;;
+;;    ;; Wheter groups should be excludede when gnus automatically being updated.
+;;    (setq doom-modeline-gnus-excluded-groups '("dummy.group"))
+;;
+;;    ;; Whether display the IRC notifications. It requires `circe' or `erc' package.
+;;    (setq doom-modeline-irc t)
+;;
+;;    ;; Function to stylize the irc buffer names.
+;;    (setq doom-modeline-irc-stylize 'identity)
+;;
+;;    ;; Whether display the environment version.
+;;    (setq doom-modeline-env-version t)
+;;    ;; Or for individual languages
+;;    (setq doom-modeline-env-enable-python t)
+;;    (setq doom-modeline-env-enable-ruby t)
+;;    (setq doom-modeline-env-enable-perl t)
+;;    (setq doom-modeline-env-enable-go t)
+;;    (setq doom-modeline-env-enable-elixir t)
+;;    (setq doom-modeline-env-enable-rust t)
+;;
+;;    ;; ;; Change
+;;    ;; the executables to use for the language version string
+;;    (setq doom-modeline-env-python-executable "python") ; or `python-shell-interpreter'
+;;    (setq doom-modeline-env-ruby-executable "ruby")
+;;    (setq doom-modeline-env-perl-executable "perl")
+;;    (setq doom-modeline-env-go-executable "go")
+;;    (setq doom-modeline-env-elixir-executable "iex")
+;;    (setq doom-modeline-env-rust-executable "rustc")
+;;
+;;    ;; What to dispaly as the version while a new one is being loaded
+;;    (setq doom-modeline-env-load-string "...")
+;;
+;;    ;; Hooks that run before/after the modeline version string is updated
+;;    (setq doom-modeline-before-update-env-hook nil)
+;;    (setq doom-modeline-after-update-env-hook nil))
 #+END_SRC
+** Initialize =moody=
+#+begin_src emacs-lisp
+  (use-package moody
+    :config
+    (setq x-underline-at-descent-line t)
+    (moody-replace-mode-line-buffer-identification)
+    (moody-replace-vc-mode)
+    (moody-replace-eldoc-minibuffer-message-function))  
+#+end_src
 ** Initialize =rainbow-mode=
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-mode
     :straight t
+    :diminish rainbow-mode
     :hook
     ((prog-mode . rainbow-mode)))
 #+END_SRC
 ** Initialize =rainbow-delimeters=
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (use-package rainbow-delimiters
-    :straight (rainbow-delimiters :type git :host github :repo "Fanael/rainbow-delimiters")
-    :hook
-    ((prog-mode . rainbow-delimiters-mode)))
+    (use-package rainbow-delimiters
+      :straight (rainbow-delimiters :type git :host github :repo "Fanael/rainbow-delimiters")
+      :diminish rainbow-delimiters-mode
+      :hook
+      ((prog-mode . rainbow-delimiters-mode)))
 #+END_SRC
 ** Initialize =which-key=
 *** Description
@@ -996,7 +986,8 @@ currently entered incomplete command
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package define-word
-    :straight t)
+    :straight t
+    :defer t)
 #+END_SRC
 ** Initialize =pdf-tools=
 *** Description
@@ -1018,10 +1009,9 @@ Expand region increases the selected region by semantic units. Just keep pressin
 until it selects what you want.
 *** Code
 #+BEGIN_SRC emacs-lisp
-        (use-package expand-region
-          :straight t
-          :config
-          (global-set-key (kbd "C-=") #'er/expand-region))
+  (use-package expand-region
+    :straight t
+    :bind (("C-=" . er/expand-region)))
 #+END_SRC
 ** Initialize =solaire-mode=
 *** Description
@@ -1094,27 +1084,28 @@ Wrap Region is a minor mode for Emacs that wraps a region with punctuations.
 
   (use-package nov
     :straight (nov :type git :repo "https://depp.brause.cc/nov.el.git")
-    :config
-    (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
+    :mode ("\\.epub\\'" . nov-mode))
 #+end_src
 ** Initialize =elcord=
 *** Description
 Discord Presence in Emacs
 *** Code
 #+begin_src emacs-lisp
-    (use-package elcord
-      :straight t
-      :config
-      ;; (elcord-mode)
-      (setq elcord-display-buffer-details t)
-      (setq elcord-buffer-details-format-function #'buffer-file-name))
+  (use-package elcord
+    :straight t
+    :defer t
+    :config
+    ;; (elcord-mode)
+    (setq elcord-display-buffer-details t)
+    (setq elcord-buffer-details-format-function #'buffer-file-name))
 #+end_src
 ** Initialize =perspective.el=
 #+begin_src emacs-lisp
   (use-package perspective
     :straight t
     :bind
-    ("C-x C-b" . persp-list-buffers)   ; or use a nicer switcher, see below
+    (("C-x b" . persp-switch-to-buffer*)
+     ("C-x k" . persp-kill-buffer*))
     :custom
     (persp-mode-prefix-key (kbd "C-c M-p"))
     :init
@@ -1128,34 +1119,17 @@ See also =ace-jump-mode= and =vim-easymotion= - avy uses the same idea.
 #+begin_src emacs-lisp
   (use-package avy
     :straight t
-    :config
-    (global-set-key (kbd "M-g :") #'avy-goto-char)
-    (global-set-key (kbd "M-g '") #'avy-goto-char-2)
-    (global-set-key (kbd "M-g f") #'avy-goto-line)
-    (global-set-key (kbd "M-g w") #'avy-goto-word-1)
-    (global-set-key (kbd "M-g e") #'avy-goto-word-0))
+    :bind (("M-g c" . avy-goto-char)
+           ("M-g '" . avy-goto-char-2)
+           ("M-g l" . avy-goto-line)
+           ("M-g w" . avy-goto-word-1)
+           ("M-g e" . avy-goto-word-0)))
 #+end_src
 ** Initialize =emacs-gif-screencast=
 *** code
 #+begin_src emacs-lisp
-      (use-package gif-screencast
-        :straight (gif-screencast :type git :host gitlab :repo "ambrevar/emacs-gif-screencast"))
-#+end_src
-** Initialize =hydra=
-*** Description
-Hydra allows you to create keymaps for related commands, with the ability to easily repeat commands by using a single keystroke. Here is a small example:
-*** Code
-#+begin_src emacs-lisp
-    (use-package hydra
-      :straight t)
-
-   ;; TODO: Come up with hydra
-#+end_src
-** Initialize =multiple-cursors=
-*** Code
-#+begin_src emacs-lisp
-  ;; (use-package multiple-cursors
-  ;;   :straight (multiple-cursors :type git :host github :repo "magnars/multiple-cursors.el"))
+  (use-package gif-screencast
+    :straight (gif-screencast :type git :host gitlab :repo "ambrevar/emacs-gif-screencast"))
 #+end_src
 ** Initialize =request.el=
 *** Description
@@ -1234,7 +1208,6 @@ error or unexpected behavior inside an elisp configuration file
 (use-package bug-hunter
   :straight t)
 #+END_SRC
-
 ** Initialize =YASnippets=
 *** Description
 YASnippet is a template system for Emacs. It allows you to type an
@@ -1257,8 +1230,10 @@ abbreviation and automatically expand it into function templates
 ** Initialize =lua=
 *** Code
 #+BEGIN_SRC emacs-lisp
-(use-package lua-mode
-:straight t)
+  (use-package lua-mode
+  :straight t
+  :mode "\\.lua\\'"
+  :interpreter "lua")
 #+END_SRC
 ** Initialize =corfu=
 *** Description
@@ -1485,19 +1460,23 @@ popular Emacs packages like company, flycheck and projectile.
 *** Code
 #+BEGIN_SRC emacs-lisp
     (use-package racket-mode
-      :straight t)
+      :straight t
+      :mode (("\\.rkt\\'" . racket-mode)
+             ("\\.rhm\\'" . racket-hash-lang-mode)))
 #+END_SRC
 ** Initialize =go-mode=
 *** Code
 #+BEGIN_SRC emacs-lisp
-    (use-package go-mode
-      :straight t)
+  (use-package go-mode
+    :straight t
+    :mode "\\.go\\'")
 #+END_SRC
 ** Initialize =php-mode=
 *** Code
 #+BEGIN_SRC emacs-lisp
     (use-package php-mode
-      :straight t)
+      :straight t
+      :mode "\\.php\\'")
 #+END_SRC
 ** Initialize =web-mode=
 *** Description
@@ -1506,42 +1485,37 @@ files embedding parts (CSS/JavaScript) and blocks (pre rendered by
 client/server side engines).
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (use-package web-mode
-      :straight t
-      :config
-      (add-to-list 'auto-mode-alist '("\\.svelte?\\'" . web-mode))
-      (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-      (add-to-list 'auto-mode-alist '("\\.cshtml?\\'" . web-mode))
-      (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-      :custom
-      (web-mode-engines-alist '(("php"    . "\\.phtml\\'")
-                                ("blade"  . "\\.blade\\.")
-                                ("eruby"  . "\\.erb\\'"))))
+    (use-package web-mode
+        :straight t
+        :mode ("\\.svelte?\\'"
+               "\\.html?\\'"
+               "\\.cshtml?\\'"
+               "\\.erb\\'"
+               "\\.phtml\\'"
+               "\\.blade\\.")
+        :custom
+        (web-mode-engines-alist '(("php"    . "\\.phtml\\'")
+                                  ("blade"  . "\\.blade\\.")
+                                  ("eruby"  . "\\.erb\\'"))))
 #+END_SRC
-** Initialize =jsx-mode=
-*** Description
-    For React dev
-*** Code
-    #+begin_src emacs-lisp
-      (use-package rjsx-mode
-        :straight (rjsx-mode :type git :host github :repo "felipeochoa/rjsx-mode"))
-    #+end_src
 ** Initialize =rust-mode=
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (use-package rust-mode
-    :straight t)
   (use-package rustic
     :straight t
+    :mode (("\\.rs\\'" . rustic-mode))
+    :hook ((eglot-managed-mode . (lambda () (flymake-mode -1))))
     :custom
-    (rustic-lsp-client 'eglot))
+    (rustic-lsp-client 'eglot)
+    (rustic-analyzer-command '("rustup" "run" "stable" "rust-analyzer")))
 #+END_SRC
 #+END_SRC
 ** Initialize =json-mode=
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package json-mode
-    :straight t)
+    :straight t
+    :mode "\\.json\\'")
 #+END_SRC
 ** Initialize =Indium=
 *** Description
@@ -1590,10 +1564,9 @@ A JavaScript development environment for Emacs.
 ** Initialize =yaml-mode=
 *** Code
 #+begin_src emacs-lisp
-        (use-package yaml-mode
-          :straight t
-          :config
-          (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)))
+  (use-package yaml-mode
+    :straight t
+    :mode ("\\.yml\\'" "\\.yaml\\'"))
 #+end_src
 ** Initialize =restclient-mode=
 *** Code
@@ -1604,8 +1577,9 @@ A JavaScript development environment for Emacs.
 ** Initialize =android-mode=
 *** Code
 #+begin_src emacs-lisp
-    (use-package android-mode
-      :straight t)
+  (use-package android-mode
+    :straight t
+    :defer t)
 #+end_src
 ** Initialize =typescript-mode=
 *** Code
@@ -1632,13 +1606,13 @@ A JavaScript development environment for Emacs.
 #+end_src
 ** Initialize =kotlin-mode=
 #+begin_src emacs-lisp
-      (use-package kotlin-mode
-        :straight t)
+  (use-package kotlin-mode
+    :straight t
+    :mode ("\\.kt\\'" "\\.kts\\'" "\\.ktm\\'"))
 #+end_src
 ** Initialize =csharp-mode=
 *** Code
 #+begin_src emacs-lisp
-
   (if (version<= emacs-version "29.0")
       (progn
         (use-package csharp-mode
@@ -1659,7 +1633,8 @@ A JavaScript development environment for Emacs.
 *** Code
 #+begin_src emacs-lisp
   (use-package clojure-mode
-    :straight t)
+    :straight t
+    :mode ("\\.clj\\'" "\\.cljs\\'" "\\.cljr\\'" "\\.cljc\\'" "\\.edn\\'"))
 #+end_src
 ** Initialize =CIDER=
 *** Code
@@ -1671,13 +1646,15 @@ A JavaScript development environment for Emacs.
 *** Code
     #+begin_src emacs-lisp
       (use-package gradle-mode
-        :straight t)
+        :straight t
+        :mode "\\.gradle\\'")
     #+end_src
 ** Initialize =groovy-mode=
 *** Code
     #+begin_src emacs-lisp
       (use-package groovy-mode
-        :straight (groovy-mode :type git :host github :repo "Groovy-Emacs-Modes/groovy-emacs-modes"))
+        :straight (groovy-mode :type git :host github :repo "Groovy-Emacs-Modes/groovy-emacs-modes")
+        :mode ("\\.groovy\\'" "\\.gradle\\'"))
     #+end_src
 ** Initialize =pyvenv-mode=
 *** Code

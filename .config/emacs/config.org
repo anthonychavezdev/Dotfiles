@@ -310,6 +310,28 @@ I don't want text properties to be killed (copied or cut), I just want the plain
         :straight t
         :bind (("M-o" . ace-window)))
     #+end_src
+** Copy file name or directory path to clipboard
+#+begin_src emacs-lisp
+  (defun acd/copy-file-name-or-path ()
+    (interactive)
+    (let ((filename (if (equal major-mode 'dired-mode)
+                        default-directory
+                      (buffer-file-name))))
+      (when filename
+        (kill-new filename)
+        (message "Copied file name '%s' to clipboard" filename))))
+#+end_src
+** Version Control
+*** Ignore files
+    #+begin_src emacs-lisp
+      (add-to-list 'vc-directory-exclusion-list "node_modules")
+    #+end_src
+** Highlight line when switching windows
+   #+begin_src emacs-lisp
+     (defun acd/flash-on-window-chagne (ignored-arg)
+       (pulse-momentary-highlight-one-line (point)))
+     (add-to-list 'window-selection-change-functions #'acd/flash-on-window-chagne)
+   #+end_src
 ** Better help system
    #+begin_src emacs-lisp
      (use-package helpful

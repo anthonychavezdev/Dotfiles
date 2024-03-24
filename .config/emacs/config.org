@@ -1206,29 +1206,19 @@ Used to make HTTP requests
 ** Initialize =tree-sitter=
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (use-package tree-sitter
-    :straight t)
-  (use-package tree-sitter-langs
-    :straight t)
-  (require 'tree-sitter)
-  (require 'tree-sitter-langs)
+  ;; (use-package tree-sitter
+  ;;   :straight t)
+  ;; (use-package tree-sitter-langs
+  ;;   :straight t)
+  ;; (require 'tree-sitter)
+  ;; (require 'tree-sitter-langs)
 
-  (add-hook 'c-mode-hook 'tree-sitter-hl-mode)
-  (add-hook 'c++-mode-hook 'tree-sitter-hl-mode)
-  (add-hook 'js-mode-hook 'tree-sitter-hl-mode)
-  (add-hook 'python-mode-hook 'tree-sitter-hl-mode)
-  (add-hook 'java-mode-hook 'tree-sitter-hl-mode)
-  (add-hook 'rust-mode-hook 'tree-sitter-hl-mode)
-#+END_SRC
-** Initialize =elisp-bug-hunter=
-*** Description
-The Bug Hunter is an Emacs library that finds the source of an
-error or unexpected behavior inside an elisp configuration file
-(typically init.el or .emacs).
-*** Code
-#+BEGIN_SRC emacs-lisp
-(use-package bug-hunter
-  :straight t)
+  ;; (add-hook 'c-mode-hook 'tree-sitter-hl-mode)
+  ;; (add-hook 'c++-mode-hook 'tree-sitter-hl-mode)
+  ;; (add-hook 'js-mode-hook 'tree-sitter-hl-mode)
+  ;; (add-hook 'python-mode-hook 'tree-sitter-hl-mode)
+  ;; (add-hook 'java-mode-hook 'tree-sitter-hl-mode)
+  ;; (add-hook 'rust-mode-hook 'tree-sitter-hl-mode)
 #+END_SRC
 ** Initialize =YASnippets=
 *** Description

@@ -749,10 +749,15 @@ Instead of treating undo/redo as a linear sequence of changes, undo-tree-mode tr
 undo history as a branching tree of changes, similar to the way Vim handles it.
 *** Code
 #+BEGIN_SRC emacs-lisp
-(use-package undo-tree
-  :straight t
-  :init
-  (global-undo-tree-mode 1))
+  (use-package undo-tree
+    :straight t
+    :diminish undo-tree-mode
+    ;; I don't want undo-tree files littered everywhere
+    :custom ((undo-tree-history-directory-alist `(("." . ,(concat
+                                                        user-emacs-directory
+                                                        "undo-tree")))))
+    :init
+    (global-undo-tree-mode 1))
 #+END_SRC
 ** Initialize =projectile=
 *** Description

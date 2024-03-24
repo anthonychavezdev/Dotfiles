@@ -1161,6 +1161,27 @@ Used to make HTTP requests
         ;; enabled right away. Note that this forces loading the package.
         (marginalia-mode))
     #+end_src
+** Initialize =exec-path-from-shell=
+*** Description
+    Use environemnt variables from the shell
+*** Code
+    #+begin_src emacs-lisp
+      ;; If using ZSH, set the variables in `~/.zshenv'
+      ;; I have a lot set in `~/.profile', but this package doesn't 
+      ;; seem to check there. I have the following in my `~/.zprofile':
+      ;;
+      ;; [[ -f ~/.zshrc ]] && . ~/.zshrc
+      ;; [[ -f ~/.profile ]] && . ~/.profile
+      ;;
+      ;; You might need to be logged in for the above to run, which might be why.
+      ;; I don't care enough to look any deeper right now.
+      (use-package exec-path-from-shell
+        :straight t
+        :custom ((exec-path-from-shell-arguments nil))
+        :config
+        (when (memq window-system '(mac ns x pgtk))
+          (exec-path-from-shell-initialize)))
+    #+end_src
 ** Built-in entry: =abbrev=
 *** Code
 #+BEGIN_SRC emacs-lisp

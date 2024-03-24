@@ -271,7 +271,8 @@ I don't want text properties to be killed (copied or cut), I just want the plain
 ** Tree-sitter
 *** Enable and setup if available
      #+begin_src emacs-lisp
-       (when (fboundp 'treesit-available-p)
+       (when (and (fboundp #'treesit-available-p)
+                  (funcall #'treesit-available-p))
          ;; Module path
          (setq treesit-extra-load-path `(,(concat user-emacs-directory "tree-sitter-modules")))
          (setq treesit-modules-repo "https://github.com/casouri/tree-sitter-module")
@@ -289,19 +290,19 @@ I don't want text properties to be killed (copied or cut), I just want the plain
            (shell-command (concat "mv " user-emacs-directory
                                   treesit-modules-repo-directory
                                   "/dist/* "
-                                  (car treesit-extra-load-path)))))
-       (setq major-mode-remap-alist
-             '((yaml-mode . yaml-ts-mode)
-               (bash-mode . bash-ts-mode)
-               (js-mode . js-ts-mode)
-               (js2-mode . js-ts-mode)
-               (typescript-mode . typescript-ts-mode)
-               (json-mode . json-ts-mode)
-               (css-mode . css-ts-mode)
-               (python-mode . python-ts-mode)
-               (go-mode . go-ts-mode)))
+                                  (car treesit-extra-load-path))))
+    (setq major-mode-remap-alist
+                 '((yaml-mode . yaml-ts-mode)
+                   (bash-mode . bash-ts-mode)
+                   (js-mode . js-ts-mode)
+                   (js2-mode . js-ts-mode)
+                   (typescript-mode . typescript-ts-mode)
+                   (json-mode . json-ts-mode)
+                   (css-mode . css-ts-mode)
+                   (python-mode . python-ts-mode)
+                   (go-mode . go-ts-mode)
+                   (java-mode . java-ts-mode))))
      #+end_src
-*** Enable for supported languages
 ** Better window navigation
 *** Enable and install ace-window
     #+begin_src emacs-lisp

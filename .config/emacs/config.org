@@ -1569,7 +1569,7 @@ A JavaScript development environment for Emacs.
   (use-package eglot-java
     :straight (eglot-java :type git :host github :repo "yveszoundi/eglot-java")
     :custom
-    (eglot-java-server-install-dir "~/lsp/jdtls-lsp") ;; Don't download the server
+    (eglot-java-server-install-dir "~/lsp/jdtls-lsp")
     :hook ((java-mode . eglot-java-mode))
     :bind (:map eglot-java-mode-map
                 ("C-c j n" . #'eglot-java-file-new)

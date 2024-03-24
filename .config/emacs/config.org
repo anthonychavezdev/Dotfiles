@@ -132,6 +132,8 @@ Super - Control - <arrow>
     (find-font (font-spec :name font-name)))
 
     (cond
+     ((font-available-p "JetBrains Mono")
+      (set-frame-font "JetBrains Mono"))
      ((font-available-p "Cascadia Code")
       (set-frame-font "Cascadia Code-12"))
      ((font-available-p "Menlo")

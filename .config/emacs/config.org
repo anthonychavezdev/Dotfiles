@@ -804,6 +804,7 @@ Git porcelain for Emacs
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :straight t
+    :hook ((magit-log-mode . hl-line-mode))
     :bind (("C-x g" . magit-status)))
 #+END_SRC
 ** Initialize =git-gutter=

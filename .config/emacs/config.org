@@ -1499,6 +1499,46 @@ popular Emacs packages like company, flycheck and projectile.
                     ("C-c l a i" . eglot-code-action-inline)
                     ("C-c l a r" . eglot-code-action-rewrite)))
     #+end_src
+** Initialize =dape=
+*** Description
+    Debug adapter
+*** Code
+    #+begin_src emacs-lisp
+      (use-package dape
+        :straight t
+        :custom (
+                 ;; By default dape shares the same keybinding prefix as `gud'
+                 ;; If you do not want to use any prefix, set it to nil.
+                 (dape-key-prefix (kbd "C-x C-a"))
+                 ;; To use window configuration like gud (gdb-mi)
+                 (dape-buffer-window-arrangement 'gud)
+                 ;; Info buffers to the right
+                 (dape-buffer-window-arrangement 'right)
+                 ;; Projectile users
+                 (dape-cwd-fn 'projectile-project-root))
+
+        :hook
+        ;; Save breakpoints on quit
+        ((kill-emacs . dape-breakpoint-save)
+         ;; Load breakpoints on startup
+         (after-init . dape-breakpoint-load)
+         ;; To display info and/or repl buffers on stopped
+         (dape-on-stopped-hooks . dape-info)
+         (dape-on-stopped-hooks . dape-repl)
+         ;; Kill compile buffer on build success
+         ;; (dape-compile-compile-hooks . kill-buffer)
+         ;; Save buffers on startup, useful for interpreted languages
+         ;; (dape-on-start-hooks . (lambda () (save-some-buffers t t)))
+         )
+
+        :config
+        ;; Global bindings for setting breakpoints with mouse
+        (dape-breakpoint-global-mode)
+
+        ;; To not display info and/or buffers on startup
+        (remove-hook 'dape-on-start-hooks 'dape-info)
+        (remove-hook 'dape-on-start-hooks 'dape-repl))
+    #+end_src
 ** Initialize =flymake=
 *** Code
     #+begin_src emacs-lisp

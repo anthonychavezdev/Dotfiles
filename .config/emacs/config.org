@@ -640,25 +640,25 @@ map imenu to M-i
   ;; Sets LaTeX preview size
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
 
-  (use-package org-beautify-theme
-    :straight t
-    :hook ((org-mode . (lambda () (load-theme 'org-beautify t)))))
+   ;; (use-package org-beautify-theme
+   ;;  :straight t
+   ;;  :hook ((org-mode . (lambda () (load-theme 'org-beautify t)))))
 
   ;; I can't get this to work properly
-  (use-package org-present
-    :straight t
-    :hook ((org-present-mode . (lambda ()
-                                 (org-present-big)
-                                 (org-display-inline-images)
-                                 (org-present-hide-cursor)
-                                 (org-present-read-only)
-                                 (hide-mode-line-mode +1)))
-           (org-present-mode-quit . (lambda ()
-                                      (org-present-small)
-                                      (org-remove-inline-images)
-                                      (org-present-show-cursor)
-                                      (org-present-read-write)
-                                      (hide-mode-line-mode 0)))))
+  ;; (use-package org-present
+  ;;   :straight t
+  ;;   :hook ((org-present-mode . (lambda ()
+  ;;                                (org-present-big)
+  ;;                                (org-display-inline-images)
+  ;;                                (org-present-hide-cursor)
+  ;;                                (org-present-read-only)
+  ;;                                (hide-mode-line-mode +1)))
+  ;;          (org-present-mode-quit . (lambda ()
+  ;;                                     (org-present-small)
+  ;;                                     (org-remove-inline-images)
+  ;;                                     (org-present-show-cursor)
+  ;;                                     (org-present-read-write)
+  ;;                                     (hide-mode-line-mode 0)))))
 #+END_SRC
 * Packages
 ** Initialize =diminish=

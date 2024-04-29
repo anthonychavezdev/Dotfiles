@@ -166,7 +166,7 @@
 ;; and use the newer version, instead of
 ;; Emacs' build in version
 (use-package org
-  :straight t
+  :straight nil
   :config
   (progn
     (setq org-hide-emphasis-markers t)

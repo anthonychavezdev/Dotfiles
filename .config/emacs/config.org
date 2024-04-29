@@ -1053,7 +1053,7 @@ popups, sidebars, log buffers, terminals, etc) by giving the latter a slightly d
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package solaire-mode
-    :ensure t
+    :straight t
     :config
     (solaire-global-mode +1))
 #+END_SRC

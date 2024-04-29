@@ -1233,6 +1233,16 @@ See also =ace-jump-mode= and =vim-easymotion= - avy uses the same idea.
                                              "###" "####" "#[" "#{" "#=" "#!" "#:" "#_(" "#_" "#?" "#(" ";;" "_|_"
                                              "__" "~~" "~~>" "~>" "~-" "~@" "$>" "^=" "]#")))
     #+end_src
+** Initialize =editor-cnfig=
+*** Description
+    I want Emacs to apply the settings from =.editorconfig= files
+*** Code
+    #+begin_src emacs-lisp
+      (use-package editorconfig
+        :straight t
+        :config
+        (editorconfig-mode 1))
+    #+end_src
 ** Built-in entry: =abbrev=
 *** Code
 #+BEGIN_SRC emacs-lisp

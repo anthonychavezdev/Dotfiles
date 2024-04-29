@@ -1212,6 +1212,27 @@ See also =ace-jump-mode= and =vim-easymotion= - avy uses the same idea.
         (when (memq window-system '(mac ns x pgtk))
           (exec-path-from-shell-initialize)))
     #+end_src
+** Initialize =ligature=
+*** Code
+    #+begin_src emacs-lisp
+      (use-package ligature
+        :straight t
+        :hook
+        ((prog-mode . ligature-mode))
+        :config
+        ;; Enable all JetBrains Mono ligatures in programming modes
+        (ligature-set-ligatures 'prog-mode '("-|" "-~" "---" "-<<" "-<" "--" "->" "->>" "-->" "///" "/=" "/=="
+                                             "/>" "//" "/*" "*>" "***" "*/" "<-" "<<-" "<=>" "<=" "<|" "<||"
+                                             "<|||" "<|>" "<:" "<>" "<-<" "<<<" "<==" "<<=" "<=<" "<==>" "<-|"
+                                             "<<" "<~>" "<=|" "<~~" "<~" "<$>" "<$" "<+>" "<+" "</>" "</" "<*"
+                                             "<*>" "<->" "<!--" ":>" ":<" ":::" "::" ":?" ":?>" ":=" "::=" "=>>"
+                                             "==>" "=/=" "=!=" "=>" "===" "=:=" "==" "!==" "!!" "!=" ">]" ">:"
+                                             ">>-" ">>=" ">=>" ">>>" ">-" ">=" "&&&" "&&" "|||>" "||>" "|>" "|]"
+                                             "|}" "|=>" "|->" "|=" "||-" "|-" "||=" "||" ".." ".?" ".=" ".-" "..<"
+                                             "..." "+++" "+>" "++" "[||]" "[<" "[|" "{|" "??" "?." "?=" "?:" "##"
+                                             "###" "####" "#[" "#{" "#=" "#!" "#:" "#_(" "#_" "#?" "#(" ";;" "_|_"
+                                             "__" "~~" "~~>" "~>" "~-" "~@" "$>" "^=" "]#")))
+    #+end_src
 ** Built-in entry: =abbrev=
 *** Code
 #+BEGIN_SRC emacs-lisp

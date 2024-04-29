@@ -616,6 +616,31 @@ map imenu to M-i
   (global-set-key (kbd "C-c c") #'acd/compile-or-recompile)
 
 #+end_src
+** Smart move to beginning of line
+   #+begin_src emacs-lisp
+     ;; This is how Lem works, which I really liked
+     (defun acd/smart-move-beginning-of-line ()
+       "Move point to the first non-whitespace character on the current line.
+
+     If point is already there, move to the 'real' beginning of the line"
+       (interactive)
+       (let ((oldPos (point)))
+         (back-to-indentation)
+         (and (= oldPos (point))
+              (move-beginning-of-line 1))))
+     (global-set-key (kbd "C-a") #'acd/smart-move-beginning-of-line)
+   #+end_src
+** Insert date from calendar
+   #+begin_src emacs-lisp
+     (defun acd/insert-date-from-cal (&optional after-insert-char)
+       (interactive)
+       (let ((date (calendar-date-string (or (calendar-cursor-to-date)
+                                             '(0 0 0 0)))))
+         (other-window -1)
+         (other-window -1)))
+
+     (define-key calendar-mode-map (kbd "C-c i") #'acd/insert-date-from-cal)
+   #+end_src
 * Org-mode
 ** Description
    One of the main selling points of Emacs! Org Mode!

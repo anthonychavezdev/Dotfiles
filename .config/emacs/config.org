@@ -268,41 +268,6 @@ I don't want text properties to be killed (copied or cut), I just want the plain
 
   (add-hook 'kill-emacs-hook 'unpropertize-kill-ring)
 #+end_src
-** Tree-sitter
-*** Enable and setup if available
-     #+begin_src emacs-lisp
-       (when (and (fboundp #'treesit-available-p)
-                  (funcall #'treesit-available-p))
-         ;; Module path
-         (setq treesit-extra-load-path `(,(concat user-emacs-directory "tree-sitter-modules")))
-         (setq treesit-modules-repo "https://github.com/casouri/tree-sitter-module")
-         (setq treesit-modules-repo-directory "tree-sitter-modules-repo")
-         (unless (file-exists-p (concat (car treesit-extra-load-path)))
-           (make-directory (car treesit-extra-load-path))
-           (message (concat "Cloning " treesit-modules-repo))
-           (shell-command (concat "git clone "
-                                  treesit-modules-repo " "
-                                  user-emacs-directory
-                                  treesit-modules-repo-directory " --depth 1"))
-           (message "Generating batch ")
-           (shell-command (concat "cd " user-emacs-directory
-                                  treesit-modules-repo-directory " && ./batch.sh"))
-           (shell-command (concat "mv " user-emacs-directory
-                                  treesit-modules-repo-directory
-                                  "/dist/* "
-                                  (car treesit-extra-load-path))))
-    (setq major-mode-remap-alist
-                 '((yaml-mode . yaml-ts-mode)
-                   (bash-mode . bash-ts-mode)
-                   (js-mode . js-ts-mode)
-                   (js2-mode . js-ts-mode)
-                   (typescript-mode . typescript-ts-mode)
-                   (json-mode . json-ts-mode)
-                   (css-mode . css-ts-mode)
-                   (python-mode . python-ts-mode)
-                   (go-mode . go-ts-mode)
-                   (java-mode . java-ts-mode))))
-     #+end_src
 ** Better window navigation
 *** Enable and install ace-window
     #+begin_src emacs-lisp
@@ -1245,19 +1210,14 @@ See also =ace-jump-mode= and =vim-easymotion= - avy uses the same idea.
 ** Initialize =tree-sitter=
 *** Code
 #+BEGIN_SRC emacs-lisp
-  ;; (use-package tree-sitter
-  ;;   :straight t)
-  ;; (use-package tree-sitter-langs
-  ;;   :straight t)
-  ;; (require 'tree-sitter)
-  ;; (require 'tree-sitter-langs)
-
-  ;; (add-hook 'c-mode-hook 'tree-sitter-hl-mode)
-  ;; (add-hook 'c++-mode-hook 'tree-sitter-hl-mode)
-  ;; (add-hook 'js-mode-hook 'tree-sitter-hl-mode)
-  ;; (add-hook 'python-mode-hook 'tree-sitter-hl-mode)
-  ;; (add-hook 'java-mode-hook 'tree-sitter-hl-mode)
-  ;; (add-hook 'rust-mode-hook 'tree-sitter-hl-mode)
+  (when (and (fboundp #'treesit-available-p)
+             (funcall #'treesit-available-p))
+    (use-package treesit-auto
+      :custom
+      (treesit-auto-install 'prompt)
+      :config
+      (treesit-auto-add-to-auto-mode-alist 'all)
+      (global-treesit-auto-mode)))
 #+END_SRC
 ** Initialize =YASnippets=
 *** Description

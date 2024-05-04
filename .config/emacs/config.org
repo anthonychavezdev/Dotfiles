@@ -641,12 +641,19 @@ map imenu to M-i
        "List of date format options for `acd/insert-date-from-cal'.")
 
      (defun acd/insert-date-from-cal (&optional arg)
-       "Insert the date from the calendar at point into the last opened window, optionally followed by a specified character."
+       "Insert the date from the calendar at point into the last opened window, optionally followed by a specified character.
+ The date is formatted according to the selected format or defaults to \"%Y-%m-%d\".
+ If  ARG is non-nil, the user is prompted to enter a character to be inserted after the date.
+ - If ARG is a single \\[universal-argument] (\\`(4)), the user is prompted for a character
+ - If ARG is a double \\[universal-argument] (\\'(16)), the user is also prompted to select a date format
+ from `acd/date-format-options' using `completing-read'.
+
+ The formatted date is inserted into the previously active window, and the calendar window remains active."
        (interactive "P")
        (let* ((date (calendar-cursor-to-date))
               (format (if (equal arg '(16))
                           (let ((completion-extra-properties '(:annotation-function
-                                                                (lambda (completion-candidate) (cdr (assoc completion-candidate acd/date-format-options))))))
+                                                               (lambda (completion-candidate) (cdr (assoc completion-candidate acd/date-format-options))))))
                             (car (assoc (completing-read "Select a date format: " acd/date-format-options nil t) acd/date-format-options)))
                         "%Y-%m-%d"))
               (char (if arg

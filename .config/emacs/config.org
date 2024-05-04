@@ -450,30 +450,31 @@
      (global-set-key [remap dabbrev-expand] #'hippie-expand)
    #+end_src
 ** Duplicate line
-#+begin_src emacs-lisp
-  (defun acd/duplicate-line (args)
-    (interactive "*P")
-    (message "%s " args)
-    (move-beginning-of-line 1)
-    (kill-line)
-    (yank)
-    (newline)
-    (yank))
+   #+begin_src emacs-lisp
+     (defun acd/duplicate-line (args)
+       (interactive "p")
+       (let ((num_lines (or args 1)))
+         (dotimes (_ num_lines)
+           (move-beginning-of-line 1)
+           (kill-line)
+           (yank)
+           (newline)
+           (yank))))
 
-  (defun acd/duplicate-line-dwim (args)
-    (interactive "*P")
-    (message "%s" (use-region-p))
-    (if (use-region-p)
-        (progn
-          (kill-ring-save (region-beginning)
-                          (region-end))
-          (goto-char (region-end))
-          (newline)
-          (yank))
-      (acd/duplicate-line args)))
+     (defun acd/duplicate-line-dwim (args)
+       (interactive "p")
+       (if (use-region-p)
+           (progn
+             (let ((start (region-beginning))
+                   (end (region-end)))
+               (goto-char end)
+               (dotimes (_ (or args 1))
+                 (newline)
+                 (insert (buffer-substring start end)))))
+         (acd/duplicate-line args)))
 
-  (global-set-key (kbd "C-c d") #'acd/duplicate-line-dwim)
-#+end_src
+     (global-set-key (kbd "C-c d") #'acd/duplicate-line-dwim)
+   #+end_src
 ** copy-line
    #+begin_src emacs-lisp
      (defun acd/kill-save-line ()

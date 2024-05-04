@@ -632,12 +632,34 @@ map imenu to M-i
    #+end_src
 ** Insert date from calendar
    #+begin_src emacs-lisp
-     (defun acd/insert-date-from-cal (&optional after-insert-char)
-       (interactive)
-       (let ((date (calendar-date-string (or (calendar-cursor-to-date)
-                                             '(0 0 0 0)))))
-         (other-window -1)
-         (other-window -1)))
+     (defvar acd/date-format-options
+       '(("%Y-%m-%d" . "YYYY-MM-DD")
+         ("%d/%m/%Y" . "DD/MM/YYYY")
+         ("%m/%d/%Y" . "MM/DD/YYYY")
+         ("%B %d, %Y" . "Month DD, YYYY")
+         ("%A, %B %d, %Y" . "Day, Month DD, YYYY"))
+       "List of date format options for `acd/insert-date-from-cal'.")
+
+     (defun acd/insert-date-from-cal (&optional arg)
+       "Insert the date from the calendar at point into the last opened window, optionally followed by a specified character."
+       (interactive "P")
+       (let* ((date (calendar-cursor-to-date))
+              (format (if (equal arg '(16))
+                          (let ((completion-extra-properties '(:annotation-function
+                                                                (lambda (completion-candidate) (cdr (assoc completion-candidate acd/date-format-options))))))
+                            (car (assoc (completing-read "Select a date format: " acd/date-format-options nil t) acd/date-format-options)))
+                        "%Y-%m-%d"))
+              (char (if arg
+                        (let ((input (read-key-sequence "Enter a character to be inserted after the date: ")))
+                          (if (equal input (kbd "RET"))
+                              ?\n
+                            (aref input 0)))
+                      ?\s))
+              (formatted-date (format-time-string format (encode-time 0 0 0 (nth 1 date) (nth 0 date) (nth 2 date)))))
+
+         (other-window 1)
+         (insert formatted-date char)
+         (other-window 1)))
 
      (define-key calendar-mode-map (kbd "C-c i") #'acd/insert-date-from-cal)
    #+end_src

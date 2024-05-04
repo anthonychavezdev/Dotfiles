@@ -5,269 +5,268 @@
 
 * Quality of life
 ** Native-comp
-#+begin_src emacs-lisp
-(setq comp-deferred-compilation t)
-(setq native-comp-async-report-warnings-errors nil)
-#+end_src
+   #+begin_src emacs-lisp
+     (setq comp-deferred-compilation t)
+     (setq native-comp-async-report-warnings-errors nil)
+   #+end_src
 ** Enable line numbers
-Emacs breaks certain modes when it has line-numbers-mode enabled, (like docview or ansi-term) so I utilize the approach of only enabling it on some major modes rather than globally
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-  ;; (add-hook 'text-mode-hook 'display-line-numbers-mode)
-#+END_SRC
+   Emacs breaks certain modes when it has line-numbers-mode enabled, (like docview or ansi-term) so I utilize the approach of only enabling it on some major modes rather than globally
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+     ;; (add-hook 'text-mode-hook 'display-line-numbers-mode)
+   #+END_SRC
 ** Show parent parentheses
-#+BEGIN_SRC emacs-lisp
-  (show-paren-mode 1)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (show-paren-mode 1)
+   #+END_SRC
 ** Disable the default startup screen
-#+BEGIN_SRC emacs-lisp
-  (setq inhibit-startup-message t)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (setq inhibit-startup-message t)
+   #+END_SRC
 ** Enable copypasting outside of Emacs
-#+BEGIN_SRC emacs-lisp
-  (setq select-enable-clipboard t)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (setq select-enable-clipboard t)
+   #+END_SRC
 ** Move automatic creation of backup files
-#+BEGIN_SRC emacs-lisp
-  (setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
-  ;; disk space is cheap
-  (setq delete-old-versions -1)
-  (setq version-control t)
-  (setq vc-make-backup-files t)
-  (setq auto-save-file-name-transforms `((".*" ,(concat user-emacs-directory "auto-save-list") t)))
-#+END_SRC
-
+   #+BEGIN_SRC emacs-lisp
+     (setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
+     ;; disk space is cheap
+     (setq make-backup-files nil)
+     (setq delete-old-versions -1)
+     (setq version-control t)
+     (setq vc-make-backup-files t)
+     (setq auto-save-file-name-transforms `((".*" ,(concat user-emacs-directory "auto-save-list") t)))
+   #+END_SRC
 ** Enable conservative scrolling
-#+BEGIN_SRC emacs-lisp
-  (setq scroll-conservatively 100)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (setq scroll-conservatively 100)
+   #+END_SRC
 ** Disable ring-bell
-#+BEGIN_SRC emacs-lisp
-  (setq ring-bell-function 'ignore)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (setq ring-bell-function 'ignore)
+   #+END_SRC
 ** Indentation
-#+BEGIN_SRC emacs-lisp
-  (setq-default tab-width 4)
-  (setq-default standard-indent 4)
-  (setq c-basic-offset tab-width)
-  (setq-default electric-indent-inhibit t)
-  ;; Use spaces instead of tabs
-  (setq-default indent-tabs-mode nil)
-  (setq backward-delete-char-untabify-method 'nil)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (setq-default tab-width 4)
+     (setq-default standard-indent 4)
+     (setq c-basic-offset tab-width)
+     (setq-default electric-indent-inhibit t)
+     ;; Use spaces instead of tabs
+     (setq-default indent-tabs-mode nil)
+     (setq backward-delete-char-untabify-method 'nil)
+   #+END_SRC
 ** Enable prettify symbols mode
-#+BEGIN_SRC emacs-lisp
-  ;; (setq-default prettify-symbols-alist '(("TODO" . "")
-  ;;                 ("WAIT" . "")
-  ;;                 ("NOPE" . "")
-  ;;                 ("DONE" . "")
-  ;;                 ("[#A]" . "")
-  ;;                 ("[#B]" . "")
-  ;;                 ("[#C]" . "")
-  ;;                 ("[ ]" . "")
-  ;;                 ("[X]" . "")
-  ;;                 ("[-]" . "")
-  ;;                 ("#+BEGIN_SRC" . "")
-  ;;                 ("#+END_SRC" . "―")
-  ;;                 (":PROPERTIES:" . "")
-  ;;                 (":END:" . "―")
-  ;;                 ("#+STARTUP:" . "")
-  ;;                 ("#+TITLE: " . "")
-  ;;                 ("#+RESULTS:" . "")
-  ;;                 ("#+NAME:" . "")
-  ;;                 ("#+ROAM_TAGS:" . "")
-  ;;                 ("#+FILETAGS:" . "")
-  ;;                 ("#+HTML_HEAD:" . "")
-  ;;                 ("#+SUBTITLE:" . "")
-  ;;                 ("#+AUTHOR:" . "")
-  ;;                 (":Effort:" . "")
-  ;;                 ("SCHEDULED:" . "")
-  ;;                 ("DEADLINE:" . "")))
-  ;; (global-prettify-symbols-mode t)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     ;; (setq-default prettify-symbols-alist '(("TODO" . "")
+     ;;                 ("WAIT" . "")
+     ;;                 ("NOPE" . "")
+     ;;                 ("DONE" . "")
+     ;;                 ("[#A]" . "")
+     ;;                 ("[#B]" . "")
+     ;;                 ("[#C]" . "")
+     ;;                 ("[ ]" . "")
+     ;;                 ("[X]" . "")
+     ;;                 ("[-]" . "")
+     ;;                 ("#+BEGIN_SRC" . "")
+     ;;                 ("#+END_SRC" . "―")
+     ;;                 (":PROPERTIES:" . "")
+     ;;                 (":END:" . "―")
+     ;;                 ("#+STARTUP:" . "")
+     ;;                 ("#+TITLE: " . "")
+     ;;                 ("#+RESULTS:" . "")
+     ;;                 ("#+NAME:" . "")
+     ;;                 ("#+ROAM_TAGS:" . "")
+     ;;                 ("#+FILETAGS:" . "")
+     ;;                 ("#+HTML_HEAD:" . "")
+     ;;                 ("#+SUBTITLE:" . "")
+     ;;                 ("#+AUTHOR:" . "")
+     ;;                 (":Effort:" . "")
+     ;;                 ("SCHEDULED:" . "")
+     ;;                 ("DEADLINE:" . "")))
+     ;; (global-prettify-symbols-mode t)
+   #+END_SRC
 ** Enable bracket pair-matching
-#+BEGIN_SRC emacs-lisp
-  (setq electric-pair-pairs '(
-                              (?\{ . ?\})
-                              (?\( . ?\))
-                              (?\[ . ?\])
-                              (?\" . ?\")
-                              ))
-  (electric-pair-mode t)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (setq electric-pair-pairs '(
+                                 (?\{ . ?\})
+                                 (?\( . ?\))
+                                 (?\[ . ?\])
+                                 (?\" . ?\")
+                                 ))
+     (electric-pair-mode t)
+   #+END_SRC
 ** Creating a new window switches your cursor to it
-#+BEGIN_SRC emacs-lisp
-  (defun split-and-follow-horizontally ()
-    (interactive)
-    (split-window-below)
-    (balance-windows)
-    (other-window 1))
-  (global-set-key (kbd "C-x 2") #'split-and-follow-horizontally)
+   #+BEGIN_SRC emacs-lisp
+     (defun split-and-follow-horizontally ()
+       (interactive)
+       (split-window-below)
+       (balance-windows)
+       (other-window 1))
+     (global-set-key (kbd "C-x 2") #'split-and-follow-horizontally)
 
-  (defun split-and-follow-vertically ()
-    (interactive)
-    (split-window-right)
-    (balance-windows)
-    (other-window 1))
-  (global-set-key (kbd "C-x 3") #'split-and-follow-vertically)
-#+END_SRC
+     (defun split-and-follow-vertically ()
+       (interactive)
+       (split-window-right)
+       (balance-windows)
+       (other-window 1))
+     (global-set-key (kbd "C-x 3") #'split-and-follow-vertically)
+   #+END_SRC
 ** Transform yes-or-no questions into y-or-n
-#+BEGIN_SRC emacs-lisp
-  (if (version< emacs-version "28.1")
-      (defalias 'yes-or-no-p 'y-or-n-p)
-    (setq use-short-answers 1))
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (if (version< emacs-version "28.1")
+         (defalias 'yes-or-no-p 'y-or-n-p)
+       (setq use-short-answers 1))
+   #+END_SRC
 ** Easier resize bindigs
-Super - Control - <arrow>
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "s-C-<left>")  #'shrink-window-horizontally)
-  (global-set-key (kbd "s-C-<right>") #'enlarge-window-horizontally)
-  (global-set-key (kbd "s-C-<down>")  #'shrink-window)
-  (global-set-key (kbd "s-C-<up>")    #'enlarge-window)
-#+END_SRC
+   Super - Control - <arrow>
+   #+BEGIN_SRC emacs-lisp
+     (global-set-key (kbd "s-C-<left>")  #'shrink-window-horizontally)
+     (global-set-key (kbd "s-C-<right>") #'enlarge-window-horizontally)
+     (global-set-key (kbd "s-C-<down>")  #'shrink-window)
+     (global-set-key (kbd "s-C-<up>")    #'enlarge-window)
+   #+END_SRC
 ** Changing the font
-#+Begin_SRC emacs-lisp
-  ;; From: https://emacsredux.com/blog/2021/12/22/check-if-a-font-is-available-with-emacs-lisp/
-  (defun font-available-p (font-name)
-    (find-font (font-spec :name font-name)))
+   #+Begin_SRC emacs-lisp
+     ;; From: https://emacsredux.com/blog/2021/12/22/check-if-a-font-is-available-with-emacs-lisp/
+     (defun font-available-p (font-name)
+       (find-font (font-spec :name font-name)))
 
-    (cond
-     ((font-available-p "JetBrains Mono")
-      (set-frame-font "JetBrains Mono"))
-     ((font-available-p "Cascadia Code")
-      (set-frame-font "Cascadia Code-12"))
-     ((font-available-p "Menlo")
-      (set-frame-font "Menlo-12"))
-     ((font-available-p "DejaVu Sans Mono")
-      (set-frame-font "DejaVu Sans Mono-12"))
-     ((font-available-p "Inconsolata")
-      (set-frame-font "Inconsolata-12"))
-     ((font-available-p "Fira Code")
-      (set-frame-font "Fira Code-12")))
-#+END_SRC
+       (cond
+        ((font-available-p "JetBrains Mono")
+         (set-frame-font "JetBrains Mono"))
+        ((font-available-p "Cascadia Code")
+         (set-frame-font "Cascadia Code-12"))
+        ((font-available-p "Menlo")
+         (set-frame-font "Menlo-12"))
+        ((font-available-p "DejaVu Sans Mono")
+         (set-frame-font "DejaVu Sans Mono-12"))
+        ((font-available-p "Inconsolata")
+         (set-frame-font "Inconsolata-12"))
+        ((font-available-p "Fira Code")
+         (set-frame-font "Fira Code-12")))
+   #+END_SRC
 ** Enable deleting selection by typing
-#+BEGIN_SRC emacs-lisp
-  (delete-selection-mode)
-#+END_SRC
-
+   #+BEGIN_SRC emacs-lisp
+     (delete-selection-mode)
+   #+END_SRC
 ** Taking screenshots
-#+BEGIN_SRC emacs-lisp
-(defun screenshot-svg ()
-  "Save a screenshot of the current frame as an SVG image.
-Saves to a temp file and puts the filename in the kill ring."
-  (interactive)
-  (let* ((filename (make-temp-file "Emacs" nil ".svg"))
-         (data (x-export-frames nil 'svg)))
-    (with-temp-file filename
-      (insert data))
-    (kill-new filename)
-    (message filename)))
+   #+BEGIN_SRC emacs-lisp
+     (defun screenshot-svg ()
+       "Save a screenshot of the current frame as an SVG image.
+     Saves to a temp file and puts the filename in the kill ring."
+       (interactive)
+       (let* ((filename (make-temp-file "Emacs" nil ".svg"))
+              (data (x-export-frames nil 'svg)))
+         (with-temp-file filename
+           (insert data))
+         (kill-new filename)
+         (message filename)))
 
-(defun screenshot-png ()
-  "Save a screenshot of the current frame as a PNG image.
-Saves to a temp file and puts the filename in the kill ring."
-  (interactive)
-  (let* ((filename (make-temp-file "Emacs" nil ".png"))
-         (data (x-export-frames nil 'png)))
-    (with-temp-file filename
-      (insert data))
-    (kill-new filename)
-    (message filename)))
+     (defun screenshot-png ()
+       "Save a screenshot of the current frame as a PNG image.
+     Saves to a temp file and puts the filename in the kill ring."
+       (interactive)
+       (let* ((filename (make-temp-file "Emacs" nil ".png"))
+              (data (x-export-frames nil 'png)))
+         (with-temp-file filename
+           (insert data))
+         (kill-new filename)
+         (message filename)))
 
-#+END_SRC
+   #+END_SRC
 ** Hide-mode-line plugin
-#+BEGIN_SRC emacs-lisp
-  (use-package hide-mode-line
-    :straight t
-    :defer t)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+      (use-package hide-mode-line
+        :straight t
+        :commands hide-mode-line-mode)
+   #+END_SRC
 ** Compilation-mode customizations
-#+begin_src emacs-lisp
-;;; From https://emacs.stackexchange.com/questions/24698/ansi-escape-sequences-in-compilation-mode
+   #+begin_src emacs-lisp
+     ;;; From https://emacs.stackexchange.com/questions/24698/ansi-escape-sequences-in-compilation-mode
 
-  ;; Have ansi escape codes appear as colors in the compilation window
-  ;; Stolen from (http://endlessparentheses.com/ansi-colors-in-the-compilation-buffer-output.html)
-  (require 'ansi-color)
-  (defun endless/colorize-compilation ()
-    "Colorize from `compilation-filter-start' to `point'."
-    (let ((inhibit-read-only t))
-      (ansi-color-apply-on-region
-       compilation-filter-start (point))))
+     ;; Have ansi escape codes appear as colors in the compilation window
+     ;; Stolen from (http://endlessparentheses.com/ansi-colors-in-the-compilation-buffer-output.html)
+     (require 'ansi-color)
+     (defun endless/colorize-compilation ()
+       "Colorize from `compilation-filter-start' to `point'."
+       (let ((inhibit-read-only t))
+         (ansi-color-apply-on-region
+          compilation-filter-start (point))))
 
-  (add-hook 'compilation-filter-hook
-            #'endless/colorize-compilation)
+     (add-hook 'compilation-filter-hook
+               #'endless/colorize-compilation)
 
-  ;; Filter out unwanted ansi codes
-  ;; Stolen from (https://oleksandrmanzyuk.wordpress.com/2011/11/05/better-emacs-shell-part-i/)
-  (defun regexp-alternatives (regexps)
-    "Return the alternation of a list of regexps."
-    (mapconcat #'(lambda (regexp)
-                 (concat "\\(?:" regexp "\\)"))
-               regexps "\\|"))
+     ;; Filter out unwanted ansi codes
+     ;; Stolen from (https://oleksandrmanzyuk.wordpress.com/2011/11/05/better-emacs-shell-part-i/)
+     (defun regexp-alternatives (regexps)
+       "Return the alternation of a list of regexps."
+       (mapconcat #'(lambda (regexp)
+                      (concat "\\(?:" regexp "\\)"))
+                  regexps "\\|"))
 
-  (defvar non-sgr-control-sequence-regexp nil
-    "Regexp that matches non-SGR control sequences.")
+     (defvar non-sgr-control-sequence-regexp nil
+       "Regexp that matches non-SGR control sequences.")
 
-  (setq non-sgr-control-sequence-regexp
-        (regexp-alternatives
-         '(;; icon name escape sequences
-           "\033\\][0-2];.*?\007"
-           ;; non-SGR CSI escape sequences
-           "\033\\[\\??[0-9;]*[^0-9;m]"
-           ;; noop
-           "\012\033\\[2K\033\\[1F"
-           )))
+     (setq non-sgr-control-sequence-regexp
+           (regexp-alternatives
+            '(;; icon name escape sequences
+              "\033\\][0-2];.*?\007"
+              ;; non-SGR CSI escape sequences
+              "\033\\[\\??[0-9;]*[^0-9;m]"
+              ;; noop
+              "\012\033\\[2K\033\\[1F"
+              )))
 
-  (defun filter-non-sgr-control-sequences-in-region (begin end)
-    (save-excursion
-      (goto-char begin)
-      (while (re-search-forward
-              non-sgr-control-sequence-regexp end t)
-        (replace-match ""))))
+     (defun filter-non-sgr-control-sequences-in-region (begin end)
+       (save-excursion
+         (goto-char begin)
+         (while (re-search-forward
+                 non-sgr-control-sequence-regexp end t)
+           (replace-match ""))))
 
-  (defun filter-non-sgr-control-sequences-in-output (ignored)
-    (let ((start-marker
-           (or comint-last-output-start
-               (point-min-marker)))
-          (end-marker
-           (process-mark
-            (get-buffer-process (current-buffer)))))
-      (filter-non-sgr-control-sequences-in-region
-       start-marker
-       end-marker)))
+     (defun filter-non-sgr-control-sequences-in-output (ignored)
+       (let ((start-marker
+              (or comint-last-output-start
+                  (point-min-marker)))
+             (end-marker
+              (process-mark
+               (get-buffer-process (current-buffer)))))
+         (filter-non-sgr-control-sequences-in-region
+          start-marker
+          end-marker)))
 
-  (add-hook 'comint-output-filter-functions
-            'filter-non-sgr-control-sequences-in-output)
-#+end_src
+     (add-hook 'comint-output-filter-functions
+               'filter-non-sgr-control-sequences-in-output)
+   #+end_src
 ** Sentences end with a single space
-#+BEGIN_SRC emacs-lisp
-  (setq sentence-end-double-space nil)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (setq sentence-end-double-space nil)
+   #+END_SRC
 ** Display the time in the modeline
-#+BEGIN_SRC emacs-lisp
-  (display-time-mode 1)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (display-time-mode 1)
+   #+END_SRC
 ** Increase the max amount that can be stored in the kill ring
-#+BEGIN_SRC emacs-lisp
-  (setq kill-ring-max 10000)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (setq kill-ring-max 10000)
+   #+END_SRC
 ** UTF-8 Encoding
-I want text to be encoded in utf8
-#+begin_src emacs-lisp
-  (set-default-coding-systems 'utf-8)  ; Default to utf-8 encoding
-  (prefer-coding-system 'utf-8)        ; Add utf-8 at the front for automatic detection.
-  (set-terminal-coding-system 'utf-8)  ; Set coding system of terminal output
-  (set-keyboard-coding-system 'utf-8)  ; Set coding system for keyboard input on TERMINAL
-  (set-language-environment "English") ; Set up multilingual environment
-#+end_src
+   I want text to be encoded in utf8
+   #+begin_src emacs-lisp
+     (set-default-coding-systems 'utf-8)  ; Default to utf-8 encoding
+     (prefer-coding-system 'utf-8)        ; Add utf-8 at the front for automatic detection.
+     (set-terminal-coding-system 'utf-8)  ; Set coding system of terminal output
+     (set-keyboard-coding-system 'utf-8)  ; Set coding system for keyboard input on TERMINAL
+     (set-language-environment "English") ; Set up multilingual environment
+   #+end_src
 ** Remove text properties from kill-ring
-I don't want text properties to be killed (copied or cut), I just want the plain text
-#+begin_src emacs-lisp
-  (defun unpropertize-kill-ring ()
-    (setq kill-ring (mapcar 'substring-no-properties kill-ring)))
+   I don't want text properties to be killed (copied or cut), I just want the plain text
+   #+begin_src emacs-lisp
+     (defun unpropertize-kill-ring ()
+       (setq kill-ring (mapcar 'substring-no-properties kill-ring)))
 
-  (add-hook 'kill-emacs-hook 'unpropertize-kill-ring)
-#+end_src
+     (add-hook 'kill-emacs-hook 'unpropertize-kill-ring)
+   #+end_src
 ** Better window navigation
 *** Enable and install ace-window
     #+begin_src emacs-lisp
@@ -276,20 +275,20 @@ I don't want text properties to be killed (copied or cut), I just want the plain
         :bind (("M-o" . ace-window)))
     #+end_src
 ** Copy file name or directory path to clipboard
-#+begin_src emacs-lisp
-  (defun acd/copy-file-name-or-path ()
-    (interactive)
-    (let ((filename (if (equal major-mode 'dired-mode)
-                        default-directory
-                      (buffer-file-name))))
-      (when filename
-        (kill-new filename)
-        (message "Copied file name '%s' to clipboard" filename))))
-#+end_src
+   #+begin_src emacs-lisp
+     (defun acd/copy-file-name-or-path ()
+       (interactive)
+       (let ((filename (if (equal major-mode 'dired-mode)
+                           default-directory
+                         (buffer-file-name))))
+         (when filename
+           (kill-new filename)
+           (message "Copied file name '%s' to clipboard" filename))))
+   #+end_src
 ** Version Control
 *** Ignore files
     #+begin_src emacs-lisp
-      (add-to-list 'vc-directory-exclusion-list "node_modules")
+     (add-to-list 'vc-directory-exclusion-list "node_modules")
     #+end_src
 ** Highlight line when switching windows
    #+begin_src emacs-lisp
@@ -311,260 +310,145 @@ I don't want text properties to be killed (copied or cut), I just want the plain
 * Custom functionality
 ** C/C++
 *** Insert header guards
-#+BEGIN_SRC emacs-lisp
-    (defun maybe-add-newline-at-buf-start ()
-      (if (and (char-equal (char-after (point-min)) ?\n)
-               (char-equal (char-after (1+ (point-min))) ?\n))
-          ""
-        "\n"))
-    (defun maybe-add-newline-at-buf-end ()
-      (if (and (char-equal (char-before (point-max)) ?\n)
-               (char-equal (char-before (1- (point-max))) ?\n))
-          ""
-        "\n"))
+    #+BEGIN_SRC emacs-lisp
+      (defun maybe-add-newline-at-buf-start ()
+        (if (and (char-equal (char-after (point-min)) ?\n)
+                   (char-equal (char-after (1+ (point-min))) ?\n))
+              ""
+            "\n"))
+        (defun maybe-add-newline-at-buf-end ()
+          (if (and (char-equal (char-before (point-max)) ?\n)
+                   (char-equal (char-before (1- (point-max))) ?\n))
+              ""
+            "\n"))
 
-      (defun add_header_guards ()
-      "Add header guards to .h files"
-      (interactive)
-      (if (buffer-file-name)
-          (let*
-              ((fName (upcase (file-name-nondirectory (file-name-sans-extension
-                                                       buffer-file-name))))
-               (ifDef (concat "#ifndef " fName "_H" "\n#define " fName "_H"
-                              (maybe-add-newline-at-buf-start)))
-               (begin (point-marker))
-               )
-            (progn
-              ; If less then 5 characters are in the buffer, insert the class definition
-              (if (< (- (point-max) (point-min)) 5 )
-                  (progn
-                    (insert "\nclass " (capitalize fName) "{\npublic:\n\nprivate:\n\n};\n")
-                    (goto-char (point-min))
-                    (next-line-nomark 3)
-                    (setq begin (point-marker))
+          (defun add_header_guards ()
+          "Add header guards to .h files"
+          (interactive)
+          (if (buffer-file-name)
+              (let*
+                  ((fName (upcase (file-name-nondirectory (file-name-sans-extension
+                                                           buffer-file-name))))
+                   (ifDef (concat "#ifndef " fName "_H" "\n#define " fName "_H"
+                                  (maybe-add-newline-at-buf-start)))
+                   (begin (point-marker))
+                   )
+                (progn
+                  ; If less then 5 characters are in the buffer, insert the class definition
+                  (if (< (- (point-max) (point-min)) 5 )
+                      (progn
+                        (insert "\nclass " (capitalize fName) "{\npublic:\n\nprivate:\n\n};\n")
+                        (goto-char (point-min))
+                        (next-line-nomark 3)
+                        (setq begin (point-marker))
+                        )
                     )
+
+                  ;Insert the Header Guard
+                  (goto-char (point-min))
+                  (insert ifDef)
+                  (goto-char (point-max))
+                  (insert (maybe-add-newline-at-buf-end) "#endif" " //" fName "_H")
+                  (goto-char begin))
                 )
-
-              ;Insert the Header Guard
-              (goto-char (point-min))
-              (insert ifDef)
-              (goto-char (point-max))
-              (insert (maybe-add-newline-at-buf-end) "#endif" " //" fName "_H")
-              (goto-char begin))
+            ;else
+            (message (concat "Buffer " (buffer-name) " must have a filename"))
             )
-        ;else
-        (message (concat "Buffer " (buffer-name) " must have a filename"))
-        )
-      )
-  (add-hook 'c-mode-hook #'(lambda ()
-    (define-key c-mode-map (kbd "C-c g")
-      'add_header_guards)
-  ))
+          )
+      (add-hook 'c-mode-hook #'(lambda ()
+        (define-key c-mode-map (kbd "C-c g")
+          'add_header_guards)
+      ))
 
-  (add-hook 'c++-mode-hook #'(lambda ()
-    (define-key c++-mode-map (kbd "C-c g")
-      'add_header_guards)
-  ))
-#+END_SRC
+      (add-hook 'c++-mode-hook #'(lambda ()
+        (define-key c++-mode-map (kbd "C-c g")
+          'add_header_guards)
+      ))
+    #+END_SRC
 ** imenu
-map imenu to M-i
-#+begin_src emacs-lisp
-(global-set-key (kbd "M-i") #'imenu)
-#+end_src
+   map imenu to M-i
+   #+begin_src emacs-lisp
+     (global-set-key (kbd "M-i") #'imenu)
+   #+end_src
 ** set tramp terminal type
-#+begin_src emacs-lisp
-(setq tramp-terminal-type "tramp")
-#+end_src
+   #+begin_src emacs-lisp
+     (setq tramp-terminal-type "tramp")
+   #+end_src
 ** Dired
-#+begin_src emacs-lisp
-  (add-hook 'dired-mode-hook #'dired-hide-details-mode)
-  (setq dired-dwim-target t)
-  ;; From https://emacs.stackexchange.com/questions/64982/copy-a-file-content-to-clipboard-with-dired
-  (defun acd/copy-file-contents-in-dired ()
-    (interactive)
-    (let ((buffer (find-file-noselect (dired-get-file-for-visit))))
-      (with-current-buffer buffer
-        (kill-new (buffer-substring-no-properties (point-min) (point-max))))
-      (kill-buffer buffer)))
-#+end_src
+   #+begin_src emacs-lisp
+     (add-hook 'dired-mode-hook #'dired-hide-details-mode)
+     (setq dired-dwim-target t)
+     ;; From https://emacs.stackexchange.com/questions/64982/copy-a-file-content-to-clipboard-with-dired
+     (defun acd/copy-file-contents-in-dired ()
+       (interactive)
+       (let ((buffer (find-file-noselect (dired-get-file-for-visit))))
+         (with-current-buffer buffer
+           (kill-new (buffer-substring-no-properties (point-min) (point-max))))
+         (kill-buffer buffer)))
+   #+end_src
 ** Eval and replace
-#+begin_src emacs-lisp
-  (defun narrow-to-line ()
-    (interactive)
-    (save-excursion
-      (move-beginning-of-line 1)
-      (set-mark (point))
-      (move-end-of-line 1)
-      (narrow-to-region (region-beginning) (region-end))
-      (deactivate-mark)))
+   #+begin_src emacs-lisp
+     (defun narrow-to-line ()
+       (interactive)
+       (save-excursion
+         (move-beginning-of-line 1)
+         (set-mark (point))
+         (move-end-of-line 1)
+         (narrow-to-region (region-beginning) (region-end))
+         (deactivate-mark)))
 
-  (defun fc-eval-and-replace ()
-    "Replace the preceding sexp with its value."
-    (interactive)
-    (backward-kill-sexp)
-    (condition-case nil
-        (prin1 (eval (read (current-kill 0)))
-               (current-buffer))
-      (error (message "Invalid expression")
-             (insert (current-kill 0)))))
+     (defun fc-eval-and-replace ()
+       "Replace the preceding sexp with its value."
+       (interactive)
+       (backward-kill-sexp)
+       (condition-case nil
+           (prin1 (eval (read (current-kill 0)))
+                  (current-buffer))
+         (error (message "Invalid expression")
+                (insert (current-kill 0)))))
 
-  (defvar equation-re "(*[0-9]+)*\\([[:blank:]]*[+-\\*/^][[:blank:]]*(*[0-9]+)*\\)+")
+     (defvar equation-re "(*[0-9]+)*\\([[:blank:]]*[+-\\*/^][[:blank:]]*(*[0-9]+)*\\)+")
 
-  ;; From a comment at https://emacsredux.com/blog/2013/06/21/eval-and-replace/
-  ;; by csar
-  (defun calc-eval-and-insert (&optional start end)
-    (interactive "r")
-    (let ((result (calc-eval (buffer-substring-no-properties start end))))
-      (if (region-active-p)
-          (progn
-            (kill-region start end)
-            (insert result))
-        (set-mark (point))
-        (if (re-search-backward equation-re nil t 1)
-            (progn
-              (calc-eval-and-insert (region-beginning) (region-end)))
-          (message "Error")))))
+     ;; From a comment at https://emacsredux.com/blog/2013/06/21/eval-and-replace/
+     ;; by csar
+     (defun calc-eval-and-insert (&optional start end)
+       (interactive "r")
+       (let ((result (calc-eval (buffer-substring-no-properties start end))))
+         (if (region-active-p)
+             (progn
+               (kill-region start end)
+               (insert result))
+           (set-mark (point))
+           (if (re-search-backward equation-re nil t 1)
+               (progn
+                 (calc-eval-and-insert (region-beginning) (region-end)))
+             (message "Error")))))
 
-  (defun try-eval-equation-or-elisp ()
-    (interactive)
-    (let ((equation nil))
-      (save-excursion
-        (narrow-to-line)
-        (move-beginning-of-line 1)
-        (if (re-search-forward equation-re nil t 1)
-            (progn
-              (setq equation t)
-              (set-mark (match-beginning 0))
-              (widen))
-          (widen)
-          (setq equation nil))
+     (defun try-eval-equation-or-elisp ()
+       (interactive)
+       (let ((equation nil))
+         (save-excursion
+           (narrow-to-line)
+           (move-beginning-of-line 1)
+           (if (re-search-forward equation-re nil t 1)
+               (progn
+                 (setq equation t)
+                 (set-mark (match-beginning 0))
+                 (widen))
+             (widen)
+             (setq equation nil))
 
-      (if equation
-          (calc-eval-and-insert (region-beginning) (region-end))
-        (fc-eval-and-replace)))))
+         (if equation
+             (calc-eval-and-insert (region-beginning) (region-end))
+           (fc-eval-and-replace)))))
 
-  (global-set-key (kbd "C-c e") #'try-eval-equation-or-elisp)
+     (global-set-key (kbd "C-c e") #'try-eval-equation-or-elisp)
 
   #+end_src
 ** use hippie-expand instead of dabbrev-expand
-#+begin_src emacs-lisp
-  (global-set-key [remap dabbrev-expand] #'hippie-expand)
-#+end_src
-** Automations
-#+begin_src emacs-lisp
-  (setq acd/ha-auth-token nil)
-  (setq acd/ha-content-type "application/json")
-  (setq acd/ha-url nil)
-  (setq acd/ha-port 8123)
-  (setq acd/ha-api-endpoint nil)
-
-  (defun acd/ha-print-response (data)
-    (when data
-      (with-current-buffer (get-buffer-create "*ha-response*")
-        (erase-buffer)
-        (insert data)
-        (json-mode)
-        (goto-char (point-min))
-        (json-pretty-print-buffer)))
-    (message "Saved to *ha-response* buffer"))
-
-  (defun acd/ha-state-info (&optional entity_id)
-    "Display home-assistant state information in a buffer"
-    (interactive)
-    (message "Fetching data...")
-    (request (if entity_id
-                 (concat acd/ha-url ":" (number-to-string acd/ha-port) "/api/" acd/ha-api-endpoint "/" entity_id)
-               (concat acd/ha-url ":" (number-to-string acd/ha-port) "/api/" acd/ha-api-endpoint))
-      :headers `(("Authorization" . ,(concat "Bearer " acd/ha-auth-token))
-                 ("Content-Type" . ,acd/ha-content-type))
-      :parser 'buffer-string
-      :success (cl-function
-                (lambda (&key data &allow-other-keys)
-                  (acd/ha-print-response data)))
-      :error (cl-function
-              (lambda (&key error-thrown &allow-other-keys)
-                (message "Got error: %s" error-thrown)))))
-
-  (defun acd/ha-turn-lights-off ()
-    "Turn lights off"
-    (interactive)
-    (message "Turning lights off...")
-    (let ((endpoint "services/light/turn_off"))
-      (request (concat acd/ha-url ":" (number-to-string acd/ha-port) "/api/" endpoint)
-        :headers `(("Authorization" . ,(concat "Bearer " acd/ha-auth-token))
-                   ("Content-Type" . ,acd/ha-content-type))
-        :type "POST"
-        :data (json-encode '(("entity_id" . "light.sengled_e11_n1ea_faae0100_level_light_color_on_off")))
-        :success (cl-function
-                  (lambda (&key data &allow-other-keys)
-                    (acd/ha-print-response data)))
-        :error (lambda (error-m)
-                 (message "Got error: %s" error-thrown)))
-      (request (concat acd/ha-url ":" (number-to-string acd/ha-port) "/api/" endpoint)
-        :headers `(("Authorization" . ,(concat "Bearer " acd/ha-auth-token))
-                   ("Content-Type" . ,acd/ha-content-type))
-        :type "POST"
-        :data (json-encode '(("entity_id" . "light.sengled_e11_n1ea_db510200_level_light_color_on_off")))
-        :success (cl-function
-                  (lambda (&key data &allow-other-keys)
-                    (acd/ha-print-response data)))
-        :error (lambda (error-m)
-                 (message "Got error: %s" error-thrown)))
-
-      (request (concat acd/ha-url ":" (number-to-string acd/ha-port) "/api/" endpoint)
-        :headers `(("Authorization" . ,(concat "Bearer " acd/ha-auth-token))
-                   ("Content-Type" . ,acd/ha-content-type))
-        :type "POST"
-        :data (json-encode '(("entity_id" . "light.sengled_e21_n1ea_e3c01700_level_light_color_on_off")))
-        :success (cl-function
-                  (lambda (&key data &allow-other-keys)
-                    (acd/ha-print-response data)))
-        :error (lambda (error-m)
-                 (message "Got error: %s" error-thrown)))))
-
-  (defun acd/ha-turn-lights-on ()
-    "Turn lights on"
-    (interactive)
-    (message "Turning lights on...")
-    (let ((endpoint "services/light/turn_on"))
-      (request (concat acd/ha-url ":" (number-to-string acd/ha-port) "/api/" endpoint)
-        :headers `(("Authorization" . ,(concat "Bearer " acd/ha-auth-token))
-                   ("Content-Type" . ,acd/ha-content-type))
-        :type "POST"
-        :data (json-encode '(("entity_id" . "light.sengled_e11_n1ea_faae0100_level_light_color_on_off")))
-        :success (cl-function
-                  (lambda (&key data &allow-other-keys)
-                    (acd/ha-print-response data)))
-        :error (lambda (error-m)
-                 (message "Got error: %s" error-thrown)))
-      (request (concat acd/ha-url ":" (number-to-string acd/ha-port) "/api/" endpoint)
-        :headers `(("Authorization" . ,(concat "Bearer " acd/ha-auth-token))
-                   ("Content-Type" . ,acd/ha-content-type))
-        :type "POST"
-        :data (json-encode '(("entity_id" . "light.sengled_e11_n1ea_db510200_level_light_color_on_off")))
-        :success (cl-function
-                  (lambda (&key data &allow-other-keys)
-                    (acd/ha-print-response data)))
-        :error (lambda (error-m)
-                 (message "Got error: %s" error-thrown)))
-
-      (request (concat acd/ha-url ":" (number-to-string acd/ha-port) "/api/" endpoint)
-        :headers `(("Authorization" . ,(concat "Bearer " acd/ha-auth-token))
-                   ("Content-Type" . ,acd/ha-content-type))
-        :type "POST"
-        :data (json-encode '(("entity_id" . "light.sengled_e21_n1ea_e3c01700_level_light_color_on_off")))
-        :success (cl-function
-                  (lambda (&key data &allow-other-keys)
-                    (acd/ha-print-response data)))
-        :error (lambda (error-m)
-                 (message "Got error: %s" error-thrown)))))
-
-  (progn
-    (define-prefix-command 'automation-map)
-    (define-key automation-map (kbd "l o") #'acd/ha-turn-lights-on)
-    (define-key automation-map (kbd "l f") #'acd/ha-turn-lights-off))
-  (global-set-key (kbd "C-c a") 'automation-map)
-#+end_src
+   #+begin_src emacs-lisp
+     (global-set-key [remap dabbrev-expand] #'hippie-expand)
+   #+end_src
 ** Duplicate line
 #+begin_src emacs-lisp
   (defun acd/duplicate-line (args)
@@ -591,31 +475,31 @@ map imenu to M-i
   (global-set-key (kbd "C-c d") #'acd/duplicate-line-dwim)
 #+end_src
 ** copy-line
-#+begin_src emacs-lisp
-  (defun acd/kill-save-line ()
-    (interactive)
-    (kill-ring-save (line-beginning-position) (line-end-position))
-    (message "Line copied"))
+   #+begin_src emacs-lisp
+     (defun acd/kill-save-line ()
+       (interactive)
+       (kill-ring-save (line-beginning-position) (line-end-position))
+       (message "Line copied"))
 
-  (global-set-key (kbd "C-c w") #'acd/kill-save-line)
+     (global-set-key (kbd "C-c w") #'acd/kill-save-line)
 
-#+end_src
+   #+end_src
 ** Compile / run programs
-#+begin_src emacs-lisp
-  (defvar acd/already-compiled nil "nil if the program is being compiled for the first time,
-      otherwise it's t")
-  (defun acd/compile-or-recompile ()
-    "Compile program. Recompile if the program has already been compiled
-  to avoid prompting for the compilation command each time"
-    (interactive)
-    (if acd/already-compiled
-        (recompile)
-      (call-interactively 'compile)
-      (setq acd/already-compiled t)))
+   #+begin_src emacs-lisp
+     (defvar acd/already-compiled nil "nil if the program is being compiled for the first time,
+         otherwise it's t")
+     (defun acd/compile-or-recompile ()
+       "Compile program. Recompile if the program has already been compiled
+     to avoid prompting for the compilation command each time"
+       (interactive)
+       (if acd/already-compiled
+           (recompile)
+         (call-interactively 'compile)
+         (setq acd/already-compiled t)))
 
-  (global-set-key (kbd "C-c c") #'acd/compile-or-recompile)
+     (global-set-key (kbd "C-c c") #'acd/compile-or-recompile)
 
-#+end_src
+   #+end_src
 ** Smart move to beginning of line
    #+begin_src emacs-lisp
      ;; This is how Lem works, which I really liked
@@ -674,432 +558,418 @@ map imenu to M-i
 ** Description
    One of the main selling points of Emacs! Org Mode!
 ** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package htmlize
-    :straight t
-    :defer t)
+   #+BEGIN_SRC emacs-lisp
+     (use-package htmlize
+       :straight t
+       :defer 30)
 
-  (use-package org-bullets
-    :straight t
-    :hook (org-mode . org-bullets-mode))
+     (use-package org-bullets
+       :straight t
+       :hook (org-mode . org-bullets-mode))
 
-  (defun echo-area-tooltips ()
-    "Show tooltips in the echo area automatically for current buffer."
-    (setq-local help-at-pt-display-when-idle t
-                help-at-pt-timer-delay 0)
-    (help-at-pt-cancel-timer)
-    (help-at-pt-set-timer))
+     (defun echo-area-tooltips ()
+       "Show tooltips in the echo area automatically for current buffer."
+       (setq-local help-at-pt-display-when-idle t
+                   help-at-pt-timer-delay 0)
+       (help-at-pt-cancel-timer)
+       (help-at-pt-set-timer))
 
-  (add-hook 'org-mode-hook #'echo-area-tooltips)
-  ;; Sets LaTeX preview size
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+     (add-hook 'org-mode-hook #'echo-area-tooltips)
+     ;; Sets LaTeX preview size
+     (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
 
-   ;; (use-package org-beautify-theme
-   ;;  :straight t
-   ;;  :hook ((org-mode . (lambda () (load-theme 'org-beautify t)))))
+      ;; (use-package org-beautify-theme
+      ;;  :straight t
+      ;;  :hook ((org-mode . (lambda () (load-theme 'org-beautify t)))))
 
-  ;; I can't get this to work properly
-  ;; (use-package org-present
-  ;;   :straight t
-  ;;   :hook ((org-present-mode . (lambda ()
-  ;;                                (org-present-big)
-  ;;                                (org-display-inline-images)
-  ;;                                (org-present-hide-cursor)
-  ;;                                (org-present-read-only)
-  ;;                                (hide-mode-line-mode +1)))
-  ;;          (org-present-mode-quit . (lambda ()
-  ;;                                     (org-present-small)
-  ;;                                     (org-remove-inline-images)
-  ;;                                     (org-present-show-cursor)
-  ;;                                     (org-present-read-write)
-  ;;                                     (hide-mode-line-mode 0)))))
-#+END_SRC
+     ;; I can't get this to work properly
+     ;; (use-package org-present
+     ;;   :straight t
+     ;;   :hook ((org-present-mode . (lambda ()
+     ;;                                (org-present-big)
+     ;;                                (org-display-inline-images)
+     ;;                                (org-present-hide-cursor)
+     ;;                                (org-present-read-only)
+     ;;                                (hide-mode-line-mode +1)))
+     ;;          (org-present-mode-quit . (lambda ()
+     ;;                                     (org-present-small)
+     ;;                                     (org-remove-inline-images)
+     ;;                                     (org-present-show-cursor)
+     ;;                                     (org-present-read-write)
+     ;;                                     (hide-mode-line-mode 0)))))
+   #+END_SRC
 * Packages
 ** Initialize =diminish=
 *** Description
     Hide chosen minor modes from showing up in the modeline
 *** Code
-   #+begin_src emacs-lisp
-     (use-package diminish
-       :straight t)
-   #+end_src
+    #+begin_src emacs-lisp
+      (use-package diminish
+        :straight t)
+    #+end_src
 ** Initialize =async=
 *** Description
-Utilize asynchronous processes whenever possible
+    Utilize asynchronous processes whenever possible
 *** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package async
-    :straight t
-    :init
-    (dired-async-mode 1))
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (use-package async
+        :straight t
+        :init
+        (dired-async-mode 1))
+    #+END_SRC
 ** Initialize =all-the-icons=
 *** Description
-Bring nice icons to emacs
+    Bring nice icons to emacs
 *** Code
-#+BEGIN_SRC emacs-lisp
-        (use-package all-the-icons
+    #+BEGIN_SRC emacs-lisp
+      (use-package all-the-icons
           :straight t
           :config
-            ;; (all-the-icons-install-fonts)
+          ;; (all-the-icons-install-fonts)
 
         )
       (use-package all-the-icons-dired
         :straight t
         :hook
         (dired-mode . all-the-icons-dired-mode))
-#+END_SRC
+    #+END_SRC
 ** Initialize =all-the-icons-completion=
 *** Code
-#+begin_src emacs-lisp
-    (use-package all-the-icons-completion
-      :straight t
-      :hook ((marginalia-mode . all-the-icons-completion-marginalia-setup))
-      :config
-      (all-the-icons-completion-mode))
-#+end_src
+    #+begin_src emacs-lisp
+      (use-package all-the-icons-completion
+        :straight t
+        :hook ((marginalia-mode . all-the-icons-completion-marginalia-setup))
+        :config
+        (all-the-icons-completion-mode))
+    #+end_src
 ** Initialize =vertico=
 *** Description
-Vertico provides a performant and minimalistic vertical completion UI based on the default completion system
+    Vertico provides a performant and minimalistic vertical completion UI based on the default completion system
 *** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package vertico
-    :straight t
-    :custom
-    (vertico-cycle t)
-    :init
-    (vertico-mode))
-  ;; Built in
-  (use-package savehist
-    :straight nil
-    :init
-    (savehist-mode))
-
-  (use-package marginalia
-    :straight t
-    :after vertico
-    :custom
-    (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil)))
-
-  (use-package orderless
-    :straight t
-    :custom
-    (completion-styles '(orderless partial-completion basic))
-    (completion-category-overrides '((file (styles basic partial-completion)))))
-#+END_SRC
-** Initialize =undo-tree=
-*** Description
-Emacs’s undo system allows you to recover any past state of a buffer. To do this, Emacs
-treats “undo” itself as just another editing action that can be undone. This can be
-confusing and difficult to use. If you make an edit while undoing multiple changes, you
-“break the undo chain”. To get back to where you were, you have to undo all the undos
-you just did, then undo all the changes you’d already undone before. Only then can you
-continue undoing from where you left off. If this sounds confusing, it’s because it is!
-Hence, a number of packages exist that replace it with the undo/redo system
-
-Instead of treating undo/redo as a linear sequence of changes, undo-tree-mode treats
-undo history as a branching tree of changes, similar to the way Vim handles it.
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package undo-tree
-    :straight t
-    :diminish undo-tree-mode
-    ;; I don't want undo-tree files littered everywhere
-    :custom ((undo-tree-history-directory-alist `(("." . ,(concat
-                                                        user-emacs-directory
-                                                        "undo-tree")))))
-    :init
-    (global-undo-tree-mode 1))
-#+END_SRC
-** Initialize =projectile=
-*** Description
-Projectile is a project interaction library for Emacs.
-Its goal is to provide a nice set of features
-operating on a project level without introducing
-external dependencies (when feasible).
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package projectile
-   :straight t
-   :bind-keymap ("C-c p" . projectile-command-map)
-   :config
-   (add-to-list 'projectile-globally-ignored-directories "^node_modules"))
-#+END_SRC
-** Initialize =dashboard=
-*** Description
-The frontend of Witchmacs; without this there'd be no Marisa in your Emacs startup screen
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package dashboard
-    :straight t
-    :config
-    (dashboard-setup-startup-hook)
-        (setq dashboard-set-heading-icons t)
-        (setq dashboard-set-file-icons t)
-        (setq dashboard-projects-backend 'projectile)
-        (setq dashboard-items '((projects . 5)
-                                (recents . 5)
-                                (bookmarks . 5)
-                                (agenda . 5)))
-    (setq dashboard-banner-logo-title "E M A C S - The worst text editor!")
-    (setq dashboard-startup-banner (concat user-emacs-directory "emacs-logo.png"))
-    (setq dashboard-center-content t)
-    (setq dashboard-show-shortcuts nil)
-    (setq dashboard-set-init-info t)
-    ;; (setq dashboard-init-info (format "%d packages loaded in %s"
-    ;;                                   (length package-activated-list) (emacs-init-time)))
-    (setq dashboard-set-footer t)
-    (setq dashboard-set-navigator t))
-#+END_SRC
-** Initialize =magit=
-*** Description
-Git porcelain for Emacs
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package magit
-    :straight t
-    :hook ((magit-log-mode . hl-line-mode))
-    :bind (("C-x g" . magit-status)))
-#+END_SRC
-** Initialize =git-gutter=
-*** Code
-    #+begin_src emacs-lisp
-      (use-package git-gutter
+    #+BEGIN_SRC emacs-lisp
+      (use-package vertico
         :straight t
         :custom
-        (git-gutter:window-width 1)
-        (git-gutter:modified-sign "☁")
-        (git-gutter:added-sign "☀")
-        (git-gutter:deleted-sign "☂")
-        :config
-        (global-git-gutter-mode t))
+        (vertico-cycle t)
+        :init
+        (vertico-mode))
+      ;; Built in
+      (use-package savehist
+        :straight nil
+        :init
+        (savehist-mode))
 
-    #+end_src
+      (use-package marginalia
+        :straight t
+        :after vertico
+        :custom
+        (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil)))
+
+      (use-package orderless
+        :straight t
+        :custom
+        (completion-styles '(orderless partial-completion basic))
+        (completion-category-overrides '((file (styles basic partial-completion)))))
+    #+END_SRC
+** Initialize =undo-tree=
+*** Description
+    Emacs’s undo system allows you to recover any past state of a buffer. To do this, Emacs
+    treats “undo” itself as just another editing action that can be undone. This can be
+    confusing and difficult to use. If you make an edit while undoing multiple changes, you
+    “break the undo chain”. To get back to where you were, you have to undo all the undos
+    you just did, then undo all the changes you’d already undone before. Only then can you
+    continue undoing from where you left off. If this sounds confusing, it’s because it is!
+    Hence, a number of packages exist that replace it with the undo/redo system
+
+    Instead of treating undo/redo as a linear sequence of changes, undo-tree-mode treats
+    undo history as a branching tree of changes, similar to the way Vim handles it.
+*** Code
+    #+BEGIN_SRC emacs-lisp
+      (use-package undo-tree
+        :straight t
+        :diminish undo-tree-mode
+        ;; I don't want undo-tree files littered everywhere
+        :custom ((undo-tree-history-directory-alist `(("." . ,(concat
+                                                               user-emacs-directory
+                                                               "undo-tree")))))
+        :init
+        (global-undo-tree-mode 1))
+    #+END_SRC
+** Initialize =projectile=
+*** Description
+    Projectile is a project interaction library for Emacs.
+    Its goal is to provide a nice set of features
+    operating on a project level without introducing
+    external dependencies (when feasible).
+*** Code
+    #+BEGIN_SRC emacs-lisp
+      (use-package projectile
+       :straight t
+       :bind-keymap ("C-c p" . projectile-command-map)
+       :config
+       (add-to-list 'projectile-globally-ignored-directories "^node_modules"))
+    #+END_SRC
+** Initialize =dashboard=
+*** Description
+    The frontend of Witchmacs; without this there'd be no Marisa in your Emacs startup screen
+*** Code
+    #+BEGIN_SRC emacs-lisp
+      (use-package dashboard
+        :straight t
+        :config
+        (dashboard-setup-startup-hook)
+            (setq dashboard-set-heading-icons t)
+            (setq dashboard-set-file-icons t)
+            (setq dashboard-projects-backend 'projectile)
+            (setq dashboard-items '((projects . 5)
+                                    (recents . 5)
+                                    (bookmarks . 5)
+                                    (agenda . 5)))
+        (setq dashboard-banner-logo-title "E M A C S - The worst text editor!")
+        (setq dashboard-startup-banner (concat user-emacs-directory "emacs-logo.png"))
+        (setq dashboard-center-content t)
+        (setq dashboard-show-shortcuts nil)
+        (setq dashboard-set-init-info t)
+        ;; (setq dashboard-init-info (format "%d packages loaded in %s"
+        ;;                                   (length package-activated-list) (emacs-init-time)))
+        (setq dashboard-set-footer t)
+        (setq dashboard-set-navigator t))
+    #+END_SRC
+** Initialize =magit=
+*** Description
+    Git porcelain for Emacs
+*** Code
+    #+BEGIN_SRC emacs-lisp
+      (use-package magit
+        :straight t
+        :hook ((magit-log-mode . hl-line-mode))
+        :bind (("C-x g" . magit-status)))
+    #+END_SRC
 ** Initialize =doom-modeline=
 *** description
-A fancy and fast mode-line inspired by minimalism design.
+    A fancy and fast mode-line inspired by minimalism design.
 *** Cose
-#+BEGIN_SRC emacs-lisp
-;;  (use-package doom-modeline
-;;    :straight t
-;;    :hook (after-init . doom-modeline-mode)
-;;    :config
-;;    (add-hook 'text-scale-mode-hook #'(lambda ()
-;;                                        (message "Adjusting text size")))
-;;    ;; How tall the mode-line should be. It's only respected in GUI.
-;;    ;; If the actual char height is larger, it respects the actual height.
-;;    (setq doom-modeline-height 35)
-;;    ;; How to detect the project root.
-;;    ;; The default priority of detection is `ffip' > `projectile' > `project'.
-;;    ;; nil means to use `default-directory'.
-;;    ;; The project management packages have some issues on detecting project root.
-;;    ;; e.g. `projectile' doesn't handle symlink folders well, while `project' is unable
-;;    ;; to hanle sub-projects.
-;;    ;; You can specify one if you encounter the issue.
-;;    (setq doom-modeline-project-detection 'projectile)
-;;    ;; Whether display icons in the mode-line.
-;;    ;; While using the server mode in GUI, should set the value explicitly.
-;;    (setq doom-modeline-icon (display-graphic-p))
-;;    ;; Whether display icons in the mode-line.
-;;    ;; While using the server mode in GUI, should set the value explicitly.
-;;    (setq doom-modeline-icon (display-graphic-p))
-;;    ;; Whether display the colorful icon for `major-mode'.
-;;    ;; It respects `all-the-icons-color-icons'.
-;;    (setq doom-modeline-major-mode-color-icon t)
-;;    ;; Whether display the icon for the buffer state. It respects `doom-modeline-icon'.
-;;    (setq doom-modeline-buffer-state-icon t)
-;;    ;; Whether display the modification icon for the buffer.
-;;    ;; It respects `doom-modeline-icon' and `doom-modeline-buffer-state-icon'.
-;;    (setq doom-modeline-buffer-modification-icon t)
-;;    ;; Whether to use unicode as a fallback (instead of ASCII) when not using icons.
-;;    (setq doom-modeline-unicode-fallback t)
-;;    ;; Whether display the minor modes in the mode-line.
-;;    (setq doom-modeline-minor-modes nil)
-;;    ;; If non-nil, a word count will be added to the selection-info modeline segment.
-;;    (setq doom-modeline-enable-word-count t)
-;;    ;; Major modes in which to display word count continuously.
-;;    ;; Also applies to any derived modes. Respects `doom-modeline-enable-word-count'.
-;;    ;; If it brings the sluggish issue, disable `doom-modeline-enable-word-count' or
-;;    ;; remove the modes from `doom-modeline-continuous-word-count-modes'.
-;;    (setq doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode))
-;;
-;;    ;; Whether display the buffer encoding.
-;;    (setq doom-modeline-buffer-encoding t)
-;;
-;;    ;; Whether display the indentation information.
-;;    (setq doom-modeline-indent-info nil)
-;;
-;;    ;; If non-nil, only display one number for checker information if applicable.
-;;    (setq doom-modeline-checker-simple-format t)
-;;
-;;    ;; The maximum number displayed for notifications.
-;;    (setq doom-modeline-number-limit 99)
-;;
-;;    ;; The maximum displayed length of the branch name of version control.
-;;    (setq doom-modeline-vcs-max-length 40)
-;;
-;;    ;; Whether display the workspace name. Non-nil to display in the mode-line.
-;;    (setq doom-modeline-workspace-name t)
-;;
-;;    ;; Whether display the perspective name. Non-nil to display in the mode-line.
-;;    ;; (setq doom-modeline-persp-name t)
-;;
-;;    ;; If non nil the default perspective name is displayed in the mode-line.
-;;    (setq doom-modeline-display-default-persp-name t)
-;;
-;;    ;; If non nil the perspective name is displayed alongside a folder icon.
-;;    (setq doom-modeline-persp-icon t)
-;;
-;;    ;; Whether display the `lsp' state. Non-nil to display in the mode-line.
-;;    (setq doom-modeline-lsp t)
-;;
-;;    ;; Whether display the GitHub notifications. It requires `ghub' package.
-;;    (setq doom-modeline-github nil)
-;;
-;;    ;; The interval of checking GitHub.
-;;    (setq doom-modeline-github-interval (* 30 60))
-;;
-;;    ;; Whether display the mu4e notifications. It requires `mu4e-alert' package.
-;;    (setq doom-modeline-mu4e nil)
-;;
-;;    ;; Whether display the gnus notifications.
-;;    (setq doom-modeline-gnus t)
-;;
-;;    ;; Wheter gnus should automatically be updated and how often (set to 0 or smaller than 0 to disable)
-;;    (setq doom-modeline-gnus-timer 2)
-;;
-;;    ;; Wheter groups should be excludede when gnus automatically being updated.
-;;    (setq doom-modeline-gnus-excluded-groups '("dummy.group"))
-;;
-;;    ;; Whether display the IRC notifications. It requires `circe' or `erc' package.
-;;    (setq doom-modeline-irc t)
-;;
-;;    ;; Function to stylize the irc buffer names.
-;;    (setq doom-modeline-irc-stylize 'identity)
-;;
-;;    ;; Whether display the environment version.
-;;    (setq doom-modeline-env-version t)
-;;    ;; Or for individual languages
-;;    (setq doom-modeline-env-enable-python t)
-;;    (setq doom-modeline-env-enable-ruby t)
-;;    (setq doom-modeline-env-enable-perl t)
-;;    (setq doom-modeline-env-enable-go t)
-;;    (setq doom-modeline-env-enable-elixir t)
-;;    (setq doom-modeline-env-enable-rust t)
-;;
-;;    ;; ;; Change
-;;    ;; the executables to use for the language version string
-;;    (setq doom-modeline-env-python-executable "python") ; or `python-shell-interpreter'
-;;    (setq doom-modeline-env-ruby-executable "ruby")
-;;    (setq doom-modeline-env-perl-executable "perl")
-;;    (setq doom-modeline-env-go-executable "go")
-;;    (setq doom-modeline-env-elixir-executable "iex")
-;;    (setq doom-modeline-env-rust-executable "rustc")
-;;
-;;    ;; What to dispaly as the version while a new one is being loaded
-;;    (setq doom-modeline-env-load-string "...")
-;;
-;;    ;; Hooks that run before/after the modeline version string is updated
-;;    (setq doom-modeline-before-update-env-hook nil)
-;;    (setq doom-modeline-after-update-env-hook nil))
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      ;;  (use-package doom-modeline
+      ;;    :straight t
+      ;;    :hook (after-init . doom-modeline-mode)
+      ;;    :config
+      ;;    (add-hook 'text-scale-mode-hook #'(lambda ()
+      ;;                                        (message "Adjusting text size")))
+      ;;    ;; How tall the mode-line should be. It's only respected in GUI.
+      ;;    ;; If the actual char height is larger, it respects the actual height.
+      ;;    (setq doom-modeline-height 35)
+      ;;    ;; How to detect the project root.
+      ;;    ;; The default priority of detection is `ffip' > `projectile' > `project'.
+      ;;    ;; nil means to use `default-directory'.
+      ;;    ;; The project management packages have some issues on detecting project root.
+      ;;    ;; e.g. `projectile' doesn't handle symlink folders well, while `project' is unable
+      ;;    ;; to hanle sub-projects.
+      ;;    ;; You can specify one if you encounter the issue.
+      ;;    (setq doom-modeline-project-detection 'projectile)
+      ;;    ;; Whether display icons in the mode-line.
+      ;;    ;; While using the server mode in GUI, should set the value explicitly.
+      ;;    (setq doom-modeline-icon (display-graphic-p))
+      ;;    ;; Whether display icons in the mode-line.
+      ;;    ;; While using the server mode in GUI, should set the value explicitly.
+      ;;    (setq doom-modeline-icon (display-graphic-p))
+      ;;    ;; Whether display the colorful icon for `major-mode'.
+      ;;    ;; It respects `all-the-icons-color-icons'.
+      ;;    (setq doom-modeline-major-mode-color-icon t)
+      ;;    ;; Whether display the icon for the buffer state. It respects `doom-modeline-icon'.
+      ;;    (setq doom-modeline-buffer-state-icon t)
+      ;;    ;; Whether display the modification icon for the buffer.
+      ;;    ;; It respects `doom-modeline-icon' and `doom-modeline-buffer-state-icon'.
+      ;;    (setq doom-modeline-buffer-modification-icon t)
+      ;;    ;; Whether to use unicode as a fallback (instead of ASCII) when not using icons.
+      ;;    (setq doom-modeline-unicode-fallback t)
+      ;;    ;; Whether display the minor modes in the mode-line.
+      ;;    (setq doom-modeline-minor-modes nil)
+      ;;    ;; If non-nil, a word count will be added to the selection-info modeline segment.
+      ;;    (setq doom-modeline-enable-word-count t)
+      ;;    ;; Major modes in which to display word count continuously.
+      ;;    ;; Also applies to any derived modes. Respects `doom-modeline-enable-word-count'.
+      ;;    ;; If it brings the sluggish issue, disable `doom-modeline-enable-word-count' or
+      ;;    ;; remove the modes from `doom-modeline-continuous-word-count-modes'.
+      ;;    (setq doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode))
+      ;;
+      ;;    ;; Whether display the buffer encoding.
+      ;;    (setq doom-modeline-buffer-encoding t)
+      ;;
+      ;;    ;; Whether display the indentation information.
+      ;;    (setq doom-modeline-indent-info nil)
+      ;;
+      ;;    ;; If non-nil, only display one number for checker information if applicable.
+      ;;    (setq doom-modeline-checker-simple-format t)
+      ;;
+      ;;    ;; The maximum number displayed for notifications.
+      ;;    (setq doom-modeline-number-limit 99)
+      ;;
+      ;;    ;; The maximum displayed length of the branch name of version control.
+      ;;    (setq doom-modeline-vcs-max-length 40)
+      ;;
+      ;;    ;; Whether display the workspace name. Non-nil to display in the mode-line.
+      ;;    (setq doom-modeline-workspace-name t)
+      ;;
+      ;;    ;; Whether display the perspective name. Non-nil to display in the mode-line.
+      ;;    ;; (setq doom-modeline-persp-name t)
+      ;;
+      ;;    ;; If non nil the default perspective name is displayed in the mode-line.
+      ;;    (setq doom-modeline-display-default-persp-name t)
+      ;;
+      ;;    ;; If non nil the perspective name is displayed alongside a folder icon.
+      ;;    (setq doom-modeline-persp-icon t)
+      ;;
+      ;;    ;; Whether display the `lsp' state. Non-nil to display in the mode-line.
+      ;;    (setq doom-modeline-lsp t)
+      ;;
+      ;;    ;; Whether display the GitHub notifications. It requires `ghub' package.
+      ;;    (setq doom-modeline-github nil)
+      ;;
+      ;;    ;; The interval of checking GitHub.
+      ;;    (setq doom-modeline-github-interval (* 30 60))
+      ;;
+      ;;    ;; Whether display the mu4e notifications. It requires `mu4e-alert' package.
+      ;;    (setq doom-modeline-mu4e nil)
+      ;;
+      ;;    ;; Whether display the gnus notifications.
+      ;;    (setq doom-modeline-gnus t)
+      ;;
+      ;;    ;; Wheter gnus should automatically be updated and how often (set to 0 or smaller than 0 to disable)
+      ;;    (setq doom-modeline-gnus-timer 2)
+      ;;
+      ;;    ;; Wheter groups should be excludede when gnus automatically being updated.
+      ;;    (setq doom-modeline-gnus-excluded-groups '("dummy.group"))
+      ;;
+      ;;    ;; Whether display the IRC notifications. It requires `circe' or `erc' package.
+      ;;    (setq doom-modeline-irc t)
+      ;;
+      ;;    ;; Function to stylize the irc buffer names.
+      ;;    (setq doom-modeline-irc-stylize 'identity)
+      ;;
+      ;;    ;; Whether display the environment version.
+      ;;    (setq doom-modeline-env-version t)
+      ;;    ;; Or for individual languages
+      ;;    (setq doom-modeline-env-enable-python t)
+      ;;    (setq doom-modeline-env-enable-ruby t)
+      ;;    (setq doom-modeline-env-enable-perl t)
+      ;;    (setq doom-modeline-env-enable-go t)
+      ;;    (setq doom-modeline-env-enable-elixir t)
+      ;;    (setq doom-modeline-env-enable-rust t)
+      ;;
+      ;;    ;; ;; Change
+      ;;    ;; the executables to use for the language version string
+      ;;    (setq doom-modeline-env-python-executable "python") ; or `python-shell-interpreter'
+      ;;    (setq doom-modeline-env-ruby-executable "ruby")
+      ;;    (setq doom-modeline-env-perl-executable "perl")
+      ;;    (setq doom-modeline-env-go-executable "go")
+      ;;    (setq doom-modeline-env-elixir-executable "iex")
+      ;;    (setq doom-modeline-env-rust-executable "rustc")
+      ;;
+      ;;    ;; What to dispaly as the version while a new one is being loaded
+      ;;    (setq doom-modeline-env-load-string "...")
+      ;;
+      ;;    ;; Hooks that run before/after the modeline version string is updated
+      ;;    (setq doom-modeline-before-update-env-hook nil)
+      ;;    (setq doom-modeline-after-update-env-hook nil))
+    #+END_SRC
 ** Initialize =moody=
-#+begin_src emacs-lisp
-  (use-package moody
-    :config
-    (setq x-underline-at-descent-line t)
-    (moody-replace-mode-line-buffer-identification)
-    (moody-replace-vc-mode)
-    (moody-replace-eldoc-minibuffer-message-function))  
-#+end_src
+   #+begin_src emacs-lisp
+     (use-package moody
+       :config
+       (setq x-underline-at-descent-line t)
+       (moody-replace-mode-line-buffer-identification)
+       (moody-replace-vc-mode)
+       (moody-replace-eldoc-minibuffer-message-function))  
+   #+end_src
 ** Initialize =rainbow-mode=
 *** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package rainbow-mode
-    :straight t
-    :diminish rainbow-mode
-    :hook
-    ((prog-mode . rainbow-mode)))
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (use-package rainbow-mode
+        :straight t
+        :diminish rainbow-mode
+        :hook
+        ((prog-mode . rainbow-mode)))
+    #+END_SRC
 ** Initialize =rainbow-delimeters=
 *** Code
-#+BEGIN_SRC emacs-lisp
-    (use-package rainbow-delimiters
-      :straight (rainbow-delimiters :type git :host github :repo "Fanael/rainbow-delimiters")
-      :diminish rainbow-delimiters-mode
-      :hook
-      ((prog-mode . rainbow-delimiters-mode)))
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (use-package rainbow-delimiters
+        :straight (rainbow-delimiters :type git :host github :repo "Fanael/rainbow-delimiters")
+        :diminish rainbow-delimiters-mode
+        :hook
+        ((prog-mode . rainbow-delimiters-mode)))
+    #+END_SRC
 ** Initialize =which-key=
 *** Description
-which-key is a minor mode for Emacs that displays the key bindings following your
-currently entered incomplete command
+    which-key is a minor mode for Emacs that displays the key bindings following your
+    currently entered incomplete command
 *** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package which-key
-    :straight t
-    :diminish which-key-mode
-    :config
-    (which-key-mode))
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (use-package which-key
+        :straight t
+        :diminish which-key-mode
+        :config
+        (which-key-mode))
+    #+END_SRC
 ** Initialize =define-word=
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package define-word
     :straight t
     :defer t)
-#+END_SRC
+    #+END_SRC
 ** Initialize =pdf-tools=
 *** Description
-View pdf files in Emacs
+    View pdf files in Emacs
 *** Code
-#+begin_src emacs-lisp
-  (use-package pdf-tools
-    :straight (pdf-tools :type git :host github :repo "vedang/pdf-tools")
-    :magic ("%PDF" . pdf-view-mode)
-    :config
-    (pdf-tools-install)
-    (setq-default pdf-view-display-size 'fit-width)
-    ;; automatically annotate highlights
-    (setq pdf-annot-activate-created-annotations t))
-#+end_src
+    #+begin_src emacs-lisp
+      (use-package pdf-tools
+        :straight (pdf-tools :type git :host github :repo "vedang/pdf-tools")
+        :magic ("%PDF" . pdf-view-mode)
+        :config
+        (pdf-tools-install)
+        (setq-default pdf-view-display-size 'fit-width)
+        ;; automatically annotate highlights
+        (setq pdf-annot-activate-created-annotations t))
+    #+end_src
 ** Initialize =expand-region=
 *** Description
-Expand region increases the selected region by semantic units. Just keep pressing the key
-until it selects what you want.
+    Expand region increases the selected region by semantic units. Just keep pressing the key
+    until it selects what you want.
 *** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package expand-region
-    :straight t
-    :bind (("C-=" . er/expand-region)))
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (use-package expand-region
+        :straight t
+        :bind (("C-=" . er/expand-region)))
+    #+END_SRC
 ** Initialize =solaire-mode=
 *** Description
-solaire-mode is an aesthetic plugin designed to visually distinguish "real" buffers (i.e.
-file-visiting code buffers where you do most of your work) from "unreal" buffers (like
-popups, sidebars, log buffers, terminals, etc) by giving the latter a slightly different
--- often darker -- background
+    solaire-mode is an aesthetic plugin designed to visually distinguish "real" buffers (i.e.
+    file-visiting code buffers where you do most of your work) from "unreal" buffers (like
+    popups, sidebars, log buffers, terminals, etc) by giving the latter a slightly different
+    -- often darker -- background
 *** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package solaire-mode
-    :straight t
-    :config
-    (solaire-global-mode +1))
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (use-package solaire-mode
+        :straight t
+        :config
+        (solaire-global-mode +1))
+    #+END_SRC
 ** Initialize =visual-regexp=
 *** Description
-Live visual feedback for regex
+    Live visual feedback for regex
 *** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package visual-regexp
-    :straight t)
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (use-package visual-regexp
+        :straight t)
+    #+END_SRC
 ** Initialize =visual-regexp-steroids=
 *** Description
-visual-regexp-steroids is an extension to visual-regexp which
-enables the use of modern regexp engines
+    visual-regexp-steroids is an extension to visual-regexp which
+    enables the use of modern regexp engines
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package visual-regexp-steroids
     :straight t
     :bind (("C-c r" . vr/replace)
@@ -1109,87 +979,89 @@ enables the use of modern regexp engines
            ;; if you use multiple-cursors, this is for you:
            ;; ("C-c m" . vr/mc-mark)
            ))
-#+END_SRC
+    #+END_SRC
 ** Initialize =elfeed=
 *** Description
-RSS Feeder
+    RSS Feeder
 *** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package elfeed
-    :ensure t
-    :config
-    (setq elfeed-db-directory (expand-file-name "elfeed" user-emacs-directory)
-          elfeed-show-entry-switch 'display-buffer
-          elfeed-feeds '(("https://protesilaos.com/master.xml" prot-master)
-                         ("https://jvns.ca/atom.xml" julia)
-                         ("https://robertheaton.com/feed.xml" robert-heaton))))
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (use-package elfeed
+        :straight t
+        :defer t
+        :config
+        (setq elfeed-db-directory (expand-file-name "elfeed" user-emacs-directory)
+              elfeed-show-entry-switch 'display-buffer
+              elfeed-feeds '(("https://protesilaos.com/master.xml" prot-master)
+                             ("https://jvns.ca/atom.xml" julia)
+                             ("https://robertheaton.com/feed.xml" robert-heaton))))
+    #+END_SRC
 ** Initialize =wrap-region=
 *** Description
-Wrap Region is a minor mode for Emacs that wraps a region with punctuations.
+    Wrap Region is a minor mode for Emacs that wraps a region with punctuations.
 *** Codoe
-#+begin_src emacs-lisp
-        (use-package wrap-region
-          :straight t
-          :config
-          (wrap-region-mode t))
-#+end_src
+    #+begin_src emacs-lisp
+      (use-package wrap-region
+        :straight t
+        :config
+        (wrap-region-mode t))
+    #+end_src
 ** Initialize =novel.el=
 *** Description
      Used to read ebpub books in Emacs
 *** Code
-#+begin_src emacs-lisp
-  (use-package esxml
-    :straight t) ;; required by nov
+    #+begin_src emacs-lisp
+      (use-package esxml
+        :straight t) ;; required by nov
 
-  (use-package nov
-    :straight (nov :type git :repo "https://depp.brause.cc/nov.el.git")
-    :mode ("\\.epub\\'" . nov-mode))
-#+end_src
+      (use-package nov
+        :straight (nov :type git :repo "https://depp.brause.cc/nov.el.git")
+        :mode ("\\.epub\\'" . nov-mode))
+    #+end_src
 ** Initialize =elcord=
 *** Description
-Discord Presence in Emacs
+    Discord Presence in Emacs
 *** Code
-#+begin_src emacs-lisp
-  (use-package elcord
-    :straight t
-    :defer t
-    :config
-    ;; (elcord-mode)
-    (setq elcord-display-buffer-details t)
-    (setq elcord-buffer-details-format-function #'buffer-file-name))
-#+end_src
+    #+begin_src emacs-lisp
+      (use-package elcord
+        :straight t
+        :defer 10
+        :config
+        ;; (elcord-mode)
+        (setq elcord-display-buffer-details t)
+        (setq elcord-buffer-details-format-function #'buffer-file-name))
+    #+end_src
 ** Initialize =perspective.el=
-#+begin_src emacs-lisp
-  (use-package perspective
-    :straight t
-    :bind
-    (("C-x b" . persp-switch-to-buffer*)
-     ("C-x k" . persp-kill-buffer*))
-    :custom
-    (persp-mode-prefix-key (kbd "C-c M-p"))
-    :init
-    (persp-mode))
-#+end_src
+   #+begin_src emacs-lisp
+     (use-package perspective
+       :straight t
+       :bind
+       (("C-x b" . persp-switch-to-buffer*)
+        ("C-x k" . persp-kill-buffer*))
+       :custom
+       (persp-mode-prefix-key (kbd "C-c M-p"))
+       :init
+       (persp-mode))
+   #+end_src
 ** Initialize =avy=
 *** Description
-avy is a GNU Emacs package for jumping to visible text using a char-based decision tree.
-See also =ace-jump-mode= and =vim-easymotion= - avy uses the same idea.
+    avy is a GNU Emacs package for jumping to visible text using a char-based decision tree.
+    See also =ace-jump-mode= and =vim-easymotion= - avy uses the same idea.
 *** Code
-#+begin_src emacs-lisp
-  (use-package avy
-    :straight t
-    :bind (("M-g c" . avy-goto-char)
-           ("M-g '" . avy-goto-char-2)
-           ("M-g l" . avy-goto-line)
-           ("M-g w" . avy-goto-word-1)
-           ("M-g e" . avy-goto-word-0)))
-#+end_src
+    #+begin_src emacs-lisp
+      (use-package avy
+        :straight t
+        :bind (("M-g c" . avy-goto-char)
+               ("M-g '" . avy-goto-char-2)
+               ("M-g l" . avy-goto-line)
+               ("M-g w" . avy-goto-word-1)
+               ("M-g e" . avy-goto-word-0)))
+    #+end_src
 ** Initialize =emacs-gif-screencast=
 *** code
 #+begin_src emacs-lisp
   (use-package gif-screencast
-    :straight (gif-screencast :type git :host gitlab :repo "ambrevar/emacs-gif-screencast"))
+    :straight (gif-screencast :type git :host gitlab :repo "ambrevar/emacs-gif-screencast")
+    :defer t)
 #+end_src
 ** Initialize =request.el=
 *** Description
@@ -1197,7 +1069,8 @@ See also =ace-jump-mode= and =vim-easymotion= - avy uses the same idea.
 *** Code
 #+begin_src emacs-lisp
   (use-package request
-    :straight (request :type git :host github :repo "tkf/emacs-request"))
+    :straight (request :type git :host github :repo "tkf/emacs-request")
+    :defer t)
 #+end_src
 ** Initialize =marginalia=
 *** Description
@@ -1274,103 +1147,103 @@ See also =ace-jump-mode= and =vim-easymotion= - avy uses the same idea.
     #+end_src
 ** Built-in entry: =abbrev=
 *** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package abbrev
-    :straight nil
-    :diminish abbrev-mode)
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (use-package abbrev
+        :straight nil
+        :diminish abbrev-mode)
+    #+END_SRC
 ** Built-in entry: =dired-x=
 *** Code
-#+begin_src emacs-lisp
-  (with-eval-after-load 'dired
-    (require 'dired-x)
-    ;; Set dired-x global variables here.  For example:
-    (setq dired-guess-shell-gnutar "gtar")
-    (setq dired-x-hands-off-my-keys nil))
-  (add-hook 'dired-mode-hook
-            (lambda ()
-              ;; Set dired-x buffer-local variables here.  For example:
-              (dired-omit-mode 1)))
-#+end_src
+    #+begin_src emacs-lisp
+      (with-eval-after-load 'dired
+        (require 'dired-x)
+        ;; Set dired-x global variables here.  For example:
+        (setq dired-guess-shell-gnutar "gtar")
+        (setq dired-x-hands-off-my-keys nil))
+      (add-hook 'dired-mode-hook
+                (lambda ()
+                  ;; Set dired-x buffer-local variables here.  For example:
+                  (dired-omit-mode 1)))
+    #+end_src
 * Programming
 ** Initialize =tree-sitter=
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (when (and (fboundp #'treesit-available-p)
              (funcall #'treesit-available-p))
     (use-package treesit-auto
       :custom
-      ((treesit-auto-install 'prompt)
+      ((treesit-auto-install 'prompt)      
       (treesit-font-lock-level 4))
       :config
       (treesit-auto-add-to-auto-mode-alist 'all)
       (global-treesit-auto-mode)))
-#+END_SRC
+    #+END_SRC
 ** Initialize =YASnippets=
 *** Description
-YASnippet is a template system for Emacs. It allows you to type an
-abbreviation and automatically expand it into function templates
+    YASnippet is a template system for Emacs. It allows you to type an
+    abbreviation and automatically expand it into function templates
 *** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package yasnippet
-    :straight t
-    :diminish yas-minor-mode
-    :custom ((yas-snippet-dirs `(,(concat user-emacs-directory "snippets")
-                                 ,(concat straight-base-dir "straight/repos/yasnippet-snippets/snippets"))))
-    :config
-    (yas-global-mode 1))
-  ;; Bundled snippets
-  (use-package yasnippet-snippets
-    :straight t
-    :config
-    (yas-global-mode 1))
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (use-package yasnippet
+        :straight t
+        :diminish yas-minor-mode
+        :custom ((yas-snippet-dirs `(,(concat user-emacs-directory "snippets")
+                                     ,(concat straight-base-dir "straight/repos/yasnippet-snippets/snippets"))))
+        :config
+        (yas-global-mode 1))
+      ;; Bundled snippets
+      (use-package yasnippet-snippets
+        :straight t
+        :config
+        (yas-global-mode 1))
+    #+END_SRC
 ** Initialize =lua=
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package lua-mode
   :straight t
   :mode "\\.lua\\'"
   :interpreter "lua")
-#+END_SRC
+    #+END_SRC
 ** Initialize =corfu=
 *** Description
-corfu is a text completion framework for Emacs.
-The name stands for "complete anything".
+    corfu is a text completion framework for Emacs.
+    The name stands for "complete anything".
 *** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package corfu
-   :straight (corfu :files (:defaults "extensions/*")
-                    :includes (corfu-info corfu-history))
-   :custom
-   (corfu-cycle t)    ; Allow cycling through candidates
-   (corfu-auto t)     ; Enable auto completion
-   (corfu-auto-prefix 2)
-   (corfu-auto-delay 0.0)
-   (corfu-quit-at-boundary 'separator)
-   (corfu-echo-documentation 0.25)
-   (corfu-preview-current nil) ;; Preview current candidate
-   (corfu-preselect nil)
-   (corfu-quit-no-match 'separator)
-   ;; Optionally use TAB for cycling (default is `corfu-complete')
-   :bind (:map corfu-map
-               ("M-SPC" . corfu-insert-separator)
-               ("TAB" . corfu-next)
-               ([tab] . corfu-next)
-               ("S-TAB" . corfu-previous)
-               ([backtab] . corfu-previous)
-               ("C-h" . corfu-info-documentation)
-               ("M-l" . corfu-info-location))
-   :init
-   (global-corfu-mode)
-   (corfu-history-mode 1)
-   :hook
-   ((eshell-mode . (lambda ()
-                     (setq-local corfu-quit-at-boundary t
-                                 corfu-quit-no-match t
-                                 corfu-auto nil)))))
+    #+BEGIN_SRC emacs-lisp
+      (use-package corfu
+       :straight (corfu :files (:defaults "extensions/*")
+                        :includes (corfu-info corfu-history))
+       :custom
+       (corfu-cycle t)    ; Allow cycling through candidates
+       (corfu-auto t)     ; Enable auto completion
+       (corfu-auto-prefix 2)
+       (corfu-auto-delay 0.0)
+       (corfu-quit-at-boundary 'separator)
+       (corfu-echo-documentation 0.25)
+       (corfu-preview-current nil) ;; Preview current candidate
+       (corfu-preselect nil)
+       (corfu-quit-no-match 'separator)
+       ;; Optionally use TAB for cycling (default is `corfu-complete')
+       :bind (:map corfu-map
+                   ("M-SPC" . corfu-insert-separator)
+                   ("TAB" . corfu-next)
+                   ([tab] . corfu-next)
+                   ("S-TAB" . corfu-previous)
+                   ([backtab] . corfu-previous)
+                   ("C-h" . corfu-info-documentation)
+                   ("M-l" . corfu-info-location))
+       :init
+       (global-corfu-mode)
+       (corfu-history-mode 1)
+       :hook
+       ((eshell-mode . (lambda ()
+                         (setq-local corfu-quit-at-boundary t
+                                     corfu-quit-no-match t
+                                     corfu-auto nil)))))
 
-#+END_SRC
+    #+END_SRC
 ** Initialize =cape=
 *** Code
     #+begin_src emacs-lisp
@@ -1420,6 +1293,7 @@ The name stands for "complete anything".
       (use-package kind-icon
         :straight t
         :after corfu
+        :defer t
         :custom
         (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
         :config
@@ -1428,11 +1302,11 @@ The name stands for "complete anything".
     #+end_src
 ** Initialize =lsp-mode=
 *** Description
-Client for Language Server Protocol (v3.14). lsp-mode aims to provide
-IDE-like experience by providing optional integration with the most
-popular Emacs packages like company, flycheck and projectile.
+    Client for Language Server Protocol (v3.14). lsp-mode aims to provide
+    IDE-like experience by providing optional integration with the most
+    popular Emacs packages like company, flycheck and projectile.
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   ;; (use-package lsp-mode
   ;;   :straight t
   ;;   :custom
@@ -1489,7 +1363,7 @@ popular Emacs packages like company, flycheck and projectile.
   ;; ;; (use-package dap-mode
   ;; ;;  :straight t)
   ;; ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
-#+END_SRC
+    #+END_SRC
 ** Initialize =eglot=
 *** Code
     #+begin_src emacs-lisp
@@ -1596,184 +1470,183 @@ popular Emacs packages like company, flycheck and projectile.
     #+end_src
 ** Initialize =racket-mode=
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
     (use-package racket-mode
       :straight t
       :mode (("\\.rkt\\'" . racket-mode)
              ("\\.rhm\\'" . racket-hash-lang-mode)))
-#+END_SRC
+    #+END_SRC
 ** Initialize =go-mode=
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package go-mode
     :straight t
     :mode "\\.go\\'")
-#+END_SRC
+    #+END_SRC
 ** Initialize =php-mode=
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
     (use-package php-mode
       :straight t
       :mode "\\.php\\'")
-#+END_SRC
+    #+END_SRC
 ** Initialize =web-mode=
 *** Description
-web-mode.el is an emacs major mode for editing web templates aka HTML
-files embedding parts (CSS/JavaScript) and blocks (pre rendered by
-client/server side engines).
+    web-mode.el is an emacs major mode for editing web templates aka HTML
+    files embedding parts (CSS/JavaScript) and blocks (pre rendered by
+    client/server side engines).
 *** Code
-#+BEGIN_SRC emacs-lisp
-    (use-package web-mode
-        :straight t
-        :mode ("\\.svelte?\\'"
-               "\\.html?\\'"
-               "\\.cshtml?\\'"
-               "\\.erb\\'"
-               "\\.phtml\\'"
-               "\\.blade\\.")
-        :custom
-        (web-mode-engines-alist '(("php"    . "\\.phtml\\'")
-                                  ("blade"  . "\\.blade\\.")
-                                  ("eruby"  . "\\.erb\\'"))))
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (use-package web-mode
+          :straight t
+          :mode ("\\.svelte?\\'"
+                 "\\.html?\\'"
+                 "\\.cshtml?\\'"
+                 "\\.erb\\'"
+                 "\\.phtml\\'"
+                 "\\.blade\\.")
+          :custom
+          (web-mode-engines-alist '(("php"    . "\\.phtml\\'")
+                                    ("blade"  . "\\.blade\\.")
+                                    ("eruby"  . "\\.erb\\'"))))
+    #+END_SRC
 ** Initialize =rust-mode=
 *** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package rustic
-    :straight t
-    :mode (("\\.rs\\'" . rustic-mode))
-    :hook ((eglot-managed-mode . (lambda () (flymake-mode -1))))
-    :custom
-    (rustic-lsp-client 'eglot)
-    (rustic-analyzer-command '("rustup" "run" "stable" "rust-analyzer")))
-#+END_SRC
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (use-package rustic
+        :straight t
+        :mode (("\\.rs\\'" . rustic-mode))
+        :custom
+        (rustic-lsp-client 'eglot)
+        (rustic-analyzer-command '("rustup" "run" "stable" "rust-analyzer")))
+    #+END_SRC
+    #+END_SRC
 ** Initialize =json-mode=
 *** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package json-mode
-    :straight t
-    :mode "\\.json\\'")
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (use-package json-mode
+        :straight t
+        :mode "\\.json\\'")
+    #+END_SRC
 ** Initialize =Indium=
 *** Description
-A JavaScript development environment for Emacs.
+    A JavaScript development environment for Emacs.
 *** Code
-#+BEGIN_SRC emacs-lisp
-  ;; Commented out for now because json-process-client
-  ;; has an outdated git url and it fails to fetch
-  ;; (use-package indium
-  ;;   :straight t)
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      ;; Commented out for now because json-process-client
+      ;; has an outdated git url and it fails to fetch
+      ;; (use-package indium
+      ;;   :straight t)
+    #+END_SRC
 ** Initialize =sly=
-#+BEGIN_SRC emacs-lisp
-  (use-package sly
-    :straight t
-    :config
-    (setq inferior-lisp-program "sbcl"))
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (use-package sly
+       :straight t
+       :config
+       (setq inferior-lisp-program "sbcl"))
+   #+END_SRC
 ** Initialize =cmake-mode=
 *** Code
-#+begin_src emacs-lisp
-  (use-package cmake-mode
-    :straight t)
-#+end_src
+    #+begin_src emacs-lisp
+      (use-package cmake-mode
+        :straight t)
+    #+end_src
 
 ** Initialize =Java=
 *** Code
-#+BEGIN_SRC emacs-lisp
-  ;; (use-package lsp-java
-  ;;   :straight t
-  ;;   :config
-  ;;   (add-hook 'java-mode-hook #'lsp-mode))
-  (use-package eglot-java
-    :straight (eglot-java :type git :host github :repo "yveszoundi/eglot-java")
-    :custom
-    (eglot-java-server-install-dir "~/lsp/jdtls-lsp")
-    :hook ((java-mode . eglot-java-mode))
-    :bind (:map eglot-java-mode-map
-                ("C-c j n" . #'eglot-java-file-new)
-                ("C-c j x" . #'eglot-java-run-main)
-                ("C-c j t" . #'eglot-java-run-test)
-                ("C-c j p" . #'eglot-java-project-new)
-                ("C-c j T" . #'eglot-java-project-build-task)
-                ("C-c j R" . #'eglot-java-project-build-refresh)))
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      ;; (use-package lsp-java
+      ;;   :straight t
+      ;;   :config
+      ;;   (add-hook 'java-mode-hook #'lsp-mode))
+      (use-package eglot-java
+        :straight (eglot-java :type git :host github :repo "yveszoundi/eglot-java")
+        :custom
+        (eglot-java-server-install-dir "~/lsp/jdtls-lsp")
+        :hook ((java-mode . eglot-java-mode))
+        :bind (:map eglot-java-mode-map
+                    ("C-c j n" . #'eglot-java-file-new)
+                    ("C-c j x" . #'eglot-java-run-main)
+                    ("C-c j t" . #'eglot-java-run-test)
+                    ("C-c j p" . #'eglot-java-project-new)
+                    ("C-c j T" . #'eglot-java-project-build-task)
+                    ("C-c j R" . #'eglot-java-project-build-refresh)))
+    #+END_SRC
 ** Initialize =yaml-mode=
 *** Code
-#+begin_src emacs-lisp
-  (use-package yaml-mode
-    :straight t
-    :mode ("\\.yml\\'" "\\.yaml\\'"))
-#+end_src
+    #+begin_src emacs-lisp
+      (use-package yaml-mode
+        :straight t
+        :mode ("\\.yml\\'" "\\.yaml\\'"))
+    #+end_src
 ** Initialize =restclient-mode=
 *** Code
-#+begin_src emacs-lisp
+    #+begin_src emacs-lisp
       (use-package restclient
         :straight t)
-#+end_src
+    #+end_src
 ** Initialize =android-mode=
 *** Code
-#+begin_src emacs-lisp
-  (use-package android-mode
-    :straight t
-    :defer t)
-#+end_src
+    #+begin_src emacs-lisp
+      (use-package android-mode
+        :straight t
+        :defer t)
+    #+end_src
 ** Initialize =typescript-mode=
 *** Code
-#+begin_src emacs-lisp
-  (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
-  (defun setup-tide-mode ()
-    (interactive)
-    (tide-setup)
-    (flymake-mode +1)
-    (tide-hl-identifier-mode +1))
+    #+begin_src emacs-lisp
+      (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
+      (defun setup-tide-mode ()
+        (interactive)
+        (tide-setup)
+        (flymake-mode +1)
+        (tide-hl-identifier-mode +1))
 
-  ;; formats the buffer before saving
-  (add-hook 'before-save-hook 'tide-format-before-save)
+      ;; formats the buffer before saving
+      (add-hook 'before-save-hook 'tide-format-before-save)
 
-  (add-hook 'typescript-mode-hook #'setup-tide-mode)
+      (add-hook 'typescript-mode-hook #'setup-tide-mode)
 
-  (use-package tide
-    :straight t
-    :after (typescript-mode flymake)
-    :hook ((typescript-mode . tide-setup)
-           (typescript-mode . tide-hl-identifier-mode)
-           (before-save . tide-format-before-save)))
+      (use-package tide
+        :straight t
+        :after (typescript-mode flymake)
+        :hook ((typescript-mode . tide-setup)
+               (typescript-mode . tide-hl-identifier-mode)
+               (before-save . tide-format-before-save)))
 
-#+end_src
+    #+end_src
 ** Initialize =kotlin-mode=
-#+begin_src emacs-lisp
-  (use-package kotlin-mode
-    :straight t
-    :mode ("\\.kt\\'" "\\.kts\\'" "\\.ktm\\'"))
-#+end_src
+   #+begin_src emacs-lisp
+     (use-package kotlin-mode
+       :straight t
+       :mode ("\\.kt\\'" "\\.kts\\'" "\\.ktm\\'"))
+   #+end_src
 ** Initialize =csharp-mode=
 *** Code
-#+begin_src emacs-lisp
-  (if (version<= emacs-version "29.0")
-      (progn
-        (use-package csharp-mode
-          :straight t)
-        (use-package omnisharp
-          :straight t)
-        (use-package csproj-mode
-          :straight t)
-        (use-package dotnet
-          :straight t)))
+    #+begin_src emacs-lisp
+      (if (version<= emacs-version "29.0")
+          (progn
+            (use-package csharp-mode
+              :straight t)
+            (use-package omnisharp
+              :straight t)
+            (use-package csproj-mode
+              :straight t)
+            (use-package dotnet
+              :straight t)))
 
 
-  (add-hook 'csharp-mode-hook 'omnisharp-mode)
-  (add-hook 'csharp-mode-hook 'dotnet-mode)
+      (add-hook 'csharp-mode-hook 'omnisharp-mode)
+      (add-hook 'csharp-mode-hook 'dotnet-mode)
 
-#+end_src
+    #+end_src
 ** Initialize =clojure-mode=
 *** Code
-#+begin_src emacs-lisp
-  (use-package clojure-mode
-    :straight t
-    :mode ("\\.clj\\'" "\\.cljs\\'" "\\.cljr\\'" "\\.cljc\\'" "\\.edn\\'"))
-#+end_src
+    #+begin_src emacs-lisp
+      (use-package clojure-mode
+        :straight t
+        :mode ("\\.clj\\'" "\\.cljs\\'" "\\.cljr\\'" "\\.cljc\\'" "\\.edn\\'"))
+    #+end_src
 ** Initialize =CIDER=
 *** Code
     #+begin_src emacs-lisp
@@ -1801,15 +1674,15 @@ A JavaScript development environment for Emacs.
     #+end_src
 ** Built-in entry: =eldoc=
 *** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package eldoc
-    :straight nil
-    :after flymake
-    :custom
-    (eldoc-echo-area-use-multiline-p nil)
-    :hook
-    (typescript-ts-base-mode . eglot-ensure))
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (use-package eldoc
+        :straight nil
+        :after flymake
+        :custom
+        (eldoc-echo-area-use-multiline-p nil)
+        :hook
+        (typescript-ts-base-mode . eglot-ensure))
+    #+END_SRC
 ** Initialize =fasm-mode=
 *** code
     #+begin_src emacs-lisp

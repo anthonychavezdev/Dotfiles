@@ -449,6 +449,121 @@
    #+begin_src emacs-lisp
      (global-set-key [remap dabbrev-expand] #'hippie-expand)
    #+end_src
+** Automations
+   #+begin_src emacs-lisp
+     (setq acd/ha-auth-token nil)
+     (setq acd/ha-content-type "application/json")
+     (setq acd/ha-url nil)
+     (setq acd/ha-port nil)
+     (setq acd/ha-api-endpoint nil)
+
+     (defun acd/ha-print-response (data)
+       (when data
+         (with-current-buffer (get-buffer-create "*ha-response*")
+           (erase-buffer)
+           (insert data)
+           (json-mode)
+           (goto-char (point-min))
+           (json-pretty-print-buffer)))
+       (message "Saved to *ha-response* buffer"))
+
+     (defun acd/ha-state-info (&optional entity_id)
+       "Display home-assistant state information in a buffer"
+       (interactive)
+       (message "Fetching data...")
+       (request (if entity_id
+                    (concat acd/ha-url ":" (number-to-string acd/ha-port) "/api/" acd/ha-api-endpoint "/" entity_id)
+                  (concat acd/ha-url ":" (number-to-string acd/ha-port) "/api/" acd/ha-api-endpoint))
+         :headers `(("Authorization" . ,(concat "Bearer " acd/ha-auth-token))
+                    ("Content-Type" . ,acd/ha-content-type))
+         :parser 'buffer-string
+         :success (cl-function
+                   (lambda (&key data &allow-other-keys)
+                     (acd/ha-print-response data)))
+         :error (cl-function
+                 (lambda (&key error-thrown &allow-other-keys)
+                   (message "Got error: %s" error-thrown)))))
+
+     (defun acd/ha-turn-lights-off ()
+       "Turn lights off"
+       (interactive)
+       (message "Turning lights off...")
+       (let ((endpoint "services/light/turn_off"))
+         (request (concat acd/ha-url ":" (number-to-string acd/ha-port) "/api/" endpoint)
+           :headers `(("Authorization" . ,(concat "Bearer " acd/ha-auth-token))
+                      ("Content-Type" . ,acd/ha-content-type))
+           :type "POST"
+           :data (json-encode '(("entity_id" . "light.sengled_e11_n1ea_faae0100_level_light_color_on_off")))
+           :success (cl-function
+                     (lambda (&key data &allow-other-keys)
+                       (acd/ha-print-response data)))
+           :error (lambda (error-m)
+                    (message "Got error: %s" error-thrown)))
+         (request (concat acd/ha-url ":" (number-to-string acd/ha-port) "/api/" endpoint)
+           :headers `(("Authorization" . ,(concat "Bearer " acd/ha-auth-token))
+                      ("Content-Type" . ,acd/ha-content-type))
+           :type "POST"
+           :data (json-encode '(("entity_id" . "light.sengled_e11_n1ea_db510200_level_light_color_on_off")))
+           :success (cl-function
+                     (lambda (&key data &allow-other-keys)
+                       (acd/ha-print-response data)))
+           :error (lambda (error-m)
+                    (message "Got error: %s" error-thrown)))
+
+         (request (concat acd/ha-url ":" (number-to-string acd/ha-port) "/api/" endpoint)
+           :headers `(("Authorization" . ,(concat "Bearer " acd/ha-auth-token))
+                      ("Content-Type" . ,acd/ha-content-type))
+           :type "POST"
+           :data (json-encode '(("entity_id" . "light.sengled_e21_n1ea_e3c01700_level_light_color_on_off")))
+           :success (cl-function
+                     (lambda (&key data &allow-other-keys)
+                       (acd/ha-print-response data)))
+           :error (lambda (error-m)
+                    (message "Got error: %s" error-thrown)))))
+
+     (defun acd/ha-turn-lights-on ()
+       "Turn lights on"
+       (interactive)
+       (message "Turning lights on...")
+       (let ((endpoint "services/light/turn_on"))
+         (request (concat acd/ha-url ":" (number-to-string acd/ha-port) "/api/" endpoint)
+           :headers `(("Authorization" . ,(concat "Bearer " acd/ha-auth-token))
+                      ("Content-Type" . ,acd/ha-content-type))
+           :type "POST"
+           :data (json-encode '(("entity_id" . "light.sengled_e11_n1ea_faae0100_level_light_color_on_off")))
+           :success (cl-function
+                     (lambda (&key data &allow-other-keys)
+                       (acd/ha-print-response data)))
+           :error (lambda (error-m)
+                    (message "Got error: %s" error-thrown)))
+         (request (concat acd/ha-url ":" (number-to-string acd/ha-port) "/api/" endpoint)
+           :headers `(("Authorization" . ,(concat "Bearer " acd/ha-auth-token))
+                      ("Content-Type" . ,acd/ha-content-type))
+           :type "POST"
+           :data (json-encode '(("entity_id" . "light.sengled_e11_n1ea_db510200_level_light_color_on_off")))
+           :success (cl-function
+                     (lambda (&key data &allow-other-keys)
+                       (acd/ha-print-response data)))
+           :error (lambda (error-m)
+                    (message "Got error: %s" error-thrown)))
+
+         (request (concat acd/ha-url ":" (number-to-string acd/ha-port) "/api/" endpoint)
+           :headers `(("Authorization" . ,(concat "Bearer " acd/ha-auth-token))
+                      ("Content-Type" . ,acd/ha-content-type))
+           :type "POST"
+           :data (json-encode '(("entity_id" . "light.sengled_e21_n1ea_e3c01700_level_light_color_on_off")))
+           :success (cl-function
+                     (lambda (&key data &allow-other-keys)
+                       (acd/ha-print-response data)))
+           :error (lambda (error-m)
+                    (message "Got error: %s" error-thrown)))))
+
+     (progn
+       (define-prefix-command 'automation-map)
+       (define-key automation-map (kbd "l o") #'acd/ha-turn-lights-on)
+       (define-key automation-map (kbd "l f") #'acd/ha-turn-lights-off))
+     (global-set-key (kbd "C-c a") 'automation-map)
+   #+end_src
 ** Duplicate line
    #+begin_src emacs-lisp
      (defun acd/duplicate-line (args)

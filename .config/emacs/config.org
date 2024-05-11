@@ -730,8 +730,7 @@
     #+BEGIN_SRC emacs-lisp
       (use-package async
         :straight t
-        :init
-        (dired-async-mode 1))
+        :hook ((dired-mode . dired-async-mode)))
     #+END_SRC
 ** Initialize =all-the-icons=
 *** Description
@@ -1661,13 +1660,6 @@
        :config
        (setq inferior-lisp-program "sbcl"))
    #+END_SRC
-** Initialize =cmake-mode=
-*** Code
-    #+begin_src emacs-lisp
-      (use-package cmake-mode
-        :straight t)
-    #+end_src
-
 ** Initialize =Java=
 *** Code
     #+BEGIN_SRC emacs-lisp

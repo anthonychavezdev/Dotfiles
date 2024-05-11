@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: json-stringify
+# binding: C-c j j
+# key: jss
+# --
+JSON.stringify(${1:`(if (> (length yas-selected-text) 0) yas-selected-text "")`})$0

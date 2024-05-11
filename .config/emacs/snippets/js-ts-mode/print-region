@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: print-region
+# binding: C-c j l
+# --
+console.log(${1:`(if (> (length yas-selected-text) 0) yas-selected-text "")`})$0

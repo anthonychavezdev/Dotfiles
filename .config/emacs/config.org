@@ -55,36 +55,6 @@
      (setq-default indent-tabs-mode nil)
      (setq backward-delete-char-untabify-method 'nil)
    #+END_SRC
-** Enable prettify symbols mode
-   #+BEGIN_SRC emacs-lisp
-     ;; (setq-default prettify-symbols-alist '(("TODO" . "")
-     ;;                 ("WAIT" . "")
-     ;;                 ("NOPE" . "")
-     ;;                 ("DONE" . "")
-     ;;                 ("[#A]" . "")
-     ;;                 ("[#B]" . "")
-     ;;                 ("[#C]" . "")
-     ;;                 ("[ ]" . "")
-     ;;                 ("[X]" . "")
-     ;;                 ("[-]" . "")
-     ;;                 ("#+BEGIN_SRC" . "")
-     ;;                 ("#+END_SRC" . "―")
-     ;;                 (":PROPERTIES:" . "")
-     ;;                 (":END:" . "―")
-     ;;                 ("#+STARTUP:" . "")
-     ;;                 ("#+TITLE: " . "")
-     ;;                 ("#+RESULTS:" . "")
-     ;;                 ("#+NAME:" . "")
-     ;;                 ("#+ROAM_TAGS:" . "")
-     ;;                 ("#+FILETAGS:" . "")
-     ;;                 ("#+HTML_HEAD:" . "")
-     ;;                 ("#+SUBTITLE:" . "")
-     ;;                 ("#+AUTHOR:" . "")
-     ;;                 (":Effort:" . "")
-     ;;                 ("SCHEDULED:" . "")
-     ;;                 ("DEADLINE:" . "")))
-     ;; (global-prettify-symbols-mode t)
-   #+END_SRC
 ** Enable bracket pair-matching
    #+BEGIN_SRC emacs-lisp
      (setq electric-pair-pairs '(

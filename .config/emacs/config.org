@@ -672,6 +672,13 @@
         :straight t
         :hook ((dired-mode . dired-async-mode)))
     #+END_SRC
+** Initialize =dired-rsync=
+*** Code
+    #+begin_src emacs-lisp
+      (use-package dired-rsync-transient
+        :bind (:map dired-mode-map
+                    ("C-c C-x" . dired-rsync-transient)))
+    #+end_src
 ** Initialize =all-the-icons=
 *** Description
     Bring nice icons to emacs

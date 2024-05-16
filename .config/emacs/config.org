@@ -634,9 +634,9 @@
      ;; Sets LaTeX preview size
      (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
 
-      ;; (use-package org-beautify-theme
-      ;;  :straight t
-      ;;  :hook ((org-mode . (lambda () (load-theme 'org-beautify t)))))
+     ;; (use-package org-beautify-theme
+     ;;  :straight t
+     ;;  :hook ((org-mode . (lambda () (load-theme 'org-beautify t)))))
 
      ;; I can't get this to work properly
      ;; (use-package org-present
@@ -941,7 +941,7 @@
     #+end_src
 ** Initialize =novel.el=
 *** Description
-     Used to read ebpub books in Emacs
+    Used to read ebpub books in Emacs
 *** Code
     #+begin_src emacs-lisp
       (use-package esxml
@@ -1041,12 +1041,12 @@
       ;;
       ;; You might need to be logged in for the above to run, which might be why.
       ;; I don't care enough to look any deeper right now.
-      (use-package exec-path-from-shell
-        :straight t
-        :custom ((exec-path-from-shell-arguments nil))
-        :config
-        (when (memq window-system '(mac ns x pgtk))
-          (exec-path-from-shell-initialize)))
+       (use-package exec-path-from-shell
+         :straight t
+         :custom ((exec-path-from-shell-arguments nil))
+         :config
+         (when (memq window-system '(mac ns x pgtk))
+           (exec-path-from-shell-initialize)))
     #+end_src
 ** Initialize =ligature=
 *** Code
@@ -1103,15 +1103,15 @@
 ** Initialize =tree-sitter=
 *** Code
     #+BEGIN_SRC emacs-lisp
-  (when (and (fboundp #'treesit-available-p)
-             (funcall #'treesit-available-p))
-    (use-package treesit-auto
-      :custom
-      ((treesit-auto-install 'prompt)      
-      (treesit-font-lock-level 4))
-      :config
-      (treesit-auto-add-to-auto-mode-alist 'all)
-      (global-treesit-auto-mode)))
+      (when (and (fboundp #'treesit-available-p)
+                 (funcall #'treesit-available-p))
+        (use-package treesit-auto
+          :custom
+          ((treesit-auto-install 'prompt)      
+          (treesit-font-lock-level 4))
+          :config
+          (treesit-auto-add-to-auto-mode-alist 'all)
+          (global-treesit-auto-mode)))
     #+END_SRC
 ** Initialize =YASnippets=
 *** Description

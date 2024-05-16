@@ -583,6 +583,33 @@
 
      (define-key calendar-mode-map (kbd "C-c i") #'acd/insert-date-from-cal)
    #+end_src
+** Milliseconds to date
+   #+begin_src emacs-lisp
+     (defun acd/milliseconds-to-date (ms)
+       (interactive)
+       (format-time-string "<%F %H:%M>"(seconds-to-time (/ ms 1000)) t))
+   #+end_src
+** Decode JWT tokens
+   #+begin_src emacs-lisp
+     (defun acd/decode-jwt (&optional jwt)
+       "Decode JWT in region and print it to a buffer"
+       (interactive)
+       (let* ((tok (if jwt jwt
+                     (if (use-region-p)
+                         (buffer-substring (region-beginning) (region-end))
+                       (read-from-minibuffer "JWT: "))))
+              (data (s-split "\\." tok))
+              (header (cl-first data))
+              (claims (cl-second data)))
+         (with-temp-buffer
+           (insert (format "%s\n%s"
+                           (base64-decode-string header t)
+                           (base64-decode-string claims t)))
+           (json-pretty-print-buffer)
+           (with-output-to-temp-buffer "*JWT*"
+             (princ (buffer-string)))))
+       t)
+   #+end_src
 * Org-mode
 ** Description
    One of the main selling points of Emacs! Org Mode!

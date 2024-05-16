@@ -4,7 +4,7 @@
 #+OPTIONS: num:nil
 
 * Quality of life
-** Native-comp
+** Native Comp
    #+begin_src emacs-lisp
      (setq comp-deferred-compilation t)
      (setq native-comp-async-report-warnings-errors nil)

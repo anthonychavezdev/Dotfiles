@@ -991,7 +991,7 @@
                ("M-g '" . avy-goto-char-2)
                ("M-g l" . avy-goto-line)
                ("M-g w" . avy-goto-word-1)
-               ("M-g e" . avy-goto-word-0)))
+               ("M-g r" . avy-goto-word-0)))
     #+end_src
 ** Initialize =emacs-gif-screencast=
 *** code

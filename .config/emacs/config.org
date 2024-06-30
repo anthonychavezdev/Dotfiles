@@ -635,10 +635,6 @@
      ;; Sets LaTeX preview size
      (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
 
-     ;; (use-package org-beautify-theme
-     ;;  :straight t
-     ;;  :hook ((org-mode . (lambda () (load-theme 'org-beautify t)))))
-
      ;; I can't get this to work properly
      ;; (use-package org-present
      ;;   :straight t
@@ -686,11 +682,8 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package all-the-icons
-          :straight t
-          :config
-          ;; (all-the-icons-install-fonts)
+          :straight t)
 
-        )
       (use-package all-the-icons-dired
         :straight t
         :hook
@@ -716,24 +709,15 @@
         (vertico-cycle t)
         :init
         (vertico-mode))
-      ;; Built in
-      (use-package savehist
-        :straight nil
-        :init
-        (savehist-mode))
-
-      (use-package marginalia
-        :straight t
-        :after vertico
-        :custom
-        (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil)))
-
-      (use-package orderless
+    #+END_SRC
+** Initialize =orderless=
+   #+begin_src emacs-lisp
+     (use-package orderless
         :straight t
         :custom
         (completion-styles '(orderless partial-completion basic))
         (completion-category-overrides '((file (styles basic partial-completion)))))
-    #+END_SRC
+   #+end_src
 ** Initialize =undo-tree=
 *** Description
     Emacs’s undo system allows you to recover any past state of a buffer. To do this, Emacs
@@ -1025,7 +1009,6 @@
 
         ;; The :init configuration is always executed (Not lazy!)
         :init
-
         ;; Must be in the :init section of use-package such that the mode gets
         ;; enabled right away. Note that this forces loading the package.
         (marginalia-mode))
@@ -1373,70 +1356,6 @@
         (setq kind-icons-use-icons nil)
         (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
     #+end_src
-** Initialize =lsp-mode=
-*** Description
-    Client for Language Server Protocol (v3.14). lsp-mode aims to provide
-    IDE-like experience by providing optional integration with the most
-    popular Emacs packages like company, flycheck and projectile.
-*** Code
-    #+BEGIN_SRC emacs-lisp
-  ;; (use-package lsp-mode
-  ;;   :straight t
-  ;;   :custom
-  ;;   (lsp-completion-provider :none) ;; We use Curfu
-  ;;   :init
-  ;;   (defun my/lsp-mode-setup-completion ()
-  ;;     (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-  ;;           '(flex))) ;; Configure flex
-
-  ;;   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-  ;;   (setq lsp-keymap-prefix "C-c l")
-  ;;   :hook
-  ;;   (
-  ;;    (c++-mode . lsp)
-  ;;    (c-mode . lsp)
-  ;;    (js-mode . lsp)
-  ;;    (python-mode . lsp)
-  ;;    (java-mode . lsp)
-  ;;    (lsp-completion-mode . my/lsp-mode-setup-completion))
-  ;;   :commands lsp
-  ;;   :config
-  ;;   (setq lsp-auto-guess-root t)
-  ;;   (setq lsp-log-io nil)
-  ;;   (setq lsp-restart 'auto-restart)
-  ;;   (setq lsp-enable-symbol-highlighting nil)
-  ;;   (setq lsp-enable-on-type-formatting nil)
-  ;;   (setq lsp-signature-auto-activate nil)
-  ;;   (setq lsp-signature-render-documentation nil)
-  ;;   (setq eldoc-documentation-functions nil)
-  ;;   (setq lsp-modeline-code-actions-enable nil)
-  ;;   (setq lsp-modeline-diagnostics-enable nil)
-  ;;   (setq lsp-headerline-breadcrumb-enable nil)
-  ;;   (setq lsp-semantic-tokens-enable nil)
-  ;;   (setq lsp-enable-folding nil)
-  ;;   (setq lsp-enable-imenu t)
-  ;;   (setq lsp-enable-snippet t)
-  ;;   (setq read-process-output-max (* 1024 1024)) ;; 1MB
-  ;;   (setq lsp-idle-delay 0.5))
-
-  ;; ;; optionally
-  ;; (use-package lsp-ui
-  ;;   :straight t
-  ;;   :commands lsp-ui-mode
-  ;;   :config
-  ;;   (setq lsp-ui-sideline-show-diagnostics nil
-  ;;         lsp-ui-doc-enable t
-  ;;         lsp-ui-doc-header t
-  ;;         lsp-ui-doc-include-signature t
-  ;;         lsp-ui-doc-border (face-foreground 'default)
-  ;;         lsp-ui-sideline-show-code-actions nil
-  ;;         lsp-ui-sideline-delay 0.5))
-
-  ;; ;; optionally if you want to use debugger
-  ;; ;; (use-package dap-mode
-  ;; ;;  :straight t)
-  ;; ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
-    #+END_SRC
 ** Initialize =eglot=
 *** Code
     #+begin_src emacs-lisp
@@ -1602,16 +1521,6 @@
       (use-package json-mode
         :straight t
         :mode "\\.json\\'")
-    #+END_SRC
-** Initialize =Indium=
-*** Description
-    A JavaScript development environment for Emacs.
-*** Code
-    #+BEGIN_SRC emacs-lisp
-      ;; Commented out for now because json-process-client
-      ;; has an outdated git url and it fails to fetch
-      ;; (use-package indium
-      ;;   :straight t)
     #+END_SRC
 ** Initialize =sly=
    #+BEGIN_SRC emacs-lisp

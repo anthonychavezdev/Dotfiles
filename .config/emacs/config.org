@@ -906,15 +906,15 @@
     enables the use of modern regexp engines
 *** Code
     #+BEGIN_SRC emacs-lisp
-  (use-package visual-regexp-steroids
-    :straight t
-    :bind (("C-c r" . vr/replace)
-           ("C-c q" . vr/query-replace)
-           ("C-s" . vr/isearch-forward)
-           ("C-r" . vr/isearch-backward)
-           ;; if you use multiple-cursors, this is for you:
-           ;; ("C-c m" . vr/mc-mark)
-           ))
+      (use-package visual-regexp-steroids
+        :straight t
+        :bind (("C-c r" . vr/replace)
+               ("C-c q" . vr/query-replace)
+               ("C-M-s" . vr/isearch-forward)
+               ("C-M-r" . vr/isearch-backward)
+               ;; if you use multiple-cursors, this is for you:
+               ;; ("C-c m" . vr/mc-mark)
+               ))
     #+END_SRC
 ** Initialize =elfeed=
 *** Description

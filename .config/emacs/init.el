@@ -190,8 +190,6 @@
                                  (sql . t)
                                  (sqlite . t))))
 
-;; compiled config.el / config.org
-;; eln-cache/30.0.50-d5ac6def/config-638a6af9-f8e4e278.eln
 ;; Load config.org for init.el configuration
 (org-babel-load-file (concat user-emacs-directory "config.org"))
 

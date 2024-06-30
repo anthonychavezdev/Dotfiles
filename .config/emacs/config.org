@@ -148,6 +148,7 @@
    #+BEGIN_SRC emacs-lisp
      (use-package hide-mode-line
        :straight t
+       :defer 3
        :commands hide-mode-line-mode)
    #+END_SRC
 ** Compilation-mode customizations
@@ -617,7 +618,7 @@
    #+BEGIN_SRC emacs-lisp
      (use-package htmlize
        :straight t
-       :defer 30)
+       :defer 2)
 
      (use-package org-bullets
        :straight t
@@ -851,7 +852,7 @@
     #+BEGIN_SRC emacs-lisp
   (use-package define-word
     :straight t
-    :defer t)
+    :defer 3)
     #+END_SRC
 ** Initialize =pdf-tools=
 *** Description
@@ -896,7 +897,8 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package visual-regexp
-        :straight t)
+        :straight t
+        :defer 2)
     #+END_SRC
 ** Initialize =visual-regexp-steroids=
 *** Description
@@ -936,6 +938,7 @@
     #+begin_src emacs-lisp
       (use-package wrap-region
         :straight t
+        :defer 3
         :config
         (wrap-region-mode t))
     #+end_src
@@ -958,7 +961,7 @@
     #+begin_src emacs-lisp
       (use-package elcord
         :straight t
-        :defer 10
+        :defer 3
         :config
         ;; (elcord-mode)
         (setq elcord-display-buffer-details t)
@@ -1004,7 +1007,7 @@
 #+begin_src emacs-lisp
   (use-package request
     :straight (request :type git :host github :repo "tkf/emacs-request")
-    :defer t)
+    :defer 3)
 #+end_src
 ** Initialize =marginalia=
 *** Description
@@ -1076,6 +1079,7 @@
     #+begin_src emacs-lisp
       (use-package editorconfig
         :straight t
+        :defer 2
         :config
         (editorconfig-mode 1))
     #+end_src
@@ -1282,6 +1286,7 @@
       (use-package corfu
        :straight (corfu :files (:defaults "extensions/*")
                         :includes (corfu-info corfu-history))
+       :defer 1
        :custom
        (corfu-cycle t)    ; Allow cycling through candidates
        (corfu-auto t)     ; Enable auto completion
@@ -1315,6 +1320,7 @@
 *** Code
     #+begin_src emacs-lisp
       (use-package cape
+        :defer 1
         ;; Bind dedicated completion commands
         ;; Alternative prefix keys: C-c p, M-p, M-+, ...
         :bind (("C-c f p" . completion-at-point) ;; capf
@@ -1436,6 +1442,7 @@
     #+begin_src emacs-lisp
       (use-package eglot
         :straight nil
+        :defer 1
         :custom
         (eglot-autoshutdown t)
         (eglot-extend-to-xref t)
@@ -1476,6 +1483,7 @@
     #+begin_src emacs-lisp
       (use-package dape
         :straight t
+        :defer 1
         :custom (
                  ;; By default dape shares the same keybinding prefix as `gud'
                  ;; If you do not want to use any prefix, set it to nil.
@@ -1650,7 +1658,7 @@
     #+begin_src emacs-lisp
       (use-package android-mode
         :straight t
-        :defer t)
+        :defer 30)
     #+end_src
 ** Initialize =typescript-mode=
 *** Code

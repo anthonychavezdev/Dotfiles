@@ -828,7 +828,7 @@
       (use-package which-key
         :straight t
         :diminish which-key-mode
-        :config
+        :init
         (which-key-mode))
     #+END_SRC
 ** Initialize =define-word=
@@ -872,7 +872,7 @@
     #+BEGIN_SRC emacs-lisp
       (use-package solaire-mode
         :straight t
-        :config
+        :init
         (solaire-global-mode +1))
     #+END_SRC
 ** Initialize =visual-regexp=
@@ -923,7 +923,7 @@
       (use-package wrap-region
         :straight t
         :defer 3
-        :config
+        :init
         (wrap-region-mode t))
     #+end_src
 ** Initialize =novel.el=
@@ -1030,7 +1030,7 @@
        (use-package exec-path-from-shell
          :straight t
          :custom ((exec-path-from-shell-arguments nil))
-         :config
+         :init
          (when (memq window-system '(mac ns x pgtk))
            (exec-path-from-shell-initialize)))
     #+end_src
@@ -1244,7 +1244,7 @@
         :diminish yas-minor-mode
         :custom ((yas-snippet-dirs `(,(concat user-emacs-directory "snippets")
                                      ,(concat straight-base-dir "straight/repos/yasnippet-snippets/snippets"))))
-        :config
+        :init
         (yas-global-mode 1))
       ;; Bundled snippets
       (use-package yasnippet-snippets

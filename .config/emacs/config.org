@@ -1644,7 +1644,16 @@
 ** Initialize =pyvenv-mode=
 *** Code
     #+begin_src emacs-lisp
-      (use-package pyvenv)
+      (use-package pyvenv
+        :commands pyenv-mode)
+    #+end_src
+** Initialize =fasm-mode=
+*** code
+    #+begin_src emacs-lisp
+      (use-package fasm-mode
+        :straight t
+        :mode "\\.fasm\\'")
+    #+end_src
 ** Initiaze =git-gutter=
 *** Code
     #+begin_src emacs-lisp
@@ -1676,9 +1685,3 @@
         :hook
         (typescript-ts-base-mode . eglot-ensure))
     #+END_SRC
-** Initialize =fasm-mode=
-*** code
-    #+begin_src emacs-lisp
-      (use-package fasm-mode
-        :straight t)
-    #+end_src

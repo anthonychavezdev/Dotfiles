@@ -1204,6 +1204,11 @@
         ;; (setq consult-project-function nil)
       )
     #+end_src
+** Initialize =nix=
+   #+begin_src emacs-lisp
+     (use-package nix-mode
+       :mode "\\.nix\\'")
+   #+end_src
 ** Built-in entry: =abbrev=
 *** Code
     #+BEGIN_SRC emacs-lisp

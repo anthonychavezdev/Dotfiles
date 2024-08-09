@@ -148,7 +148,6 @@
    #+BEGIN_SRC emacs-lisp
      (use-package hide-mode-line
        :straight t
-       :defer 3
        :commands hide-mode-line-mode)
    #+END_SRC
 ** Compilation-mode customizations
@@ -617,8 +616,7 @@
 ** Code
    #+BEGIN_SRC emacs-lisp
      (use-package htmlize
-       :straight t
-       :defer 2)
+       :straight t)
 
      (use-package org-bullets
        :straight t
@@ -907,7 +905,7 @@
     #+BEGIN_SRC emacs-lisp
       (use-package elfeed
         :straight t
-        :defer t
+        :defer 3
         :config
         (setq elfeed-db-directory (expand-file-name "elfeed" user-emacs-directory)
               elfeed-show-entry-switch 'display-buffer
@@ -982,7 +980,7 @@
 #+begin_src emacs-lisp
   (use-package gif-screencast
     :straight (gif-screencast :type git :host gitlab :repo "ambrevar/emacs-gif-screencast")
-    :defer t)
+    :commands gif-screencast)
 #+end_src
 ** Initialize =request.el=
 *** Description
@@ -1062,7 +1060,6 @@
     #+begin_src emacs-lisp
       (use-package editorconfig
         :straight t
-        :defer 2
         :config
         (editorconfig-mode 1))
     #+end_src
@@ -1269,7 +1266,7 @@
       (use-package corfu
        :straight (corfu :files (:defaults "extensions/*")
                         :includes (corfu-info corfu-history))
-       :defer 1
+       :demand t
        :custom
        (corfu-cycle t)    ; Allow cycling through candidates
        (corfu-auto t)     ; Enable auto completion
@@ -1349,11 +1346,10 @@
       (use-package kind-icon
         :straight t
         :after corfu
-        :defer t
         :custom
-        (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+        ((kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+         (kind-icons-use-icons t))
         :config
-        (setq kind-icons-use-icons nil)
         (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
     #+end_src
 ** Initialize =eglot=
@@ -1402,7 +1398,6 @@
     #+begin_src emacs-lisp
       (use-package dape
         :straight t
-        :defer 1
         :custom (
                  ;; By default dape shares the same keybinding prefix as `gud'
                  ;; If you do not want to use any prefix, set it to nil.
@@ -1567,7 +1562,7 @@
     #+begin_src emacs-lisp
       (use-package android-mode
         :straight t
-        :defer 30)
+        :commands android-mode)
     #+end_src
 ** Initialize =typescript-mode=
 *** Code

@@ -1237,6 +1237,14 @@
                   (dired-omit-mode 1)))
     #+end_src
 * Programming
+** Initialize =direnv=
+*** Code
+    #+begin_src emacs-lisp
+      (use-package direnv
+        :straight t
+        :config
+        (direnv-mode))
+    #+end_src
 ** Initialize =tree-sitter=
 *** Code
     #+BEGIN_SRC emacs-lisp

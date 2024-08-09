@@ -1645,6 +1645,25 @@
 *** Code
     #+begin_src emacs-lisp
       (use-package pyvenv)
+** Initiaze =git-gutter=
+*** Code
+    #+begin_src emacs-lisp
+      (use-package git-gutter
+        :straight t
+        :demand t
+        :custom ((git-gutter:modified-sign " ")
+                 (git-gutter:added-sign " ")
+                 (git-gutter:deleted-sign " "))
+        :custom-face
+        (git-gutter:modified ((t (:background "yellow"))))
+        (git-gutter:added ((t (:background "green"))))
+        (git-gutter:deleted ((t (:background "red"))))
+        :bind (("C-x v ="   . git-gutter:popup-hunk)
+               ("C-x v SPC" . git-gutter:mark-hunk)
+               ("C-x v p"   . git-gutter:previous-hunk)
+               ("C-x v n"   . git-gutter:next-hunk))
+        :config
+        (global-git-gutter-mode 1))
     #+end_src
 ** Built-in entry: =eldoc=
 *** Code

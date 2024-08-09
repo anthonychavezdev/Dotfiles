@@ -1549,6 +1549,7 @@
    #+BEGIN_SRC emacs-lisp
      (use-package sly
        :straight t
+       :commands sly
        :config
        (setq inferior-lisp-program "sbcl"))
    #+END_SRC
@@ -1579,7 +1580,8 @@
 *** Code
     #+begin_src emacs-lisp
       (use-package restclient
-        :straight t)
+        :straight t
+        :commands restclient-mode)
     #+end_src
 ** Initialize =android-mode=
 *** Code
@@ -1646,7 +1648,8 @@
 *** Code
     #+begin_src emacs-lisp
       (use-package cider
-        :straight t)
+        :straight t
+        :hook ((closure-mode . cider)))
     #+end_src
 ** Initialize =gradle-mode=
 *** Code

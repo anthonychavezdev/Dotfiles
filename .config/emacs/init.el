@@ -1,22 +1,7 @@
-;; Make emacs startup faster
-
+;;; init.el --- Init -*- no-byte-compile: t; lexical-binding: t; -*-
 (server-start)
 
-(toggle-frame-fullscreen)
-
-(defvar startup/file-name-handler-alist file-name-handler-alist)
-(setq file-name-handler-alist nil)
-
-(defun startup/revert-file-name-handler-alist ()
-  (setq file-name-handler-alist startup/file-name-handler-alist))
-
-(defun startup/reset-gc ()
-  (setq gc-cons-threshold 16777216
-        gc-cons-percentage 0.1))
-
-(add-hook 'emacs-startup-hook 'startup/revert-file-name-handler-alist)
-(add-hook 'emacs-startup-hook 'startup/reset-gc)
-
+;; (toggle-frame-fullscreen)
 
 (setq straight-repository-branch "master")
 (setq straight-use-package-by-default t)
@@ -160,7 +145,6 @@
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
 
-
 ;; This causes straight.el to download
 ;; and load the latest version of Org mode,
 ;; and use the newer version, instead of
@@ -193,18 +177,3 @@
 ;; Load config.org for init.el configuration
 (org-babel-load-file (concat user-emacs-directory "config.org"))
 
-(put 'upcase-region 'disabled nil)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ignored-local-variable-values '((vc-prepare-patches-separately))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-(put 'downcase-region 'disabled nil)
-(put 'narrow-to-region 'disabled nil)

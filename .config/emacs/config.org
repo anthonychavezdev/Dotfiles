@@ -13,7 +13,6 @@
    Emacs breaks certain modes when it has line-numbers-mode enabled, (like docview or ansi-term) so I utilize the approach of only enabling it on some major modes rather than globally
    #+BEGIN_SRC emacs-lisp
      (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-     ;; (add-hook 'text-mode-hook 'display-line-numbers-mode)
    #+END_SRC
 ** Show parent parentheses
    #+BEGIN_SRC emacs-lisp
@@ -632,23 +631,8 @@
      (add-hook 'org-mode-hook #'echo-area-tooltips)
      ;; Sets LaTeX preview size
      (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
-
-     ;; I can't get this to work properly
-     ;; (use-package org-present
-     ;;   :straight t
-     ;;   :hook ((org-present-mode . (lambda ()
-     ;;                                (org-present-big)
-     ;;                                (org-display-inline-images)
-     ;;                                (org-present-hide-cursor)
-     ;;                                (org-present-read-only)
-     ;;                                (hide-mode-line-mode +1)))
-     ;;          (org-present-mode-quit . (lambda ()
-     ;;                                     (org-present-small)
-     ;;                                     (org-remove-inline-images)
-     ;;                                     (org-present-show-cursor)
-     ;;                                     (org-present-read-write)
-     ;;                                     (hide-mode-line-mode 0)))))
    #+END_SRC
+
 * Packages
 ** Initialize =diminish=
 *** Description
@@ -945,7 +929,6 @@
         :straight t
         :defer 3
         :config
-        ;; (elcord-mode)
         (setq elcord-display-buffer-details t)
         (setq elcord-buffer-details-format-function #'buffer-file-name))
     #+end_src
@@ -1527,10 +1510,6 @@
 ** Initialize =Java=
 *** Code
     #+BEGIN_SRC emacs-lisp
-      ;; (use-package lsp-java
-      ;;   :straight t
-      ;;   :config
-      ;;   (add-hook 'java-mode-hook #'lsp-mode))
       (use-package eglot-java
         :straight (eglot-java :type git :host github :repo "yveszoundi/eglot-java")
         :custom
@@ -1610,7 +1589,6 @@
 
       (add-hook 'csharp-mode-hook 'omnisharp-mode)
       (add-hook 'csharp-mode-hook 'dotnet-mode)
-
     #+end_src
 ** Initialize =clojure-mode=
 *** Code

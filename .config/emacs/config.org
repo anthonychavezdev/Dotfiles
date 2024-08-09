@@ -1209,6 +1209,13 @@
      (use-package nix-mode
        :mode "\\.nix\\'")
    #+end_src
+** Built-in =savehist=
+   #+begin_src emacs-lisp
+     (use-package savehist
+        :straight nil
+        :config
+        (savehist-mode))
+   #+end_src
 ** Built-in entry: =abbrev=
 *** Code
     #+BEGIN_SRC emacs-lisp

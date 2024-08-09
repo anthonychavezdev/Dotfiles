@@ -711,7 +711,7 @@
         :straight t
         :custom
         (vertico-cycle t)
-        :init
+        :config
         (vertico-mode))
     #+END_SRC
 ** Initialize =orderless=
@@ -743,7 +743,7 @@
         :custom ((undo-tree-history-directory-alist `(("." . ,(concat
                                                                user-emacs-directory
                                                                "undo-tree")))))
-        :init
+        :config
         (global-undo-tree-mode 1))
     #+END_SRC
 ** Initialize =projectile=
@@ -832,7 +832,7 @@
       (use-package which-key
         :straight t
         :diminish which-key-mode
-        :init
+        :config
         (which-key-mode))
     #+END_SRC
 ** Initialize =define-word=
@@ -876,7 +876,7 @@
     #+BEGIN_SRC emacs-lisp
       (use-package solaire-mode
         :straight t
-        :init
+        :config
         (solaire-global-mode +1))
     #+END_SRC
 ** Initialize =visual-regexp=
@@ -927,7 +927,7 @@
       (use-package wrap-region
         :straight t
         :defer 3
-        :init
+        :config
         (wrap-region-mode t))
     #+end_src
 ** Initialize =novel.el=
@@ -963,7 +963,7 @@
         ("C-x k" . persp-kill-buffer*))
        :custom
        (persp-mode-prefix-key (kbd "C-c M-p"))
-       :init
+       :config
        (persp-mode))
    #+end_src
 ** Initialize =avy=
@@ -1005,15 +1005,16 @@
       ;; Enable rich annotations using the Marginalia package
       (use-package marginalia
         :straight t
+        :after vertico
+        :demand t
+        :custom
+        (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
         ;; Either bind `marginalia-cycle' globally or only in the minibuffer
         :bind (("M-A" . marginalia-cycle)
                :map minibuffer-local-map
                ("M-A" . marginalia-cycle))
 
-        ;; The :init configuration is always executed (Not lazy!)
-        :init
-        ;; Must be in the :init section of use-package such that the mode gets
-        ;; enabled right away. Note that this forces loading the package.
+        :config
         (marginalia-mode))
     #+end_src
 ** Initialize =exec-path-from-shell=
@@ -1033,7 +1034,7 @@
        (use-package exec-path-from-shell
          :straight t
          :custom ((exec-path-from-shell-arguments nil))
-         :init
+         :config
          (when (memq window-system '(mac ns x pgtk))
            (exec-path-from-shell-initialize)))
     #+end_src
@@ -1081,6 +1082,8 @@
     #+begin_src emacs-lisp
       ;; Example configuration for Consult
       (use-package consult
+        :straight t
+        :after persp-mode
         ;; Replace bindings. Lazily loaded due by `use-package'.
         :bind (;; C-c bindings in `mode-specific-map'
                ("C-c M-x" . consult-mode-command)
@@ -1243,16 +1246,15 @@
     #+BEGIN_SRC emacs-lisp
       (use-package yasnippet
         :straight t
+        :demand t
         :diminish yas-minor-mode
         :custom ((yas-snippet-dirs `(,(concat user-emacs-directory "snippets")
                                      ,(concat straight-base-dir "straight/repos/yasnippet-snippets/snippets"))))
-        :init
+        :config
         (yas-global-mode 1))
       ;; Bundled snippets
       (use-package yasnippet-snippets
-        :straight t
-        :config
-        (yas-global-mode 1))
+        :straight t)
     #+END_SRC
 ** Initialize =lua=
 *** Code
@@ -1291,7 +1293,7 @@
                    ([backtab] . corfu-previous)
                    ("C-h" . corfu-info-documentation)
                    ("M-l" . corfu-info-location))
-       :init
+       :config
        (global-corfu-mode)
        (corfu-history-mode 1)
        :hook

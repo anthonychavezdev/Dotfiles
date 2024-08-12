@@ -958,6 +958,7 @@
    #+begin_src emacs-lisp
      (use-package perspective
        :straight t
+       :demand t
        :bind
        (("C-x b" . persp-switch-to-buffer*)
         ("C-x k" . persp-kill-buffer*))
@@ -1083,7 +1084,6 @@
       ;; Example configuration for Consult
       (use-package consult
         :straight t
-        :after persp-mode
         ;; Replace bindings. Lazily loaded due by `use-package'.
         :bind (;; C-c bindings in `mode-specific-map'
                ("C-c M-x" . consult-mode-command)

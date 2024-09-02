@@ -1229,6 +1229,7 @@
     #+begin_src emacs-lisp
       (use-package direnv
         :straight t
+        :custom ((direnv-always-show-summary nil)) ;; It's really annoying having the minibuffer popup each time I change envs
         :config
         (direnv-mode))
     #+end_src

@@ -1581,25 +1581,9 @@
 ** Initialize =typescript-mode=
 *** Code
     #+begin_src emacs-lisp
-      (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
-      (defun setup-tide-mode ()
-        (interactive)
-        (tide-setup)
-        (flymake-mode +1)
-        (tide-hl-identifier-mode +1))
-
-      ;; formats the buffer before saving
-      (add-hook 'before-save-hook 'tide-format-before-save)
-
-      (add-hook 'typescript-mode-hook #'setup-tide-mode)
-
-      (use-package tide
-        :straight t
-        :after (typescript-mode flymake)
-        :hook ((typescript-mode . tide-setup)
-               (typescript-mode . tide-hl-identifier-mode)
-               (before-save . tide-format-before-save)))
-
+      (use-package typescript-mode
+        :straight (typescript-mode :type git :host github :redpo "emacs-typescript/typescript.el")
+        :mode (("\\.ts\\>\\'" . typescript-ts-mode)))
     #+end_src
 ** Initialize =kotlin-mode=
    #+begin_src emacs-lisp

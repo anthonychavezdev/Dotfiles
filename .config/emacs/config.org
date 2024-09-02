@@ -550,20 +550,6 @@
      (global-set-key (kbd "C-c c") #'acd/compile-or-recompile)
 
    #+end_src
-** Smart move to beginning of line
-   #+begin_src emacs-lisp
-     ;; This is how Lem works, which I really liked
-     (defun acd/smart-move-beginning-of-line ()
-       "Move point to the first non-whitespace character on the current line.
-
-     If point is already there, move to the 'real' beginning of the line"
-       (interactive)
-       (let ((oldPos (point)))
-         (back-to-indentation)
-         (and (= oldPos (point))
-              (move-beginning-of-line 1))))
-     (global-set-key (kbd "C-a") #'acd/smart-move-beginning-of-line)
-   #+end_src
 ** Insert date from calendar
    #+begin_src emacs-lisp
      (defvar acd/date-format-options

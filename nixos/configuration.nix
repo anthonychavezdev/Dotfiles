@@ -162,7 +162,6 @@
      xwaylandvideobridge
      mangohud
      protonup
-     zed-editor
      chromium
      # GNOME extensions
      gnomeExtensions.appindicator

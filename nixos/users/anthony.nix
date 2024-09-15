@@ -18,7 +18,6 @@
     kitty
     bitwarden-desktop
     prismlauncher
-    jitsi-meet
     electron
     ];
   };

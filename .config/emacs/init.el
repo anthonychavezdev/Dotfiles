@@ -31,126 +31,36 @@
 
 (straight-use-package 'use-package)
 
-
-;; Load theme
-;; (use-package alect-themes
-;;  :straight t
-;;   :config
-;;   (load-theme 'alect-black t))
-
-(use-package modus-themes
-  :straight t
-  :init
-  ;; Add all your customizations prior to loading the themes
-(setq modus-themes-italic-constructs t
-      modus-themes-bold-constructs nil
-      modus-themes-mixed-fonts t
-      modus-themes-subtle-line-numbers t
-      modus-themes-deuteranopia t
-      modus-themes-tabs-accented t
-      modus-themes-inhibit-reload t ; only applies to `customize-set-variable' and related
-
-      modus-themes-fringes nil ; {nil,'subtle,'intense}
-
-      ;; Options for `modus-themes-lang-checkers' are either nil (the
-      ;; default), or a list of properties that may include any of those
-      ;; symbols: `straight-underline', `text-also', `background',
-      ;; `intense' OR `faint'.
-      modus-themes-lang-checkers nil
-
-      ;; Options for `modus-themes-mode-line' are either nil, or a list
-      ;; that can combine any of `3d' OR `moody', `borderless',
-      ;; `accented', `padded'.
-      modus-themes-mode-line '(borderless accented)
-
-      ;; Options for `modus-themes-syntax' are either nil (the default),
-      ;; or a list of properties that may include any of those symbols:
-      ;; `faint', `yellow-comments', `green-strings', `alt-syntax'
-      modus-themes-syntax nil
-
-      ;; Options for `modus-themes-hl-line' are either nil (the default),
-      ;; or a list of properties that may include any of those symbols:
-      ;; `accented', `underline', `intense'
-      modus-themes-hl-line nil
-
-      ;; Options for `modus-themes-paren-match' are either nil (the
-      ;; default), or a list of properties that may include any of those
-      ;; symbols: `bold', `intense', `underline'
-      modus-themes-paren-match '(bold intense)
-
-      ;; Options for `modus-themes-links' are either nil (the default),
-      ;; or a list of properties that may include any of those symbols:
-      ;; `neutral-underline' OR `no-underline', `faint' OR `no-color',
-      ;; `bold', `italic', `background'
-      modus-themes-links '(background)
-
-      ;; Options for `modus-themes-prompts' are either nil (the
-      ;; default), or a list of properties that may include any of those
-      ;; symbols: `background', `bold', `gray', `intense', `italic'
-      modus-themes-prompts nil
-      ;; Options for `modus-themes-links' are either nil (the default),
-      ;; or a list of properties that may include any of those symbols:
-      ;; `neutral-underline' OR `no-underline', `faint' OR `no-color',
-      ;; `bold', `italic', `background'
-      modus-themes-links '(background)
-
-      modus-themes-completions '((matches . (extrabold))
-                                 (selection . (semibold accented))
-                                 (popup . (accented intense)))
-
-      modus-themes-mail-citations nil ; {nil,'faint,'monochrome}
-
-      ;; Options for `modus-themes-region' are either nil (the default),
-      ;; or a list of properties that may include any of those symbols:
-      ;; `no-extend', `bg-only', `accented'
-      modus-themes-region '(accented no-extend)
-
-      ;; Options for `modus-themes-diffs': nil, 'desaturated,
-      ;; 'bg-only, 'deuteranopia, 'fg-only-deuteranopia
-      modus-themes-diffs 'fg-only-deuteranopia
-
-      modus-themes-org-blocks nil ; {nil,'gray-background,'tinted-background}
-
-      modus-themes-org-agenda ; this is an alist: read the manual or its doc string
-      '((header-block . (variable-pitch scale-title))
-        (header-date . (grayscale workaholic bold-today))
-        (event . (accented scale-small))
-        (scheduled . uniform)
-        (habit . traffic-light-deuteranopia)))
-
-  ;; Load the theme of your choice:
-  (modus-themes-select 'modus-vivendi) ;; OR (modus-themes-load-vivendi)
-  :config
-  :bind ("<f5>" . modus-themes-toggle)
-  )
-(use-package ef-themes
-  :straight (:host github :repo "protesilaos/ef-themes")
-  :config
-  ;; (load-theme 'ef-bio t)
-  )
-
 (use-package doom-themes
-   :straight t
-   :config
-;;   ;; Global settings (defaults)
-   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-   ;; (load-theme 'doom-acario-dark t)
-   ;; (load-theme 'doom-tomorrow-night t)
-   ;; (load-theme 'doom-molokai t)
-   ;; (load-theme 'doom-snazzy t)
-   ;; (load-theme 'doom-horizon t)
-   ;; (load-theme 'doom-one t)
-   ;; (load-theme 'doom-sourcerer t)
-   ;; (load-theme 'doom-dark+ t)
+  :straight t
+  :config
+  ;;   ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t ; if nil, italics is universally disabled
+        doom-tokyo-night-brighter-comments t
+        ;; doom-gruvbox-dark-variant "hard"
+        ;; doom-ayu-dark-brighter-comments t
+        ;; doom-ayu-dark-comment-bg nil
+        )
+  ;; (load-theme 'doom-acario-dark t)
+  ;; (load-theme 'doom-tomorrow-night t)
+  ;; (load-theme 'doom-molokai t)
+  ;; (load-theme 'doom-snazzy t)
+  ;; (load-theme 'doom-horizon t)
+  ;; (load-theme 'doom-one t)
+  ;; (load-theme 'doom-sourcerer t)
+  ;; (load-theme 'doom-dark+ t)
+  ;; (load-theme 'doom-gruvbox t)
+  ;; (load-theme 'doom-ayu-dark t)
+  (load-theme 'doom-tokyo-night t)
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
 
-  ;; Enable custom neotree theme (all-the-icons must be installed!)
-  ;; (doom-themes-neotree-config)
-  ;; or for treemacs users
-  (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
-  (doom-themes-treemacs-config)
+;;   ;; Enable custom neotree theme (all-the-icons must be installed!)
+;;   ;; (doom-themes-neotree-config)
+;;   ;; or for treemacs users
+;;   (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
+;;   (doom-themes-treemacs-config)
 
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))

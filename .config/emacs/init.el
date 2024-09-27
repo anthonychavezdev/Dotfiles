@@ -10,6 +10,11 @@
 
 (setq straight-repository-branch "master")
 (setq straight-use-package-by-default t)
+;; This fixes an issue I was having where a dependency loads
+;; the built-in version of project, and another dependency
+;; declares project as a dependency, which causes straight to
+;; install and load both versions of project (the built-in and newest versions)
+(setq straight-built-in-pseudo-packages '(project))
 
 (defvar bootstrap-version)
 (let ((bootstrap-file

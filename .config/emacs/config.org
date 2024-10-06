@@ -593,8 +593,10 @@
 ** Milliseconds to date
    #+begin_src emacs-lisp
      (defun acd/milliseconds-to-date (ms)
-       (interactive)
-       (format-time-string "<%F %H:%M>"(seconds-to-time (/ ms 1000)) t))
+       (interactive (list (read-number "ms: ")))
+       (let ((date (format-time-string "<%F %H:%M>" (seconds-to-time (/ ms 1000)))))
+         (message date)
+         (kill-new date)))
    #+end_src
 ** Decode JWT tokens
    #+begin_src emacs-lisp

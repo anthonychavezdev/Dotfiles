@@ -205,12 +205,16 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-
+  # networking.firewall.allowedUDPPorts = [ 8081 ];
+  networking.firewall.allowedTCPPorts = [
   # Spotify
   # sync local tracks from your filesystem with mobile devices in the same network
-  networking.firewall.allowedTCPPorts = [ 57621 ];
-  # In order to enable discovery of Google Cast devices (and possibly other Spotify Connect devices) in the same network
-  networking.firewall.allowedUDPPorts = [ 5353 ];
+    57621
+    # Expo
+    8081 ];
+  networking.firewall.allowedUDPPorts = [
+    # In order to enable discovery of Google Cast devices (and possibly other Spotify Connect devices) in the same network
+    5353 ];
 
   # KDE/GSconnect
   networking.firewall.allowedTCPPortRanges = [

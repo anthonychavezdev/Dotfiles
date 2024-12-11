@@ -166,6 +166,8 @@
      # GNOME extensions
      gnomeExtensions.appindicator
      gnomeExtensions.gsconnect
+     # Nix formatter
+     nixfmt-rfc-style
   ];
   services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
   # services.gnome.gnome-keyring.enable = true;

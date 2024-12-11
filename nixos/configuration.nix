@@ -159,7 +159,6 @@
      unzip
      git
      nextcloud-client
-     valent
      xwaylandvideobridge
      mangohud
      protonup

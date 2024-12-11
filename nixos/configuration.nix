@@ -12,18 +12,21 @@
       ./users/anthony.nix
     ];
 
-  # Bootloader.
-  boot.loader = {
-    systemd-boot.enable = false;
-    efi = {
-      canTouchEfiVariables = true;
-      efiSysMountPoint = "/boot/efi";
-    };
-
-    grub = {
-      useOSProber = true;
-      efiSupport = true;
-      device = "nodev";
+  boot = {
+    initrd.kernelModules = [ "amdgpu" ];
+    kernelModules = [ "kvm-amd" ];
+    # Bootloader.
+    loader = {
+      systemd-boot.enable = false;
+      efi = {
+        canTouchEfiVariables = true;
+        efiSysMountPoint = "/boot/efi";
+      };
+      grub = {
+        useOSProber = true;
+        efiSupport = true;
+        device = "nodev";
+      };
     };
   };
 
@@ -58,8 +61,6 @@
   services.flatpak.enable = true;
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-  # Use my AMD GPU
-  boot.initrd.kernelModules = [ "amdgpu" ];
   services.xserver.videoDrivers = [ "amdgpu" ];
 
   hardware.opengl = {

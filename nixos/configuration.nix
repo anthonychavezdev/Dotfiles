@@ -23,9 +23,21 @@
         efiSysMountPoint = "/boot/efi";
       };
       grub = {
-        useOSProber = true;
+        useOSProber = false;
         efiSupport = true;
         device = "nodev";
+        extraEntries = ''
+            menuentry "Windows 11" {
+                insmod part_gpt
+                insmod fat
+                insmod chain
+                search --fs-uuid --no-floppy --set=root B032-007A
+                chainloader /EFI/Microsoft/Boot/bootmgfw.efi
+            }
+            menuentry "UEFI Settings" {
+                fwsetup
+            }
+        '';
       };
     };
   };

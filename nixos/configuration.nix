@@ -73,10 +73,11 @@
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "amdgpu" ];
 
-  hardware.opengl = {
-    enable = true;
-    driSupport = true; # This is already enabled by default
-    driSupport32Bit = true; # For 32 bit applications
+  hardware = {
+    graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
   };
 
   # Enable the GNOME Desktop Environment.
@@ -107,7 +108,6 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -180,7 +180,7 @@
      # Nix formatter
      nixfmt-rfc-style
   ];
-  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
+  services.udev.packages = with pkgs; [ gnome-settings-daemon ];
   # services.gnome.gnome-keyring.enable = true;
   # programs.sway = {
   #   enable = true;

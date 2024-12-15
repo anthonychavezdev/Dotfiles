@@ -10,26 +10,26 @@
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/7cb67c36-ee56-46f2-a8e6-328bbcaac696";
+    { device = "/dev/disk/by-uuid/02bcdb3d-e948-4260-afcc-d8f43058ad6e";
       fsType = "btrfs";
       options = [ "subvol=@" "ssd" "space_cache" "commit=120" "compress=zstd" ];
     };
 
   fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/7cb67c36-ee56-46f2-a8e6-328bbcaac696";
+    { device = "/dev/disk/by-uuid/02bcdb3d-e948-4260-afcc-d8f43058ad6e";
       fsType = "btrfs";
       options = [ "subvol=@home" "ssd" "space_cache" "commit=120" "compress=zstd" ];
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/0612da0d-be86-4f8d-ba8f-bb7c99f88a82";
+    { device = "/dev/disk/by-uuid/8fed010c-bb64-4598-aa04-a8a325af8cb7";
       fsType = "ext4";
     };
 
   fileSystems."/boot/efi" =
-    { device = "/dev/disk/by-uuid/CAE9-3D85";
+    { device = "/dev/disk/by-uuid/EE8E-7576";
       fsType = "vfat";
-      options = [ "fmask=0022" "dmask=0022" "umask=0077" "shortname=winnt" ];
+      options = [ "fmask=0022" "dmask=0022" ];
     };
 
   fileSystems."/media/Games" =
@@ -50,6 +50,7 @@
     options = [ "defaults" "bind" ];
   };
 
+
   swapDevices = [ ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
@@ -57,8 +58,8 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp3s0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp4s0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.eno1.useDHCP = lib.mkDefault true;
+  # networking.interfaces.wlp9s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;

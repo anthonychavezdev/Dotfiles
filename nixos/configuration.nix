@@ -8,8 +8,16 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      # (import "${builtins.fetchTarball https://github.com/nix-community/home-manager/archive/master.tar.gz}/nixos")
       ./users/anthony.nix
+      # NUR
+      # Also add configuration for ~/.config/nixpkgs/config.nix
+      # See: https://github.com/nix-community/NUR
+      ./nur-setup.nix
+      # Home Manager
+      # Add the channel
+      # sudo nix-channel --add https://github.com/nix-community/home-manager/archive/release-VERSION_NUMBER.tar.gz home-manager
+      <home-manager/nixos>
+      ./home-manager/setup.nix
     ];
 
   boot = {
@@ -147,8 +155,6 @@
     direnv.enable = true;
     # virtualization frontend
     virt-manager.enable = true;
-    # Install firefox.
-    firefox.enable = true;
     zsh.enable = true;
     steam = {
       enable = true;

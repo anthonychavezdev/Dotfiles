@@ -13,8 +13,6 @@
     ];
 
   boot = {
-    initrd.kernelModules = [ "amdgpu" ];
-    kernelModules = [ "kvm-amd" ];
     # Bootloader.
     loader = {
       systemd-boot.enable = false;

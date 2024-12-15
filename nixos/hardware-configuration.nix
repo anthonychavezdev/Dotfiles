@@ -8,7 +8,11 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "usb_storage" "uas" "sd_mod" ];
+  boot.initrd.kernelModules = [ "amdgpu" ];
+  boot.kernelModules = [ "kvm-amd" ];
+  boot.extraModulePackages = [ ];
+
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/02bcdb3d-e948-4260-afcc-d8f43058ad6e";
       fsType = "btrfs";

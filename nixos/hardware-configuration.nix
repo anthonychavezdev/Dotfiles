@@ -16,13 +16,13 @@
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/02bcdb3d-e948-4260-afcc-d8f43058ad6e";
       fsType = "btrfs";
-      options = [ "subvol=@" "ssd" "space_cache" "commit=120" "compress=zstd" ];
+      options = [ "subvol=@" "ssd" "commit=120" "compress=zstd" ];
     };
 
   fileSystems."/home" =
     { device = "/dev/disk/by-uuid/02bcdb3d-e948-4260-afcc-d8f43058ad6e";
       fsType = "btrfs";
-      options = [ "subvol=@home" "ssd" "space_cache" "commit=120" "compress=zstd" ];
+      options = [ "subvol=@home" "ssd" "commit=120" "compress=zstd" ];
     };
 
   fileSystems."/boot" =

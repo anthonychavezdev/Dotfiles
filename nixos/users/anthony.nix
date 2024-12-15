@@ -13,7 +13,6 @@
     python3
     emacs29-pgtk
     neovim
-    jellyfin-media-player
     plex-media-player
     kitty
     bitwarden-desktop

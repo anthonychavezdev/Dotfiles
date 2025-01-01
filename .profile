@@ -1,6 +1,8 @@
 # dbus-update-activation-environment --systemd DISPLAY
 # eval $(gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
 
+export ANDROID_HOME=$HOME/Android/Sdk
+
 export SSH_AUTH_SOCK
 
 export QT_AUTO_SCREEN_SCALE_FACTOR=0
@@ -16,8 +18,7 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 #     export TERM=screen-256color
 # fi
 
-export TERMEMU="alacritty"
-export EDITOR="nvim"
+export TERMEMU="kitty"
 
 # syntax highlighting for less
 # export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
@@ -54,8 +55,6 @@ export FZF_COMPLETION_OPTS="+c -x"
 # Used with https://github.com/toggle-corp/alacritty-colorscheme
 export DEST="$HOME/.config/alacritty/themes"
 
-export EDITOR="nvim"
-export TERMEMU="alacritty"
 # Have alacritty use xwayland
 # export WAYLAND_DISPLAY=alacritty
 
@@ -88,3 +87,20 @@ _fzf_comprun() {
     *)            fzf "$@" ;;
   esac
 }
+
+export TERMEMU="kitty"
+export EDITOR="emacsclient -c"
+
+# ssh
+export SSH_KEY_PATH="~/.ssh/rsa_id"
+# for programs that follow XDG standards,
+# config files should go in ~/.config/
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_DATA_HOME=$HOME/.local/share
+export XDG_STATE_HOME=$HOME/.local/state
+export XDG_CACHE_HOME=$HOME/.cache
+
+PERL5LIB="/home/anthony/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/anthony/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/anthony/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/anthony/perl5"; export PERL_MM_OPT;

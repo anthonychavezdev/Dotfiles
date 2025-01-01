@@ -1202,13 +1202,13 @@
    #+begin_src emacs-lisp
      (use-package eat
        :straight (eat :type git
-                      :host codeberg
-                      :repo "akib/emacs-eat"
-                      :files ("*.el" ("term" "term/*.el") "*.texi"
-                              "*.ti" ("terminfo/e" "terminfo/e/*")
-                              ("terminfo/65" "terminfo/65/*")
-                              ("integration" "integration/*")
-                              (:exclude ".dir-locals.el" "*-tests.el"))))
+                     :host codeberg
+                     :repo "akib/emacs-eat"
+                     :files ("*.el" ("term" "term/*.el") "*.texi"
+                             "*.ti" ("terminfo/e" "terminfo/e/*")
+                             ("terminfo/65" "terminfo/65/*")
+                             ("integration" "integration/*")
+                             (:exclude ".dir-locals.el" "*-tests.el"))))
    #+end_src
 ** Built-in =savehist=
    #+begin_src emacs-lisp

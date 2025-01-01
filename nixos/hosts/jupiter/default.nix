@@ -2,22 +2,12 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ./users/anthony.nix
-      # NUR
-      # Also add configuration for ~/.config/nixpkgs/config.nix
-      # See: https://github.com/nix-community/NUR
-      ./nur-setup.nix
-      # Home Manager
-      # Add the channel
-      # sudo nix-channel --add https://github.com/nix-community/home-manager/archive/release-VERSION_NUMBER.tar.gz home-manager
-      <home-manager/nixos>
-      ./home-manager/setup.nix
     ];
 
   boot = {
@@ -180,11 +170,12 @@
      mangohud
      protonup
      chromium
-     # GNOME extensions
-     gnomeExtensions.appindicator
-     gnomeExtensions.gsconnect
      # Nix formatter
      nixfmt-rfc-style
+     # GNOME exteions
+     gnomeExtensions.appindicator
+     gnomeExtensions.gsconnect
+     gnomeExtensions.blur-my-shell
   ];
   services.udev.packages = with pkgs; [ gnome-settings-daemon ];
   # services.gnome.gnome-keyring.enable = true;

@@ -298,6 +298,20 @@
               ("C-h d" . helpful-at-point)
               ("C-h F" . helpful-function)))
    #+end_src
+** Highlight keywords like TODO, FIXME, etc
+   #+begin_src emacs-lisp
+     (use-package hl-todo
+       :straight t
+       :hook (prog-mode . hl-todo-mode)
+       :custom ((hl-todo-highlight-punctuation ":")
+                (hl-todo-keyword-faces
+                 `(("TODO"       warning bold)
+                   ("FIXME"      error bold)
+                   ("HACK"       font-lock-constant-face bold)
+                   ("REVIEW"     font-lock-keyword-face bold)
+                   ("NOTE"       success bold)
+                   ("DEPRECATED" font-lock-doc-face bold)))))
+   #+end_src
 * Custom functionality
 ** imenu
    map imenu to M-i

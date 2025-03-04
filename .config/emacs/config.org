@@ -1612,6 +1612,7 @@
       (use-package typescript-mode
         :straight (typescript-mode :type git :host github :redpo "emacs-typescript/typescript.el")
         :mode (("\\.ts\\>\\'" . typescript-ts-mode)))
+      (add-to-list 'auto-mode-alist '("\\.tsx\\>\\'" . tsx-ts-mode))
     #+end_src
 ** Initialize =kotlin-mode=
    #+begin_src emacs-lisp

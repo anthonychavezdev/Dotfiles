@@ -11,7 +11,7 @@
     #  thunderbird
     fzf
     python3
-    emacs29-pgtk
+    emacs30-pgtk
     neovim
     gnupg
     plex-media-player

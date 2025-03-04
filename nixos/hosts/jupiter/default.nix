@@ -72,6 +72,7 @@
   services.xserver.videoDrivers = [ "amdgpu" ];
 
   hardware = {
+    bluetooth.enable = true;
     graphics = {
       enable = true;
       enable32Bit = true;
@@ -79,12 +80,13 @@
   };
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  # services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
 
   # Enable KDE 6 Desktop
-  # services.displayManager.sddm.enable = true;
-  # services.desktopManager.plasma6.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
   # Enable xdg portal
   # xdg.portal = {
@@ -172,10 +174,18 @@
      chromium
      # Nix formatter
      nixfmt-rfc-style
+     dmidecode
      # GNOME exteions
      gnomeExtensions.appindicator
      gnomeExtensions.gsconnect
      gnomeExtensions.blur-my-shell
+     # KDE
+     kdePackages.plasma-browser-integration
+     kdePackages.dolphin-plugins
+     kdePackages.xwaylandvideobridge
+     kdePackages.merkuro
+     kdePackages.kaddressbook
+     kdePackages.kdeconnect-kde
   ];
   services.udev.packages = with pkgs; [ gnome-settings-daemon ];
   # services.gnome.gnome-keyring.enable = true;

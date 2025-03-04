@@ -10,6 +10,7 @@
     packages = with pkgs; [
     #  thunderbird
     fzf
+    bat
     python3
     emacs30-pgtk
     neovim

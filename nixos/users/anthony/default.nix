@@ -18,7 +18,6 @@
     plex-media-player
     kitty
     inputs.ghostty.packages.${system}.default
-    bitwarden-desktop
     prismlauncher
     electron
     ];

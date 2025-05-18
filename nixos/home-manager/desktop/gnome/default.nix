@@ -15,6 +15,7 @@
       "org/gnome/desktop/interface" = {
         color-scheme = "prefer-dark"; 
         accent-color = "green";
+        cursor-theme = "Adwaita";
         cursor-size = 48;
       };
     };

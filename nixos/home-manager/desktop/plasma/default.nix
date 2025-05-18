@@ -45,8 +45,8 @@
               icon = "nix-snowflake-white";
             };
           }
-          {
-            iconTasks = {
+	        {
+	          iconTasks = {
               launchers = [
                 "applications:org.kde.dolphin.desktop"
                 "applications:app.zen_browser.zen.desktop"
@@ -82,15 +82,15 @@
                 newTasksAppearOn = "right";
               };
             };
-          }
-          {
-            systemTray = {
+	        }
+	        {
+	          systemTray = {
               items = {
                 # shown = [
                 #   "application:com.nextcloud.desktopclient.nextcloud.desktop"                ];
               };
             };
-          }
+	        }
           {
             digitalClock = {
               calendar.firstDayOfWeek = "sunday";

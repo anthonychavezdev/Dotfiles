@@ -17,7 +17,7 @@
         shakeCursor.enable = true;
         minimization = {
           animation = "magiclamp";
-          duration = 50;
+          duration = 150;
         };
       };
       nightLight = {

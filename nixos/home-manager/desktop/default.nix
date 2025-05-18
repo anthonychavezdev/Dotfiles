@@ -1,6 +1,6 @@
 {
   imports = [
-    # ./gnome
-    ./plasma
+    ./gnome
+    # ./plasma
   ];
 }

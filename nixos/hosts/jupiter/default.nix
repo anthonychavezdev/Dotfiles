@@ -80,14 +80,14 @@
   };
 
   # Enable the GNOME Desktop Environment.
-  # services.xserver.displayManager.gdm.enable = true;
-  # services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
 
   # Enable KDE 6 Desktop
-  services.displayManager.sddm.enable = true;
-  services.displayManager.sddm.wayland.enable = true;
-  services.desktopManager.plasma6.enable = true;
-
+  # services.displayManager.sddm.enable = true;
+  # services.displayManager.sddm.wayland.enable = true;
+  # services.desktopManager.plasma6.enable = true;
+  # services.displayManager.defaultSession = "plasma";
   # Enable xdg portal
   # xdg.portal = {
   #   enable = true;
@@ -186,6 +186,10 @@
      kdePackages.merkuro
      kdePackages.kaddressbook
      kdePackages.kdeconnect-kde
+     kdePackages.ksvg
+     kdePackages.koko
+     kdePackages.kdav
+     kdePackages.kalk
   ];
   services.udev.packages = with pkgs; [ gnome-settings-daemon ];
   # services.gnome.gnome-keyring.enable = true;

@@ -24,7 +24,10 @@
         enable = true;
         mode = "times";
         time.morning = "06:30";
-        time.evening = "08:30";
+        time.evening = "20:30";
+        temperature.day = 6500;
+        temperature.night = 4500;
+        transitionTime = 30;
       };
     };
 

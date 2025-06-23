@@ -168,7 +168,7 @@
 ** Hide-mode-line plugin
    #+BEGIN_SRC emacs-lisp
      (use-package hide-mode-line
-       :straight t
+       :ensure t
        :commands hide-mode-line-mode)
    #+END_SRC
 ** Compilation-mode customizations
@@ -262,7 +262,7 @@
 *** Enable and install ace-window
     #+begin_src emacs-lisp
       (use-package ace-window
-        :straight t
+        :ensure t
         :bind (("M-o" . ace-window)))
     #+end_src
 ** Copy file name or directory path to clipboard
@@ -290,7 +290,7 @@
 ** Better help system
    #+begin_src emacs-lisp
      (use-package helpful
-       :straight t
+       :ensure t
        :bind (("C-h f" . helpful-callable)
               ("C-h v" . helpful-variable)
               ("C-h k" . helpful-key)
@@ -301,7 +301,7 @@
 ** Highlight keywords like TODO, FIXME, etc
    #+begin_src emacs-lisp
      (use-package hl-todo
-       :straight t
+       :ensure t
        :hook (prog-mode . hl-todo-mode)
        :custom ((hl-todo-highlight-punctuation ":")
                 (hl-todo-keyword-faces
@@ -639,10 +639,10 @@
 ** Code
    #+BEGIN_SRC emacs-lisp
      (use-package htmlize
-       :straight t)
+       :ensure t)
 
      (use-package org-bullets
-       :straight t
+       :ensure t
        :hook (org-mode . org-bullets-mode))
 
      (defun echo-area-tooltips ()
@@ -664,7 +664,7 @@
 *** Code
     #+begin_src emacs-lisp
       (use-package diminish
-        :straight t)
+        :ensure t)
     #+end_src
 ** Initialize =async=
 *** Description
@@ -672,13 +672,14 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package async
-        :straight t
+        :ensure t
         :hook ((dired-mode . dired-async-mode)))
     #+END_SRC
 ** Initialize =dired-rsync=
 *** Code
     #+begin_src emacs-lisp
       (use-package dired-rsync-transient
+        :ensure t
         :bind (:map dired-mode-map
                     ("C-c C-x" . dired-rsync-transient)))
     #+end_src
@@ -688,10 +689,10 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package all-the-icons
-          :straight t)
+          :ensure t)
 
       (use-package all-the-icons-dired
-        :straight t
+        :ensure t
         :hook
         (dired-mode . all-the-icons-dired-mode))
     #+END_SRC
@@ -699,7 +700,7 @@
 *** Code
     #+begin_src emacs-lisp
       (use-package all-the-icons-completion
-        :straight t
+        :ensure t
         :hook ((marginalia-mode . all-the-icons-completion-marginalia-setup))
         :config
         (all-the-icons-completion-mode))
@@ -710,7 +711,7 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package vertico
-        :straight t
+        :ensure t
         :custom
         (vertico-cycle t)
         :config
@@ -719,7 +720,7 @@
 ** Initialize =orderless=
    #+begin_src emacs-lisp
      (use-package orderless
-        :straight t
+        :ensure t
         :custom
         (completion-styles '(orderless partial-completion basic))
         (completion-category-overrides '((file (styles basic partial-completion)))))
@@ -739,7 +740,7 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package undo-tree
-        :straight t
+        :ensure t
         :diminish undo-tree-mode
         ;; I don't want undo-tree files littered everywhere
         :custom ((undo-tree-history-directory-alist `(("." . ,(concat
@@ -757,7 +758,7 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package projectile
-       :straight t
+       :ensure t
        :bind-keymap ("C-c p" . projectile-command-map)
        :config
        (add-to-list 'projectile-globally-ignored-directories "^node_modules"))
@@ -768,7 +769,7 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package dashboard
-        :straight t
+        :ensure t
         :config
         (dashboard-setup-startup-hook)
             (setq dashboard-set-heading-icons t)
@@ -793,15 +794,20 @@
     Git porcelain for Emacs
 *** Code
     #+BEGIN_SRC emacs-lisp
+      ;; Elpaca wants a newer version of transient
+      ;; This should replace the builtin one
+      (use-package transient
+        :ensure (:fetcher github :repo "magit/transient"))
       (use-package magit
-        :straight t
+        :ensure t
         :hook ((magit-log-mode . hl-line-mode))
         :bind (("C-x g" . magit-status)))
     #+END_SRC
 ** Initialize =moody=
    #+begin_src emacs-lisp
      (use-package moody
-       :hook ((after-init . (lambda ()
+       :ensure t
+       :hook ((elpaca-after-init . (lambda ()
                                     (moody-replace-mode-line-buffer-identification)
                                     (moody-replace-vc-mode)
                                     (moody-replace-eldoc-minibuffer-message-function))))
@@ -812,7 +818,7 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package rainbow-mode
-        :straight t
+        :ensure t
         :diminish rainbow-mode
         :hook
         ((prog-mode . rainbow-mode)))
@@ -821,7 +827,7 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package rainbow-delimiters
-        :straight (rainbow-delimiters :type git :host github :repo "Fanael/rainbow-delimiters")
+        :ensure (:fetcher github :repo "Fanael/rainbow-delimiters")
         :diminish rainbow-delimiters-mode
         :hook
         ((prog-mode . rainbow-delimiters-mode)))
@@ -833,7 +839,7 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package which-key
-        :straight t
+        :ensure t
         :diminish which-key-mode
         :config
         (which-key-mode))
@@ -842,7 +848,7 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
   (use-package define-word
-    :straight t
+    :ensure t
     :defer 3)
     #+END_SRC
 ** Initialize =pdf-tools=
@@ -851,7 +857,7 @@
 *** Code
     #+begin_src emacs-lisp
       (use-package pdf-tools
-        :straight (pdf-tools :type git :host github :repo "vedang/pdf-tools")
+        :ensure (:fetcher github :repo "vedang/pdf-tools")
         :magic ("%PDF" . pdf-view-mode)
         :config
         (pdf-tools-install)
@@ -866,7 +872,7 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package expand-region
-        :straight t
+        :ensure t
         :bind (("C-=" . er/expand-region)))
     #+END_SRC
 ** Initialize =solaire-mode=
@@ -878,7 +884,7 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package solaire-mode
-        :straight t
+        :ensure t
         :config
         (solaire-global-mode +1))
     #+END_SRC
@@ -888,7 +894,7 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package visual-regexp
-        :straight t
+        :ensure t
         :defer 2)
     #+END_SRC
 ** Initialize =visual-regexp-steroids=
@@ -898,7 +904,7 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package visual-regexp-steroids
-        :straight t
+        :ensure t
         :bind (("C-c r" . vr/replace)
                ("C-c q" . vr/query-replace)
                ("C-M-s" . vr/isearch-forward)
@@ -913,7 +919,7 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package elfeed
-        :straight t
+        :ensure t
         :defer 3
         :config
         (setq elfeed-db-directory (expand-file-name "elfeed" user-emacs-directory)
@@ -928,7 +934,7 @@
 *** Codoe
     #+begin_src emacs-lisp
       (use-package wrap-region
-        :straight t
+        :ensure t
         :defer 3
         :config
         (wrap-region-mode t))
@@ -939,10 +945,10 @@
 *** Code
     #+begin_src emacs-lisp
       (use-package esxml
-        :straight t) ;; required by nov
+        :ensure t) ;; required by nov
 
       (use-package nov
-        :straight (nov :type git :repo "https://depp.brause.cc/nov.el.git")
+        :ensure (:host "depp.brause.cc"  :repo "nov.el")
         :mode ("\\.epub\\'" . nov-mode))
     #+end_src
 ** Initialize =elcord=
@@ -951,7 +957,7 @@
 *** Code
     #+begin_src emacs-lisp
       (use-package elcord
-        :straight t
+        :ensure t
         :defer 3
         :config
         (setq elcord-display-buffer-details t)
@@ -960,7 +966,7 @@
 ** Initialize =perspective.el=
    #+begin_src emacs-lisp
      (use-package perspective
-       :straight t
+       :ensure t
        :demand t
        :bind
        (("C-x b" . persp-switch-to-buffer*)
@@ -977,7 +983,7 @@
 *** Code
     #+begin_src emacs-lisp
       (use-package avy
-        :straight t
+        :ensure t
         :bind (("M-g c" . avy-goto-char)
                ("M-g '" . avy-goto-char-2)
                ("M-g l" . avy-goto-line)
@@ -988,7 +994,7 @@
 *** code
 #+begin_src emacs-lisp
   (use-package gif-screencast
-    :straight (gif-screencast :type git :host gitlab :repo "ambrevar/emacs-gif-screencast")
+    :ensure (:fetcher  gitlab :repo "ambrevar/emacs-gif-screencast")
     :commands gif-screencast)
 #+end_src
 ** Initialize =request.el=
@@ -997,7 +1003,7 @@
 *** Code
 #+begin_src emacs-lisp
   (use-package request
-    :straight (request :type git :host github :repo "tkf/emacs-request")
+    :ensure (:fetcher github :repo "tkf/emacs-request")
     :defer 3)
 #+end_src
 ** Initialize =marginalia=
@@ -1008,17 +1014,14 @@
     #+begin_src emacs-lisp
       ;; Enable rich annotations using the Marginalia package
       (use-package marginalia
-        :straight t
-        :after vertico
-        :demand t
-        :custom
-        (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
-        ;; Either bind `marginalia-cycle' globally or only in the minibuffer
-        :bind (("M-A" . marginalia-cycle)
-               :map minibuffer-local-map
+        :ensure t
+        ;; Bind `marginalia-cycle' only in the minibuffer
+        ;; The capital `M' indicates that shift should be held
+        ;; So hold Shift, Alt, and press `A'
+        :bind (:map minibuffer-local-map
                ("M-A" . marginalia-cycle))
 
-        :config
+        :init
         (marginalia-mode))
     #+end_src
 ** Initialize =exec-path-from-shell=
@@ -1036,7 +1039,7 @@
       ;; You might need to be logged in for the above to run, which might be why.
       ;; I don't care enough to look any deeper right now.
        (use-package exec-path-from-shell
-         :straight t
+         :ensure t
          :custom ((exec-path-from-shell-arguments nil))
          :config
          (when (memq window-system '(mac ns x pgtk))
@@ -1046,7 +1049,7 @@
 *** Code
     #+begin_src emacs-lisp
       (use-package ligature
-        :straight t
+        :ensure t
         :config
         (ligature-set-ligatures 'prog-mode '("--" "---" "==" "===" "!=" "!==" "=!="
                                              "=:=" "=/=" "<=" ">=" "&&" "&&&" "&=" "++" "+++" "***" ";;" "!!"
@@ -1069,7 +1072,7 @@
 *** Code
     #+begin_src emacs-lisp
       (use-package editorconfig
-        :straight t
+        :ensure t
         :config
         (editorconfig-mode 1))
     #+end_src
@@ -1086,7 +1089,7 @@
     #+begin_src emacs-lisp
       ;; Example configuration for Consult
       (use-package consult
-        :straight t
+        :ensure t
         ;; Replace bindings. Lazily loaded due by `use-package'.
         :bind (;; C-c bindings in `mode-specific-map'
                ("C-c M-x" . consult-mode-command)
@@ -1210,13 +1213,13 @@
 ** Initialize =nix=
    #+begin_src emacs-lisp
      (use-package nix-mode
+       :ensure t
        :mode "\\.nix\\'")
    #+end_src
 ** Initialize =eat=
    #+begin_src emacs-lisp
      (use-package eat
-       :straight (eat :type git
-                     :host codeberg
+       :ensure (:fetcher codeberg
                      :repo "akib/emacs-eat"
                      :files ("*.el" ("term" "term/*.el") "*.texi"
                              "*.ti" ("terminfo/e" "terminfo/e/*")
@@ -1227,7 +1230,7 @@
 ** Built-in =savehist=
    #+begin_src emacs-lisp
      (use-package savehist
-        :straight nil
+        :ensure nil
         :config
         (savehist-mode))
    #+end_src
@@ -1235,7 +1238,7 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package abbrev
-        :straight nil
+        :ensure nil
         :diminish abbrev-mode)
     #+END_SRC
 ** Built-in entry: =dired-x=
@@ -1256,7 +1259,7 @@
 *** Code
     #+begin_src emacs-lisp
       (use-package direnv
-        :straight t
+        :ensure t
         :custom ((direnv-always-show-summary nil)) ;; It's really annoying having the minibuffer popup each time I change envs
         :config
         (direnv-mode))
@@ -1267,6 +1270,7 @@
       (when (and (fboundp #'treesit-available-p)
                  (funcall #'treesit-available-p))
         (use-package treesit-auto
+          :ensure t
           :custom
           ((treesit-auto-install 'prompt)      
           (treesit-font-lock-level 4))
@@ -1281,22 +1285,22 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package yasnippet
-        :straight t
+        :ensure t
         :demand t
         :diminish yas-minor-mode
         :custom ((yas-snippet-dirs `(,(concat user-emacs-directory "snippets")
-                                     ,(concat straight-base-dir "straight/repos/yasnippet-snippets/snippets"))))
+                                     ,(concat elpaca-directory "repos/yasnippet-snippets/snippets"))))
         :config
         (yas-global-mode 1))
       ;; Bundled snippets
       (use-package yasnippet-snippets
-        :straight t)
+        :ensure t)
     #+END_SRC
 ** Initialize =lua=
 *** Code
     #+BEGIN_SRC emacs-lisp
   (use-package lua-mode
-  :straight t
+  :ensure t
   :mode "\\.lua\\'"
   :interpreter "lua")
     #+END_SRC
@@ -1307,7 +1311,7 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package corfu
-       :straight (corfu :files (:defaults "extensions/*")
+       :ensure (:fetcher github :repo "minad/corfu" :files (:defaults "extensions/*")
                         :includes (corfu-info corfu-history))
        :demand t
        :custom
@@ -1343,6 +1347,7 @@
 *** Code
     #+begin_src emacs-lisp
       (use-package cape
+        :ensure t
         :defer 1
         ;; Bind dedicated completion commands
         ;; Alternative prefix keys: C-c p, M-p, M-+, ...
@@ -1387,11 +1392,16 @@
 *** Code
     #+begin_src emacs-lisp
       (use-package kind-icon
-        :straight t
+        :ensure t
         :after corfu
         :custom
         ((kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
-         (kind-icons-use-icons t))
+         ;; There's an issue where sometimes, the icons appear really large,
+         ;; and push items in the popup down, so they're not visible.
+         ;; If there aren't enough items to make the popup menu scrollable,
+         ;; the items that are pushed down have to be selected in order
+         ;; to view them, which is very obnoxious.
+         (kind-icons-use-icons nil))
         :config
         (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
     #+end_src
@@ -1399,7 +1409,7 @@
 *** Code
     #+begin_src emacs-lisp
       (use-package eglot
-        :straight nil
+        :ensure nil
         :defer 1
         :custom
         (eglot-autoshutdown t)
@@ -1439,46 +1449,47 @@
     Debug adapter
 *** Code
     #+begin_src emacs-lisp
-      (use-package dape
-        :straight t
-        :custom (
-                 ;; By default dape shares the same keybinding prefix as `gud'
-                 ;; If you do not want to use any prefix, set it to nil.
-                 (dape-key-prefix (kbd "C-x C-a"))
-                 ;; To use window configuration like gud (gdb-mi)
-                 (dape-buffer-window-arrangement 'gud)
-                 ;; Info buffers to the right
-                 (dape-buffer-window-arrangement 'right)
-                 ;; Projectile users
-                 (dape-cwd-fn 'projectile-project-root))
+      ;; (use-package dape
+      ;;   :ensure t
+      ;;   :custom (
+      ;;            ;; By default dape shares the same keybinding prefix as `gud'
+      ;;            ;; If you do not want to use any prefix, set it to nil.
+      ;;            (dape-key-prefix (kbd "C-x C-a"))
+      ;;            ;; To use window configuration like gud (gdb-mi)
+      ;;            (dape-buffer-window-arrangement 'gud)
+      ;;            ;; Info buffers to the right
+      ;;            (dape-buffer-window-arrangement 'right)
+      ;;            ;; Projectile users
+      ;;            (dape-cwd-fn 'projectile-project-root))
 
-        :hook
-        ;; Save breakpoints on quit
-        ((kill-emacs . dape-breakpoint-save)
-         ;; Load breakpoints on startup
-         (after-init . dape-breakpoint-load)
-         ;; To display info and/or repl buffers on stopped
-         (dape-on-stopped-hooks . dape-info)
-         (dape-on-stopped-hooks . dape-repl)
-         ;; Kill compile buffer on build success
-         ;; (dape-compile-compile-hooks . kill-buffer)
-         ;; Save buffers on startup, useful for interpreted languages
-         ;; (dape-on-start-hooks . (lambda () (save-some-buffers t t)))
-         )
+      ;;   :hook
+      ;;   ;; Save breakpoints on quit
+      ;;   ((kill-emacs . dape-breakpoint-save)
+      ;;    ;; Load breakpoints on startup
+      ;;    (after-init . dape-breakpoint-load)
+      ;;    ;; To display info and/or repl buffers on stopped
+      ;;    (dape-on-stopped-hooks . dape-info)
+      ;;    (dape-on-stopped-hooks . dape-repl)
+      ;;    ;; Kill compile buffer on build success
+      ;;    ;; (dape-compile-compile-hooks . kill-buffer)
+      ;;    ;; Save buffers on startup, useful for interpreted languages
+      ;;    ;; (dape-on-start-hooks . (lambda () (save-some-buffers t t)))
+      ;;    )
 
-        :config
-        ;; Global bindings for setting breakpoints with mouse
-        (dape-breakpoint-global-mode)
+      ;;   :config
+      ;;   ;; Global bindings for setting breakpoints with mouse
+      ;;   (dape-breakpoint-global-mode)
 
-        ;; To not display info and/or buffers on startup
-        (remove-hook 'dape-on-start-hooks 'dape-info)
-        (remove-hook 'dape-on-start-hooks 'dape-repl))
+      ;;   ;; To not display info and/or buffers on startup
+      ;;   (remove-hook 'dape-on-start-hooks 'dape-info)
+      ;;   (remove-hook 'dape-on-start-hooks 'dape-repl)
+      ;;   )
     #+end_src
 ** Initialize =flymake=
 *** Code
     #+begin_src emacs-lisp
       (use-package flymake
-        :straight nil
+        :ensure nil
         :custom
         (flymake-fringe-indicator-position nil)
         (flymake-fringe-indicator-position 'left-fringe)
@@ -1498,13 +1509,13 @@
           (flymake-eslint-enable)))
 
       (use-package flymake-eslint
-        :straight t)
+        :ensure t)
     #+end_src
 ** Initialize =racket-mode=
 *** Code
     #+BEGIN_SRC emacs-lisp
     (use-package racket-mode
-      :straight t
+      :ensure t
       :mode (("\\.rkt\\'" . racket-mode)
              ("\\.rhm\\'" . racket-hash-lang-mode)))
     #+END_SRC
@@ -1512,7 +1523,7 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package go-mode
-        :straight t
+        :ensure t
         :custom ((go-ts-mode-indent-offset 4))
         :mode "\\.go\\'")
     #+END_SRC
@@ -1520,7 +1531,7 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
     (use-package php-mode
-      :straight t
+      :ensure t
       :mode "\\.php\\'")
     #+END_SRC
 ** Initialize =web-mode=
@@ -1531,7 +1542,7 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package web-mode
-          :straight t
+          :ensure t
           :mode ("\\.svelte?\\'"
                  "\\.html?\\'"
                  "\\.cshtml?\\'"
@@ -1547,7 +1558,7 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package rustic
-        :straight t
+        :ensure t
         :mode (("\\.rs\\'" . rustic-mode))
         :custom
         (rustic-lsp-client 'eglot)
@@ -1558,13 +1569,13 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package json-mode
-        :straight t
+        :ensure t
         :mode "\\.json\\'")
     #+END_SRC
 ** Initialize =sly=
    #+BEGIN_SRC emacs-lisp
      (use-package sly
-       :straight t
+       :ensure t
        :commands sly
        :config
        (setq inferior-lisp-program "sbcl"))
@@ -1573,7 +1584,7 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package eglot-java
-        :straight (eglot-java :type git :host github :repo "yveszoundi/eglot-java")
+        :ensure (:fetcher github :repo "yveszoundi/eglot-java")
         :custom
         (eglot-java-server-install-dir "~/lsp/jdtls-lsp")
         :hook ((java-mode . eglot-java-mode))
@@ -1589,35 +1600,35 @@
 *** Code
     #+begin_src emacs-lisp
       (use-package yaml-mode
-        :straight t
+        :ensure t
         :mode ("\\.yml\\'" "\\.yaml\\'"))
     #+end_src
 ** Initialize =restclient-mode=
 *** Code
     #+begin_src emacs-lisp
       (use-package restclient
-        :straight t
+        :ensure t
         :commands restclient-mode)
     #+end_src
 ** Initialize =android-mode=
 *** Code
     #+begin_src emacs-lisp
       (use-package android-mode
-        :straight t
+        :ensure t
         :commands android-mode)
     #+end_src
 ** Initialize =typescript-mode=
 *** Code
     #+begin_src emacs-lisp
       (use-package typescript-mode
-        :straight (typescript-mode :type git :host github :redpo "emacs-typescript/typescript.el")
+        :ensure (:fetcher github :redpo "emacs-typescript/typescript.el")
         :mode (("\\.ts\\>\\'" . typescript-ts-mode)))
       (add-to-list 'auto-mode-alist '("\\.tsx\\>\\'" . tsx-ts-mode))
     #+end_src
 ** Initialize =kotlin-mode=
    #+begin_src emacs-lisp
      (use-package kotlin-mode
-       :straight t
+       :ensure t
        :mode ("\\.kt\\'" "\\.kts\\'" "\\.ktm\\'"))
    #+end_src
 ** Initialize =csharp-mode=
@@ -1626,13 +1637,13 @@
       (if (version<= emacs-version "29.0")
           (progn
             (use-package csharp-mode
-              :straight t)
+              :ensure t)
             (use-package omnisharp
-              :straight t)
+              :ensure t)
             (use-package csproj-mode
-              :straight t)
+              :ensure t)
             (use-package dotnet
-              :straight t)))
+              :ensure t)))
 
 
       (add-hook 'csharp-mode-hook 'omnisharp-mode)
@@ -1642,48 +1653,56 @@
 *** Code
     #+begin_src emacs-lisp
       (use-package clojure-mode
-        :straight t
+        :ensure t
         :mode ("\\.clj\\'" "\\.cljs\\'" "\\.cljr\\'" "\\.cljc\\'" "\\.edn\\'"))
     #+end_src
 ** Initialize =CIDER=
 *** Code
     #+begin_src emacs-lisp
       (use-package cider
-        :straight t
+        :ensure t
         :hook ((closure-mode . cider)))
     #+end_src
 ** Initialize =gradle-mode=
 *** Code
     #+begin_src emacs-lisp
       (use-package gradle-mode
-        :straight t
+        :ensure t
         :mode "\\.gradle\\'")
     #+end_src
 ** Initialize =groovy-mode=
 *** Code
     #+begin_src emacs-lisp
       (use-package groovy-mode
-        :straight (groovy-mode :type git :host github :repo "Groovy-Emacs-Modes/groovy-emacs-modes")
+        :ensure (:fetcher github :repo "Groovy-Emacs-Modes/groovy-emacs-modes")
         :mode ("\\.groovy\\'" "\\.gradle\\'"))
     #+end_src
 ** Initialize =pyvenv-mode=
 *** Code
     #+begin_src emacs-lisp
       (use-package pyvenv
+        :ensure t
         :commands pyenv-mode)
     #+end_src
 ** Initialize =fasm-mode=
 *** code
     #+begin_src emacs-lisp
       (use-package fasm-mode
-        :straight t
+        :ensure (:fetcher github :repo "GabrielFrigo4/fasm-mode")
         :mode "\\.fasm\\'")
     #+end_src
-** Initiaze =git-gutter=
+** Initialize =zig-mode=
+*** Code
+    #+begin_src emacs-lisp
+      (use-package zig-ts-mode
+        :ensure (:fetcher codeberg :repo "meow_king/zig-ts-mode")
+        :mode "\\.zig\\'")
+    #+end_src
+** Initialize =git-gutter=
 *** Code
     #+begin_src emacs-lisp
       (use-package git-gutter
-        :straight t
+        :ensure t
         :demand t
         :custom ((git-gutter:modified-sign " ")
                  (git-gutter:added-sign " ")
@@ -1703,7 +1722,7 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package eldoc
-        :straight nil
+        :ensure nil
         :after flymake
         :custom
         (eldoc-echo-area-use-multiline-p nil)

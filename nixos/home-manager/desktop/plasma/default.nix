@@ -2,6 +2,7 @@
 {
   programs.plasma = {
     enable = true;
+    configFile."kdeglobals"."General"."AccentColor" = "0,225,0";
     workspace = {
       lookAndFeel = "org.kde.breezedark.desktop";
       cursor = {

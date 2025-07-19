@@ -17,17 +17,19 @@
         };
         search = {
           force = true;
-          default = "DuckDuckGo";
-          order = [ "DuckDuckGo" "Google" ];
+          default = "ddg";
+          order = [ "ddg" "google" ];
         };
-        extensions = with firefox-addons-allowUnfree; [
-          ublock-origin
-          bitwarden
-          darkreader
-          vimium
-          multi-account-containers
-          pay-by-privacy
-        ];
+        extensions = {
+          packages = with firefox-addons-allowUnfree; [
+            ublock-origin
+            bitwarden
+            darkreader
+            vimium
+            multi-account-containers
+            pay-by-privacy
+          ];
+        };
       };
     };
   };

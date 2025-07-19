@@ -80,14 +80,15 @@
   };
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  # services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
 
   # Enable KDE 6 Desktop
-  # services.displayManager.sddm.enable = true;
-  # services.displayManager.sddm.wayland.enable = true;
-  # services.desktopManager.plasma6.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
+  services.desktopManager.plasma6.enable = true;
   # services.displayManager.defaultSession = "plasma";
+
   # Enable xdg portal
   # xdg.portal = {
   #   enable = true;
@@ -107,9 +108,9 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
+  services.pulseaudio.enable = false;
+  # Enable sound with pipewire.
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -165,10 +166,10 @@
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
+     libreoffice-qt6-fresh
      unzip
      git
      nextcloud-client
-     xwaylandvideobridge
      mangohud
      protonup
      chromium
@@ -183,13 +184,16 @@
      kdePackages.plasma-browser-integration
      kdePackages.dolphin-plugins
      kdePackages.xwaylandvideobridge
+     kdePackages.korganizer
      kdePackages.merkuro
+     kdePackages.kcontacts
      kdePackages.kaddressbook
      kdePackages.kdeconnect-kde
      kdePackages.ksvg
      kdePackages.koko
      kdePackages.kdav
      kdePackages.kalk
+     kaffeine
   ];
   services.udev.packages = with pkgs; [ gnome-settings-daemon ];
   # services.gnome.gnome-keyring.enable = true;
@@ -199,10 +203,10 @@
   # };
 
   environment.variables = {
-    XDG_SESSION_TYPE = "wayland";
+    # XDG_SESSION_TYPE = "wayland";
     # SDL_VIDEODRIVER = "wayland";
-    CLUTTER_BACKEND = "wayland";
-    QT_QPA_PLATFORM = "wayland;xcb";
+    # CLUTTER_BACKEND = "wayland";
+    # QT_QPA_PLATFORM = "wayland;xcb";
     # Tell Electron apps to use Wayland
     NIXOS_OZONE_WL = "1";
     # Where to install proton-ge

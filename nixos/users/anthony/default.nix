@@ -15,11 +15,15 @@
     emacs30-pgtk
     neovim
     gnupg
-    plex-media-player
+    plex-desktop
     kitty
     inputs.ghostty.packages.${system}.default
     prismlauncher
     electron
+    ripgrep
+    # Lua for Neovim
+    luarocks
+    lua
     ];
   };
   users.groups.anthony = {};

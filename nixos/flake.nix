@@ -2,7 +2,6 @@
   description = "NixOS configuration";
 
   inputs = {
-    # NixOS official package source, using the nixos-24.11 branch here
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -19,6 +18,7 @@
     };
 
     ghostty.url = "github:ghostty-org/ghostty";
+
     plasma-manager = {
       url = "github:nix-community/plasma-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -60,6 +60,26 @@
                   inherit inputs;
                   firefox-addons-allowUnfree = pkgs.callPackage firefox-addons { };
                   username = "${username}";
+                };
+                home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
+                home-manager.users."${username}" = import ./home.nix;
+              }
+            ];
+          };
+          icarus = nixpkgs.lib.nixosSystem {
+            specialArgs = { inherit inputs; };
+            modules = [
+              ./hosts/icarus
+              ./users/${username}
+              # make home-manager as a module of nixos
+              # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
+              home-manager.nixosModules.home-manager
+              {
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
+                home-manager.extraSpecialArgs = {
+                  inherit inputs;
+                  firefox-addons-allowUnfree = pkgs.callPackage firefox-addons { };
                 };
                 home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
                 home-manager.users."${username}" = import ./home.nix;

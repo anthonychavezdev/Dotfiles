@@ -4,7 +4,7 @@
   users.users.anthony = {
     isNormalUser = true;
     description = "Anthony Chavez";
-    extraGroups = [ "anthony" "networkmanager" "wheel" "plugdev" "docker" "libvirtd" "docker" "video" "adbusers"];
+    extraGroups = [ "anthony" "networkmanager" "wheel" "plugdev" "docker" "libvirtd" "docker" "video" "adbusers" "uinput"];
     shell = pkgs.zsh;
     # openssh.authorizedKeys.keys = [ "SSHKEY" ];
     packages = with pkgs; [

@@ -11,6 +11,7 @@
     ];
 
   boot = {
+    kernelModules = [ "uinput" ];
     # Bootloader.
     loader = {
       systemd-boot.enable = false;
@@ -225,6 +226,31 @@
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
+
+  services.udev.extraRules = ''
+    KERNEL=="uinput", MODE="0660", GROUP="uinput", OPTIONS+="static_node=uinput"
+  '';
+  hardware.uinput.enable = true;
+  services.kanata = {
+    enable = true;
+    keyboards = {
+      internalKeyboard = {
+        devices = [
+          "/dev/input/by-id/usb-Hangsheng_R75Pro-event-kbd"
+          "/dev/input/by-path/platform-i8042-serio-0-event-kbd"
+        ];
+        extraDefCfg = "process-unmapped-keys yes";
+        config = ''
+              (defsrc
+                caps)
+              (defalias
+                escctrl (tap-hold 100 100 esc lctrl))
+              (deflayer base
+                @escctrl)
+            '';
+      };
+    };
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

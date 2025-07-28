@@ -2,6 +2,7 @@
   imports = [
     ./home-manager/applications
     ./home-manager/desktop
+    ./home-manager/shells/zsh
   ];
 
   home.username = "${username}";

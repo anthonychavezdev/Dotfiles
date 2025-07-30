@@ -80,6 +80,7 @@
                 home-manager.extraSpecialArgs = {
                   inherit inputs;
                   firefox-addons-allowUnfree = pkgs.callPackage firefox-addons { };
+                  username = "${username}";
                 };
                 home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
                 home-manager.users."${username}" = import ./home.nix;

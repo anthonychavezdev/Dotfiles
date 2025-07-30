@@ -166,15 +166,7 @@
     virt-manager.enable = true;
     # Install firefox.
     firefox.enable = true;
-    zsh = {
-      enable = true;
-      syntaxHighlighting.enable = true;
-      ohMyZsh = {
-        enable = true;
-        plugins= [ "git" "fzf" ];
-        theme = "bira";
-      };
-    };
+    zsh.enable = true;
     steam = {
       enable = true;
       remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play

@@ -27,4 +27,5 @@
     ];
   };
   users.groups.anthony = {};
+  users.groups.uinput = {};
 }

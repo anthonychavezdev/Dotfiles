@@ -18,7 +18,15 @@
     plex-desktop
     kitty
     inputs.ghostty.packages.${system}.default
-    prismlauncher
+    (prismlauncher.override {
+        jdks=[
+	    temurin-bin-21
+	    temurin-bin-8
+	    jre8
+            temurin-bin-11
+            temurin-bin-17
+	];
+    })
     electron
     ripgrep
     # Lua for Neovim

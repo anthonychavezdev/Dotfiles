@@ -17,7 +17,7 @@
     gnupg
     plex-desktop
     kitty
-    inputs.ghostty.packages.${system}.default
+    ghostty
     (prismlauncher.override {
         jdks=[
 	    temurin-bin-21

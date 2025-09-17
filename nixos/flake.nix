@@ -37,8 +37,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    ghostty.url = "github:ghostty-org/ghostty";
-
     plasma-manager = {
       url = "github:nix-community/plasma-manager";
       inputs.nixpkgs.follows = "nixpkgs";

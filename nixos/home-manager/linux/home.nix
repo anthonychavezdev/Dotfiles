@@ -1,8 +1,8 @@
 { config, pkgs, username, ... }: {
   imports = [
-    ./home-manager/applications
-    ./home-manager/desktop
-    ./home-manager/shells/zsh
+    ../applications
+    ../desktop
+    ../shells/zsh
   ];
 
   home.username = "${username}";

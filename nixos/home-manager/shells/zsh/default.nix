@@ -1,4 +1,7 @@
 {...}: {
+  programs.fzf.enable = true;
+  programs.direnv.enable = true;
+  programs.direnv.enableZshIntegration = true;
   programs.zsh = {
     enable = true;
     syntaxHighlighting.enable = true;

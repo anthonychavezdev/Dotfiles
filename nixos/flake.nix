@@ -6,10 +6,7 @@
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     mac-app-util.url = "github:hraban/mac-app-util";
-    nix-homebrew = {
-      url = "github:zhaofengli/nix-homebrew";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
     homebrew-core = {
       url = "github:homebrew/homebrew-core";
       flake = false;
@@ -90,7 +87,7 @@
                     firefox-addons-allowUnfree = (mkPkgs system).callPackage firefox-addons { };
                     username = "${username}";
                   };
-                  home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
+                  home-manager.sharedModules = [ plasma-manager.homeModules.plasma-manager ];
                   home-manager.users."${username}" = import ./home-manager/linux/home.nix;
                 }
               ];
@@ -112,7 +109,7 @@
                     firefox-addons-allowUnfree = (mkPkgs system).callPackage firefox-addons { };
                     username = "${username}";
                   };
-                  home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
+                  home-manager.sharedModules = [ plasma-manager.homeModules.plasma-manager ];
                   home-manager.users."${username}" = import ./home-manager/linux/home.nix;
                 }
               ];

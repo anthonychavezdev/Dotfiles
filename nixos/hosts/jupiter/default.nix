@@ -172,7 +172,7 @@
      git
      nextcloud-client
      mangohud
-     protonup
+     protonup-ng
      chromium
      # Nix formatter
      nixfmt-rfc-style
@@ -184,7 +184,6 @@
      # KDE
      kdePackages.plasma-browser-integration
      kdePackages.dolphin-plugins
-     kdePackages.xwaylandvideobridge
      kdePackages.korganizer
      kdePackages.merkuro
      kdePackages.kcontacts

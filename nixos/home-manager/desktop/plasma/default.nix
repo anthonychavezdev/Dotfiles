@@ -86,9 +86,27 @@
 	        }
 	        {
 	          systemTray = {
+              icons = {
+                spacing = "small";
+                scaleToFit = true;
+              };
               items = {
-                # shown = [
-                #   "application:com.nextcloud.desktopclient.nextcloud.desktop"                ];
+                showAll = false;
+                shown = [
+                  "application:com.nextcloud.desktopclient.nextcloud.desktop"
+                  "org.kde.plasma.networkmanagement"
+                  "org.kde.plasma.volume"
+                  "org.kde.plasma.notifications"
+                  "org.kde.kdeconnect"
+                  "discord"
+                  "vesktop"
+                ];
+                hidden = [
+                  "org.kde.plasma.brightness"
+                  "org.kde.plasma.clipboard"
+                  "org.kde.plasma.devicenotifier"
+                  "plasmashell_microphone"
+                ];
               };
             };
 	        }

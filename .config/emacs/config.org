@@ -1269,6 +1269,8 @@
     #+BEGIN_SRC emacs-lisp
       (when (and (fboundp #'treesit-available-p)
                  (funcall #'treesit-available-p))
+        (setq treesit-language-source-alist
+              '((ocaml "https://github.com/tree-sitter/tree-sitter-ocaml" "master" "grammars/ocaml/src")))
         (use-package treesit-auto
           :ensure t
           :custom
@@ -1698,6 +1700,12 @@
         :ensure (:fetcher codeberg :repo "meow_king/zig-ts-mode")
         :mode "\\.zig\\'")
     #+end_src
+** Initialize =ocaml=
+   #+begin_src emacs-lisp
+     (use-package ocaml-ts-mode
+       :ensure (:fetcher github :repo "terrateamio/ocaml-ts-mode")
+       :mode ("\\.ml\\'" "\\.mli\\'"))
+   #+end_src
 ** Initialize =git-gutter=
 *** Code
     #+begin_src emacs-lisp

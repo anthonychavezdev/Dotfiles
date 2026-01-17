@@ -1227,6 +1227,16 @@
                              ("integration" "integration/*")
                              (:exclude ".dir-locals.el" "*-tests.el"))))
    #+end_src
+** Initialize =ultra-scroll=
+   #+begin_src emacs-lisp
+     (use-package ultra-scroll
+       :ensure t
+       :init
+       (setq scroll-conservatively 3 ; or whatever value you prefer, since v0.4
+             scroll-margin 0)        ; important: scroll-margin>0 not yet supported
+       :config
+       (ultra-scroll-mode 1))
+   #+end_src
 ** Built-in =savehist=
    #+begin_src emacs-lisp
      (use-package savehist

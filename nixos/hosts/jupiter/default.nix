@@ -143,8 +143,6 @@
   };
 
   programs = {
-    # Android debug bridge
-    adb.enable = true;
     # for development environments
     direnv.enable = true;
     # virtualization frontend

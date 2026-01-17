@@ -32,6 +32,7 @@
     # Lua for Neovim
     luarocks
     lua
+    android-tools
     ];
   };
   users.groups.anthony = {};

@@ -31,7 +31,12 @@
         transitionTime = 30;
       };
     };
-
+    input = {
+      keyboard = {
+        repeatDelay = 300;
+        repeatRate = 35.0;
+      };
+    };
     windows = {
       allowWindowsToRememberPositions = true;
     };

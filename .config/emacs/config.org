@@ -1237,6 +1237,32 @@
        :config
        (ultra-scroll-mode 1))
    #+end_src
+** Initialize =indent-bars=
+   #+begin_src emacs-lisp
+     (use-package indent-bars
+       :ensure (:fetcher github
+                         :repo "jdtsmith/indent-bars")
+       :custom
+       (indent-bars-no-descend-lists 'skip)
+       (indent-bars-treesit-support t)
+       (indent-bars-treesit-ignore-blank-lines-types '("module"))
+       (indent-bars-treesit-scope '((python function_definition class_definition for_statement
+     	                                   if_statement with_statement while_statement)))
+       :hook ((python-base-mode
+               yaml-mode
+               c-mode c-ts-mode
+               c++-mode
+               c++-ts-mode
+               json-mode
+               java-mode
+               java-ts-mode
+               go-mode
+               go-ts-mode
+               rust-mode
+               rust-ts-mode
+               php-mode php-ts-mode
+               rustic-mode) . indent-bars-mode))
+   #+end_src
 ** Built-in =savehist=
    #+begin_src emacs-lisp
      (use-package savehist

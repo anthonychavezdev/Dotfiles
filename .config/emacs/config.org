@@ -122,9 +122,10 @@
      (defun font-available-p (font-name)
        (find-font (font-spec :name font-name)))
 
+     (when (display-graphic-p)
        (cond
         ((font-available-p "JetBrains Mono")
-         (set-frame-font "JetBrains Mono"))
+         (set-frame-font "JetBrains Mono-12"))
         ((font-available-p "Cascadia Code")
          (set-frame-font "Cascadia Code-12"))
         ((font-available-p "Menlo")
@@ -134,7 +135,7 @@
         ((font-available-p "Inconsolata")
          (set-frame-font "Inconsolata-12"))
         ((font-available-p "Fira Code")
-         (set-frame-font "Fira Code-12")))
+         (set-frame-font "Fira Code-12"))))
    #+END_SRC
 ** Enable deleting selection by typing
    #+BEGIN_SRC emacs-lisp

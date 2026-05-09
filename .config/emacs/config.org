@@ -690,7 +690,8 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package all-the-icons
-          :ensure t)
+          :ensure t
+          :defer t)
 
       (use-package all-the-icons-dired
         :ensure t
@@ -798,7 +799,11 @@
       ;; Elpaca wants a newer version of transient
       ;; This should replace the builtin one
       (use-package transient
-        :ensure (:fetcher github :repo "magit/transient"))
+        :ensure (:fetcher git :host github :repo "magit/transient")
+        :defer t)
+      (use-package magit-section
+        :ensure t
+        :defer t)
       (use-package magit
         :ensure t
         :hook ((magit-log-mode . hl-line-mode))
@@ -828,7 +833,7 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package rainbow-delimiters
-        :ensure (:fetcher github :repo "Fanael/rainbow-delimiters")
+        :ensure (:fetcher git :host github :repo "Fanael/rainbow-delimiters")
         :diminish rainbow-delimiters-mode
         :hook
         ((prog-mode . rainbow-delimiters-mode)))
@@ -848,9 +853,9 @@
 ** Initialize =define-word=
 *** Code
     #+BEGIN_SRC emacs-lisp
-  (use-package define-word
-    :ensure t
-    :defer 3)
+      (use-package define-word
+        :ensure t
+        :commands (define-word define-word-at-point))
     #+END_SRC
 ** Initialize =pdf-tools=
 *** Description
@@ -858,8 +863,9 @@
 *** Code
     #+begin_src emacs-lisp
       (use-package pdf-tools
-        :ensure (:fetcher github :repo "vedang/pdf-tools")
+        :ensure (:fetcher git :host github :repo "vedang/pdf-tools")
         :magic ("%PDF" . pdf-view-mode)
+        :mode (("\\.pdf$" . pdf-view-mode))
         :config
         (pdf-tools-install)
         (setq-default pdf-view-display-size 'fit-width)
@@ -921,7 +927,7 @@
     #+BEGIN_SRC emacs-lisp
       (use-package elfeed
         :ensure t
-        :defer 3
+        :commands elfeed
         :config
         (setq elfeed-db-directory (expand-file-name "elfeed" user-emacs-directory)
               elfeed-show-entry-switch 'display-buffer
@@ -970,8 +976,7 @@
        :ensure t
        :demand t
        :bind
-       (("C-x b" . persp-switch-to-buffer*)
-        ("C-x k" . persp-kill-buffer*))
+       (("C-x k" . persp-kill-buffer*))
        :custom
        (persp-mode-prefix-key (kbd "C-c M-p"))
        :config
@@ -995,7 +1000,7 @@
 *** code
 #+begin_src emacs-lisp
   (use-package gif-screencast
-    :ensure (:fetcher  gitlab :repo "ambrevar/emacs-gif-screencast")
+    :ensure (:fetcher  git :host gitlab :repo "ambrevar/emacs-gif-screencast")
     :commands gif-screencast)
 #+end_src
 ** Initialize =request.el=
@@ -1004,8 +1009,8 @@
 *** Code
 #+begin_src emacs-lisp
   (use-package request
-    :ensure (:fetcher github :repo "tkf/emacs-request")
-    :defer 3)
+    :ensure (:fetcher git :host github :repo "tkf/emacs-request")
+    :commands request)
 #+end_src
 ** Initialize =marginalia=
 *** Description
@@ -1039,12 +1044,17 @@
       ;;
       ;; You might need to be logged in for the above to run, which might be why.
       ;; I don't care enough to look any deeper right now.
-       (use-package exec-path-from-shell
-         :ensure t
-         :custom ((exec-path-from-shell-arguments nil))
-         :config
-         (when (memq window-system '(mac ns x pgtk))
-           (exec-path-from-shell-initialize)))
+      (use-package exec-path-from-shell
+        :ensure t
+        :custom ((exec-path-from-shell-variables '("PATH" "NIX_PATH"
+                                                   "NIX_USER_PROFILE_DIR"
+                                                   "NIX_PROFILES"
+                                                   "LIBRARY_PATH"
+                                                   "INFOPATH" "CPATH"
+                                                   "MANPATH")))
+        :config
+        (when (memq window-system '(mac ns x pgtk))
+          (exec-path-from-shell-initialize)))
     #+end_src
 ** Initialize =ligature=
 *** Code
@@ -1220,7 +1230,8 @@
 ** Initialize =eat=
    #+begin_src emacs-lisp
      (use-package eat
-       :ensure (:fetcher codeberg
+       :ensure (:fetcher git
+                     :host codeberg
                      :repo "akib/emacs-eat"
                      :files ("*.el" ("term" "term/*.el") "*.texi"
                              "*.ti" ("terminfo/e" "terminfo/e/*")
@@ -1241,7 +1252,8 @@
 ** Initialize =indent-bars=
    #+begin_src emacs-lisp
      (use-package indent-bars
-       :ensure (:fetcher github
+       :ensure (:fetcher git
+                         :host github
                          :repo "jdtsmith/indent-bars")
        :custom
        (indent-bars-no-descend-lists 'skip)
@@ -1349,9 +1361,8 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package corfu
-       :ensure (:fetcher github :repo "minad/corfu" :files (:defaults "extensions/*")
+       :ensure (:fetcher git :host github :repo "minad/corfu" :files (:defaults "extensions/*")
                         :includes (corfu-info corfu-history))
-       :demand t
        :custom
        (corfu-cycle t)    ; Allow cycling through candidates
        (corfu-auto t)     ; Enable auto completion
@@ -1372,10 +1383,10 @@
                    ("C-h" . corfu-info-documentation)
                    ("M-l" . corfu-info-location))
        :config
-       (global-corfu-mode)
        (corfu-history-mode 1)
        :hook
-       ((eshell-mode . (lambda ()
+       ((elpaca-after-init . global-corfu-mode)
+        (eshell-mode . (lambda ()
                          (setq-local corfu-quit-at-boundary t
                                      corfu-quit-no-match t
                                      corfu-auto nil)))))
@@ -1448,7 +1459,6 @@
     #+begin_src emacs-lisp
       (use-package eglot
         :ensure nil
-        :defer 1
         :custom
         (eglot-autoshutdown t)
         (eglot-extend-to-xref t)
@@ -1622,7 +1632,7 @@
 *** Code
     #+BEGIN_SRC emacs-lisp
       (use-package eglot-java
-        :ensure (:fetcher github :repo "yveszoundi/eglot-java")
+        :ensure (:fetcher git :host github :repo "yveszoundi/eglot-java")
         :custom
         (eglot-java-server-install-dir "~/lsp/jdtls-lsp")
         :hook ((java-mode . eglot-java-mode))
@@ -1659,7 +1669,7 @@
 *** Code
     #+begin_src emacs-lisp
       (use-package typescript-mode
-        :ensure (:fetcher github :redpo "emacs-typescript/typescript.el")
+        :ensure (:fetcher git :host github :repo "emacs-typescript/typescript.el")
         :mode (("\\.ts\\>\\'" . typescript-ts-mode)))
       (add-to-list 'auto-mode-alist '("\\.tsx\\>\\'" . tsx-ts-mode))
     #+end_src
@@ -1699,7 +1709,7 @@
     #+begin_src emacs-lisp
       (use-package cider
         :ensure t
-        :hook ((closure-mode . cider)))
+        :hook ((clojure-mode . cider)))
     #+end_src
 ** Initialize =gradle-mode=
 *** Code
@@ -1712,7 +1722,7 @@
 *** Code
     #+begin_src emacs-lisp
       (use-package groovy-mode
-        :ensure (:fetcher github :repo "Groovy-Emacs-Modes/groovy-emacs-modes")
+        :ensure (:fetcher git :host github :repo "Groovy-Emacs-Modes/groovy-emacs-modes")
         :mode ("\\.groovy\\'" "\\.gradle\\'"))
     #+end_src
 ** Initialize =pyvenv-mode=
@@ -1726,20 +1736,20 @@
 *** code
     #+begin_src emacs-lisp
       (use-package fasm-mode
-        :ensure (:fetcher github :repo "GabrielFrigo4/fasm-mode")
+        :ensure (:fetcher git :host github :repo "GabrielFrigo4/fasm-mode")
         :mode "\\.fasm\\'")
     #+end_src
 ** Initialize =zig-mode=
 *** Code
     #+begin_src emacs-lisp
       (use-package zig-ts-mode
-        :ensure (:fetcher codeberg :repo "meow_king/zig-ts-mode")
+        :ensure (:fetcher git :host codeberg :repo "meow_king/zig-ts-mode")
         :mode "\\.zig\\'")
     #+end_src
 ** Initialize =ocaml=
    #+begin_src emacs-lisp
      (use-package ocaml-ts-mode
-       :ensure (:fetcher github :repo "terrateamio/ocaml-ts-mode")
+       :ensure (:fetcher git :host github :repo "terrateamio/ocaml-ts-mode")
        :mode ("\\.ml\\'" "\\.mli\\'"))
    #+end_src
 ** Initialize =git-gutter=
@@ -1747,10 +1757,11 @@
     #+begin_src emacs-lisp
       (use-package git-gutter
         :ensure t
-        :demand t
         :custom ((git-gutter:modified-sign " ")
                  (git-gutter:added-sign " ")
                  (git-gutter:deleted-sign " "))
+        :hook ((prog-mode . git-gutter-mode)
+               (text-mode . git-gutter-mode))
         :custom-face
         (git-gutter:modified ((t (:background "yellow"))))
         (git-gutter:added ((t (:background "green"))))

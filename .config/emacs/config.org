@@ -1261,6 +1261,7 @@
                rust-mode
                rust-ts-mode
                php-mode php-ts-mode
+               web-mode
                rustic-mode) . indent-bars-mode))
    #+end_src
 ** Built-in =savehist=

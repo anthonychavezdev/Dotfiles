@@ -727,29 +727,16 @@
         (completion-styles '(orderless partial-completion basic))
         (completion-category-overrides '((file (styles basic partial-completion)))))
    #+end_src
-** Initialize =undo-tree=
+** Initialize =Vundu=
 *** Description
-    Emacs’s undo system allows you to recover any past state of a buffer. To do this, Emacs
-    treats “undo” itself as just another editing action that can be undone. This can be
-    confusing and difficult to use. If you make an edit while undoing multiple changes, you
-    “break the undo chain”. To get back to where you were, you have to undo all the undos
-    you just did, then undo all the changes you’d already undone before. Only then can you
-    continue undoing from where you left off. If this sounds confusing, it’s because it is!
-    Hence, a number of packages exist that replace it with the undo/redo system
-
-    Instead of treating undo/redo as a linear sequence of changes, undo-tree-mode treats
-    undo history as a branching tree of changes, similar to the way Vim handles it.
+    Vundo (visual undo) displays the undo history as a tree and lets you
+    move in the tree to go back to previous buffer states.
 *** Code
     #+BEGIN_SRC emacs-lisp
-      (use-package undo-tree
+      (use-package vundo
         :ensure t
-        :diminish undo-tree-mode
-        ;; I don't want undo-tree files littered everywhere
-        :custom ((undo-tree-history-directory-alist `(("." . ,(concat
-                                                               user-emacs-directory
-                                                               "undo-tree")))))
-        :config
-        (global-undo-tree-mode 1))
+        :bind (("C-x u" . vundo))
+        :diminish vundo)
     #+END_SRC
 ** Initialize =projectile=
 *** Description

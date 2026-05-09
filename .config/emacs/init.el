@@ -120,5 +120,12 @@
                                  (sqlite . t))))
 
 ;; Load config.org for init.el configuration
-(org-babel-load-file (concat user-emacs-directory "config.org"))
+(let ((config-el (concat user-emacs-directory "config.el"))
+      (config-org (concat user-emacs-directory "config.org")))
+  (when (or (not (file-exists-p config-el))
+            (file-newer-than-file-p config-org config-el))
+    (require 'org)
+    (org-babel-tangle-file config-org config-el))
+  (load config-el nil 'nomessage))
+;; (org-babel-load-file (concat user-emacs-directory "config.org"))
 

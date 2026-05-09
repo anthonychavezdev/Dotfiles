@@ -1327,7 +1327,7 @@
         :demand t
         :diminish yas-minor-mode
         :custom ((yas-snippet-dirs `(,(concat user-emacs-directory "snippets")
-                                     ,(concat elpaca-directory "repos/yasnippet-snippets/snippets"))))
+                                     ,(concat elpaca-directory "sources/yasnippet-snippets/snippets"))))
         :config
         (yas-global-mode 1))
       ;; Bundled snippets

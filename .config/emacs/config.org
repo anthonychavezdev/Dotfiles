@@ -1761,6 +1761,13 @@
         :config
         (global-git-gutter-mode 1))
     #+end_src
+** Initialize =format-all=
+   #+begin_src emacs-lisp
+     (use-package format-all
+       :ensure t
+       :commands format-all-mode
+       :hook (prog-mode . format-all-mode))
+   #+end_src
 ** Built-in entry: =eldoc=
 *** Code
     #+BEGIN_SRC emacs-lisp

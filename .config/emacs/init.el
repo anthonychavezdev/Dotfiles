@@ -1,8 +1,6 @@
 ;;; init.el --- Init -*- no-byte-compile: t; lexical-binding: t; -*-
 (server-start)
 
-(setq custom-file (concat user-emacs-directory "custom.el"))
-
 (when (file-exists-p custom-file)
   (load custom-file))
 

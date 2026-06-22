@@ -33,6 +33,7 @@
     luarocks
     lua
     android-tools
+    wl-clipboard
     ];
   };
   users.groups.anthony = {};

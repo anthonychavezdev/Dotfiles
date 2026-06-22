@@ -34,6 +34,12 @@
     lua
     android-tools
     wl-clipboard
+    # Nix formatter
+    nixfmt
+    unzip
+    git
+    nextcloud-client
+    chromium
     ];
   };
   users.groups.anthony = {};

@@ -167,14 +167,8 @@
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
      libreoffice-qt6-fresh
-     unzip
-     git
-     nextcloud-client
      mangohud
      protonup-ng
-     chromium
-     # Nix formatter
-     nixfmt-rfc-style
      dmidecode
      # GNOME exteions
      gnomeExtensions.appindicator

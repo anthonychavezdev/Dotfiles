@@ -277,14 +277,16 @@
   };
 
   # Fonts
-  fonts.packages = with pkgs; [
-    jetbrains-mono
+  fonts = {
+    packages = with pkgs; [
+      jetbrains-mono
   ];
+    fontDir.enable = true;
+  };
 
   # Enable dynamically linked executables
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
-    
   ];
 
   # Enable flakes

@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nix-darwin.url = "github:LnL7/nix-darwin";
+    nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     mac-app-util.url = "github:hraban/mac-app-util";
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
@@ -13,10 +13,6 @@
     };
     homebrew-cask = {
       url = "github:homebrew/homebrew-cask";
-      flake = false;
-    };
-    homebrew-bundle = {
-      url = "github:homebrew/homebrew-bundle";
       flake = false;
     };
 
@@ -50,7 +46,6 @@
       nix-homebrew,
       homebrew-core,
       homebrew-cask,
-      homebrew-bundle,
       home-manager,
       firefox-addons,
       plasma-manager,
@@ -136,7 +131,6 @@
                     taps = {
                       "homebrew/homebrew-core" = homebrew-core;
                       "homebrew/homebrew-cask" = homebrew-cask;
-                      "homebrew/homebrew-bundle" = homebrew-bundle;
                     };
                     mutableTaps = false;
                   };

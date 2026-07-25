@@ -187,4 +187,4 @@
 (scroll-bar-mode -1)
 (setq native-comp-jit-compilation-deny-list nil)
 ;; Disable double buffering
-(modify-all-frames-parameters '((inhibit-double-buffering . t)))
+;; (modify-all-frames-parameters '((inhibit-double-buffering . t)))

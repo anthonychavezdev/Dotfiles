@@ -796,16 +796,24 @@
         :hook ((magit-log-mode . hl-line-mode))
         :bind (("C-x g" . magit-status)))
     #+END_SRC
+** Initialize =doom-modeline=
+   #+begin_src emacs-lisp
+     (use-package doom-modeline
+       :ensure t
+       :custom ((doom-modeline-support-imenu t))
+       :init
+       (doom-modeline-mode 1))
+   #+end_src
 ** Initialize =moody=
    #+begin_src emacs-lisp
-     (use-package moody
-       :ensure t
-       :hook ((elpaca-after-init . (lambda ()
-                                    (moody-replace-mode-line-buffer-identification)
-                                    (moody-replace-vc-mode)
-                                    (moody-replace-eldoc-minibuffer-message-function))))
-       :config
-       (setq x-underline-at-descent-line t))
+     ;; (use-package moody
+     ;;   :ensure t
+     ;;   :hook ((elpaca-after-init . (lambda ()
+     ;;                                (moody-replace-mode-line-buffer-identification)
+     ;;                                (moody-replace-vc-mode)
+     ;;                                (moody-replace-eldoc-minibuffer-message-function))))
+     ;;   :config
+     ;;   (setq x-underline-at-descent-line t))
    #+end_src
 ** Initialize =rainbow-mode=
 *** Code
@@ -1175,12 +1183,11 @@
         ;; For some commands and buffer sources it is useful to configure the
         ;; :preview-key on a per-command basis using the `consult-customize' macro.
         (consult-customize
-         consult--source-buffer :hidden t :default nil
          consult-theme :preview-key '(:debounce 0.2 any)
-         consult-ripgrep consult-git-grep consult-grep
+         consult-ripgrep consult-git-grep consult-grep consult-man
          consult-bookmark consult-recent-file consult-xref
-         consult--source-bookmark consult--source-file-register
-         consult--source-recent-file consult--source-project-recent-file
+         consult-source-bookmark consult-source-file-register
+         consult-source-recent-file consult-source-project-recent-file
          ;; :preview-key "M-."
          :preview-key '(:debounce 0.4 any))
         (add-to-list 'consult-buffer-sources persp-consult-source)
@@ -1745,6 +1752,7 @@
     #+begin_src emacs-lisp
       (use-package git-gutter
         :ensure t
+        :diminish git-gutter-mode
         :custom ((git-gutter:modified-sign " ")
                  (git-gutter:added-sign " ")
                  (git-gutter:deleted-sign " "))
@@ -1765,6 +1773,7 @@
    #+begin_src emacs-lisp
      (use-package format-all
        :ensure t
+       :diminish format-all-mode
        :commands format-all-mode
        :hook (prog-mode . format-all-mode))
    #+end_src

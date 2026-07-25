@@ -43,6 +43,8 @@
 (add-hook 'after-init-hook #'elpaca-process-queues)
 (elpaca `(,@elpaca-order))
 
+(elpaca compat)
+
 ;; Install use-package support
 (elpaca elpaca-use-package
   ;; Enable use-package :ensure support for Elpaca.
@@ -57,6 +59,7 @@
          ;; doom-tokyo-night-brighter-comments t
          doom-gruvbox-dark-variant "hard"
          doom-gruvbox-brighter-comments t
+         doom-manegarm-darker-background t
          ;; doom-ayu-dark-brighter-comments t
          ;; doom-ayu-dark-comment-bg nil
          )
@@ -71,6 +74,8 @@
    ;; (load-theme 'doom-gruvbox t)
    ;; (load-theme 'doom-ayu-dark t)
    ;; (load-theme 'doom-tokyo-night t)
+   ;; (load-theme 'doom-manegarm t)
+   (load-theme 'doom-pine t)
    ;; Enable flashing mode-line on errors
    (doom-themes-visual-bell-config)
 
@@ -87,13 +92,40 @@
 ;; and load the latest version of Org mode,
 ;; and use the newer version, instead of
 ;; Emacs' build in version
-(use-package ef-themes
-  :ensure t
-  :custom ((ef-themes-mixed-fonts t)
-           (ef-themes-variable-pitch-ui t))
-  :config
-  (load-theme 'ef-bio :no-confirm)
-  )
+;; (use-package ef-themes
+;;   :ensure t
+;;   :custom ((ef-themes-mixed-fonts t)
+;;            (ef-themes-variable-pitch-ui t))
+;;   :config
+;;   (load-theme 'ef-dark :no-confirm))
+
+;; (use-package doric-themes
+;;   :ensure t
+;;   :demand t
+;;   :config
+;;   ;; These are the default values.
+;;   (setq doric-themes-to-toggle '(doric-light doric-dark))
+;;   (setq doric-themes-to-rotate doric-themes-collection)
+
+;;   (doric-themes-select 'doric-dark)
+
+;;   ;; ;; To load a random theme instead, use something like one of these:
+;;   ;;
+;;   ;; (doric-themes-load-random)
+;;   ;; (doric-themes-load-random 'light)
+;;   ;; (doric-themes-load-random 'dark)
+
+;;   ;; ;; For optimal results, also define your preferred font family (or use my `fontaine' package):
+;;   ;;
+;;   ;; (set-face-attribute 'default nil :family "Aporetic Sans Mono" :height 160)
+;;   ;; (set-face-attribute 'variable-pitch nil :family "Aporetic Sans" :height 1.0)
+;;   ;; (set-face-attribute 'fixed-pitch nil :family "Aporetic Sans Mono" :height 1.0)
+
+;;   :bind
+;;   (("<f5>" . doric-themes-toggle)
+;;    ("C-<f5>" . doric-themes-select)
+;;    ("M-<f5>" . doric-themes-rotate)))
+
 (use-package org
   :ensure nil
   :config
@@ -129,3 +161,4 @@
   (load config-el nil 'nomessage))
 ;; (org-babel-load-file (concat user-emacs-directory "config.org"))
 
+(put 'scroll-left 'disabled nil)

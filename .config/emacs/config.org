@@ -1687,11 +1687,9 @@
             (use-package csproj-mode
               :ensure t)
             (use-package dotnet
-              :ensure t)))
-
-
-      (add-hook 'csharp-mode-hook 'omnisharp-mode)
-      (add-hook 'csharp-mode-hook 'dotnet-mode)
+              :ensure t))
+        (add-hook 'csharp-mode-hook 'omnisharp-mode)
+        (add-hook 'csharp-mode-hook 'dotnet-mode))
     #+end_src
 ** Initialize =clojure-mode=
 *** Code

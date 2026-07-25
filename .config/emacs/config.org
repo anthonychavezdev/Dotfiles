@@ -1046,7 +1046,8 @@
                                                    "NIX_PROFILES"
                                                    "LIBRARY_PATH"
                                                    "INFOPATH" "CPATH"
-                                                   "MANPATH")))
+                                                   "MANPATH"
+                                                   "__NIX_DARWIN_SET_ENVIRONMENT_DONE")))
         :config
         (when (memq window-system '(mac ns x pgtk))
           (exec-path-from-shell-initialize)))

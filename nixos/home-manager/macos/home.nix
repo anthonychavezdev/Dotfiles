@@ -2,6 +2,7 @@
   imports = [
     ../shells/zsh
     ./keybinds
+    ../applications
   ];
 
   home.username = "${username}";

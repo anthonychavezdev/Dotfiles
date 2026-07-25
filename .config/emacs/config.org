@@ -1477,6 +1477,7 @@
         :config
         (add-to-list 'eglot-server-programs '(typescript-ts-mode . ("typescript-language-server" "--stdio")))
         (add-to-list 'eglot-server-programs '(tsx-ts-mode . ("typescript-language-server" "--stdio")))
+        (add-to-list 'eglot-server-programs '(php-ts-mode . ("laravel-ls")))
         :bind (:map eglot-mode-map
                     ("C-c l r"   . eglot-rename)
                     ("C-c l f f" . eglot-format)

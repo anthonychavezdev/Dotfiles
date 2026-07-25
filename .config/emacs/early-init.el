@@ -188,3 +188,6 @@
 (setq native-comp-jit-compilation-deny-list nil)
 ;; Disable double buffering
 ;; (modify-all-frames-parameters '((inhibit-double-buffering . t)))
+
+(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+(add-to-list 'default-frame-alist '(ns-appearance . t))

@@ -1,5 +1,6 @@
 { config, pkgs, inputs, firefox-addons-allowUnfree, ... }: {
   programs.firefox = {
+    configPath = "${config.xdg.configHome}/mozilla/firefox";
     enable = true;
     profiles = {
       default = {
@@ -20,16 +21,16 @@
           default = "ddg";
           order = [ "ddg" "google" ];
         };
-       extensions = {
-         packages = with firefox-addons-allowUnfree; [
-           ublock-origin
-           bitwarden
-           darkreader
-           vimium
-           multi-account-containers
-           pay-by-privacy
-         ];
-       };
+       # extensions = {
+       #   packages = with firefox-addons-allowUnfree; [
+       #     ublock-origin
+       #     bitwarden
+       #     darkreader
+       #     vimium
+       #     multi-account-containers
+       #     pay-by-privacy
+       #   ];
+       # };
       };
     };
   };

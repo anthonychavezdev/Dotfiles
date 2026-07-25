@@ -101,7 +101,7 @@
                   home-manager.useUserPackages = true;
                   home-manager.extraSpecialArgs = {
                     inherit inputs;
-                    firefox-addons-allowUnfree = (mkPkgs system).callPackage firefox-addons { };
+                    # firefox-addons-allowUnfree = (mkPkgs system).callPackage firefox-addons { };
                     username = "${username}";
                   };
                   home-manager.sharedModules = [ plasma-manager.homeModules.plasma-manager ];

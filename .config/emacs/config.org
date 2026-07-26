@@ -268,12 +268,14 @@
    #+begin_src emacs-lisp
      (defun acd/copy-file-name-or-path ()
        (interactive)
-       (let ((filename (if (equal major-mode 'dired-mode)
+       (let ((filename (if (derived-mode-p 'dired-mode)
                            default-directory
                          (buffer-file-name))))
-         (when filename
-           (kill-new filename)
-           (message "Copied file name '%s' to clipboard" filename))))
+         (if filename
+             (progn
+               (kill-new filename)
+               (message "Copied '%s' to kill ring" filename))
+           (message "buffer not associated to a file" filename))))
    #+end_src
 ** Version Control
 *** Ignore files
@@ -325,13 +327,15 @@
    #+begin_src emacs-lisp
      (add-hook 'dired-mode-hook #'dired-hide-details-mode)
      (setq dired-dwim-target t)
-     ;; From https://emacs.stackexchange.com/questions/64982/copy-a-file-content-to-clipboard-with-dired
+
      (defun acd/copy-file-contents-in-dired ()
+       "Copy the contents of the file at point to the kill ring."
        (interactive)
-       (let ((buffer (find-file-noselect (dired-get-file-for-visit))))
-         (with-current-buffer buffer
-           (kill-new (buffer-substring-no-properties (point-min) (point-max))))
-         (kill-buffer buffer)))
+       (let ((file (dired-get-file-for-visit)))
+         (with-temp-buffer
+           (insert-file-contents file)
+           (kill-new (buffer-string)))
+         (message "Copied contents of %s" (file-name-nondirectory file))))
    #+end_src
 ** Eval and replace
    #+begin_src emacs-lisp
@@ -513,27 +517,25 @@
    #+end_src
 ** Duplicate line
    #+begin_src emacs-lisp
-     (defun acd/duplicate-line (args)
+     (defun acd/duplicate-line-dwim (&optional arg)
+       "Duplicate the region if active, otherwise the current line, ARG times.
+     Does not touch the kill ring."
        (interactive "p")
-       (let ((num_lines (or args 1)))
-         (dotimes (_ num_lines)
-           (move-beginning-of-line 1)
-           (kill-line)
-           (yank)
-           (newline)
-           (yank))))
-
-     (defun acd/duplicate-line-dwim (args)
-       (interactive "p")
-       (if (use-region-p)
-           (progn
-             (let ((start (region-beginning))
-                   (end (region-end)))
-               (goto-char end)
-               (dotimes (_ (or args 1))
+       (let ((n (or arg 1)))
+         (if (use-region-p)
+             (let ((text (buffer-substring (region-beginning) (region-end))))
+               (goto-char (region-end))
+               (dotimes (_ n)
                  (newline)
-                 (insert (buffer-substring start end)))))
-         (acd/duplicate-line args)))
+                 (insert text)))
+           (let ((text (buffer-substring (line-beginning-position)
+                                         (line-end-position)))
+                 (col (current-column)))
+             (dotimes (_ n)
+               (end-of-line)
+               (newline)
+               (insert text))
+             (move-to-column col)))))
 
      (global-set-key (kbd "C-c d") #'acd/duplicate-line-dwim)
    #+end_src
@@ -549,19 +551,14 @@
    #+end_src
 ** Compile / run programs
    #+begin_src emacs-lisp
-     (defvar acd/already-compiled nil "nil if the program is being compiled for the first time,
-         otherwise it's t")
      (defun acd/compile-or-recompile ()
-       "Compile program. Recompile if the program has already been compiled
-     to avoid prompting for the compilation command each time"
+       "Compile, or recompile if a compilation buffer already exists."
        (interactive)
-       (if acd/already-compiled
+       (if (get-buffer "*compilation*")
            (recompile)
-         (call-interactively 'compile)
-         (setq acd/already-compiled t)))
+         (call-interactively #'compile)))
 
      (global-set-key (kbd "C-c c") #'acd/compile-or-recompile)
-
    #+end_src
 ** Insert date from calendar
    #+begin_src emacs-lisp
@@ -571,66 +568,76 @@
          ("%m/%d/%Y" . "MM/DD/YYYY")
          ("%B %d, %Y" . "Month DD, YYYY")
          ("%A, %B %d, %Y" . "Day, Month DD, YYYY"))
-       "List of date format options for `acd/insert-date-from-cal'.")
+       "Date format options for `acd/insert-date-from-cal'.")
 
      (defun acd/insert-date-from-cal (&optional arg)
-       "Insert the date from the calendar at point into the last opened window, optionally followed by a specified character.
- The date is formatted according to the selected format or defaults to \"%Y-%m-%d\".
- If  ARG is non-nil, the user is prompted to enter a character to be inserted after the date.
- - If ARG is a single \\[universal-argument] (\\`(4)), the user is prompted for a character
- - If ARG is a double \\[universal-argument] (\\'(16)), the user is also prompted to select a date format
- from `acd/date-format-options' using `completing-read'.
-
- The formatted date is inserted into the previously active window, and the calendar window remains active."
+       "Insert the calendar date at point into the previously used window.
+     With one \\[universal-argument], prompt for a character to append.
+     With two \\[universal-argument]s, also prompt for a date format from
+     `acd/date-format-options'.  Defaults: format \"%Y-%m-%d\", trailing space."
        (interactive "P")
-       (let* ((date (calendar-cursor-to-date))
+       (let* ((date (calendar-cursor-to-date t))
               (format (if (equal arg '(16))
-                          (let ((completion-extra-properties '(:annotation-function
-                                                               (lambda (completion-candidate) (cdr (assoc completion-candidate acd/date-format-options))))))
-                            (car (assoc (completing-read "Select a date format: " acd/date-format-options nil t) acd/date-format-options)))
+                          (let ((completion-extra-properties
+                                 (list :annotation-function
+                                       (lambda (cand)
+                                         (concat "  " (cdr (assoc cand acd/date-format-options)))))))
+                            (completing-read "Select a date format: "
+                                             acd/date-format-options nil t))
                         "%Y-%m-%d"))
               (char (if arg
-                        (let ((input (read-key-sequence "Enter a character to be inserted after the date: ")))
-                          (if (equal input (kbd "RET"))
-                              ?\n
-                            (aref input 0)))
+                        (let ((input (read-key-sequence
+                                      "Character to insert after the date: ")))
+                          (if (equal input (kbd "RET")) ?\n (aref input 0)))
                       ?\s))
-              (formatted-date (format-time-string format (encode-time 0 0 0 (nth 1 date) (nth 0 date) (nth 2 date)))))
+              (formatted-date (format-time-string
+                               format
+                               (encode-time 0 0 0 (nth 1 date) (nth 0 date) (nth 2 date))))
+              (target (get-mru-window nil nil t)))
+         (if target
+             (with-selected-window target
+               (insert formatted-date char))
+           (user-error "No other window to insert into"))))
 
-         (other-window 1)
-         (insert formatted-date char)
-         (other-window 1)))
+     (with-eval-after-load 'calendar
+       (define-key calendar-mode-map (kbd "C-c i") #'acd/insert-date-from-cal))
 
-     (define-key calendar-mode-map (kbd "C-c i") #'acd/insert-date-from-cal)
    #+end_src
 ** Milliseconds to date
    #+begin_src emacs-lisp
      (defun acd/milliseconds-to-date (ms)
-       (interactive (list (read-number "ms: ")))
-       (let ((date (format-time-string "<%F %H:%M>" (seconds-to-time (/ ms 1000)))))
-         (message date)
-         (kill-new date)))
+       "Convert Unix millisecond timestamp MS to a date string; echo and copy it."
+       (interactive
+        (list (if (use-region-p)
+                  (string-to-number
+                   (buffer-substring-no-properties (region-beginning) (region-end)))
+                (read-number "ms: "))))
+       (let ((date (format-time-string "<%F %H:%M>" (/ ms 1000))))
+         (kill-new date)
+         (message "%s (copied)" date)))
    #+end_src
 ** Decode JWT tokens
    #+begin_src emacs-lisp
      (defun acd/decode-jwt (&optional jwt)
-       "Decode JWT in region and print it to a buffer"
+       "Decode JWT from region, argument, or minibuffer into the *JWT* buffer."
        (interactive)
-       (let* ((tok (if jwt jwt
-                     (if (use-region-p)
-                         (buffer-substring (region-beginning) (region-end))
-                       (read-from-minibuffer "JWT: "))))
-              (data (s-split "\\." tok))
-              (header (cl-first data))
-              (claims (cl-second data)))
-         (with-temp-buffer
-           (insert (format "%s\n%s"
-                           (base64-decode-string header t)
-                           (base64-decode-string claims t)))
-           (json-pretty-print-buffer)
+       (let* ((tok (string-trim
+                    (or jwt
+                        (if (use-region-p)
+                            (buffer-substring-no-properties (region-beginning) (region-end))
+                          (read-from-minibuffer "JWT: ")))))
+              (parts (split-string tok "\\." t)))
+         (unless (>= (length parts) 2)
+           (user-error "Doesn't look like a JWT (expected header.claims.signature)"))
+         (cl-flet ((decode-part (part)
+                     (with-temp-buffer
+                       (insert (base64-decode-string part t))
+                       (json-pretty-print-buffer)
+                       (buffer-string))))
            (with-output-to-temp-buffer "*JWT*"
-             (princ (buffer-string)))))
-       t)
+             (princ (decode-part (nth 0 parts)))
+             (princ "\n\n")
+             (princ (decode-part (nth 1 parts)))))))
    #+end_src
 * Org-mode
 ** Description

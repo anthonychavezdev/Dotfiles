@@ -1370,7 +1370,6 @@
        (corfu-auto-prefix 2)
        (corfu-auto-delay 0.0)
        (corfu-quit-at-boundary 'separator)
-       (corfu-echo-documentation 0.25)
        (corfu-preview-current nil) ;; Preview current candidate
        (corfu-preselect nil)
        (corfu-quit-no-match 'separator)
@@ -1385,6 +1384,7 @@
                    ("M-l" . corfu-info-location))
        :config
        (corfu-history-mode 1)
+       (corfu-echo-mode 1)
        :hook
        ((elpaca-after-init . global-corfu-mode)
         (eshell-mode . (lambda ()
@@ -1770,9 +1770,7 @@
         :bind (("C-x v ="   . git-gutter:popup-hunk)
                ("C-x v SPC" . git-gutter:mark-hunk)
                ("C-x v p"   . git-gutter:previous-hunk)
-               ("C-x v n"   . git-gutter:next-hunk))
-        :config
-        (global-git-gutter-mode 1))
+               ("C-x v n"   . git-gutter:next-hunk)))
     #+end_src
 ** Initialize =format-all=
    #+begin_src emacs-lisp

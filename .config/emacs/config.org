@@ -56,11 +56,9 @@
      (setq delete-old-versions -1)
      (setq version-control t)
      (setq vc-make-backup-files t)
-     (setq auto-save-file-name-transforms `((".*" ,(concat user-emacs-directory "auto-save-list") t)))
-   #+END_SRC
-** Enable conservative scrolling
-   #+BEGIN_SRC emacs-lisp
-     (setq scroll-conservatively 100)
+     (setq auto-save-file-name-transforms
+           `((".*" ,(concat user-emacs-directory "auto-save-list/") t)))
+     (make-directory (concat user-emacs-directory "auto-save-list/") t)
    #+END_SRC
 ** Disable ring-bell
    #+BEGIN_SRC emacs-lisp

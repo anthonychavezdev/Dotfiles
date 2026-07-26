@@ -1541,7 +1541,6 @@
       (use-package flymake
         :ensure nil
         :custom
-        (flymake-fringe-indicator-position nil)
         (flymake-fringe-indicator-position 'left-fringe)
         (help-at-pt-display-when-idle t) ;; Show diagnostic messages in echo area
         :bind

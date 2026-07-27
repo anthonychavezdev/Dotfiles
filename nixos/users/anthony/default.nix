@@ -1,4 +1,4 @@
-{ pkgs, lib, inputs, ... }:
+{ pkgs, lib, ... }:
 {
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.anthony = {
@@ -15,6 +15,7 @@
     emacs30-pgtk
     neovim
     gnupg
+    file
     plex-desktop
     kitty
     (prismlauncher.override {

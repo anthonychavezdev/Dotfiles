@@ -8,6 +8,9 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ../common/linux/shared-configuration.nix
+      ../common/linux/shared-programs.nix
+      ../common/linux/shared-firewall.nix
     ];
 
   boot = {
@@ -46,40 +49,7 @@
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Enable networking
-  networking.networkmanager.enable = true;
-
-  # Set your time zone.
-  time.timeZone = "America/Chicago";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_US.UTF-8";
-    LC_IDENTIFICATION = "en_US.UTF-8";
-    LC_MEASUREMENT = "en_US.UTF-8";
-    LC_MONETARY = "en_US.UTF-8";
-    LC_NAME = "en_US.UTF-8";
-    LC_NUMERIC = "en_US.UTF-8";
-    LC_PAPER = "en_US.UTF-8";
-    LC_TELEPHONE = "en_US.UTF-8";
-    LC_TIME = "en_US.UTF-8";
-  };
-
-  services.fwupd.enable = true;
-  services.flatpak.enable = true;
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
   services.xserver.videoDrivers = [ "amdgpu" ];
-
-  hardware = {
-    bluetooth.enable = true;
-    graphics = {
-      enable = true;
-      enable32Bit = true;
-    };
-  };
 
   # Enable the GNOME Desktop Environment.
   # services.xserver.displayManager.gdm.enable = true;
@@ -101,65 +71,18 @@
   #   # ];
   # };
 
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  security.rtkit.enable = true;
-  services.pulseaudio.enable = false;
-  # Enable sound with pipewire.
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # wireplumber.enable = true;
-    # If you want to use JACK applications, uncomment this
-    # jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
-  };
-
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-  virtualisation = {
-    libvirtd.enable = true;
-    docker.enable = true;
-    docker.liveRestore = false;
-  };
-
-  # Remove older generations
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 14d";
-  };
-
   programs = {
-    # for development environments
-    direnv.enable = true;
-    # virtualization frontend
-    virt-manager.enable = true;
-    zsh.enable = true;
-    steam = {
+    kde-pim = {
       enable = true;
-      remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-      dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-      gamescopeSession.enable = true;
+      # Includes KMail, Kontact, and Merkuro as options
+      kmail = true;
+      kontact = true;
+      merkuro = true;
     };
-    gamemode.enable = true;
   };
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -178,6 +101,9 @@
      kdePackages.plasma-browser-integration
      kdePackages.dolphin-plugins
      kdePackages.korganizer
+     kdePackages.kdepim-addons
+     kdePackages.kdepim-runtime
+     kdePackages.calendarsupport
      kdePackages.merkuro
      kdePackages.kcontacts
      kdePackages.kaddressbook
@@ -186,7 +112,8 @@
      kdePackages.koko
      kdePackages.kdav
      kdePackages.kalk
-     kaffeine
+     haruna
+     godot
   ];
   # services.udev.packages = with pkgs; [ gnome-settings-daemon ];
   # services.gnome.gnome-keyring.enable = true;
@@ -194,25 +121,6 @@
   #   enable = true;
   #   wrapperFeatures.gtk = true;
   # };
-
-  environment.variables = {
-    # XDG_SESSION_TYPE = "wayland";
-    # SDL_VIDEODRIVER = "wayland";
-    # CLUTTER_BACKEND = "wayland";
-    # QT_QPA_PLATFORM = "wayland;xcb";
-    # Tell Electron apps to use Wayland
-    NIXOS_OZONE_WL = "1";
-    # Where to install proton-ge
-    STEAM_EXTRA_COMPAT_TOOLS_PATH = "/home/anthony/.steam/root/compatibilitytools.d";
-  };
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
 
   # List services that you want to enable:
 
@@ -222,7 +130,6 @@
   services.udev.extraRules = ''
     KERNEL=="uinput", MODE="0660", GROUP="uinput", OPTIONS+="static_node=uinput"
   '';
-  hardware.uinput.enable = true;
   services.kanata = {
     enable = true;
     keyboards = {
@@ -243,54 +150,6 @@
       };
     };
   };
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-  # networking.firewall.allowedUDPPorts = [ 8081 ];
-  networking.firewall = {
-    # Allow LAN connections
-    # extraCommands = ''
-    #   iptables -A nixos-fw -p tcp -s 192.168.1.0/24 -j nixos-jw-accept
-    #   iptables -A nixos-fw -p udp -s 192.168.1.0/24 -j nixos-jw-accept
-    #   '';
-
-    allowedTCPPorts = [
-      # Spotify
-      # sync local tracks from your filesystem with mobile devices in the same network
-      57621
-      # Expo
-      8081 ];
-    allowedUDPPorts = [
-      # In order to enable discovery of Google Cast devices (and possibly other Spotify Connect devices) in the same network
-      5353 ];
-
-    # KDE/GSconnect
-    allowedTCPPortRanges = [
-      { from = 1714; to = 1764; }
-    ];
-    allowedUDPPortRanges = [
-      { from = 1714; to = 1764; }
-    ];
-  };
-
-  # Fonts
-  fonts = {
-    packages = with pkgs; [
-      jetbrains-mono
-  ];
-    fontDir.enable = true;
-  };
-
-  # Enable dynamically linked executables
-  programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [
-  ];
-
-  # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes"];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

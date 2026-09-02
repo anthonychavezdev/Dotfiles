@@ -1282,6 +1282,16 @@
                web-mode
                rustic-mode) . indent-bars-mode))
    #+end_src
+** Initialize =rg.el=
+   #+begin_src emacs-lisp
+     (use-package rg
+       :ensure (
+                :fetcher git
+                :host github
+                :repo "dajva/rg.el")
+       :config
+       (rg-enable-default-bindings))
+   #+end_src
 ** Built-in =savehist=
    #+begin_src emacs-lisp
      (use-package savehist

@@ -140,6 +140,9 @@
                 {
                   home-manager.useGlobalPkgs = true;
                   home-manager.useUserPackages = true;
+                  home-manager.sharedModules = [
+                    mac-app-util.homeManagerModules.default
+                  ];
                   home-manager.extraSpecialArgs = {
                     inherit inputs;
                     username = "${username}";

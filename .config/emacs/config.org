@@ -3,6 +3,11 @@
 #+LANGUAGE: en
 #+OPTIONS: num:nil
 
+* Enable lexical binding
+   #+begin_src elisp :tangle yes :comments no
+     ;;; -*- lexical-binding: t; -*-
+   #+end_src
+
 * Quality of life
 ** Show widened line numbered when in narrow mode
    #+begin_src emacs-lisp

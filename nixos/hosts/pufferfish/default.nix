@@ -16,6 +16,7 @@
     signal-desktop
     comma
     nix-index
+    vicinae
   ];
 
 
@@ -68,15 +69,19 @@
       "transmission"
       "bluesnooze"
       "android-studio"
-      "dockdoor"
       "zen"
       "QLMarkdown"
       "jordanbaird-ice"
+      "crossover"
+      "vorssaint"
+      "vlc"
+      "dash"
     ];
     masApps = {
       "bitwarden" = 1352778147;
       "privacy" = 6449850851;
       "darkreader" = 1438243180;
+      "wireguard" = 1451685025;
     };
     taps = builtins.attrNames config.nix-homebrew.taps;
   };

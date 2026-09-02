@@ -12,7 +12,7 @@
     fzf
     bat
     python3
-    emacs30-pgtk
+    emacs-pgtk
     neovim
     gnupg
     file

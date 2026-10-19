@@ -1390,7 +1390,7 @@
        (corfu-cycle t)    ; Allow cycling through candidates
        (corfu-auto t)     ; Enable auto completion
        (corfu-auto-prefix 2)
-       (corfu-auto-delay 0.0)
+       (corfu-auto-delay 0.2)
        (corfu-quit-at-boundary 'separator)
        (corfu-preview-current nil) ;; Preview current candidate
        (corfu-preselect nil)

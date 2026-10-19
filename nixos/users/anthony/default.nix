@@ -40,6 +40,7 @@
     git
     nextcloud-client
     chromium
+    jellyfin-media-player
     ];
   };
   users.groups.anthony = {};

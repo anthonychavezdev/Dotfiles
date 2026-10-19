@@ -41,6 +41,8 @@
     nextcloud-client
     chromium
     jellyfin-media-player
+    gcc
+    clang
     ];
   };
   # users.groups.anthony = {};

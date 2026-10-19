@@ -644,6 +644,13 @@
              (princ "\n\n")
              (princ (decode-part (nth 1 parts)))))))
    #+end_src
+** Generate .envrc file
+   #+begin_src emacs-lisp
+     (defun acd/generate-envrc ()
+       (interactive)
+       (with-temp-file ".envrc"
+         (insert "eval \"$(devenv direnvrc)\"\nuse devenv\n")))
+   #+end_src
 * Org-mode
 ** Description
    One of the main selling points of Emacs! Org Mode!

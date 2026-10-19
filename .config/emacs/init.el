@@ -1,4 +1,4 @@
-;;; init.el --- Init -*- no-byte-compile: t; lexical-binding: t; -*-
+;;; init.el --- Init -*- lexical-binding: t; -*-
 (server-start)
 
 (when (file-exists-p custom-file)
@@ -151,15 +151,6 @@
                                  (sql . t)
                                  (sqlite . t))))
 
-(defun my-ensure-lexical-binding-cookie()
-  (goto-char (point-min)) ;; beginning of tangled code
-  (insert ";; -*- coding: utf-8; lexical-binding: t -*-")
-  (newline)
-  (newline)
-  (let ((inhibit-message t)) ;; Don't show messages from these functions
-    (basic-save-buffer)
-    (kill-buffer) nil))
-(add-hook 'org-babel-post-tangle-hook #'my-ensure-lexical-binding-cookie)
 ;; Load config.org for init.el configuration
 (let ((config-el (concat user-emacs-directory "config.el"))
       (config-org (concat user-emacs-directory "config.org")))

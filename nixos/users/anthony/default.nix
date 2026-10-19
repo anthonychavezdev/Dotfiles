@@ -43,6 +43,5 @@
     jellyfin-media-player
     ];
   };
-  users.groups.anthony = {};
-  users.groups.uinput = {};
+  # users.groups.anthony = {};
 }

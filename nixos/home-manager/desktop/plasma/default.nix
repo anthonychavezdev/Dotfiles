@@ -19,6 +19,16 @@
           animation = "magiclamp";
           duration = 150;
         };
+        magnifier.enable = false;
+        zoom = {
+          enable = true;
+	        zoomFactor = 1.2;
+	        pixelGridZoom = 17.0;
+	        mousePointer = "keep";
+	        mouseTracking = "proportional";
+          textCursorTracking.enable = true;
+	        scrollGestureModKeys = "Ctrl";
+	      };
       };
       nightLight = {
         enable = true;

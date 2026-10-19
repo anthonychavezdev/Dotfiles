@@ -50,6 +50,11 @@
   ;; Enable use-package :ensure support for Elpaca.
   (elpaca-use-package-mode))
 
+(use-package au-themes
+  :ensure (:fetcher git :host github :repo "szymonwilczek/au-themes")
+  :config
+  (load-theme 'au-whispergrove-night ':no-confirm))
+
  (use-package doom-themes
    :ensure t
    :config
@@ -75,7 +80,7 @@
    ;; (load-theme 'doom-ayu-dark t)
    ;; (load-theme 'doom-tokyo-night t)
    ;; (load-theme 'doom-manegarm t)
-   (load-theme 'doom-pine t)
+   ;; (load-theme 'doom-pine t)
    ;; Enable flashing mode-line on errors
    (doom-themes-visual-bell-config)
 

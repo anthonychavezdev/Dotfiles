@@ -318,6 +318,12 @@
                    ("NOTE"       success bold)
                    ("DEPRECATED" font-lock-doc-face bold)))))
    #+end_src
+** Use gls on Darwin
+   #+begin_src emacs-lisp
+     (when (string= system-type "darwin")
+         (setq dired-use-ls-dired t
+               insert-directory-program (executable-find "gls")))
+   #+end_src
 * Custom functionality
 ** imenu
    map imenu to M-i

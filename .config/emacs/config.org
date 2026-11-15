@@ -1307,6 +1307,15 @@
        :config
        (rg-enable-default-bindings))
    #+end_src
+** Initialize =wgrep=
+   #+begin_src emacs-lisp
+     (use-package wgrep
+       :ensure (:fetcher git
+                :host github
+                :repo "mhayashi1120/Emacs-wgrep")
+       ;; wgrep-setup is autoloaded onto grep-setup-hook; the command itself is not.
+       :commands (wgrep-change-to-wgrep-mode wgrep-setup))
+   #+end_src
 ** Built-in =savehist=
    #+begin_src emacs-lisp
      (use-package savehist

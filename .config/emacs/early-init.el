@@ -1,5 +1,18 @@
 ;;; early-init.el -*- lexical-binding: t; -*-
 
+;; Native compilation on macOS 26+: the gcc driver bundled with Emacs.app derives
+;; -mmacosx-version-min from the Darwin kernel version (Darwin 27 -> "18.0"),
+;; which Apple clang rejects, so every native-compile job silently fails and is
+;; retried on every launch. Passing an explicit deployment target fixes it.
+;; This must come before anything that could trigger a compile (for example
+;; advising a primitive, which compiles a trampoline synchronously).
+;; `native-comp-driver-options' is a plain variable at this point, and comp-run's
+;; defcustom keeps a value that is already set.
+(when (and (eq system-type 'darwin)
+           (fboundp 'native-comp-available-p)
+           (native-comp-available-p))
+  (setq native-comp-driver-options '("-mmacosx-version-min=27.2")))
+
 ;; Emacs 27.1 introduced early-init.el, which is run before init.el, before
 ;; package and UI initialization happens, and before site files are loaded.
 

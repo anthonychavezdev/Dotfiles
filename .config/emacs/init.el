@@ -1,6 +1,11 @@
 ;;; init.el --- Init -*- lexical-binding: t; -*-
 (server-start)
 
+;; `silent' keeps compiler output in *Async-native-compile-log* without popping
+;; up *Warnings*; `nil' hid a completely broken native compiler for two months.
+(setq native-comp-async-report-warnings-errors 'silent)
+
+
 (when (file-exists-p custom-file)
   (load custom-file))
 
@@ -133,6 +138,9 @@
 
 (use-package org
   :ensure nil
+  ;; Nothing at startup needs org; without :defer this block loaded org plus
+  ;; seven babel languages (and cc-mode via ob-C) before the first frame.
+  :defer t
   :config
   (progn
     (setq org-hide-emphasis-markers t)

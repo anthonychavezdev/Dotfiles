@@ -663,7 +663,8 @@
 ** Code
    #+BEGIN_SRC emacs-lisp
      (use-package htmlize
-       :ensure t)
+       :ensure t
+       :defer t) ; only needed by org export; autoloaded when used
 
      (use-package org-bullets
        :ensure t
@@ -678,7 +679,8 @@
 
      (add-hook 'org-mode-hook #'echo-area-tooltips)
      ;; Sets LaTeX preview size
-     (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+     (with-eval-after-load 'org
+       (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0)))
    #+END_SRC
 
 * Packages
@@ -970,7 +972,8 @@
 *** Code
     #+begin_src emacs-lisp
       (use-package esxml
-        :ensure t) ;; required by nov
+        :ensure t
+        :defer t) ;; required by nov, which loads it itself
 
       (use-package nov
         :ensure (:host "depp.brause.cc"  :repo "nov.el")
@@ -1255,7 +1258,8 @@
                              "*.ti" ("terminfo/e" "terminfo/e/*")
                              ("terminfo/65" "terminfo/65/*")
                              ("integration" "integration/*")
-                             (:exclude ".dir-locals.el" "*-tests.el"))))
+                             (:exclude ".dir-locals.el" "*-tests.el")))
+       :commands eat)
    #+end_src
 ** Initialize =ultra-scroll=
    #+begin_src emacs-lisp
@@ -1295,13 +1299,11 @@
                web-mode
                rustic-mode) . indent-bars-mode))
    #+end_src
-** Initialize =rg.el=
+** Initialize =ripgrep=
    #+begin_src emacs-lisp
      (use-package rg
-       :ensure (
-                :fetcher git
-                :host github
-                :repo "dajva/rg.el")
+       :ensure (:fetcher git :host github :repo "dajva/rg.el")
+       :commands rg
        :config
        (rg-enable-default-bindings))
    #+end_src
@@ -1365,15 +1367,17 @@
     #+BEGIN_SRC emacs-lisp
       (use-package yasnippet
         :ensure t
-        :demand t
         :diminish yas-minor-mode
         :custom ((yas-snippet-dirs `(,(concat user-emacs-directory "snippets")
                                      ,(concat elpaca-directory "sources/yasnippet-snippets/snippets"))))
+        ;; Loaded by the first code/text buffer instead of before the first frame.
+        :hook ((prog-mode text-mode conf-mode) . yas-minor-mode-on)
         :config
-        (yas-global-mode 1))
+        (yas-reload-all))
       ;; Bundled snippets
       (use-package yasnippet-snippets
-        :ensure t)
+        :ensure t
+        :after yasnippet)
     #+END_SRC
 ** Initialize =lua=
 *** Code
@@ -1397,7 +1401,9 @@
        (corfu-auto t)     ; Enable auto completion
        (corfu-auto-prefix 2)
        (corfu-auto-delay 0.2)
+       (corfu-auto-prefix 2)
        (corfu-quit-at-boundary 'separator)
+       (corfu-echo-documentation 0.25)
        (corfu-preview-current nil) ;; Preview current candidate
        (corfu-preselect nil)
        (corfu-quit-no-match 'separator)
@@ -1412,7 +1418,6 @@
                    ("M-l" . corfu-info-location))
        :config
        (corfu-history-mode 1)
-       (corfu-echo-mode 1)
        :hook
        ((elpaca-after-init . global-corfu-mode)
         (eshell-mode . (lambda ()
@@ -1569,6 +1574,7 @@
       (use-package flymake
         :ensure nil
         :custom
+        (flymake-fringe-indicator-position nil)
         (flymake-fringe-indicator-position 'left-fringe)
         (help-at-pt-display-when-idle t) ;; Show diagnostic messages in echo area
         :bind
@@ -1586,7 +1592,9 @@
           (flymake-eslint-enable)))
 
       (use-package flymake-eslint
-        :ensure t)
+        :ensure t
+        ;; Requires tramp on load; only needed once eslint is enabled.
+        :commands flymake-eslint-enable)
     #+end_src
 ** Initialize =racket-mode=
 *** Code
@@ -1797,7 +1805,9 @@
         :bind (("C-x v ="   . git-gutter:popup-hunk)
                ("C-x v SPC" . git-gutter:mark-hunk)
                ("C-x v p"   . git-gutter:previous-hunk)
-               ("C-x v n"   . git-gutter:next-hunk)))
+               ("C-x v n"   . git-gutter:next-hunk))
+        :config
+        (global-git-gutter-mode 1))
     #+end_src
 ** Initialize =format-all=
    #+begin_src emacs-lisp

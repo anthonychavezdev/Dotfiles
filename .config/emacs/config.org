@@ -1316,6 +1316,14 @@
        ;; wgrep-setup is autoloaded onto grep-setup-hook; the command itself is not.
        :commands (wgrep-change-to-wgrep-mode wgrep-setup))
    #+end_src
+** Initialize =hackernews.el=
+   #+begin_src emacs-lisp
+     (use-package hackernews
+       :ensure (:fetcher git
+                :host github
+                :repo "clarete/hackernews.el")
+       :commands hackernews)
+   #+end_src
 ** Built-in =savehist=
    #+begin_src emacs-lisp
      (use-package savehist

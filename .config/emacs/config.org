@@ -1484,7 +1484,7 @@
          ;; If there aren't enough items to make the popup menu scrollable,
          ;; the items that are pushed down have to be selected in order
          ;; to view them, which is very obnoxious.
-         (kind-icons-use-icons nil))
+         (kind-icon-use-icons nil))
         :config
         (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
     #+end_src
